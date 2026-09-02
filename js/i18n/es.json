@@ -11,7 +11,6 @@
   "hub.footer.privacy": "Política de privacidad",
   "hub.footer.contact": "Contacto",
   "hub.footer.copyright": "© Persano — Santiago David Postorivo",
-
   "geohist.meta.title": "GeoHist Trivia — trivia de historia y geografía para Android",
   "geohist.meta.desc": "GeoHist Trivia es un divertido juego de trivia de historia y geografía para Android: adivina tu camino alrededor del mundo y viaja a través del tiempo. Consíguelo en Google Play.",
   "geohist.nav.aria": "Navegación del sitio de GeoHist",
@@ -65,7 +64,6 @@
   "geohist.footer.contact": "Contacto",
   "geohist.footer.back": "Volver al inicio",
   "geohist.footer.copyright": "© Persano — Santiago David Postorivo",
-
   "guide.meta.title": "Cómo jugar — GeoHist Trivia",
   "guide.meta.desc": "Cómo jugar GeoHist Trivia: una guía rápida con lo básico, todos los modos de juego y el viaje del Pasaporte Mundial.",
   "guide.nav.aria": "Navegación del sitio de GeoHist",
@@ -102,5 +100,12 @@
   "guide.footer.privacy": "Política de privacidad",
   "guide.footer.contact": "Contacto",
   "guide.footer.back": "Volver al inicio",
-  "guide.footer.copyright": "© Persano — Santiago David Postorivo"
+  "guide.footer.copyright": "© Persano — Santiago David Postorivo",
+  "consent.banner.aria": "Consentimiento de cookies",
+  "consent.banner.text": "Este sitio usa Firebase Analytics solo con tu consentimiento: elige Aceptar o Rechazar. Puedes cambiar tu elección en cualquier momento desde el enlace «Consentimiento» del pie de página.",
+  "consent.banner.accept": "Aceptar",
+  "consent.banner.reject": "Rechazar",
+  "hub.footer.consent": "Consentimiento",
+  "geohist.footer.consent": "Consentimiento",
+  "guide.footer.consent": "Consentimiento"
 }
