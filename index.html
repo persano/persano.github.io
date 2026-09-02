@@ -4,16 +4,30 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Persano is the personal apps hub of Santiago David Postorivo — home of GeoHist Trivia, an offline history and geography trivia game for Android.">
-  <title>Persano — Personal Apps Hub</title>
+  <title data-i18n="hub.meta.title">Persano — Personal Apps Hub</title>
   <link rel="stylesheet" href="/css/base.css">
 </head>
 <body>
   <main>
-    <h1>Persano</h1>
-    <p>Persano is the personal apps hub of <strong>Santiago David Postorivo</strong>. The first app is <strong>GeoHist Trivia</strong>, an offline trivia game about history and geography for Android.</p>
+    <h1 data-i18n="hub.brand">Persano</h1>
+    <p data-i18n="hub.intro.1">Persano is the personal apps hub of Santiago David Postorivo — one developer with a soft spot for old maps, older stories, and small apps built to last the whole trip.</p>
+    <p data-i18n="hub.intro.2">First stop: GeoHist Trivia, where history meets geography one question at a time.</p>
+
+    <ul class="app-grid">
+      <li class="app-card"><img class="app-card-icon" src="/geohist/icon.png" alt="GeoHist Trivia app icon" width="72" height="72" data-i18n-attr="alt:hub.card.icon-alt" data-i18n-attr-only>
+        <h2 data-i18n="hub.card.name">GeoHist Trivia</h2>
+        <p data-i18n="hub.card.desc">Offline history-and-geography trivia for Android — flags, capitals, maps, and the events that shaped the world.</p>
+        <a href="/geohist/" data-i18n="hub.card.cta">Learn more</a>
+      </li>
+    </ul>
   </main>
   <footer>
-    <p><a href="/geohist/privacy.html">Privacy policy</a></p>
+    <ul class="footer-links">
+      <li><a href="/geohist/privacy.html" data-i18n="hub.footer.privacy">Privacy policy</a></li>
+      <li><a href="mailto:santiagopostorivo@gmail.com" data-i18n="hub.footer.contact">Contact</a></li>
+    </ul>
+    <p data-i18n="hub.footer.copyright">© Persano — Santiago David Postorivo</p>
+    <span id="lang-switcher-slot" hidden></span>
   </footer>
 </body>
 </html>
