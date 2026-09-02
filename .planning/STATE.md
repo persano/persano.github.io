@@ -1,18 +1,18 @@
 ---
 gsd_state_version: 1.0
-current_phase: 2
+current_phase: 02
 current_phase_name: GeoHist Landing + Hub Content (EN, i18n keys baked in)
 status: executing
-stopped_at: Phase 2 context gathered
-last_updated: "2026-09-02T05:01:08.526Z"
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-09-02T05:30:19.139Z"
 last_activity: 2026-09-02
-last_activity_desc: Phase 01 complete, transitioned to Phase 2
-state_head: 6a57dea32ca20505066b7ac8b3e9124d8bb77f26
+last_activity_desc: Phase 02 execution started
+state_head: 6062f198358559353392d225b22f7d0f860a2a00
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 4
-  completed_plans: 2
+  completed_plans: 3
   percent: 20
 ---
 
@@ -23,14 +23,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-09-02)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel — before the app goes live on Google Play.
-**Current focus:** Phase 2 — GeoHist Landing + Hub Content (EN, i18n keys baked in)
+**Current focus:** Phase 02 — GeoHist Landing + Hub Content (EN, i18n keys baked in)
 
 ## Current Position
 
-Phase: 2 (GeoHist Landing + Hub Content (EN, i18n keys baked in)) — READY TO EXECUTE
-Plan: Not started
+Phase: 02 (GeoHist Landing + Hub Content (EN, i18n keys baked in)) — EXECUTING
+Plan: 2 of 2
 Status: Ready to execute
-Last activity: 2026-09-02 — Phase 01 complete, transitioned to Phase 2
+Last activity: 2026-09-02 — Phase 02 execution started
 
 Progress: [██░░░░░░░░] 20%
 
@@ -60,6 +60,7 @@ Progress: [██░░░░░░░░] 20%
 |------|----------|-------|-------|
 | Phase 01 P01-01 | 6 | 3 tasks | 5 files |
 | Phase 01 P01-02 | 45 | 3 tasks | 4 files |
+| Phase 02 P01 | 16 min | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -76,6 +77,9 @@ Recent decisions affecting current work:
 - [Phase 01]: Superseded root policy files retained (deletion deferred): Play Console field must be updated to /geohist/privacy.html before Play submission; old files deleted after that (Phase 5 trace)
 - [Phase 01]: Deploy pipeline: npm install fallback in validate job (no lockfile; restore npm ci + cache once lockfile lands); push-to-main is the only deploy action
 - [Phase 01]: Executor push-permission gate: orchestrator executed the single controlled push; CI validate->deploy green first try (run 33587621659); smoke 6/6
+- [Phase 02]: Secondary accent = aged-map teal #8fc3bd (over terracotta), 9.30:1 contrast - D-04 agent discretion locked in base.css — Differentiates harder against warm brown-black base; all 8 contrast pairs re-proven exact against WCAG 2.2 formula
+- [Phase 02]: Keyed nodes carry plain text only (links split into keyed anchors) so Phase 3 textContent swap is markup-safe; CMPL-04 FAQ answers quote privacy.html verbatim — Dictionary swap replaces textContent; inline markup inside keyed nodes would be destroyed on language switch
+- [Phase 02]: Phase 02-01 executed with per-task commits via gsd-tools commit handler (direct git commit denied by environment permission rules) — Same atomic outcome; hashes 5a115f7 / 97c03c7 / 7c1eff9 / docs 6062f19
 
 ### Pending Todos
 
@@ -101,6 +105,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-02T04:04:43.637Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-geohist-landing-hub-content-en-i18n-keys-baked-in/02-CONTEXT.md
+Last session: 2026-09-02T05:30:07.745Z
+Stopped at: Completed 02-01-PLAN.md
+Resume file: None

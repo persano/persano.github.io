@@ -16,17 +16,17 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Landing
 
-- [ ] **LNDG-01**: `/geohist/` landing page renders hero: app name, tagline, description, app icon/logo
-- [ ] **LNDG-02**: Feature list section (categorized trivia, Play Games, offline mode, IAP) drafted from app README
+- [x] **LNDG-01**: `/geohist/` landing page renders hero: app name, tagline, description, app icon/logo
+- [x] **LNDG-02**: Feature list section (categorized trivia, Play Games, offline mode, IAP) drafted from app README
 - [ ] **LNDG-03**: Screenshot gallery shows 3–6 real screenshots captured via ADB from a connected phone (WebP, lazy-load)
-- [ ] **LNDG-04**: Download/Play Store button present — placeholder href until listing live, trivially swappable
+- [x] **LNDG-04**: Download/Play Store button present — placeholder href until listing live, trivially swappable
 - [ ] **LNDG-05**: Mobile-first responsive layout (primary traffic is phones)
 
 ### Content
 
-- [ ] **CONT-01**: FAQ section: data collection, offline capability, supported devices — mirrors privacy policy wording
+- [x] **CONT-01**: FAQ section: data collection, offline capability, supported devices — mirrors privacy policy wording
 - [ ] **CONT-02**: Game guide on own page (`guide.html`): how to play, game modes
-- [ ] **CONT-03**: About-the-developer section: Santiago David Postorivo / Persano personal brand
+- [x] **CONT-03**: About-the-developer section: Santiago David Postorivo / Persano personal brand
 - [ ] **CONT-04**: Root hub (`/index.html`): Persano brand intro + app card for GeoHist; renders correctly with exactly one app, no visible placeholders
 - [x] **CONT-05**: Custom 404 page, self-contained with link back to hub
 
@@ -93,14 +93,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CMPL-02 | Phase 1 | Complete |
 | CMPL-03 | Phase 4 | Pending |
 | CMPL-04 | Phase 2 | Pending |
-| LNDG-01 | Phase 2 | Pending |
-| LNDG-02 | Phase 2 | Pending |
+| LNDG-01 | Phase 2 | Complete |
+| LNDG-02 | Phase 2 | Complete |
 | LNDG-03 | Phase 5 | Pending |
-| LNDG-04 | Phase 2 | Pending |
+| LNDG-04 | Phase 2 | Complete |
 | LNDG-05 | Phase 2 | Pending |
-| CONT-01 | Phase 2 | Pending |
+| CONT-01 | Phase 2 | Complete |
 | CONT-02 | Phase 2 | Pending |
-| CONT-03 | Phase 2 | Pending |
+| CONT-03 | Phase 2 | Complete |
 | CONT-04 | Phase 2 | Pending |
 | CONT-05 | Phase 1 | Complete |
 | I18N-01 | Phase 3 | Pending |
