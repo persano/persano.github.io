@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 current_phase: 01
 current_phase_name: Foundation — Deploy Pipeline, Skeleton, Privacy Policy
 status: executing
-stopped_at: Roadmap created; Phase 1 ready to plan
-last_updated: "2026-09-02T02:53:58.650Z"
+stopped_at: Completed 01-01-PLAN.md
+last_updated: "2026-09-02T03:17:38.960Z"
 last_activity: 2026-09-01
 last_activity_desc: Phase 01 execution started
-state_head: ece0cb1d80f40f4506bed04a3e8a3bb29bc82c7f
+state_head: 691ec083d3c30f9bb7b2dda53448043e6b16de18
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 2
-  completed_plans: 0
+  completed_plans: 1
   percent: 0
 ---
 
@@ -28,8 +28,8 @@ See: .planning/PROJECT.md (updated 2026-09-01)
 ## Current Position
 
 Phase: 01 (Foundation — Deploy Pipeline, Skeleton, Privacy Policy) — EXECUTING
-Plan: 1 of 2
-Status: Executing Phase 01
+Plan: 2 of 2
+Status: Ready to execute
 Last activity: 2026-09-01 — Phase 01 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -54,6 +54,11 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: —
 
 *Updated after each plan completion*
+**Per-Plan Metrics:**
+
+| Plan | Duration | Tasks | Files |
+|------|----------|-------|-------|
+| Phase 01 P01-01 | 6 | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -66,6 +71,8 @@ Recent decisions affecting current work:
 - [Init]: Consent via load-gating — no Firebase script tag in any HTML; dynamic import post-grant only
 - [Init]: Form works after ANY consent choice (grant or deny) — deletion-request path is a compliance surface
 - [Init]: Real ADB screenshots + full SEO + AA audit deferred to Phase 5, once URLs are final
+- [Phase 01]: Owner privacy facts published verbatim: santiagopostorivo@gmail.com; entity 'Persano, the personal brand of Santiago David Postorivo'; retention 'Messages are deleted after they are handled'; analytics consent-gated
+- [Phase 01]: Superseded root policy files retained (deletion deferred): Play Console field must be updated to /geohist/privacy.html before Play submission; old files deleted after that (Phase 5 trace)
 
 ### Pending Todos
 
@@ -90,6 +97,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-01
-Stopped at: Roadmap created; Phase 1 ready to plan
+Last session: 2026-09-02T03:17:38.945Z
+Stopped at: Completed 01-01-PLAN.md
 Resume file: None

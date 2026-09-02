@@ -9,8 +9,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Compliance
 
-- [ ] **CMPL-01**: Privacy policy lives at `/geohist/privacy.html` — public, non-PDF, English, reachable from every page footer
-- [ ] **CMPL-02**: Privacy policy names every SDK in actual use (AdMob, Play Games Services, IAP, Firebase Analytics, contact-form Firestore) with contact mechanism and retention/deletion policy
+- [x] **CMPL-01**: Privacy policy lives at `/geohist/privacy.html` — public, non-PDF, English, reachable from every page footer
+- [x] **CMPL-02**: Privacy policy names every SDK in actual use (AdMob, Play Games Services, IAP, Firebase Analytics, contact-form Firestore) with contact mechanism and retention/deletion policy
 - [ ] **CMPL-03**: Data-deletion request path exists: FAQ entry + contact-form "data deletion" topic + documented manual process (Play requirement for Play Games sign-in)
 - [ ] **CMPL-04**: Policy wording mirrors FAQ and Play Data safety declarations (single source of truth, no contradictions)
 
@@ -28,7 +28,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **CONT-02**: Game guide on own page (`guide.html`): how to play, game modes
 - [ ] **CONT-03**: About-the-developer section: Santiago David Postorivo / Persano personal brand
 - [ ] **CONT-04**: Root hub (`/index.html`): Persano brand intro + app card for GeoHist; renders correctly with exactly one app, no visible placeholders
-- [ ] **CONT-05**: Custom 404 page, self-contained with link back to hub
+- [x] **CONT-05**: Custom 404 page, self-contained with link back to hub
 
 ### Internationalization
 
@@ -89,8 +89,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CMPL-01 | Phase 1 | Pending |
-| CMPL-02 | Phase 1 | Pending |
+| CMPL-01 | Phase 1 | Complete |
+| CMPL-02 | Phase 1 | Complete |
 | CMPL-03 | Phase 4 | Pending |
 | CMPL-04 | Phase 2 | Pending |
 | LNDG-01 | Phase 2 | Pending |
@@ -102,7 +102,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CONT-02 | Phase 2 | Pending |
 | CONT-03 | Phase 2 | Pending |
 | CONT-04 | Phase 2 | Pending |
-| CONT-05 | Phase 1 | Pending |
+| CONT-05 | Phase 1 | Complete |
 | I18N-01 | Phase 3 | Pending |
 | I18N-02 | Phase 3 | Pending |
 | I18N-03 | Phase 3 | Pending |
@@ -123,6 +123,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | OPS-03 | Phase 1 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 27 total
 - Mapped to phases: 27
 - Unmapped: 0 ✓

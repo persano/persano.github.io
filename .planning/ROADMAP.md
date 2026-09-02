@@ -38,7 +38,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 Plans:
 **Wave 1**
 
-- [ ] 01-01-PLAN.md — Walking skeleton content slice: minimal hub + base.css + self-contained 404 + .nojekyll + complete EN privacy policy (owner-facts checkpoint) + superseded-file disposition (wave 1)
+- [x] 01-01-PLAN.md — Walking skeleton content slice: minimal hub + base.css + self-contained 404 + .nojekyll + complete EN privacy policy (owner-facts checkpoint) + superseded-file disposition (wave 1)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -134,7 +134,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation — Deploy Pipeline, Skeleton, Privacy Policy | 0/TBD | Not started | - |
+| 1. Foundation — Deploy Pipeline, Skeleton, Privacy Policy | 1/2 | In Progress|  |
 | 2. GeoHist Landing + Hub Content (EN) | 0/TBD | Not started | - |
 | 3. i18n — Engine, ES/pt-BR Dictionaries, Switcher | 0/TBD | Not started | - |
 | 4. Consent Gate + Firebase (Analytics + Contact Form) | 0/TBD | Not started | - |
