@@ -375,3 +375,51 @@ footer {
     repeating-linear-gradient(0deg, rgba(143, 195, 189, 0.08) 0 1px, transparent 1px 16px),
     repeating-linear-gradient(90deg, rgba(217, 169, 81, 0.07) 0 1px, transparent 1px 16px);
 }
+
+/* ---- Consent banner (D-42..D-45: fixed bottom bar, equal buttons) ---- */
+
+.consent-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  background-color: var(--color-surface);
+  border-top: var(--hairline-gold);
+  padding: 0.9rem 1.25rem;
+}
+
+/* author display beats [hidden] UA style — must restate the rule */
+.consent-banner[hidden] {
+  display: none;
+}
+
+.consent-banner p {
+  flex: 1 1 16rem;
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+/* both buttons share one rule: equal visual weight (D-43) */
+.consent-banner button {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.55rem 1.4rem;
+  min-height: 44px;
+  border-radius: 0.4rem;
+  border: var(--hairline-gold);
+  background-color: var(--color-surface);
+  color: var(--color-accent);
+  cursor: pointer;
+}
+
+.consent-banner button:hover {
+  color: var(--color-ink-on-gold);
+  background-color: var(--color-accent);
+}
