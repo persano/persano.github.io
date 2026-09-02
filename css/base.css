@@ -1,11 +1,28 @@
-/* Persano shared stylesheet — hub + GeoHist pages (Phase 1) */
+/* Persano shared stylesheet — hub + GeoHist pages.
+   Phase 2: dark antique theme (D-01..D-06). Warm brown-black base,
+   antique gold primary accent, aged-map teal secondary accent.
+   Contrast pairs (WCAG 2.2 relative-luminance, exact ratios recorded in
+   .planning/phases/02-*/02-01-PLAN.md — all pass AA with >=2.3:1 headroom):
+     #f0e6d2 on #1a1410 14.72:1 | on #241c14 13.55:1 (body text, 4.5:1)
+     #c9b89a on #1a1410  9.38:1 | on #241c14  8.64:1 (muted text)
+     #d9a951 on #1a1410  8.46:1 | on #241c14  7.79:1 (gold links)
+     #8fc3bd on #1a1410  9.30:1                       (teal secondary)
+     #2a1f12 on #d9a951  7.48:1                       (ink on gold fills)
+   Single dark theme only — no light-mode variant (D-03).
+   Texture utilities are decoration-only: never behind body copy (Pattern 4). */
 
 :root {
-  --color-bg: #faf7f2;
-  --color-fg: #2b2620;
-  --color-accent: #8a5a2b;
-  --color-muted: #6b6258;
+  --color-bg: #1a1410;        /* warm brown-black base surface */
+  --color-surface: #241c14;   /* raised card surface */
+  --color-fg: #f0e6d2;        /* parchment body text */
+  --color-muted: #c9b89a;     /* sepia-muted text */
+  --color-accent: #d9a951;    /* antique gold */
+  --color-accent-2: #8fc3bd;  /* aged-map teal */
+  --color-ink-on-gold: #2a1f12;
   --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
+  --hairline: 1px solid rgba(201, 184, 154, 0.28);
+  --hairline-gold: 1px solid rgba(217, 169, 81, 0.45);
 }
 
 *,
@@ -34,14 +51,29 @@ main {
   padding: 2rem 1.25rem;
 }
 
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
 h1,
 h2,
 h3 {
+  font-family: var(--font-display);
   line-height: 1.25;
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: clamp(1.9rem, 6vw, 2.4rem);
+}
+
+h2 {
+  font-size: clamp(1.35rem, 5vw, 1.75rem);
+  margin: 2.25rem 0 1rem;
+}
+
+h3 {
+  font-size: 1.15rem;
 }
 
 p {
@@ -56,9 +88,290 @@ a:hover {
   text-decoration: none;
 }
 
-footer {
-  border-top: 1px solid var(--color-muted);
+/* ---- Site header + nav (D-14: Game / Guide / FAQ / Privacy) ---- */
+
+.site-header {
+  border-bottom: var(--hairline);
+  padding: 0.75rem 1.25rem;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.1rem 1.1rem;
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.site-nav a {
+  display: inline-block;
+  padding: 0.35rem 0.15rem;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.site-nav a:hover {
+  color: var(--color-accent-2);
+  text-decoration: underline;
+}
+
+/* ---- Hero (D-11: minimal, phone-first, above the fold) ---- */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.75rem;
+  padding: 2.5rem 0 1.5rem;
+}
+
+.hero-icon {
+  width: 112px;
+  height: 112px;
+  max-width: 40vw;
+  border-radius: 24%;
+  border: var(--hairline-gold);
+  background-color: var(--color-surface);
+}
+
+.hero-copy {
+  max-width: 34rem;
+}
+
+.hero-copy > p:first-of-type {
+  color: var(--color-accent-2);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.badge-cta {
+  display: inline-block;
+  padding: 1rem; /* clear space = 1/4 badge height per Google brand rules */
+  border-radius: 0.5rem;
+}
+
+.badge-cta img {
+  display: block;
+  min-height: 44px; /* tap target */
+}
+
+/* ---- Features (LNDG-02: four categorized groups) ---- */
+
+.features {
+  margin-top: 1.5rem;
+}
+
+.feature-group {
+  background-color: var(--color-surface);
+  border: var(--hairline);
+  border-radius: 0.5rem;
   padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.feature-group h3 {
+  margin-bottom: 0.5rem;
+}
+
+.feature-group ul {
+  margin: 0 0 0.25rem 1.25rem;
+}
+
+.feature-group li {
+  margin-bottom: 0.4rem;
+}
+
+/* ---- Screenshot gallery skeleton (D-13/D-23) ---- */
+
+.gallery {
+  margin-top: 1.5rem;
+}
+
+.gallery-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: 1rem;
+  margin: 0 0 0.75rem;
+}
+
+.gallery-tile {
+  position: relative;
+  aspect-ratio: 9 / 19.5; /* phone aspect */
+  background-color: var(--color-surface);
+  border: var(--hairline-gold);
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* graticule texture fill: crossed low-opacity rule layers (decoration only) */
+.gallery-tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(143, 195, 189, 0.09) 0 1px, transparent 1px 14px),
+    repeating-linear-gradient(90deg, rgba(143, 195, 189, 0.09) 0 1px, transparent 1px 14px);
+  pointer-events: none;
+}
+
+.gallery-tile svg {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(217, 169, 81, 0.6);
+}
+
+.tile-caption {
+  position: relative; /* solid strip: texture never sits behind this copy */
+  width: 100%;
+  margin: 0;
+  padding: 0.45rem 0.3rem;
+  background-color: var(--color-surface);
+  border-top: var(--hairline-gold);
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+/* ---- FAQ (D-16/D-18: native details/summary accordions) ---- */
+
+.faq-item {
+  background-color: var(--color-surface);
+  border: var(--hairline);
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding: 0;
+}
+
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  position: relative;
+  padding: 0.8rem 2.6rem 0.8rem 1rem;
+  font-weight: 600;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+/* styled own indicator */
+.faq-item summary::after {
+  content: "+";
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-52%);
+  color: var(--color-accent);
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.faq-item[open] summary::after {
+  content: "\2212"; /* minus sign */
+}
+
+.faq-item[open] summary {
+  border-bottom: var(--hairline);
+}
+
+.faq-item > p {
+  padding: 0.8rem 1rem 0.9rem;
+  margin: 0;
+}
+
+/* ---- About the developer (D-12) ---- */
+
+.about-dev {
+  background-color: var(--color-surface);
+  border: var(--hairline);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  margin: 2rem 0;
+}
+
+/* ---- Hub app grid (D-15/CONT-04: grid-ready single card) ---- */
+
+.app-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.app-card {
+  max-width: 30rem; /* one card fills the first track only — no stretching, no empty cells */
+  background-color: var(--color-surface);
+  border: var(--hairline);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+}
+
+.app-card-icon {
+  display: block;
+  width: 72px;
+  height: 72px;
+  border-radius: 20%;
+  border: var(--hairline-gold);
+  background-color: var(--color-bg);
+}
+
+/* ---- Guide game-mode list (D-19) ---- */
+
+.mode-list {
+  list-style: none;
+  margin: 0 0 1rem;
+}
+
+.mode-item {
+  background-color: var(--color-surface);
+  border: var(--hairline);
+  border-radius: 0.5rem;
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.6rem;
+}
+
+/* ---- Footer (D-24) ---- */
+
+footer {
+  border-top: var(--hairline);
+  padding: 1.25rem;
   font-size: 0.9rem;
   color: var(--color-muted);
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+  margin: 0 0 0.5rem;
+}
+
+/* ---- Texture utilities (D-02/D-06, Research Pattern 4) ----
+   Decoration only: apply to section/panel backgrounds where no body copy
+   sits, or behind text shielded on a solid token background. */
+
+/* paper grain: inline SVG feTurbulence noise tile, blended low */
+.texture-paper {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.5'/%3E%3C/svg%3E");
+  background-blend-mode: soft-light;
+}
+
+/* graticule: two crossed low-opacity repeating gradient layers */
+.texture-graticule {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(143, 195, 189, 0.08) 0 1px, transparent 1px 16px),
+    repeating-linear-gradient(90deg, rgba(217, 169, 81, 0.07) 0 1px, transparent 1px 16px);
 }
