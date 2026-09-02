@@ -14,7 +14,7 @@ From empty-ish repo (privacy policy files + Search Console verification) to a li
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation — Deploy Pipeline, Skeleton, Privacy Policy** - CI deploy chain live; Play-critical `/geohist/privacy.html` returning 200 (completed 2026-09-02)
-- [ ] **Phase 2: GeoHist Landing + Hub Content (EN)** - Full English landing, FAQ, guide, hub; `data-i18n` keys in all markup
+- [x] **Phase 2: GeoHist Landing + Hub Content (EN)** - Full English landing, FAQ, guide, hub; `data-i18n` keys in all markup (completed 2026-09-02)
 - [ ] **Phase 3: i18n — Engine, ES/pt-BR Dictionaries, Switcher** - In-place language swap with auto-detect, switcher, EN fallback
 - [ ] **Phase 4: Consent Gate + Firebase (Analytics + Contact Form)** - Consent banner gating Analytics; form works after any consent choice
 - [ ] **Phase 5: Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit** - Real screenshots, full SEO, schema, WCAG 2.1 AA audit gate
@@ -58,7 +58,7 @@ Plans:
   4. All pages render correctly at phone widths (mobile-first responsive)
   5. Root hub shows Persano brand intro + a single GeoHist app card with no visible placeholders; all new markup carries `data-i18n` keys, and the palette passes contrast math (4.5:1/3:1) at design time
 
-**Plans:** 2/2 plans executed
+**Plans:** 2/2 plans complete
 
 **Wave 1**
 
@@ -141,7 +141,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation — Deploy Pipeline, Skeleton, Privacy Policy | 2/2 | Complete    | 2026-09-02 |
-| 2. GeoHist Landing + Hub Content (EN) | 2/2 | In Progress|  |
+| 2. GeoHist Landing + Hub Content (EN) | 2/2 | Complete    | 2026-09-02 |
 | 3. i18n — Engine, ES/pt-BR Dictionaries, Switcher | 0/TBD | Not started | - |
 | 4. Consent Gate + Firebase (Analytics + Contact Form) | 0/TBD | Not started | - |
 | 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 0/TBD | Not started | - |

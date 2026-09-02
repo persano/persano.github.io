@@ -22,25 +22,25 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 - ✓ GitHub Actions CI pipeline that validates then deploys to Pages — Phase 1 (OPS-01, OPS-02, OPS-03; run 33587621659)
 - ✓ Privacy policy on its own page (`/geohist/privacy.html`), English only — Phase 1 (CMPL-01, CMPL-02)
 - ✓ Self-contained 404 page linking back to hub — Phase 1 (CONT-05)
+- ✓ GeoHist landing page: hero, categorized features, gallery skeleton, Play badge placeholder — Phase 2 (LNDG-01, LNDG-02, LNDG-04)
+- ✓ Policy-mirrored FAQ (data collection, offline, devices) — Phase 2 (CONT-01, CMPL-04)
+- ✓ Game guide page (how to play + game modes) — Phase 2 (CONT-02)
+- ✓ About-the-developer section — Phase 2 (CONT-03)
+- ✓ Root hub full content: Persano brand intro + exactly one app card — Phase 2 (CONT-04)
+- ✓ Mobile-first responsive at phone widths + design-time WCAG contrast math — Phase 2 (LNDG-05)
 
 ### Active
 
-- [ ] Root hub page for the Persano personal brand (Santiago David Postorivo) — skeleton shipped Phase 1, full content Phase 2
 - [ ] Restore `npm ci` + `cache: npm` in validate job once a package-lock.json lands (local npm proxy-broken)
-- [ ] `/geohist/` landing page: hero, description, feature list, screenshot gallery, download/Play Store button
 - [ ] Screenshot gallery with real screenshots captured via ADB from a connected phone (tools exist in app repo)
-- [ ] FAQ section (data collection, offline mode, devices)
-- [ ] Game guide on its own page (how to play)
-- [ ] About-the-developer section
-- [ ] Privacy policy on its own page (`privacy.html`), English only, from existing `GeoHist_Trivia_Privacy_Policy` file
-- [ ] Contact form via Firebase JS SDK → Firestore, same Firebase project as the app- [ ] Anonymous Firebase Auth for form spam resistance + Firestore security rules
+- [ ] Contact form via Firebase JS SDK → Firestore, same Firebase project as the app
+- [ ] Anonymous Firebase Auth for form spam resistance + Firestore security rules
 - [ ] Firebase Analytics on the site (same project)
 - [ ] GDPR consent banner: Analytics and form load only after consent
 - [ ] Languages: English, Spanish, Portuguese — auto-detect by browser language, manual switcher, EN fallback
 - [ ] Play Store link as placeholder until listing is live, then real link
 - [ ] Full SEO: meta descriptions, Open Graph image, sitemap.xml, robots.txt
 - [ ] Rich snippets: SoftwareApplication structured data
-- [ ] GitHub Actions CI pipeline that validates then deploys to Pages
 - [ ] WCAG 2.1 AA accessibility audit as an explicit step
 - [ ] Structure anticipates future apps as new subdirs without visible placeholders
 
@@ -86,6 +86,9 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 | ADB screenshot capture in v1 | Real screenshots beat placeholders; tools already exist | — Pending (Phase 5) |
 | AA accessibility audit explicit | Play ecosystem quality bar; broadens audience | — Pending (Phase 5) |
 | Old root policy files kept; deletion deferred | Play Console privacy field already points at old root URL — update it to `/geohist/privacy.html` before Play submission, then delete the 3 old files | Deferred — Phase 5 trace |
+| Dark antique theme; secondary accent = aged-map teal #8fc3bd (over terracotta) | Differentiates harder against warm brown-black; 9.30:1 contrast; all 8 WCAG 2.2 pairs re-proven | ✓ Phase 2 |
+| data-i18n keys baked into all Phase 2 markup; keyed nodes plain text only | Phase 3 textContent dictionary swap is markup-safe; namespaces geohist.*/guide.*/hub.* mapped 1:1 | ✓ Phase 2 |
+| Texture utilities decoration-only (never behind body copy); zero JS in any page | Readability + i18n/no-JS safety; native `<details>` accordions | ✓ Phase 2 |
 
 ## Evolution
 
@@ -105,4 +108,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-02 after Phase 1*
+*Last updated: 2026-09-02 after Phase 2*
