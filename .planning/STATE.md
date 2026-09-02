@@ -1,18 +1,18 @@
 ---
 gsd_state_version: 1.0
-current_phase: 3
+current_phase: 03
 current_phase_name: i18n — Engine, ES/pt-BR Dictionaries, Switcher
-status: Phase 2 shipped — pushed main directly (feature work already on origin/main, no PR)
-stopped_at: Phase 3 context gathered
-last_updated: "2026-09-02T17:19:19.359Z"
+status: executing
+stopped_at: Completed 03-01-PLAN.md
+last_updated: "2026-09-02T18:18:21.970Z"
 last_activity: 2026-09-02
-last_activity_desc: Phase 3 planning complete
-state_head: 532cd077bb4c547074a64c54fe3311dea7ad35eb
+last_activity_desc: Phase 03 execution started
+state_head: 01526d0694a61ddf5e69e2b81b78ab7df2982757
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 6
-  completed_plans: 4
+  completed_plans: 5
   percent: 40
 ---
 
@@ -23,16 +23,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-09-02)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel — before the app goes live on Google Play.
-**Current focus:** Phase 3 — i18n: Engine, ES/pt-BR Dictionaries, Switcher
+**Current focus:** Phase 03 — i18n — Engine, ES/pt-BR Dictionaries, Switcher
 
 ## Current Position
 
-Phase: 3 (i18n — Engine, ES/pt-BR Dictionaries, Switcher) — READY TO EXECUTE
-Plan: Not started
-Status: Phase 2 shipped — pushed main directly (feature work already on origin/main, no PR)
-Last activity: 2026-09-02 — Phase 3 planning complete
+Phase: 03 (i18n — Engine, ES/pt-BR Dictionaries, Switcher) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
+Last activity: 2026-09-02 — Phase 03 execution started
 
-Progress: [████████████████████] 4/4 plans (100% of Phase 2; 40% of milestone)
+Progress: [████████████████████] 4/4 plans ([████░░░░░░] 40% of Phase 2; 40% of milestone)
 
 ## Performance Metrics
 
@@ -63,6 +63,7 @@ Progress: [████████████████████] 4/4 pla
 | Phase 01 P01-02 | 45 | 3 tasks | 4 files |
 | Phase 02 P01 | 16 min | 3 tasks | 4 files |
 | Phase 02 P02 | 5 min | 3 tasks | 2 files |
+| Phase 03 P01 | 15 min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -84,6 +85,8 @@ Recent decisions affecting current work:
 - [Phase 02]: Phase 02-01 executed with per-task commits via gsd-tools commit handler (direct git commit denied by environment permission rules) — Same atomic outcome; hashes 5a115f7 / 97c03c7 / 7c1eff9 / docs 6062f19
 - [Phase 02]: Plan 02-02 executed: guide.html (35 guide.* keys, 8 README-verified modes) + full hub (10 hub.* keys, exactly one app-card) — zero CSS, zero JS, all links resolving; regression battery 16/16 PASS — Phase 2 English content complete; deploy is orchestrator-owned single controlled push (Phase-01 pattern)
 - [Phase 02]: Hub card li+icon img authored on one line so per-line Select-String verify 'app-card' -eq 1 holds while reusing .app-card-icon class; hub title keyed hub.meta.title; no site-nav on hub (D-14 link-card minimal) — Task verify counts matching lines, not occurrences — same-line authoring satisfies verify and component-class reuse simultaneously
+- [Phase 03]: [Phase 03 03-01] i18n engine detect() scan skips en-*/unknown tags (D-32 example: es anywhere in prefs -> es); research pseudocode corrected; switcher binds one slot.onclick delegated handler keeping addEventListener==1
+- [Phase 03]: [Phase 03 03-01] es.json 102 keys (hub 12/geohist 53/guide 37) verified 1:1 via scripts/i18n-keycheck.mjs; drift gate fails loud both directions; owner review of es-419 copy pending (D-39)
 
 ### Pending Todos
 
@@ -109,6 +112,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-02T16:07:41.848Z
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-i18n-engine-es-pt-br-dictionaries-switcher/03-CONTEXT.md
+Last session: 2026-09-02T18:18:12.666Z
+Stopped at: Completed 03-01-PLAN.md
+Resume file: None

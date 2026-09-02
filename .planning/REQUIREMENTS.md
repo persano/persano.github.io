@@ -32,10 +32,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Internationalization
 
-- [ ] **I18N-01**: Site copy in English, Spanish, Portuguese (pt-BR); EN ships in raw HTML
-- [ ] **I18N-02**: Browser-language auto-detect applies translation in place — no redirects, no URL changes, EN fallback on any failure
-- [ ] **I18N-03**: Manual language switcher overrides detection; preference persists (localStorage)
-- [ ] **I18N-04**: `document.documentElement.lang` syncs with active language; `<title>`/meta description translate too
+- [x] **I18N-01**: Site copy in English, Spanish, Portuguese (pt-BR); EN ships in raw HTML
+- [x] **I18N-02**: Browser-language auto-detect applies translation in place — no redirects, no URL changes, EN fallback on any failure
+- [x] **I18N-03**: Manual language switcher overrides detection; preference persists (localStorage)
+- [x] **I18N-04**: `document.documentElement.lang` syncs with active language; `<title>`/meta description translate too
 
 ### Firebase
 
@@ -103,10 +103,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CONT-03 | Phase 2 | Complete |
 | CONT-04 | Phase 2 | Complete |
 | CONT-05 | Phase 1 | Complete |
-| I18N-01 | Phase 3 | Pending |
-| I18N-02 | Phase 3 | Pending |
-| I18N-03 | Phase 3 | Pending |
-| I18N-04 | Phase 3 | Pending |
+| I18N-01 | Phase 3 | Complete |
+| I18N-02 | Phase 3 | Complete |
+| I18N-03 | Phase 3 | Complete |
+| I18N-04 | Phase 3 | Complete |
 | FIRE-01 | Phase 4 | Pending |
 | FIRE-02 | Phase 4 | Pending |
 | FIRE-03 | Phase 4 | Pending |
