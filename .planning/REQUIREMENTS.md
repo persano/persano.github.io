@@ -89,13 +89,44 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (populated by roadmap) | | |
+| CMPL-01 | Phase 1 | Pending |
+| CMPL-02 | Phase 1 | Pending |
+| CMPL-03 | Phase 4 | Pending |
+| CMPL-04 | Phase 2 | Pending |
+| LNDG-01 | Phase 2 | Pending |
+| LNDG-02 | Phase 2 | Pending |
+| LNDG-03 | Phase 5 | Pending |
+| LNDG-04 | Phase 2 | Pending |
+| LNDG-05 | Phase 2 | Pending |
+| CONT-01 | Phase 2 | Pending |
+| CONT-02 | Phase 2 | Pending |
+| CONT-03 | Phase 2 | Pending |
+| CONT-04 | Phase 2 | Pending |
+| CONT-05 | Phase 1 | Pending |
+| I18N-01 | Phase 3 | Pending |
+| I18N-02 | Phase 3 | Pending |
+| I18N-03 | Phase 3 | Pending |
+| I18N-04 | Phase 3 | Pending |
+| FIRE-01 | Phase 4 | Pending |
+| FIRE-02 | Phase 4 | Pending |
+| FIRE-03 | Phase 4 | Pending |
+| FIRE-04 | Phase 4 | Pending |
+| FIRE-05 | Phase 4 | Pending |
+| FIRE-06 | Phase 4 | Pending |
+| SEO-01 | Phase 5 | Pending |
+| SEO-02 | Phase 5 | Pending |
+| SEO-03 | Phase 5 | Pending |
+| SEO-04 | Phase 5 | Pending |
+| A11Y-01 | Phase 5 | Pending |
+| OPS-01 | Phase 1 | Pending |
+| OPS-02 | Phase 1 | Pending |
+| OPS-03 | Phase 1 | Pending |
 
 **Coverage:**
 - v1 requirements: 27 total
-- Mapped to phases: 0
-- Unmapped: 27 ⚠️
+- Mapped to phases: 27
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-09-01*
-*Last updated: 2026-09-01 after initial definition*
+*Last updated: 2026-09-01 — traceability populated by roadmap creation*
