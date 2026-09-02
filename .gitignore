@@ -1,3 +1,4 @@
 .serena/
 .planning/research/.cache/
 .planning/milestone.lock
+node_modules/
