@@ -19,19 +19,21 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ GitHub Actions CI pipeline that validates then deploys to Pages — Phase 1 (OPS-01, OPS-02, OPS-03; run 33587621659)
+- ✓ Privacy policy on its own page (`/geohist/privacy.html`), English only — Phase 1 (CMPL-01, CMPL-02)
+- ✓ Self-contained 404 page linking back to hub — Phase 1 (CONT-05)
 
 ### Active
 
-- [ ] Root hub page for the Persano personal brand (Santiago David Postorivo)
+- [ ] Root hub page for the Persano personal brand (Santiago David Postorivo) — skeleton shipped Phase 1, full content Phase 2
+- [ ] Restore `npm ci` + `cache: npm` in validate job once a package-lock.json lands (local npm proxy-broken)
 - [ ] `/geohist/` landing page: hero, description, feature list, screenshot gallery, download/Play Store button
 - [ ] Screenshot gallery with real screenshots captured via ADB from a connected phone (tools exist in app repo)
 - [ ] FAQ section (data collection, offline mode, devices)
 - [ ] Game guide on its own page (how to play)
 - [ ] About-the-developer section
 - [ ] Privacy policy on its own page (`privacy.html`), English only, from existing `GeoHist_Trivia_Privacy_Policy` file
-- [ ] Contact form via Firebase JS SDK → Firestore, same Firebase project as the app
-- [ ] Anonymous Firebase Auth for form spam resistance + Firestore security rules
+- [ ] Contact form via Firebase JS SDK → Firestore, same Firebase project as the app- [ ] Anonymous Firebase Auth for form spam resistance + Firestore security rules
 - [ ] Firebase Analytics on the site (same project)
 - [ ] GDPR consent banner: Analytics and form load only after consent
 - [ ] Languages: English, Spanish, Portuguese — auto-detect by browser language, manual switcher, EN fallback
@@ -76,13 +78,14 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| GeoHist site in `/geohist/` subdir, not root root | Portfolio-ready from day 1; future apps get clean subdirs | — Pending |
-| Plain HTML/CSS, no SSG | Zero build complexity; GitHub Pages native; agent-maintained content | — Pending |
-| Firebase contact form (anonymous auth + Firestore rules) | Free, no backend, spam-resistant, same project as app | — Pending |
-| GDPR consent banner gating Analytics | EU visitors; AdMob app already privacy-sensitive | — Pending |
-| EN+ES+PT v1, 17 others deferred | Core audience first; i18n structure ready for expansion | — Pending |
-| ADB screenshot capture in v1 | Real screenshots beat placeholders; tools already exist | — Pending |
-| AA accessibility audit explicit | Play ecosystem quality bar; broadens audience | — Pending |
+| GeoHist site in `/geohist/` subdir, not root root | Portfolio-ready from day 1; future apps get clean subdirs | ✓ Phase 1 — policy live at `/geohist/privacy.html` |
+| Plain HTML/CSS, no SSG | Zero build complexity; GitHub Pages native; agent-maintained content | ✓ Validated Phase 1 |
+| Firebase contact form (anonymous auth + Firestore rules) | Free, no backend, spam-resistant, same project as app | — Pending (Phase 4) |
+| GDPR consent banner gating Analytics | EU visitors; AdMob app already privacy-sensitive | — Pending (Phase 4) |
+| EN+ES+PT v1, 17 others deferred | Core audience first; i18n structure ready for expansion | — Pending (Phase 3) |
+| ADB screenshot capture in v1 | Real screenshots beat placeholders; tools already exist | — Pending (Phase 5) |
+| AA accessibility audit explicit | Play ecosystem quality bar; broadens audience | — Pending (Phase 5) |
+| Old root policy files kept; deletion deferred | Play Console privacy field already points at old root URL — update it to `/geohist/privacy.html` before Play submission, then delete the 3 old files | Deferred — Phase 5 trace |
 
 ## Evolution
 
@@ -102,4 +105,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-01 after initialization*
+*Last updated: 2026-09-02 after Phase 1*
