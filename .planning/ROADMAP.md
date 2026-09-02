@@ -33,7 +33,8 @@ Decimal phases appear between their surrounding integers in numeric order.
   5. Existing root files (`app-ads.txt`, Search Console verification) still return 200 after the first deploy
 
 Plans:
-- [ ] 01-01: TBD
+- [ ] 01-01-PLAN.md — Walking skeleton content slice: minimal hub + base.css + self-contained 404 + .nojekyll + complete EN privacy policy (owner-facts checkpoint) + superseded-file disposition (wave 1)
+- [ ] 01-02-PLAN.md — CI validate→deploy workflow (4-action chain), Pages-source checkpoint, single push → live deploy → OPS-03 smoke checks (wave 2)
 
 ### Phase 2: GeoHist Landing + Hub Content (EN, i18n keys baked in)
 **Goal**: Players and prospective players can learn about GeoHist Trivia from a complete English landing site; the hub introduces the Persano brand with exactly one app card
