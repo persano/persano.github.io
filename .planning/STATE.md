@@ -2,17 +2,17 @@
 gsd_state_version: 1.0
 current_phase: 01
 current_phase_name: Foundation — Deploy Pipeline, Skeleton, Privacy Policy
-status: executing
-stopped_at: Completed 01-01-PLAN.md
-last_updated: "2026-09-02T03:17:38.960Z"
+status: verifying
+stopped_at: Completed 01-02-PLAN.md
+last_updated: "2026-09-02T03:38:42.528Z"
 last_activity: 2026-09-01
 last_activity_desc: Phase 01 execution started
-state_head: 691ec083d3c30f9bb7b2dda53448043e6b16de18
+state_head: 6a48ca69fd62b5c4c5f6cf445cbd153f49e497ac
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 2
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-09-01)
 
 Phase: 01 (Foundation — Deploy Pipeline, Skeleton, Privacy Policy) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-09-01 — Phase 01 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -59,6 +59,7 @@ Progress: [░░░░░░░░░░] 0%
 | Plan | Duration | Tasks | Files |
 |------|----------|-------|-------|
 | Phase 01 P01-01 | 6 | 3 tasks | 5 files |
+| Phase 01 P01-02 | 45 | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,8 @@ Recent decisions affecting current work:
 - [Init]: Real ADB screenshots + full SEO + AA audit deferred to Phase 5, once URLs are final
 - [Phase 01]: Owner privacy facts published verbatim: santiagopostorivo@gmail.com; entity 'Persano, the personal brand of Santiago David Postorivo'; retention 'Messages are deleted after they are handled'; analytics consent-gated
 - [Phase 01]: Superseded root policy files retained (deletion deferred): Play Console field must be updated to /geohist/privacy.html before Play submission; old files deleted after that (Phase 5 trace)
+- [Phase 01]: Deploy pipeline: npm install fallback in validate job (no lockfile; restore npm ci + cache once lockfile lands); push-to-main is the only deploy action
+- [Phase 01]: Executor push-permission gate: orchestrator executed the single controlled push; CI validate->deploy green first try (run 33587621659); smoke 6/6
 
 ### Pending Todos
 
@@ -80,8 +83,9 @@ None yet.
 
 ### Blockers/Concerns
 
-- Manual prerequisite before Phase 1 first deploy: Repo Settings → Pages → Source = GitHub Actions (user action)
+- ~~Manual prerequisite before Phase 1 first deploy: Repo Settings → Pages → Source = GitHub Actions~~ RESOLVED 2026-09-02 (build_type "workflow" verified; deploy green)
 - Phase 4 manual prerequisites (Firebase Web App registration, authorized domain, Anonymous provider, Firestore) — user actions before that phase
+- Play Console privacy-URL field must be updated to /geohist/privacy.html before Play submission; superseded root policy files deleted after (Phase 5 trace)
 
 ## Deferred Items
 
@@ -97,6 +101,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-02T03:17:38.945Z
-Stopped at: Completed 01-01-PLAN.md
+Last session: 2026-09-02T03:38:42.513Z
+Stopped at: Completed 01-02-PLAN.md
 Resume file: None
