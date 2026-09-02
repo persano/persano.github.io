@@ -7,6 +7,7 @@ From empty-ish repo (privacy policy files + Search Console verification) to a li
 ## Phases
 
 **Phase Numbering:**
+
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
@@ -21,11 +22,13 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Phase Details
 
 ### Phase 1: Foundation — Deploy Pipeline, Skeleton, Privacy Policy
+
 **Goal**: Site is live at https://persano.github.io via push→CI→Pages, with the Play-critical privacy policy URL returning 200 and existing root files regression-checked
 **Mode:** mvp
 **Depends on**: Nothing (first phase). Manual prerequisite: Repo Settings → Pages → Source: GitHub Actions (one-time, before first deploy)
 **Requirements**: OPS-01, OPS-02, OPS-03, CMPL-01, CMPL-02, CONT-05
 **Success Criteria** (what must be TRUE):
+
   1. Visiting https://persano.github.io serves a minimal hub skeleton with shared `base.css`; unknown paths serve a self-contained 404 page linking back to the hub
   2. https://persano.github.io/geohist/privacy.html returns 200 — public, non-PDF, English policy naming the entity, contact mechanism, retention/deletion policy, and every SDK in actual use (AdMob, Play Games Services, IAP, Firebase Analytics, contact-form Firestore)
   3. Footer on deployed pages links to `/geohist/privacy.html`
@@ -33,15 +36,22 @@ Decimal phases appear between their surrounding integers in numeric order.
   5. Existing root files (`app-ads.txt`, Search Console verification) still return 200 after the first deploy
 
 Plans:
+**Wave 1**
+
 - [ ] 01-01-PLAN.md — Walking skeleton content slice: minimal hub + base.css + self-contained 404 + .nojekyll + complete EN privacy policy (owner-facts checkpoint) + superseded-file disposition (wave 1)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 01-02-PLAN.md — CI validate→deploy workflow (4-action chain), Pages-source checkpoint, single push → live deploy → OPS-03 smoke checks (wave 2)
 
 ### Phase 2: GeoHist Landing + Hub Content (EN, i18n keys baked in)
+
 **Goal**: Players and prospective players can learn about GeoHist Trivia from a complete English landing site; the hub introduces the Persano brand with exactly one app card
 **Mode:** mvp
 **Depends on**: Phase 1
 **Requirements**: LNDG-01, LNDG-02, LNDG-04, LNDG-05, CONT-01, CONT-02, CONT-03, CONT-04, CMPL-04
 **Success Criteria** (what must be TRUE):
+
   1. `/geohist/` renders the hero (app name, tagline, description, icon), categorized feature list drafted from the app README, and FAQ (data collection, offline, devices) whose wording mirrors the privacy policy
   2. `/geohist/guide.html` explains how to play and game modes; the About-the-developer section presents Santiago David Postorivo / Persano
   3. Download/Play Store button is visible with a placeholder href — visually final, swappable in one place when the listing goes live
@@ -49,28 +59,34 @@ Plans:
   5. Root hub shows Persano brand intro + a single GeoHist app card with no visible placeholders; all new markup carries `data-i18n` keys, and the palette passes contrast math (4.5:1/3:1) at design time
 
 Plans:
+
 - [ ] 02-01: TBD
 
 ### Phase 3: i18n — Engine, ES/pt-BR Dictionaries, Switcher
+
 **Goal**: Spanish and pt-BR visitors read the site in their language with no URL changes or redirects; English always remains the safe, indexable fallback
 **Mode:** mvp
 **Depends on**: Phase 2 (markup already carries `data-i18n` keys)
 **Requirements**: I18N-01, I18N-02, I18N-03, I18N-04
 **Success Criteria** (what must be TRUE):
+
   1. A browser set to Spanish or pt-BR sees translated copy on the hub and GeoHist pages, applied in place — no redirects, no URL changes
   2. The manual language switcher overrides auto-detection, and the choice persists across visits (localStorage)
   3. A non-matching browser language or any dictionary fetch failure falls back to the shipped English content
   4. `document.documentElement.lang` matches the active language, and page `<title>`/meta description translate too
 
 Plans:
+
 - [ ] 03-01: TBD
 
 ### Phase 4: Consent Gate + Firebase (Analytics + Contact Form)
+
 **Goal**: GDPR-compliant consent gates Firebase Analytics (zero SDK bytes before grant); a working contact form submits via anonymous auth to Firestore after any consent choice and completes the data-deletion request path
 **Mode:** mvp
 **Depends on**: Phases 1, 2, 3 (deployed pages to instrument; language-switch events). Manual prerequisites: Firebase Web App registered + `persano.github.io` authorized domain; Anonymous provider enabled; Firestore (production mode) created
 **Requirements**: FIRE-01, FIRE-02, FIRE-03, FIRE-04, FIRE-05, FIRE-06, CMPL-03
 **Success Criteria** (what must be TRUE):
+
   1. First visit shows a consent banner requiring affirmative action — never auto-dismisses; the choice is persisted with a timestamp and a retraction path works
   2. In a fresh incognito session, zero Firebase/Analytics network requests fire before consent; after grant, Play-badge clicks and language switches appear as consent-gated events
   3. The contact form validates input, catches honeypot submissions, and shows success/error states — and submits successfully after consent grant AND after deny
@@ -78,14 +94,17 @@ Plans:
   5. The form offers a "request data deletion" topic, completing the CMPL-03 path (FAQ entry + form topic + documented manual process)
 
 Plans:
+
 - [ ] 04-01: TBD
 
 ### Phase 5: Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit
+
 **Goal**: The site is discoverable, rich-result ready, and accessible, with real screenshots in the gallery — the WCAG 2.1 AA audit passes as the explicit gate before Play submission
 **Mode:** mvp
 **Depends on**: Phases 1, 2, 3, 4 (URLs must be final before sitemap/OG/schema enumerate them)
 **Requirements**: LNDG-03, SEO-01, SEO-02, SEO-03, SEO-04, A11Y-01
 **Success Criteria** (what must be TRUE):
+
   1. The gallery shows 3–6 real screenshots captured via ADB from a connected phone (WebP, lazy-load)
   2. Every page has meta title/description + canonical URL; OG/Twitter cards use absolute URLs with a 1200×630 og:image
   3. sitemap.xml and robots.txt are live (allow-all + sitemap line) and the sitemap is submitted to Search Console
@@ -93,6 +112,7 @@ Plans:
   5. axe/Lighthouse are clean; keyboard nav, focus states, and form labels pass WCAG 2.1 AA — re-checked after a language switch
 
 Plans:
+
 - [ ] 05-01: TBD
 
 ## Coverage
