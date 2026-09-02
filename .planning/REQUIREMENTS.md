@@ -1,0 +1,101 @@
+# Requirements: Persano Hub + GeoHist Trivia Site
+
+**Defined:** 2026-09-01
+**Core Value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel — before the app goes live on Google Play.
+
+## v1 Requirements
+
+Requirements for initial release. Each maps to roadmap phases.
+
+### Compliance
+
+- [ ] **CMPL-01**: Privacy policy lives at `/geohist/privacy.html` — public, non-PDF, English, reachable from every page footer
+- [ ] **CMPL-02**: Privacy policy names every SDK in actual use (AdMob, Play Games Services, IAP, Firebase Analytics, contact-form Firestore) with contact mechanism and retention/deletion policy
+- [ ] **CMPL-03**: Data-deletion request path exists: FAQ entry + contact-form "data deletion" topic + documented manual process (Play requirement for Play Games sign-in)
+- [ ] **CMPL-04**: Policy wording mirrors FAQ and Play Data safety declarations (single source of truth, no contradictions)
+
+### Landing
+
+- [ ] **LNDG-01**: `/geohist/` landing page renders hero: app name, tagline, description, app icon/logo
+- [ ] **LNDG-02**: Feature list section (categorized trivia, Play Games, offline mode, IAP) drafted from app README
+- [ ] **LNDG-03**: Screenshot gallery shows 3–6 real screenshots captured via ADB from a connected phone (WebP, lazy-load)
+- [ ] **LNDG-04**: Download/Play Store button present — placeholder href until listing live, trivially swappable
+- [ ] **LNDG-05**: Mobile-first responsive layout (primary traffic is phones)
+
+### Content
+
+- [ ] **CONT-01**: FAQ section: data collection, offline capability, supported devices — mirrors privacy policy wording
+- [ ] **CONT-02**: Game guide on own page (`guide.html`): how to play, game modes
+- [ ] **CONT-03**: About-the-developer section: Santiago David Postorivo / Persano personal brand
+- [ ] **CONT-04**: Root hub (`/index.html`): Persano brand intro + app card for GeoHist; renders correctly with exactly one app, no visible placeholders
+- [ ] **CONT-05**: Custom 404 page, self-contained with link back to hub
+
+### Internationalization
+
+- [ ] **I18N-01**: Site copy in English, Spanish, Portuguese (pt-BR); EN ships in raw HTML
+- [ ] **I18N-02**: Browser-language auto-detect applies translation in place — no redirects, no URL changes, EN fallback on any failure
+- [ ] **I18N-03**: Manual language switcher overrides detection; preference persists (localStorage)
+- [ ] **I18N-04**: `document.documentElement.lang` syncs with active language; `<title>`/meta description translate too
+
+### Firebase
+
+- [ ] **FIRE-01**: GDPR consent banner: affirmative action required, never auto-dismisses, choice persisted with timestamp, retraction path available
+- [ ] **FIRE-02**: Firebase Analytics loads ONLY after consent grant — no Firebase script tag in any HTML; dynamic import post-grant; zero SDK bytes before consent
+- [ ] **FIRE-03**: Consent-gated events: Play badge clicks, language switches
+- [ ] **FIRE-04**: Contact form: labels, honeypot, client validation, success/error states; works after any consent choice (grant or deny)
+- [ ] **FIRE-05**: Form submits via anonymous auth (at submit-time only) to Firestore; create-only, schema-locked rules (field validation, length caps, server timestamps); rules file lives in repo
+- [ ] **FIRE-06**: Form supports "request data deletion" topic wired to CMPL-03 process
+
+### Discovery & Quality
+
+- [ ] **SEO-01**: Meta titles/descriptions + canonical URLs on every page
+- [ ] **SEO-02**: Open Graph + Twitter cards with absolute URLs; og:image 1200×630
+- [ ] **SEO-03**: sitemap.xml + robots.txt (allow-all + sitemap line); sitemap submitted to Search Console
+- [ ] **SEO-04**: SoftwareApplication JSON-LD (name, operatingSystem ANDROID, GameApplication, offers price 0) — NO aggregateRating until real Play ratings exist
+- [ ] **A11Y-01**: WCAG 2.1 AA audit as explicit final step: contrast (math-checked palette at design time), keyboard nav, focus states, form labels, axe/Lighthouse clean
+- [ ] **OPS-01**: GitHub Actions CI: validation job (html-validate + link check) gates Pages deploy
+- [ ] **OPS-02**: Deploy chain: checkout@v7 → configure-pages@v6 → upload-pages-artifact@v5 (`path: '.'`, `include-hidden-files: true`) → deploy-pages@v5; `.nojekyll` in first site commit
+- [ ] **OPS-03**: Live URL + privacy-policy URL verified 200 before Play submission; existing root files (`app-ads.txt`, Search Console verification) regress-checked after first deploy
+
+## v2 Requirements
+
+Deferred to future release. Tracked but not in current roadmap.
+
+### Expansion
+
+- **I18N-05**: Remaining 17 localizations (JSON dictionaries scale cheaply — add when traffic justifies)
+- **SEO-05**: aggregateRating + social proof strip (requires live Play listing data)
+- **FIRE-07**: App Check enforcement (monitor mode metrics first, enforce post-launch)
+- **CONT-06**: Changelog/updates page (once app updates exist)
+- **HOST-01**: Custom domain + CNAME
+
+## Out of Scope
+
+Explicitly excluded. Documented to prevent scope creep.
+
+| Feature | Reason |
+|---------|--------|
+| Per-language HTML subdirs (/es/, /pt/) | Resolved: JS dictionary swap chosen — Play search drives installs, subdirs' SEO advantage worthless, 3× file drift kills agent-maintenance |
+| Android App Links / deep links | Informational site only; Play Store links suffice |
+| Privacy policy translations | EN is legally authoritative version |
+| SSG (Jekyll/Astro/Eleventy) | Zero-build deliberate; page count far below templating threshold |
+| Real-time chat, comments, user accounts | Not core to landing value |
+| aggregateRating in schema at launch | Fabricated ratings = structured-data spam; add with real data |
+| Analytics/form blocking on consent-deny | Deletion-request path must survive "deny" — form is compliance surface |
+
+## Traceability
+
+Which phases cover which requirements. Updated during roadmap creation.
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| (populated by roadmap) | | |
+
+**Coverage:**
+- v1 requirements: 27 total
+- Mapped to phases: 0
+- Unmapped: 27 ⚠️
+
+---
+*Requirements defined: 2026-09-01*
+*Last updated: 2026-09-01 after initial definition*
