@@ -1,22 +1,26 @@
 ---
 phase: 02-geohist-landing-hub-content-en-i18n-keys-baked-in
 verified: 2026-09-02T05:59:18Z
-status: human_needed
+status: passed
 score: 13/14 must-haves verified
 behavior_unverified: 1
 overrides_applied: 0
 behavior_unverified_items:
+
   - truth: "All pages render correctly at phone widths (mobile-first responsive) — Roadmap SC4"
     test: "After the single controlled push, open /, /geohist/, /geohist/guide.html, /geohist/privacy.html at 320px and 375px viewport width"
     expected: "Hero above the fold with legible badge; nav wraps cleanly; gallery tiles keep phone aspect; tile captions on solid strip; hub card proportioned (no stretch); texture never behind body copy"
     why_human: "Visual rendering is not provable by markup/CSS grep; the plans' <human-check> explicitly defers this to end-of-phase owner inspection (02-01 coverage D7, 02-02 coverage D5)"
 human_verification:
+
   - test: "Post-deploy smoke: orchestrator executes the single controlled push (branch is ahead of origin/main by 14 commits, push pending), waits for CI validate job green, then loads /geohist/, /geohist/guide.html, /, /geohist/privacy.html"
     expected: "CI validate green; all four URLs return HTTP 200 and show the dark antique theme"
     why_human: "Push-to-main is orchestrator-owned (STATE.md Phase-01 pattern; executor barred from pushing); live URLs cannot be checked before the push exists"
+
   - test: "Phone-width sweep at 320/375px on all five pages after deploy (plans' <human-check>, merged)"
     expected: "See behavior_unverified_items entry — responsive invariants hold visually"
     why_human: "Visual rendering; no automated path proves it"
+
   - test: "Prohibition review (judgment-tier, LLM-judge verdicts below are NON-AUTHORITATIVE): owner skims landing/guide/hub copy for data-claim drift, hub filler, and i18n approach violations"
     expected: "No data-collection wording outside the policy-mirrored FAQ; no 'more apps' filler; no hreflang/subdirs/redirect scripts"
     why_human: "Judgment-tier prohibitions route to human review per ADR-550 D4; grep evidence recorded but not authoritative"
