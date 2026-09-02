@@ -81,7 +81,7 @@ Plans:
   3. A non-matching browser language or any dictionary fetch failure falls back to the shipped English content
   4. `document.documentElement.lang` matches the active language, and page `<title>`/meta description translate too
 
-Plans: 1/2 plans executed
+Plans: 2/2 plans executed
 
 **Wave 1**
 
@@ -89,7 +89,7 @@ Plans: 1/2 plans executed
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 03-02-PLAN.md — pt-BR dictionary (key-identical, 102 keys) + validate:i18n CI gate wiring + cross-page regression battery & deploy handoff (wave 2)
+- [x] 03-02-PLAN.md — pt-BR dictionary (key-identical, 102 keys) + validate:i18n CI gate wiring + cross-page regression battery & deploy handoff (wave 2)
 
 ### Phase 4: Consent Gate + Firebase (Analytics + Contact Form)
 
@@ -148,7 +148,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation — Deploy Pipeline, Skeleton, Privacy Policy | 2/2 | Complete    | 2026-09-02 |
 | 2. GeoHist Landing + Hub Content (EN) | 2/2 | Complete    | 2026-09-02 |
-| 3. i18n — Engine, ES/pt-BR Dictionaries, Switcher | 1/2 | In Progress|  |
+| 3. i18n — Engine, ES/pt-BR Dictionaries, Switcher | 2/2 | In Progress|  |
 | 4. Consent Gate + Firebase (Analytics + Contact Form) | 0/TBD | Not started | - |
 | 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 0/TBD | Not started | - |
 
