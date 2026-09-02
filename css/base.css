@@ -2,7 +2,7 @@
    Phase 2: dark antique theme (D-01..D-06). Warm brown-black base,
    antique gold primary accent, aged-map teal secondary accent.
    Contrast pairs (WCAG 2.2 relative-luminance, exact ratios recorded in
-   .planning/phases/02-*/02-01-PLAN.md — all pass AA with >=2.3:1 headroom):
+   the phase 02 plan (02-01-PLAN.md) — all pass AA with >=2.3:1 headroom):
      #f0e6d2 on #1a1410 14.72:1 | on #241c14 13.55:1 (body text, 4.5:1)
      #c9b89a on #1a1410  9.38:1 | on #241c14  8.64:1 (muted text)
      #d9a951 on #1a1410  8.46:1 | on #241c14  7.79:1 (gold links)
