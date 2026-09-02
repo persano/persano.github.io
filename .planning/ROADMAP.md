@@ -58,7 +58,7 @@ Plans:
   4. All pages render correctly at phone widths (mobile-first responsive)
   5. Root hub shows Persano brand intro + a single GeoHist app card with no visible placeholders; all new markup carries `data-i18n` keys, and the palette passes contrast math (4.5:1/3:1) at design time
 
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans executed
 
 **Wave 1**
 
@@ -66,7 +66,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 02-02-PLAN.md — guide.html (how to play + game modes) + full hub (brand intro + single app card) + cross-page regression & deploy handoff (wave 2)
+- [x] 02-02-PLAN.md — guide.html (how to play + game modes) + full hub (brand intro + single app card) + cross-page regression & deploy handoff (wave 2)
 
 ### Phase 3: i18n — Engine, ES/pt-BR Dictionaries, Switcher
 
@@ -141,7 +141,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation — Deploy Pipeline, Skeleton, Privacy Policy | 2/2 | Complete    | 2026-09-02 |
-| 2. GeoHist Landing + Hub Content (EN) | 1/2 | In Progress|  |
+| 2. GeoHist Landing + Hub Content (EN) | 2/2 | In Progress|  |
 | 3. i18n — Engine, ES/pt-BR Dictionaries, Switcher | 0/TBD | Not started | - |
 | 4. Consent Gate + Firebase (Analytics + Contact Form) | 0/TBD | Not started | - |
 | 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 0/TBD | Not started | - |

@@ -12,7 +12,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **CMPL-01**: Privacy policy lives at `/geohist/privacy.html` — public, non-PDF, English, reachable from every page footer
 - [x] **CMPL-02**: Privacy policy names every SDK in actual use (AdMob, Play Games Services, IAP, Firebase Analytics, contact-form Firestore) with contact mechanism and retention/deletion policy
 - [ ] **CMPL-03**: Data-deletion request path exists: FAQ entry + contact-form "data deletion" topic + documented manual process (Play requirement for Play Games sign-in)
-- [ ] **CMPL-04**: Policy wording mirrors FAQ and Play Data safety declarations (single source of truth, no contradictions)
+- [x] **CMPL-04**: Policy wording mirrors FAQ and Play Data safety declarations (single source of truth, no contradictions)
 
 ### Landing
 
@@ -20,14 +20,14 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **LNDG-02**: Feature list section (categorized trivia, Play Games, offline mode, IAP) drafted from app README
 - [ ] **LNDG-03**: Screenshot gallery shows 3–6 real screenshots captured via ADB from a connected phone (WebP, lazy-load)
 - [x] **LNDG-04**: Download/Play Store button present — placeholder href until listing live, trivially swappable
-- [ ] **LNDG-05**: Mobile-first responsive layout (primary traffic is phones)
+- [x] **LNDG-05**: Mobile-first responsive layout (primary traffic is phones)
 
 ### Content
 
 - [x] **CONT-01**: FAQ section: data collection, offline capability, supported devices — mirrors privacy policy wording
-- [ ] **CONT-02**: Game guide on own page (`guide.html`): how to play, game modes
+- [x] **CONT-02**: Game guide on own page (`guide.html`): how to play, game modes
 - [x] **CONT-03**: About-the-developer section: Santiago David Postorivo / Persano personal brand
-- [ ] **CONT-04**: Root hub (`/index.html`): Persano brand intro + app card for GeoHist; renders correctly with exactly one app, no visible placeholders
+- [x] **CONT-04**: Root hub (`/index.html`): Persano brand intro + app card for GeoHist; renders correctly with exactly one app, no visible placeholders
 - [x] **CONT-05**: Custom 404 page, self-contained with link back to hub
 
 ### Internationalization
@@ -92,16 +92,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CMPL-01 | Phase 1 | Complete |
 | CMPL-02 | Phase 1 | Complete |
 | CMPL-03 | Phase 4 | Pending |
-| CMPL-04 | Phase 2 | Pending |
+| CMPL-04 | Phase 2 | Complete |
 | LNDG-01 | Phase 2 | Complete |
 | LNDG-02 | Phase 2 | Complete |
 | LNDG-03 | Phase 5 | Pending |
 | LNDG-04 | Phase 2 | Complete |
-| LNDG-05 | Phase 2 | Pending |
+| LNDG-05 | Phase 2 | Complete |
 | CONT-01 | Phase 2 | Complete |
-| CONT-02 | Phase 2 | Pending |
+| CONT-02 | Phase 2 | Complete |
 | CONT-03 | Phase 2 | Complete |
-| CONT-04 | Phase 2 | Pending |
+| CONT-04 | Phase 2 | Complete |
 | CONT-05 | Phase 1 | Complete |
 | I18N-01 | Phase 3 | Pending |
 | I18N-02 | Phase 3 | Pending |
