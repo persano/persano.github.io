@@ -3,11 +3,11 @@ gsd_state_version: 1.0
 current_phase: 4
 current_phase_name: Consent Gate + Firebase (Analytics + Contact Form)
 status: executing
-stopped_at: Completed 04-01-PLAN.md (Task 3 checkpoint resolved; live 6-check battery deferred to phase UAT)
-last_updated: "2026-09-03T01:25:14.654Z"
+stopped_at: "04-02 Tasks 1-2 committed (cff7d08, eca2237); paused at Task 3 human-action checkpoint: owner Firebase console prerequisites + Rules Playground battery + live submit battery"
+last_updated: "2026-09-03T01:34:21.840Z"
 last_activity: 2026-09-02
 last_activity_desc: Phase 4 execution started
-state_head: 701212169700fba7351a9d717213457c3118e9ef
+state_head: eca223772d74818cc614cafbeda7abaad91a91b5
 progress:
   total_phases: 5
   completed_phases: 3
@@ -93,6 +93,8 @@ Recent decisions affecting current work:
 - [Phase 4]: [Phase 04]: Plan 04-01 consent gate: dynamic-import gate (the import IS the consent) + fail-closed versioned store {v:1, analytics, ts} on the 3 engine-carrying pages; real Firebase config committed public-by-design, security console-side (API-key HTTP-referrer restriction)
 - [Phase 4]: [Phase 04]: Live 6-check battery (fresh-incognito zero-request + GA4 DebugView) pending owner - deferred to phase UAT as deliverable D5 (human_needed); windows ledger #5 open (unrun-verify)
 - [Phase 4]: [Phase 04]: Banner section ships aria-label only - role=region redundant on a named section (a11y auto-fix in 62e4348); FIRE-03 wrappers no-op via send-time isGranted() so retraction needs no unload
+- [Phase 4]: [Phase 4 04-02] Pre-existing uncommitted working-tree edit to js/firebase-config.js (measurementId G-DV1M5N0EY5 -> G-KDWVVHRYD5) found at 04-02 start; left untouched as owner-owned out-of-scope change - verify which ID is canonical before next deploy
+- [Phase 4]: [Phase 4 04-02] ES/pt-BR deletion copy reuses each dictionary's established translation of the privacy §4 retention sentence (single-source per language) - verbatim-quote rule applied to the EN surface where privacy.html lives
 
 ### Pending Todos
 
@@ -118,6 +120,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-03T01:24:48.221Z
-Stopped at: Completed 04-01-PLAN.md (Task 3 checkpoint resolved; live 6-check battery deferred to phase UAT)
+Last session: 2026-09-03T01:34:20.026Z
+Stopped at: 04-02 Tasks 1-2 committed (cff7d08, eca2237); paused at Task 3 human-action checkpoint: owner Firebase console prerequisites + Rules Playground battery + live submit battery
 Resume file: None
