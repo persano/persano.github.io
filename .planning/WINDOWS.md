@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 4
+open_count: 5
 waived_count: 0
 fixed_count: 0
-total_count: 4
-last_updated: 2026-09-02T18:18:30.842Z
+total_count: 5
+last_updated: 2026-09-03T01:23:03.674Z
 ---
 
 # Broken Windows Ledger
@@ -19,6 +19,7 @@ last_updated: 2026-09-02T18:18:30.842Z
 | 2 | 02 | stub | geohist/index.html | 67 | Gallery placeholder tiles (intentional per D-13/D-23; real WebP screenshots replace them in Phase 5, markup stable) | open |  | 2026-09-02T05:31:10.941Z |  |
 | 3 | 02 | deviation | geohist/index.html | 35 | Task 2 plan verify expected 'Screenshots coming soon' count=1 but acceptance/D-23 mandate exactly 3 keyed captions (one per tile); executed per acceptance (3) | open |  | 2026-09-02T05:31:11.439Z |  |
 | 4 | 03 | deviation | js/i18n.js |  | detect() scan skips en-*/unknown tags per D-32 example (es anywhere in prefs wins); research Pattern 2 pseudocode corrected; owner browser-check pending per human-check list | open |  | 2026-09-02T18:18:30.842Z |  |
+| 5 | 4 | unrun-verify | geohist/index.html |  | Plan 04-01 Task 3 live 6-check battery (fresh-incognito zero-request, Accept/Reject network flows, GA4 DebugView events) not yet run by owner - transferred to phase UAT as D5 (04-01-SUMMARY.md) | open |  | 2026-09-03T01:23:03.674Z |  |
 
 ````json
 [
@@ -68,6 +69,18 @@ last_updated: 2026-09-02T18:18:30.842Z
     "status": "open",
     "reason": "",
     "recorded_at": "2026-09-02T18:18:30.842Z",
+    "resolved_at": null
+  },
+  {
+    "id": 5,
+    "kind": "unrun-verify",
+    "phase": "4",
+    "file": "geohist/index.html",
+    "line": null,
+    "description": "Plan 04-01 Task 3 live 6-check battery (fresh-incognito zero-request, Accept/Reject network flows, GA4 DebugView events) not yet run by owner - transferred to phase UAT as D5 (04-01-SUMMARY.md)",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-03T01:23:03.674Z",
     "resolved_at": null
   }
 ]

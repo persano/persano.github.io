@@ -39,9 +39,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Firebase
 
-- [ ] **FIRE-01**: GDPR consent banner: affirmative action required, never auto-dismisses, choice persisted with timestamp, retraction path available
-- [ ] **FIRE-02**: Firebase Analytics loads ONLY after consent grant — no Firebase script tag in any HTML; dynamic import post-grant; zero SDK bytes before consent
-- [ ] **FIRE-03**: Consent-gated events: Play badge clicks, language switches
+- [x] **FIRE-01**: GDPR consent banner: affirmative action required, never auto-dismisses, choice persisted with timestamp, retraction path available
+- [x] **FIRE-02**: Firebase Analytics loads ONLY after consent grant — no Firebase script tag in any HTML; dynamic import post-grant; zero SDK bytes before consent
+- [x] **FIRE-03**: Consent-gated events: Play badge clicks, language switches
 - [ ] **FIRE-04**: Contact form: labels, honeypot, client validation, success/error states; works after any consent choice (grant or deny)
 - [ ] **FIRE-05**: Form submits via anonymous auth (at submit-time only) to Firestore; create-only, schema-locked rules (field validation, length caps, server timestamps); rules file lives in repo
 - [ ] **FIRE-06**: Form supports "request data deletion" topic wired to CMPL-03 process
@@ -107,9 +107,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | I18N-02 | Phase 3 | Complete |
 | I18N-03 | Phase 3 | Complete |
 | I18N-04 | Phase 3 | Complete |
-| FIRE-01 | Phase 4 | Pending |
-| FIRE-02 | Phase 4 | Pending |
-| FIRE-03 | Phase 4 | Pending |
+| FIRE-01 | Phase 4 | Complete |
+| FIRE-02 | Phase 4 | Complete |
+| FIRE-03 | Phase 4 | Complete |
 | FIRE-04 | Phase 4 | Pending |
 | FIRE-05 | Phase 4 | Pending |
 | FIRE-06 | Phase 4 | Pending |
