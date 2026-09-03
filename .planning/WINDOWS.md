@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 5
+open_count: 6
 waived_count: 0
 fixed_count: 0
-total_count: 5
-last_updated: 2026-09-03T01:23:03.674Z
+total_count: 6
+last_updated: 2026-09-03T01:34:39.814Z
 ---
 
 # Broken Windows Ledger
@@ -20,6 +20,7 @@ last_updated: 2026-09-03T01:23:03.674Z
 | 3 | 02 | deviation | geohist/index.html | 35 | Task 2 plan verify expected 'Screenshots coming soon' count=1 but acceptance/D-23 mandate exactly 3 keyed captions (one per tile); executed per acceptance (3) | open |  | 2026-09-02T05:31:11.439Z |  |
 | 4 | 03 | deviation | js/i18n.js |  | detect() scan skips en-*/unknown tags per D-32 example (es anywhere in prefs wins); research Pattern 2 pseudocode corrected; owner browser-check pending per human-check list | open |  | 2026-09-02T18:18:30.842Z |  |
 | 5 | 4 | unrun-verify | geohist/index.html |  | Plan 04-01 Task 3 live 6-check battery (fresh-incognito zero-request, Accept/Reject network flows, GA4 DebugView events) not yet run by owner - transferred to phase UAT as D5 (04-01-SUMMARY.md) | open |  | 2026-09-03T01:23:03.674Z |  |
+| 6 | 4 | unrun-verify | firebase/firestore.rules | 10 | 04-02 Task 3: Rules Playground battery (cases 1-6) + live submit battery (cases 7-10) not runnable until owner completes Firebase console prerequisites (Anonymous provider, production Firestore, rules paste) | open |  | 2026-09-03T01:34:39.814Z |  |
 
 ````json
 [
@@ -81,6 +82,18 @@ last_updated: 2026-09-03T01:23:03.674Z
     "status": "open",
     "reason": "",
     "recorded_at": "2026-09-03T01:23:03.674Z",
+    "resolved_at": null
+  },
+  {
+    "id": 6,
+    "kind": "unrun-verify",
+    "phase": "4",
+    "file": "firebase/firestore.rules",
+    "line": 10,
+    "description": "04-02 Task 3: Rules Playground battery (cases 1-6) + live submit battery (cases 7-10) not runnable until owner completes Firebase console prerequisites (Anonymous provider, production Firestore, rules paste)",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-03T01:34:39.814Z",
     "resolved_at": null
   }
 ]
