@@ -99,6 +99,7 @@ Recent decisions affecting current work:
 - [Phase 4]: 04-02 Task 3 closed honestly per 04-01 precedent: Rules Playground cases 1-6 + live submit battery 7-10 NOT run/reported by owner - recorded PENDING in SUMMARY (coverage D4/D5, human_judgment true), transferred to phase UAT; windows ledger #6 stays open — Honest close-out contract: never claim unexecuted batteries; live proof awaits owner's first real submit
 - [Phase 4]: 04-02 rules deployed via MERGE path: project geohist-trivia already had a Firestore ruleset - owner merged the match /messages block from firebase/firestore.rules into it and PUBLISHED; console ruleset not byte-identical to repo file - repo file stays source of truth, future edits require console re-paste — Firestore pre-existed in the project; full-file paste would have clobbered existing app rules
 - [Phase 4]: 04-02 canonical measurementId G-KDWVVHRYD5 committed (8993c77); push 7012121..8993c77 -> CI run 33704909374 validate+deploy green; contact page live at /geohist/contact.html — Owner confirmed canonical ID from console; wrong G-DV1M5N0EY5 would void analytics
+- [Phase 04]: Persano brand removed from all user-visible copy (quick task) — site refers directly to Santiago David Postorivo; privacy.html entity updated in place (CMPL-04 surfaces kept verbatim-consistent); internal identifiers (persano.lang, persano:langchange, data-persano-lang, persanoFirebaseConfig, domain, package id) intentionally unchanged
 
 ### Pending Todos
 
