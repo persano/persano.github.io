@@ -7,9 +7,11 @@
  * lives in the Firestore rules (create-only) and the consent gate, not
  * in hiding these strings. Authorized domains are restricted console-side.
  *
- * Values below are placeholders; the owner pastes the real Web App config
- * (Firebase Console → Project settings → General → Your apps → Web app)
- * at plan 04-01 Task 3. No other exports.
+ * The values below are the real Web App config (Firebase Console →
+ * Project settings → General → Your apps → Web app), committed after the
+ * owner pasted them. They are public by design: access is restricted
+ * console-side via authorized domains and referrer restrictions.
+ * No other exports.
  */
 (function () {
   'use strict';
