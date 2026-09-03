@@ -2,17 +2,17 @@
 gsd_state_version: 1.0
 current_phase: 4
 current_phase_name: Consent Gate + Firebase (Analytics + Contact Form)
-status: executing
-stopped_at: "04-02 Tasks 1-2 committed (cff7d08, eca2237); paused at Task 3 human-action checkpoint: owner Firebase console prerequisites + Rules Playground battery + live submit battery"
-last_updated: "2026-09-03T01:34:21.840Z"
+status: verifying
+stopped_at: Completed 04-02-PLAN.md - phase 4 ready for verification (2/2 plans; batteries pending in UAT)
+last_updated: "2026-09-03T01:58:22.326Z"
 last_activity: 2026-09-02
 last_activity_desc: Phase 4 execution started
-state_head: eca223772d74818cc614cafbeda7abaad91a91b5
+state_head: 7b87e4e66dd835391c4b3f55cc7969c34890bfdb
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 8
-  completed_plans: 7
+  completed_plans: 8
   percent: 60
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-09-02)
 
 Phase: 4 (Consent Gate + Firebase (Analytics + Contact Form)) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-09-02 — Phase 4 execution started
 
 Progress: [████████████████████] 4/4 plans ([██████░░░░] 60% of Phase 2; 40% of milestone)
@@ -66,6 +66,7 @@ Progress: [████████████████████] 4/4 pla
 | Phase 03 P01 | 15 min | 3 tasks | 5 files |
 | Phase 03 P02 | 12 | 3 tasks | 2 files |
 | Phase 4 P01 | 206 min | 3 tasks | 9 files |
+| Phase 4 P02 | 24 min | 3 tasks | 14 files |
 
 ## Accumulated Context
 
@@ -95,6 +96,9 @@ Recent decisions affecting current work:
 - [Phase 4]: [Phase 04]: Banner section ships aria-label only - role=region redundant on a named section (a11y auto-fix in 62e4348); FIRE-03 wrappers no-op via send-time isGranted() so retraction needs no unload
 - [Phase 4]: [Phase 4 04-02] Pre-existing uncommitted working-tree edit to js/firebase-config.js (measurementId G-DV1M5N0EY5 -> G-KDWVVHRYD5) found at 04-02 start; left untouched as owner-owned out-of-scope change - verify which ID is canonical before next deploy
 - [Phase 4]: [Phase 4 04-02] ES/pt-BR deletion copy reuses each dictionary's established translation of the privacy §4 retention sentence (single-source per language) - verbatim-quote rule applied to the EN surface where privacy.html lives
+- [Phase 4]: 04-02 Task 3 closed honestly per 04-01 precedent: Rules Playground cases 1-6 + live submit battery 7-10 NOT run/reported by owner - recorded PENDING in SUMMARY (coverage D4/D5, human_judgment true), transferred to phase UAT; windows ledger #6 stays open — Honest close-out contract: never claim unexecuted batteries; live proof awaits owner's first real submit
+- [Phase 4]: 04-02 rules deployed via MERGE path: project geohist-trivia already had a Firestore ruleset - owner merged the match /messages block from firebase/firestore.rules into it and PUBLISHED; console ruleset not byte-identical to repo file - repo file stays source of truth, future edits require console re-paste — Firestore pre-existed in the project; full-file paste would have clobbered existing app rules
+- [Phase 4]: 04-02 canonical measurementId G-KDWVVHRYD5 committed (8993c77); push 7012121..8993c77 -> CI run 33704909374 validate+deploy green; contact page live at /geohist/contact.html — Owner confirmed canonical ID from console; wrong G-DV1M5N0EY5 would void analytics
 
 ### Pending Todos
 
@@ -120,6 +124,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-03T01:34:20.026Z
-Stopped at: 04-02 Tasks 1-2 committed (cff7d08, eca2237); paused at Task 3 human-action checkpoint: owner Firebase console prerequisites + Rules Playground battery + live submit battery
+Last session: 2026-09-03T01:58:22.034Z
+Stopped at: Completed 04-02-PLAN.md - phase 4 ready for verification (2/2 plans; batteries pending in UAT)
 Resume file: None

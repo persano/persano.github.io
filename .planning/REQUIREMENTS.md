@@ -11,7 +11,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **CMPL-01**: Privacy policy lives at `/geohist/privacy.html` — public, non-PDF, English, reachable from every page footer
 - [x] **CMPL-02**: Privacy policy names every SDK in actual use (AdMob, Play Games Services, IAP, Firebase Analytics, contact-form Firestore) with contact mechanism and retention/deletion policy
-- [ ] **CMPL-03**: Data-deletion request path exists: FAQ entry + contact-form "data deletion" topic + documented manual process (Play requirement for Play Games sign-in)
+- [x] **CMPL-03**: Data-deletion request path exists: FAQ entry + contact-form "data deletion" topic + documented manual process (Play requirement for Play Games sign-in)
 - [x] **CMPL-04**: Policy wording mirrors FAQ and Play Data safety declarations (single source of truth, no contradictions)
 
 ### Landing
@@ -42,9 +42,9 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **FIRE-01**: GDPR consent banner: affirmative action required, never auto-dismisses, choice persisted with timestamp, retraction path available
 - [x] **FIRE-02**: Firebase Analytics loads ONLY after consent grant — no Firebase script tag in any HTML; dynamic import post-grant; zero SDK bytes before consent
 - [x] **FIRE-03**: Consent-gated events: Play badge clicks, language switches
-- [ ] **FIRE-04**: Contact form: labels, honeypot, client validation, success/error states; works after any consent choice (grant or deny)
-- [ ] **FIRE-05**: Form submits via anonymous auth (at submit-time only) to Firestore; create-only, schema-locked rules (field validation, length caps, server timestamps); rules file lives in repo
-- [ ] **FIRE-06**: Form supports "request data deletion" topic wired to CMPL-03 process
+- [x] **FIRE-04**: Contact form: labels, honeypot, client validation, success/error states; works after any consent choice (grant or deny)
+- [x] **FIRE-05**: Form submits via anonymous auth (at submit-time only) to Firestore; create-only, schema-locked rules (field validation, length caps, server timestamps); rules file lives in repo
+- [x] **FIRE-06**: Form supports "request data deletion" topic wired to CMPL-03 process
 
 ### Discovery & Quality
 
@@ -91,7 +91,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | CMPL-01 | Phase 1 | Complete |
 | CMPL-02 | Phase 1 | Complete |
-| CMPL-03 | Phase 4 | Pending |
+| CMPL-03 | Phase 4 | Complete |
 | CMPL-04 | Phase 2 | Complete |
 | LNDG-01 | Phase 2 | Complete |
 | LNDG-02 | Phase 2 | Complete |
@@ -110,9 +110,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FIRE-01 | Phase 4 | Complete |
 | FIRE-02 | Phase 4 | Complete |
 | FIRE-03 | Phase 4 | Complete |
-| FIRE-04 | Phase 4 | Pending |
-| FIRE-05 | Phase 4 | Pending |
-| FIRE-06 | Phase 4 | Pending |
+| FIRE-04 | Phase 4 | Complete |
+| FIRE-05 | Phase 4 | Complete |
+| FIRE-06 | Phase 4 | Complete |
 | SEO-01 | Phase 5 | Pending |
 | SEO-02 | Phase 5 | Pending |
 | SEO-03 | Phase 5 | Pending |

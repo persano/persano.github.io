@@ -105,7 +105,7 @@ Plans: 2/2 plans executed
   4. Firestore accepts only schema-conformant creates (field validation, length caps, server timestamps) via create-only rules that live in the repo
   5. The form offers a "request data deletion" topic, completing the CMPL-03 path (FAQ entry + form topic + documented manual process)
 
-Plans: 1/2 plans executed
+Plans: 2/2 plans executed
 
 **Wave 1**
 
@@ -113,7 +113,7 @@ Plans: 1/2 plans executed
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 04-02-PLAN.md — /geohist/contact.html + form pipeline (honeypot -> validation -> anonymous auth -> Firestore) + create-only rules + CMPL-03 deletion path + D-48 link rewiring (wave 2)
+- [x] 04-02-PLAN.md — /geohist/contact.html + form pipeline (honeypot -> validation -> anonymous auth -> Firestore) + create-only rules + CMPL-03 deletion path + D-48 link rewiring (wave 2)
 
 ### Phase 5: Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit
 
@@ -155,7 +155,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Foundation — Deploy Pipeline, Skeleton, Privacy Policy | 2/2 | Complete    | 2026-09-02 |
 | 2. GeoHist Landing + Hub Content (EN) | 2/2 | Complete    | 2026-09-02 |
 | 3. i18n — Engine, ES/pt-BR Dictionaries, Switcher | 2/2 | In Progress|  |
-| 4. Consent Gate + Firebase (Analytics + Contact Form) | 1/2 | In Progress|  |
+| 4. Consent Gate + Firebase (Analytics + Contact Form) | 2/2 | In Progress|  |
 | 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 0/TBD | Not started | - |
 
 ## Manual Prerequisites Checklist (user actions, not code)
