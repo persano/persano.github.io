@@ -18,9 +18,11 @@ expect_status() {
   fi
 }
 
-# 200 checks: hub, Play-critical privacy URL, pre-existing root files (OPS-03 regression)
+# 200 checks: hub, new contact form URL, Play-critical privacy URL,
+# pre-existing root files (OPS-03 regression)
 for u in \
   "$BASE/" \
+  "$BASE/geohist/contact.html" \
   "$BASE/geohist/privacy.html" \
   "$BASE/app-ads.txt" \
   "$BASE/google7da873f4e9609872.html" ; do
