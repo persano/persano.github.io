@@ -14,10 +14,10 @@
 (function () {
   'use strict';
   window.persanoFirebaseConfig = {
-    apiKey: 'PASTE_FROM_FIREBASE_CONSOLE',
-    authDomain: 'PASTE_FROM_FIREBASE_CONSOLE',
-    projectId: 'PASTE_FROM_FIREBASE_CONSOLE',
-    appId: 'PASTE_FROM_FIREBASE_CONSOLE',
-    measurementId: 'PASTE_FROM_FIREBASE_CONSOLE'
+    apiKey: 'AIzaSyC-1Bl4cgYO60wNfik018P0a51GCbjQkTA',
+    authDomain: 'geohist-trivia.firebaseapp.com',
+    projectId: 'geohist-trivia',
+    appId: '1:319868923091:web:5f99d2cba76f6c7a247826',
+    measurementId: 'G-DV1M5N0EY5'
   };
 })();
