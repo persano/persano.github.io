@@ -1,0 +1,27 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /messages/{docId} {
+      // Contact-form messages (FIRE-05): create is the ONLY permitted
+      // operation. Schema-locked: exact field set, topic enum, string
+      // type + length caps, server timestamp. The optional name uses
+      // the absent-or-string guard — dot-access on a missing field
+      // would error-deny (research Pitfall 4).
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['name', 'email', 'topic', 'message', 'createdAt'])
+        && request.resource.data.topic in ['general', 'bug', 'feedback', 'deletion']
+        && request.resource.data.email is string
+        && request.resource.data.email.size() > 0
+        && request.resource.data.email.size() <= 254
+        && request.resource.data.message is string
+        && request.resource.data.message.size() >= 1
+        && request.resource.data.message.size() <= 5000
+        && (!('name' in request.resource.data) || request.resource.data.name is string)
+        && (!('name' in request.resource.data) || request.resource.data.name.size() <= 100)
+        && request.resource.data.createdAt == request.time;
+      // Immutable inbox: nobody (not even the owner client-side) reads,
+      // edits, or removes messages via the SDK — reads happen in the console.
+      allow read, update, delete: if false;
+    }
+  }
+}

@@ -423,3 +423,85 @@ footer {
   color: var(--color-ink-on-gold);
   background-color: var(--color-accent);
 }
+
+/* ---- Contact form (FIRE-04/D-49: labeled fields, inline status,
+   honeypot; phone widths first-class, LNDG-05) ---- */
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+  max-width: 30rem;
+}
+
+.form-field label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+  border: var(--hairline-gold);
+  border-radius: 0.4rem;
+  padding: 0.6rem 0.75rem;
+  min-height: 44px; /* tap target */
+  width: 100%;
+}
+
+.form-field textarea {
+  min-height: 9rem;
+  resize: vertical;
+}
+
+.form-submit {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.6rem 1.6rem;
+  min-height: 44px;
+  border-radius: 0.4rem;
+  border: var(--hairline-gold);
+  background-color: var(--color-accent);
+  color: var(--color-ink-on-gold);
+  cursor: pointer;
+}
+
+.form-submit:hover {
+  background-color: var(--color-fg);
+}
+
+.form-submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* inline status under the form (D-49): no toasts, modest gold-on-dark */
+.form-status {
+  margin: 0.75rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+/* author-display insurance: restate the UA [hidden] rule */
+.form-status[hidden] {
+  display: none;
+}
+
+/* Honeypot (research Pitfall 8): positioned off-screen, never
+   display:none — paired with aria-hidden="true" + tabindex="-1" +
+   autocomplete="off" in the markup so humans and screen readers
+   never meet it, while naive bot CSS checks see a visible field. */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

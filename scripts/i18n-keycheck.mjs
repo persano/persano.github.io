@@ -2,8 +2,9 @@
 /**
  * i18n key-coverage gate (zero-dependency — node built-ins only).
  *
- * Extracts the live data-i18n / data-i18n-attr key surface from the three
- * keyed pages (hub /index.html, /geohist/index.html, /geohist/guide.html),
+ * Extracts the live data-i18n / data-i18n-attr key surface from the four
+ * keyed pages (hub /index.html, /geohist/index.html, /geohist/guide.html,
+ * /geohist/contact.html),
  * then asserts that EVERY js/i18n/*.json dictionary's key set EQUALS that
  * surface exactly — zero missing keys, zero extra keys (Pitfall 8 defense).
  *
@@ -18,7 +19,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
-const pages = ['index.html', join('geohist', 'index.html'), join('geohist', 'guide.html')];
+const pages = ['index.html', join('geohist', 'index.html'), join('geohist', 'guide.html'), join('geohist', 'contact.html')];
 const dictDir = join(repoRoot, 'js', 'i18n');
 
 /**

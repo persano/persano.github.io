@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Contact GeoHist Trivia — send a question, report a bug, share feedback, or request deletion of your data." data-i18n-attr="content:contact.meta.desc" data-i18n-attr-only>
+  <title data-i18n="contact.meta.title">Contact — GeoHist Trivia</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <script defer src="/js/i18n.js"></script>
+  <script defer src="/js/firebase-config.js"></script>
+  <script defer src="/js/consent.js"></script>
+  <script defer src="/js/contact.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="GeoHist site navigation" data-i18n-attr="aria-label:contact.nav.aria" data-i18n-attr-only>
+      <a href="/geohist/" data-i18n="contact.nav.game">Game</a>
+      <a href="/geohist/guide.html" data-i18n="contact.nav.guide">Guide</a>
+      <a href="/geohist/index.html#faq" data-i18n="contact.nav.faq">FAQ</a>
+      <a href="/geohist/privacy.html" data-i18n="contact.nav.privacy">Privacy</a>
+    </nav>
+  </header>
+  <main>
+    <section aria-labelledby="contact-title">
+      <h1 id="contact-title" data-i18n="contact.form.title">Contact</h1>
+      <p data-i18n="contact.intro">Have a question, found a bug, or want to share feedback? Write to us with the form below — you can also file a data-deletion request right here.</p>
+
+      <form id="contact-form" novalidate>
+        <div class="form-field">
+          <label for="contact-name" data-i18n="contact.form.name">Name (optional)</label>
+          <input type="text" id="contact-name" name="name" maxlength="100" autocomplete="name">
+        </div>
+        <div class="form-field">
+          <label for="contact-email" data-i18n="contact.form.email">Email</label>
+          <input type="email" id="contact-email" name="email" maxlength="254" autocomplete="email">
+        </div>
+        <div class="form-field">
+          <label for="contact-topic" data-i18n="contact.form.topic">Topic</label>
+          <select id="contact-topic" name="topic">
+            <option value="general" data-i18n="contact.topic.general">General question</option>
+            <option value="bug" data-i18n="contact.topic.bug">Bug report</option>
+            <option value="feedback" data-i18n="contact.topic.feedback">Feedback</option>
+            <option value="deletion" data-i18n="contact.topic.deletion">Request data deletion</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="contact-message" data-i18n="contact.form.message">Message</label>
+          <textarea id="contact-message" name="message" maxlength="5000" rows="6"></textarea>
+        </div>
+        <div class="hp-field" aria-hidden="true">
+          <label for="hp_website">Website</label>
+          <input id="hp_website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <button type="submit" class="form-submit" data-i18n="contact.form.submit">Send</button>
+        <p class="form-status" role="status" aria-live="polite" data-status="sending" data-i18n="contact.status.sending" hidden>Sending…</p>
+        <p class="form-status" role="status" aria-live="polite" data-status="success" data-i18n="contact.status.success" hidden>Thanks — your message is on its way.</p>
+        <p class="form-status" role="status" aria-live="polite" data-status="error" data-i18n="contact.status.error" hidden>Something went wrong — write to santiagopostorivo@gmail.com.</p>
+        <p class="form-status" role="status" aria-live="polite" data-status="invalid-email" data-i18n="contact.status.invalid-email" hidden>Please enter a valid email address.</p>
+        <p class="form-status" role="status" aria-live="polite" data-status="invalid-message" data-i18n="contact.status.invalid-message" hidden>Please write a message (up to 5000 characters).</p>
+        <p class="form-status" role="status" aria-live="polite" data-status="invalid-topic" data-i18n="contact.status.invalid-topic" hidden>Please pick a topic.</p>
+      </form>
+
+      <p data-i18n="contact.deletion.text">Data-deletion requests can be filed right here: pick the "Request data deletion" topic in the form above, or write to santiagopostorivo@gmail.com. Every request is handled manually — the messages are deleted and you get a confirmation by email. Messages are deleted after they are handled.</p>
+    </section>
+  </main>
+  <footer>
+    <ul class="footer-links">
+      <li><a href="/geohist/privacy.html" data-i18n="contact.footer.privacy">Privacy policy</a></li>
+      <li><a href="/geohist/contact.html" data-i18n="contact.footer.contact">Contact</a></li>
+      <li><a href="/" data-i18n="contact.footer.back">Back to hub</a></li>
+      <li><a href="#" class="consent-reopen" data-i18n="contact.footer.consent">Consent</a></li>
+    </ul>
+    <p data-i18n="contact.footer.copyright">© Persano — Santiago David Postorivo</p>
+    <span id="lang-switcher-slot" hidden></span>
+  </footer>
+
+  <section class="consent-banner" aria-label="Cookie consent" data-i18n-attr="aria-label:consent.banner.aria" data-i18n-attr-only hidden>
+    <p data-i18n="consent.banner.text">This site uses Firebase Analytics only with your consent — choose Accept or Reject. You can change your choice anytime via the Consent link in the footer.</p>
+    <button type="button" data-consent="granted" data-i18n="consent.banner.accept">Accept</button>
+    <button type="button" data-consent="denied" data-i18n="consent.banner.reject">Reject</button>
+  </section>
+</body>
+</html>
