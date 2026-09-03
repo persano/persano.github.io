@@ -18,6 +18,6 @@
     authDomain: 'geohist-trivia.firebaseapp.com',
     projectId: 'geohist-trivia',
     appId: '1:319868923091:web:5f99d2cba76f6c7a247826',
-    measurementId: 'G-DV1M5N0EY5'
+    measurementId: 'G-KDWVVHRYD5'
   };
 })();
