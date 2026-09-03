@@ -131,7 +131,17 @@ Plans: 2/2 plans executed
 
 Plans:
 
-- [ ] 05-01: TBD
+**Wave 1**
+
+- [ ] 05-01-PLAN.md — Real ADB screenshots: interactive capture with per-shot approval (D-52/D-53) + sharp WebP pipeline (D-54) + gallery replacement with keyed captions/alts, dict parity 146 keys (D-55/D-56) (wave 1)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 05-02-PLAN.md — Discoverability: og-image generator (D-57..59) + canonical/OG/Twitter heads on 5 pages (D-66..68) + corrected SoftwareApplication JSON-LD (D-60..62) + sitemap.xml/robots.txt (D-63/D-64) + smoke-check extension (wave 2)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
+- [ ] 05-03-PLAN.md — A11y AA gate: axe/Lighthouse battery (A11Y-01) + owner manual battery checkpoint + D-69 console steps + D-70 superseded-policy-file deletion in final deploy (wave 3)
 
 ## Coverage
 
@@ -156,7 +166,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. GeoHist Landing + Hub Content (EN) | 2/2 | Complete    | 2026-09-02 |
 | 3. i18n — Engine, ES/pt-BR Dictionaries, Switcher | 2/2 | Complete    | 2026-09-02 |
 | 4. Consent Gate + Firebase (Analytics + Contact Form) | 2/2 | Complete    | 2026-09-03 |
-| 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 0/TBD | Not started | - |
+| 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 0/3 | Not started | - |
 
 ## Manual Prerequisites Checklist (user actions, not code)
 
