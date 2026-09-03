@@ -10,7 +10,10 @@
   ],
   "compaction": {
     "auto": true,
-    "prune": true
+    "keep": {
+      "tokens": 12000
+    },
+    "buffer": 10000
   },
   "tool_output": {
     "max_lines": 500,
@@ -20,6 +23,9 @@
     "openrouter": {
       "models": {
         "z-ai/glm-5.3-flash": {
+          "limit": {
+            "context": 90000
+          },
           "options": {
             "provider": {
               "sort": {
@@ -37,6 +43,20 @@
                 "z-ai",
                 "novita"
               ],
+              "allow_fallbacks": true,
+              "data_collection": "allow"
+            }
+          }
+        },
+        "google/gemma-4-31b-it:free": {
+          "options": {
+            "models": [
+              "google/gemma-4-31b-it:free",
+              "poolside/laguna-s-2.1:free",
+              "poolside/laguna-xs-2.1:free",
+              "meta-llama/llama-3.1-8b-instruct:free"
+            ],
+            "provider": {
               "allow_fallbacks": true,
               "data_collection": "allow"
             }
