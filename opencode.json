@@ -24,7 +24,7 @@
       "models": {
         "z-ai/glm-5.3-flash": {
           "limit": {
-            "context": 90000
+            "context": 180000
           },
           "options": {
             "provider": {
