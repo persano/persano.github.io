@@ -1,44 +1,44 @@
 ---
 gsd_state_version: 1.0
-current_phase: 4
-current_phase_name: Consent Gate + Firebase (Analytics + Contact Form)
-status: verifying
-stopped_at: Completed 04-02-PLAN.md - phase 4 ready for verification (2/2 plans; batteries pending in UAT)
-last_updated: "2026-09-03T01:58:22.326Z"
-last_activity: 2026-09-02
-last_activity_desc: Phase 4 execution started
-state_head: 7b87e4e66dd835391c4b3f55cc7969c34890bfdb
+current_phase: 5
+current_phase_name: Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit
+status: planning
+stopped_at: Phase 04 complete, ready to plan Phase 5
+last_updated: "2026-09-03T17:28:07.789Z"
+last_activity: 2026-09-03
+last_activity_desc: Phase 04 complete, transitioned to Phase 5
+state_head: 3385c2b6552ed93ac0341f2771a964ff438f6abf
 progress:
   total_phases: 5
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 8
   completed_plans: 8
-  percent: 60
+  percent: 80
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-09-02)
+See: .planning/PROJECT.md (updated 2026-09-03)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel — before the app goes live on Google Play.
-**Current focus:** Phase 4 — Consent Gate + Firebase (Analytics + Contact Form)
+**Current focus:** Phase 5 — Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit
 
 ## Current Position
 
-Phase: 4 (Consent Gate + Firebase (Analytics + Contact Form)) — EXECUTING
-Plan: 2 of 2
-Status: Phase complete — ready for verification
-Last activity: 2026-09-02 — Phase 4 execution started
+Phase: 5 — Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-09-03 — Phase 04 complete, transitioned to Phase 5
 
-Progress: [████████████████████] 4/4 plans ([██████░░░░] 60% of Phase 2; 40% of milestone)
+Progress: [████████████████████] 4/4 plans ([████████░░] 4/5 phases; 80% of milestone)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 4
+- Total plans completed: 6
 - Average duration: —
 - Total execution time: —
 
@@ -48,6 +48,7 @@ Progress: [████████████████████] 4/4 pla
 |-------|-------|-------|----------|
 | 01 | 2 | - | - |
 | 02 | 2 | - | - |
+| 04 | 2 | - | - |
 
 **Recent Trend:**
 
@@ -108,7 +109,8 @@ None yet.
 ### Blockers/Concerns
 
 - ~~Manual prerequisite before Phase 1 first deploy: Repo Settings → Pages → Source = GitHub Actions~~ RESOLVED 2026-09-02 (build_type "workflow" verified; deploy green)
-- Phase 4 manual prerequisites (Firebase Web App registration, authorized domain, Anonymous provider, Firestore) — user actions before that phase
+- ~~Phase 4 manual prerequisites (Firebase Web App registration, authorized domain, Anonymous provider, Firestore)~~ RESOLVED 2026-09-03 during Phase 4 (config committed, rules merged+published, anonymous auth live)
+- Firestore console ruleset is NOT byte-identical to repo `firebase/firestore.rules` (owner merge path) — future rules edits require console re-paste
 - Play Console privacy-URL field must be updated to /geohist/privacy.html before Play submission; superseded root policy files deleted after (Phase 5 trace)
 
 ## Deferred Items
@@ -125,6 +127,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-03T01:58:22.034Z
-Stopped at: Completed 04-02-PLAN.md - phase 4 ready for verification (2/2 plans; batteries pending in UAT)
+Last session: 2026-09-03T17:28:07Z
+Stopped at: Phase 4 complete (UAT 3/3 passed, 0 issues), ready to plan Phase 5
 Resume file: None

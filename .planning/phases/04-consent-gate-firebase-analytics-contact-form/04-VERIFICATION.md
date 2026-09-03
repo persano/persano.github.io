@@ -1,25 +1,30 @@
 ---
 phase: 04-consent-gate-firebase-analytics-contact-form
 verified: 2026-09-02T23:59:00Z
-status: human_needed
+status: passed
 score: 15/17 must-haves verified
 behavior_unverified: 2
 overrides_applied: 0
 human_verification:
+
   - test: "Consent live battery (04-01 Task 3, 6 checks): fresh incognito + DevTools Network (Disable cache ON) on /geohist/ — (1) banner visible with two equally prominent buttons, ZERO requests to www.gstatic.com/firebasejs, googletagmanager.com, firebaseinstallations.googleapis.com, firebase.googleapis.com; (2) Accept → those vendor hosts appear; (3) Play badge click → GA4 DebugView shows play_badge_click {page}; (4) language switch → language_switch {from,to} (init auto-apply for non-EN browser also logs); (5) footer Consent → Reject → stored choice flips, no new wrapper sends; (6) fresh session Reject-first → zero vendor requests at any point"
     expected: "All six checks pass — zero SDK bytes before grant, both events post-grant, retraction works"
     why_human: "Live network observability + GA4 DebugView require a real browser session; backstop truth (verification: backstop) — presence checks cannot see dynamic imports. Insufficient spec/automation in this repo (no test framework, no build step)"
+
   - test: "Firestore Rules Playground battery (04-02 Task 3, cases 1-6): (1) 5-field create → ALLOW; (2) name-less create per topic value general/bug/feedback/deletion → ALLOW ×4; (3) extra unknown field → DENY; (4) topic 'other' or missing → DENY; (5) 5001-char message / 255-char email → DENY; (6) get/update/delete simulation on /messages/{docId} → DENY"
     expected: "Cases 1-2 ALLOW, 3-6 DENY — schema lock proven server-side; case 5 also settles rules-language size() unit semantics (research A2 assumption: UTF-8 bytes vs client UTF-16 code units for non-ASCII input)"
     why_human: "Rules Playground runs only in the Firebase console; the console ruleset is an owner-merged (not byte-identical) copy — no automation in this repo can execute rules-language semantics. Insufficient spec/automation"
+
   - test: "Live submit battery (04-02 Task 3, checks 7-10) on https://persano.github.io/geohist/contact.html: (7) Accept banner, submit valid input → success status; Firestore console shows doc with server timestamp and exact field set {name?, email, topic, message, createdAt}; (8) fresh session, Reject banner, submit → STILL succeeds; (9) honeypot-filled submit → success shown, NO document created; (10) rapid double-click submit → exactly one document"
     expected: "Form works identically after grant and after deny; honeypot swallow creates nothing; in-flight guard prevents duplicates"
     why_human: "Requires real anonymous-auth session + Firestore console reads; backstop truth (verification: backstop). Insufficient spec/automation in this repo's tooling"
 behavior_unverified_items:
+
   - truth: "On the deployed site, a fresh incognito session shows zero requests to any Firebase/measurement vendor before an affirmative grant, and vendor traffic appears only after Accept; GA4 receives play_badge_click and language_switch post-grant (04-01 backstop)"
     test: "Human verification item 1 (consent live battery, 6 checks)"
     expected: "Zero vendor requests pre-grant; vendor hosts + both GA4 events post-grant"
     why_human: "Backstop truth — live network behavior unobservable via source/grep/harness; needs real incognito session + DebugView"
+
   - truth: "Live behavior on the deployed site: schema-conformant submit creates a Firestore document with server timestamp; name-less create succeeds for every topic; extra/malformed field denied; form submits after consent grant AND after deny; honeypot submit shows success but creates no document (04-02 backstop)"
     test: "Human verification items 2-3 (Rules Playground + live submit battery)"
     expected: "Create succeeds live under published rules after either banner choice; honeypot/double-click create zero/one doc"

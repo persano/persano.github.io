@@ -28,16 +28,17 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 - ✓ About-the-developer section — Phase 2 (CONT-03)
 - ✓ Root hub full content: Persano brand intro + exactly one app card — Phase 2 (CONT-04)
 - ✓ Mobile-first responsive at phone widths + design-time WCAG contrast math — Phase 2 (LNDG-05)
+- ✓ i18n: ES + pt-BR in-place dictionary swap, auto-detect, manual switcher, EN fallback — Phase 3 (I18N-01..04)
+- ✓ GDPR consent banner gating Firebase Analytics (zero SDK bytes pre-grant, retraction path) — Phase 4 (FIRE-01, FIRE-02, FIRE-03)
+- ✓ Firebase Analytics GA4 events (play_badge_click, language_switch) consent-gated — Phase 4 (FIRE-03)
+- ✓ Contact form via Firebase JS SDK → Firestore (`/geohist/contact.html`) — Phase 4 (FIRE-04, FIRE-06)
+- ✓ Anonymous Firebase Auth for form spam resistance + create-only Firestore security rules in repo — Phase 4 (FIRE-04, FIRE-05)
+- ✓ Data-deletion request path via form topic 'deletion' (CMPL-03) — Phase 4
 
 ### Active
 
 - [ ] Restore `npm ci` + `cache: npm` in validate job once a package-lock.json lands (local npm proxy-broken)
 - [ ] Screenshot gallery with real screenshots captured via ADB from a connected phone (tools exist in app repo)
-- [ ] Contact form via Firebase JS SDK → Firestore, same Firebase project as the app
-- [ ] Anonymous Firebase Auth for form spam resistance + Firestore security rules
-- [ ] Firebase Analytics on the site (same project)
-- [ ] GDPR consent banner: Analytics and form load only after consent
-- [ ] Languages: English, Spanish, Portuguese — auto-detect by browser language, manual switcher, EN fallback
 - [ ] Play Store link as placeholder until listing is live, then real link
 - [ ] Full SEO: meta descriptions, Open Graph image, sitemap.xml, robots.txt
 - [ ] Rich snippets: SoftwareApplication structured data
@@ -80,9 +81,12 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 |----------|-----------|---------|
 | GeoHist site in `/geohist/` subdir, not root root | Portfolio-ready from day 1; future apps get clean subdirs | ✓ Phase 1 — policy live at `/geohist/privacy.html` |
 | Plain HTML/CSS, no SSG | Zero build complexity; GitHub Pages native; agent-maintained content | ✓ Validated Phase 1 |
-| Firebase contact form (anonymous auth + Firestore rules) | Free, no backend, spam-resistant, same project as app | — Pending (Phase 4) |
-| GDPR consent banner gating Analytics | EU visitors; AdMob app already privacy-sensitive | — Pending (Phase 4) |
-| EN+ES+PT v1, 17 others deferred | Core audience first; i18n structure ready for expansion | — Pending (Phase 3) |
+| Firebase contact form (anonymous auth + Firestore rules) | Free, no backend, spam-resistant, same project as app | ✓ Phase 4 |
+| GDPR consent banner gating Analytics | EU visitors; AdMob app already privacy-sensitive | ✓ Phase 4 |
+| Consent = load-gating: dynamic import IS the consent; zero firebasejs refs in HTML; fail-closed versioned store `{v:1, analytics, ts}` | Zero SDK bytes pre-grant; storage failure degrades to banner re-show | ✓ Phase 4 |
+| Fork-shaped Firebase split: analytics imported only in consent.js; auth+firestore only in contact.js | Form is the compliance surface — works identically after Accept or Reject | ✓ Phase 4 |
+| Firebase config public-by-design; hardening console-side (API-key HTTP-referrer restriction + create-only Firestore rules) | Standard Firebase web pattern; repo rules file is source of truth (merged into existing project ruleset) | ✓ Phase 4 |
+| EN+ES+PT v1, 17 others deferred | Core audience first; i18n structure ready for expansion | ✓ Phase 3 |
 | ADB screenshot capture in v1 | Real screenshots beat placeholders; tools already exist | — Pending (Phase 5) |
 | AA accessibility audit explicit | Play ecosystem quality bar; broadens audience | — Pending (Phase 5) |
 | Old root policy files kept; deletion deferred | Play Console privacy field already points at old root URL — update it to `/geohist/privacy.html` before Play submission, then delete the 3 old files | Deferred — Phase 5 trace |
@@ -108,4 +112,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-02 after Phase 2*
+*Last updated: 2026-09-03 after Phase 4*
