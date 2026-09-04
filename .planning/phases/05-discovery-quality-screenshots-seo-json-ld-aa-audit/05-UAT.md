@@ -15,9 +15,10 @@ updated: 2026-09-04T17:05:24Z
 
 ### 1. Galería con capturas reales
 expected: Abre https://persano.github.io/geohist/ — galería muestra 4 capturas reales del juego con captions, sin placeholders SVG, lazy-load al hacer scroll
-result: issue
+result: fixed
 reported: "looks horrible — las capturas muestran banners de anuncios de PRUEBA de AdMob ('Anuncio de prueba' / test ad) grabados en las pantallas de la app"
 severity: major
+fixed: "G-05-1 cerrado por 05-04 (gap closure): 4 WebPs regenerados sin banners (`941f2cd`), CI 33920495287 verde, smoke 4/4 byte-idéntico en vivo; owner reconfirmó galería live sin banners (incognito, f5d1a75). Verificación 05-VERIFICATION.md: 27/27 must-haves."
 
 ### 2. Tarjeta al compartir enlace
 expected: Pega https://persano.github.io/geohist/ en un chat — la tarjeta muestra imagen de marca, título y descripción del juego
