@@ -427,7 +427,7 @@ Phase is not a rename, but it touches live-service state (D-69/D-70) — invento
 | A6 | `npm install` completes despite this session's slow registry (three devDeps, no postinstall) | Standard Stack | Retry; no fallback needed |
 | A7 | Lighthouse/axe scores measured against the **preview/live** URL and local server are equivalent enough for the gate | Pattern 7 | If GSC/PSI numbers differ, gate uses the battery's own numbers (defined threshold) |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **D-61 @type deviation — confirm with user?**
    - What we know: Google-doc-verified `@type` list excludes `GameApplication`; D-61 as written risks the phase's own Rich Results Test criterion. Correction preserves every other D-61 field.
