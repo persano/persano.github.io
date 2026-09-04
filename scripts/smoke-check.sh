@@ -20,12 +20,19 @@ expect_status() {
 
 # 200 checks: hub, new contact form URL, Play-critical privacy URL,
 # pre-existing root files (OPS-03 regression)
+# Phase 05 wave-2 additions: geohist section root, guide, sitemap,
+# robots.txt, and the og-image URL cited by every page's OG/Twitter tags
 for u in \
   "$BASE/" \
   "$BASE/geohist/contact.html" \
   "$BASE/geohist/privacy.html" \
   "$BASE/app-ads.txt" \
-  "$BASE/google7da873f4e9609872.html" ; do
+  "$BASE/google7da873f4e9609872.html" \
+  "$BASE/geohist/" \
+  "$BASE/geohist/guide.html" \
+  "$BASE/sitemap.xml" \
+  "$BASE/robots.txt" \
+  "$BASE/geohist/og-image.png" ; do
   expect_status "$u" 200
 done
 

@@ -5,6 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="GeoHist Trivia is a playful history and geography trivia game for Android — guess your way around the world and travel through time. Get it on Google Play." data-i18n-attr="content:geohist.meta.desc" data-i18n-attr-only>
   <title data-i18n="geohist.meta.title">GeoHist Trivia — history and geography trivia for Android</title>
+  <link rel="canonical" href="https://persano.github.io/geohist/">
+  <meta property="og:title" content="GeoHist Trivia — history and geography trivia for Android">
+  <meta property="og:description" content="GeoHist Trivia is a playful history and geography trivia game for Android — guess your way around the world and travel through time. Get it on Google Play.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://persano.github.io/geohist/">
+  <meta property="og:image" content="https://persano.github.io/geohist/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GeoHist Trivia — history and geography trivia for Android">
+  <meta name="twitter:description" content="GeoHist Trivia is a playful history and geography trivia game for Android — guess your way around the world and travel through time. Get it on Google Play.">
+  <meta name="twitter:image" content="https://persano.github.io/geohist/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["SoftwareApplication", "MobileApplication"],
+    "name": "GeoHist Trivia",
+    "operatingSystem": "ANDROID",
+    "applicationCategory": "GameApplication",
+    "description": "GeoHist Trivia is a playful history and geography trivia game for Android — guess your way around the world and travel through time. Get it on Google Play.",
+    "url": "https://persano.github.io/geohist/",
+    "image": "https://persano.github.io/geohist/icon.png",
+    "screenshot": [
+      "https://persano.github.io/geohist/screenshots/screenshot.menu.webp",
+      "https://persano.github.io/geohist/screenshots/screenshot.map.webp",
+      "https://persano.github.io/geohist/screenshots/screenshot.flags.webp",
+      "https://persano.github.io/geohist/screenshots/screenshot.timeline.webp"
+    ],
+    "author": { "@type": "Person", "name": "Santiago David Postorivo" },
+    "sameAs": "https://play.google.com/store/apps/details?id=com.persano.geohisttrivia",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
   <link rel="stylesheet" href="/css/base.css">
   <script defer src="/js/i18n.js"></script>
   <script defer src="/js/firebase-config.js"></script>
@@ -65,29 +98,22 @@
 
     <section class="gallery" aria-labelledby="gallery-title">
       <h2 id="gallery-title" data-i18n="geohist.gallery.title">See the world, answer the past</h2>
-      <p data-i18n="geohist.gallery.intro">A peek at the journey — screenshots are on the way.</p>
       <ul class="gallery-grid">
-        <li class="gallery-tile" role="img" aria-label="Screenshot placeholder" data-i18n-attr="aria-label:geohist.gallery.tile.aria" data-i18n-attr-only>
-          <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true" focusable="false">
-            <circle cx="18" cy="18" r="15" fill="none" stroke="currentColor" stroke-width="1.5"></circle>
-            <path d="M18 6 L21 18 L18 30 L15 18 Z" fill="currentColor"></path>
-            <circle cx="18" cy="18" r="2" fill="currentColor"></circle>
-          </svg>
-          <p class="tile-caption" data-i18n="geohist.gallery.coming">Screenshots coming soon</p>
+        <li class="gallery-tile">
+          <img src="/geohist/screenshots/screenshot.menu.webp" alt="Main menu screen of GeoHist Trivia" width="720" height="1600" loading="lazy" data-i18n-attr="alt:geohist.gallery.alt.menu" data-i18n-attr-only>
+          <p class="tile-caption" data-i18n="geohist.gallery.caption.menu">Main menu</p>
         </li>
-        <li class="gallery-tile" role="img" aria-label="Screenshot placeholder" data-i18n-attr="aria-label:geohist.gallery.tile.aria" data-i18n-attr-only>
-          <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true" focusable="false">
-            <path d="M18 4 L21.5 14.5 L32 18 L21.5 21.5 L18 32 L14.5 21.5 L4 18 L14.5 14.5 Z" fill="currentColor"></path>
-          </svg>
-          <p class="tile-caption" data-i18n="geohist.gallery.coming">Screenshots coming soon</p>
+        <li class="gallery-tile">
+          <img src="/geohist/screenshots/screenshot.map.webp" alt="Map mode screen — placing a city on the world map" width="720" height="1600" loading="lazy" data-i18n-attr="alt:geohist.gallery.alt.map" data-i18n-attr-only>
+          <p class="tile-caption" data-i18n="geohist.gallery.caption.map">Map mode</p>
         </li>
-        <li class="gallery-tile" role="img" aria-label="Screenshot placeholder" data-i18n-attr="aria-label:geohist.gallery.tile.aria" data-i18n-attr-only>
-          <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true" focusable="false">
-            <circle cx="18" cy="18" r="15" fill="none" stroke="currentColor" stroke-width="1.5"></circle>
-            <circle cx="18" cy="18" r="9" fill="none" stroke="currentColor" stroke-width="1"></circle>
-            <path d="M18 3 V33 M3 18 H33" stroke="currentColor" stroke-width="1"></path>
-          </svg>
-          <p class="tile-caption" data-i18n="geohist.gallery.coming">Screenshots coming soon</p>
+        <li class="gallery-tile">
+          <img src="/geohist/screenshots/screenshot.flags.webp" alt="Flags mode screen — guessing the country from its flag" width="720" height="1600" loading="lazy" data-i18n-attr="alt:geohist.gallery.alt.flags" data-i18n-attr-only>
+          <p class="tile-caption" data-i18n="geohist.gallery.caption.flags">Flags mode</p>
+        </li>
+        <li class="gallery-tile">
+          <img src="/geohist/screenshots/screenshot.timeline.webp" alt="Timeline mode screen — dating a historical event" width="720" height="1600" loading="lazy" data-i18n-attr="alt:geohist.gallery.alt.timeline" data-i18n-attr-only>
+          <p class="tile-caption" data-i18n="geohist.gallery.caption.timeline">Timeline mode</p>
         </li>
       </ul>
     </section>

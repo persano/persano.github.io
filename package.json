@@ -5,10 +5,16 @@
     "validate": "npm run validate:html && npm run validate:links && npm run validate:i18n",
     "validate:html": "html-validate index.html 404.html geohist/*.html",
     "validate:i18n": "node scripts/i18n-keycheck.mjs",
-    "validate:links": "linkinator . --recurse --skip \"^https?://(?!persano.github.io)\" --skip \"planning\" --skip \"node_modules\" --timeout 10000"
+    "validate:links": "linkinator . --recurse --skip \"^https?://(?!persano.github.io)\" --skip \"planning\" --skip \"node_modules\" --timeout 10000",
+    "audit:a11y": "node scripts/a11y-audit.mjs",
+    "convert:screenshots": "node scripts/make-webp.mjs",
+    "og:image": "node scripts/og-image.mjs"
   },
   "devDependencies": {
+    "@axe-core/cli": "4.13.0",
     "html-validate": "11.12.0",
-    "linkinator": "8.1.0"
+    "lighthouse": "13.4.1",
+    "linkinator": "8.1.0",
+    "sharp": "0.35.4"
   }
 }
