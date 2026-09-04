@@ -133,7 +133,7 @@ Plans:
 
 **Wave 1**
 
-- [ ] 05-01-PLAN.md — Real ADB screenshots: interactive capture with per-shot approval (D-52/D-53) + sharp WebP pipeline (D-54) + gallery replacement with keyed captions/alts, dict parity 146 keys (D-55/D-56) (wave 1)
+- [x] 05-01-PLAN.md — Real ADB screenshots: interactive capture with per-shot approval (D-52/D-53) + sharp WebP pipeline (D-54) + gallery replacement with keyed captions/alts, dict parity 146 keys (D-55/D-56) (wave 1)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -166,7 +166,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. GeoHist Landing + Hub Content (EN) | 2/2 | Complete    | 2026-09-02 |
 | 3. i18n — Engine, ES/pt-BR Dictionaries, Switcher | 2/2 | Complete    | 2026-09-02 |
 | 4. Consent Gate + Firebase (Analytics + Contact Form) | 2/2 | Complete    | 2026-09-03 |
-| 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 0/3 | Not started | - |
+| 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 1/3 | In Progress|  |
 
 ## Manual Prerequisites Checklist (user actions, not code)
 

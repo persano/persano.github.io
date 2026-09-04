@@ -1,19 +1,19 @@
 ---
 gsd_state_version: 1.0
-current_phase: 5
+current_phase: 05
 current_phase_name: Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit
-status: Phase 04 shipped — pushed main 5fd449c..2b836f4 (direct trunk push, no PR)
-stopped_at: Phase 5 context gathered
-last_updated: "2026-09-03T21:33:10.858Z"
+status: executing
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-09-04T03:18:10.649Z"
 last_activity: 2026-09-03
-last_activity_desc: Phase 5 planning complete
-state_head: 141bd638a3e15989d43369f092f266320b9ae727
+last_activity_desc: Phase 05 execution started
+state_head: 7cceeaaa2c14f46342c0f5bdbdfe442b648d3ed7
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 11
-  completed_plans: 8
-  percent: 73
+  completed_plans: 9
+  percent: 80
 ---
 
 # Project State
@@ -23,16 +23,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-09-03)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel — before the app goes live on Google Play.
-**Current focus:** Phase 5 — Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit
+**Current focus:** Phase 05 — Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit
 
 ## Current Position
 
-Phase: 5 (Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit) — READY TO EXECUTE
-Plan: Not started
-Status: Phase 04 shipped — pushed main 5fd449c..2b836f4 (direct trunk push, no PR)
-Last activity: 2026-09-03 — Phase 5 planning complete
+Phase: 05 (Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit) — EXECUTING
+Plan: 2 of 3
+Status: Ready to execute
+Last activity: 2026-09-03 — Phase 05 execution started
 
-Progress: [████████████████████] 4/4 plans ([████████░░] 4/5 phases; 80% of milestone)
+Progress: [████████████████████] 4/4 plans ([████████░░] 4/5 phases; [████████░░] 80% of milestone)
 
 ## Performance Metrics
 
@@ -68,6 +68,7 @@ Progress: [████████████████████] 4/4 pla
 | Phase 03 P02 | 12 | 3 tasks | 2 files |
 | Phase 4 P01 | 206 min | 3 tasks | 9 files |
 | Phase 4 P02 | 24 min | 3 tasks | 14 files |
+| Phase 05 P01 | 40 | 3 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -101,6 +102,7 @@ Recent decisions affecting current work:
 - [Phase 4]: 04-02 rules deployed via MERGE path: project geohist-trivia already had a Firestore ruleset - owner merged the match /messages block from firebase/firestore.rules into it and PUBLISHED; console ruleset not byte-identical to repo file - repo file stays source of truth, future edits require console re-paste — Firestore pre-existed in the project; full-file paste would have clobbered existing app rules
 - [Phase 4]: 04-02 canonical measurementId G-KDWVVHRYD5 committed (8993c77); push 7012121..8993c77 -> CI run 33704909374 validate+deploy green; contact page live at /geohist/contact.html — Owner confirmed canonical ID from console; wrong G-DV1M5N0EY5 would void analytics
 - [Phase 04]: Persano brand removed from all user-visible copy (quick task) — site refers directly to Santiago David Postorivo; privacy.html entity updated in place (CMPL-04 surfaces kept verbatim-consistent); internal identifiers (persano.lang, persano:langchange, data-persano-lang, persanoFirebaseConfig, domain, package id) intentionally unchanged
+- [Phase 05]: [Phase 05 05-01] No crop map in make-webp.mjs - all 4 shots owner-approved as framed (720x1600); WebP q82 no downscale (28-68KB); npm needs NODE_OPTIONS=--dns-result-order=ipv4first on this machine (IPv6 fetch stall)
 
 ### Pending Todos
 
@@ -127,6 +129,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-03T19:32:20.023Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-discovery-quality-screenshots-seo-json-ld-aa-audit/05-CONTEXT.md
+Last session: 2026-09-04T03:18:10.152Z
+Stopped at: Completed 05-01-PLAN.md
+Resume file: .planning/phases/05-discovery-quality-screenshots-seo-json-ld-aa-audit/05-02-PLAN.md

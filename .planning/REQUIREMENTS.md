@@ -18,7 +18,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **LNDG-01**: `/geohist/` landing page renders hero: app name, tagline, description, app icon/logo
 - [x] **LNDG-02**: Feature list section (categorized trivia, Play Games, offline mode, IAP) drafted from app README
-- [ ] **LNDG-03**: Screenshot gallery shows 3–6 real screenshots captured via ADB from a connected phone (WebP, lazy-load)
+- [x] **LNDG-03**: Screenshot gallery shows 3–6 real screenshots captured via ADB from a connected phone (WebP, lazy-load)
 - [x] **LNDG-04**: Download/Play Store button present — placeholder href until listing live, trivially swappable
 - [x] **LNDG-05**: Mobile-first responsive layout (primary traffic is phones)
 
@@ -95,7 +95,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CMPL-04 | Phase 2 | Complete |
 | LNDG-01 | Phase 2 | Complete |
 | LNDG-02 | Phase 2 | Complete |
-| LNDG-03 | Phase 5 | Pending |
+| LNDG-03 | Phase 5 | Complete |
 | LNDG-04 | Phase 2 | Complete |
 | LNDG-05 | Phase 2 | Complete |
 | CONT-01 | Phase 2 | Complete |
