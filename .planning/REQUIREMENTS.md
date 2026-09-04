@@ -48,10 +48,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Discovery & Quality
 
-- [ ] **SEO-01**: Meta titles/descriptions + canonical URLs on every page
-- [ ] **SEO-02**: Open Graph + Twitter cards with absolute URLs; og:image 1200×630
-- [ ] **SEO-03**: sitemap.xml + robots.txt (allow-all + sitemap line); sitemap submitted to Search Console
-- [ ] **SEO-04**: SoftwareApplication JSON-LD (name, operatingSystem ANDROID, GameApplication, offers price 0) — NO aggregateRating until real Play ratings exist
+- [x] **SEO-01**: Meta titles/descriptions + canonical URLs on every page
+- [x] **SEO-02**: Open Graph + Twitter cards with absolute URLs; og:image 1200×630
+- [x] **SEO-03**: sitemap.xml + robots.txt (allow-all + sitemap line); sitemap submitted to Search Console
+- [x] **SEO-04**: SoftwareApplication JSON-LD (name, operatingSystem ANDROID, GameApplication, offers price 0) — NO aggregateRating until real Play ratings exist
 - [ ] **A11Y-01**: WCAG 2.1 AA audit as explicit final step: contrast (math-checked palette at design time), keyboard nav, focus states, form labels, axe/Lighthouse clean
 - [x] **OPS-01**: GitHub Actions CI: validation job (html-validate + link check) gates Pages deploy
 - [x] **OPS-02**: Deploy chain: checkout@v7 → configure-pages@v6 → upload-pages-artifact@v5 (`path: '.'`, `include-hidden-files: true`) → deploy-pages@v5; `.nojekyll` in first site commit
@@ -113,10 +113,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FIRE-04 | Phase 4 | Complete |
 | FIRE-05 | Phase 4 | Complete |
 | FIRE-06 | Phase 4 | Complete |
-| SEO-01 | Phase 5 | Pending |
-| SEO-02 | Phase 5 | Pending |
-| SEO-03 | Phase 5 | Pending |
-| SEO-04 | Phase 5 | Pending |
+| SEO-01 | Phase 5 | Complete |
+| SEO-02 | Phase 5 | Complete |
+| SEO-03 | Phase 5 | Complete |
+| SEO-04 | Phase 5 | Complete |
 | A11Y-01 | Phase 5 | Pending |
 | OPS-01 | Phase 1 | Complete |
 | OPS-02 | Phase 1 | Complete |

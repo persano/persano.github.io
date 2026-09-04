@@ -137,7 +137,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 05-02-PLAN.md — Discoverability: og-image generator (D-57..59) + canonical/OG/Twitter heads on 5 pages (D-66..68) + corrected SoftwareApplication JSON-LD (D-60..62) + sitemap.xml/robots.txt (D-63/D-64) + smoke-check extension (wave 2)
+- [x] 05-02-PLAN.md — Discoverability: og-image generator (D-57..59) + canonical/OG/Twitter heads on 5 pages (D-66..68) + corrected SoftwareApplication JSON-LD (D-60..62) + sitemap.xml/robots.txt (D-63/D-64) + smoke-check extension (wave 2)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -166,7 +166,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. GeoHist Landing + Hub Content (EN) | 2/2 | Complete    | 2026-09-02 |
 | 3. i18n — Engine, ES/pt-BR Dictionaries, Switcher | 2/2 | Complete    | 2026-09-02 |
 | 4. Consent Gate + Firebase (Analytics + Contact Form) | 2/2 | Complete    | 2026-09-03 |
-| 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 1/3 | In Progress|  |
+| 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 2/3 | In Progress|  |
 
 ## Manual Prerequisites Checklist (user actions, not code)
 
