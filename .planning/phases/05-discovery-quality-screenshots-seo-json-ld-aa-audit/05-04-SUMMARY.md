@@ -19,8 +19,8 @@ affects: [05-04 Task 3 (orchestrator push + post-deploy smoke + owner live re-ch
 # Actuals (#2632)
 actuals:
   tokens: 74000
-  tasks: 2
-  commits: 2
+  tasks: 3
+  commits: 3
 
 tech-stack:
   added: []
@@ -67,14 +67,20 @@ coverage:
     human_judgment: false
   - id: D3
     description: "Live gallery at https://persano.github.io/geohist/ shows the 4 clean captures (byte-identical deploy, CI green, owner visual re-check) — G-05-1 formally closed"
-    verification: []
+    verification:
+      - kind: other
+        ref: "github actions run 33920495287 (validate + deploy green)"
+        status: pass
+      - kind: other
+        ref: "node fetch byte-compare: 4 live WebP URLs 200 + byte-identical to committed files"
+        status: pass
     human_judgment: true
-    rationale: "Task 3 checkpoint OPEN — requires orchestrator-controlled push, CI run, live byte-compare smoke, and owner incognito re-check; cannot be verified while changes are unpushed"
+    rationale: "Final gate is visual: owner confirmed 4 banner-free tiles in incognito on the live site (2026-09-04); automation proves byte-identity, only the owner closes the UAT gap"
 
 # Metrics
-duration: 221 min (wall-clock incl. owner checkpoint waits)
+duration: 231 min (wall-clock incl. owner checkpoint waits)
 completed: 2026-09-04
-status: halted  # designed stop: Task 3 checkpoint awaiting orchestrator-controlled push; resume closes Task 3 and flips status to complete
+status: complete
 ---
 
 # Phase 05 Plan 04: Gap Closure G-05-1 — Ad-Free Recapture + Asset-Only Redeploy Summary
@@ -83,9 +89,9 @@ status: halted  # designed stop: Task 3 checkpoint awaiting orchestrator-control
 
 ## Performance
 
-- **Duration:** 221 min wall-clock (dominated by owner checkpoint waits: ad-free activation diagnosis, crash recovery, per-shot capture protocol)
+- **Duration:** 231 min wall-clock (dominated by owner checkpoint waits: ad-free activation diagnosis, crash recovery, per-shot capture protocol)
 - **Started:** 2026-09-04T17:31:15Z
-- **Tasks:** 2 of 3 complete (Task 3 = orchestrator-controlled push + post-deploy smoke + owner live gallery re-check — checkpoint OPEN)
+- **Tasks:** 3 of 3 complete (Task 3: orchestrator push `ea5f6ef..2ba141e main`, CI run 33920495287 green, live smoke 4/4 byte-identical, owner incognito re-check confirmed — G-05-1 closed)
 - **Files modified:** 4 (all `geohist/screenshots/screenshot.*.webp`)
 
 ## Accomplishments
@@ -99,7 +105,7 @@ status: halted  # designed stop: Task 3 checkpoint awaiting orchestrator-control
 
 1. **Task 1 (device stage):** no repo commit — raws live outside the repo by contract (v2 temp dir, never committed)
 2. **Task 2 (site stage):** `941f2cd` fix(05-04): replace gallery captures with ad-free recaptures (banner-free, same framing) — exactly 4 binary WebPs, no deletions, no code
-3. **Task 3:** OPEN — orchestrator-controlled push, CI monitor, live byte-compare smoke, owner visual re-check
+3. **Task 3 (deploy + close):** orchestrator push `ea5f6ef..2ba141e main` → CI run `33920495287` validate + deploy green → live smoke 4/4 HTTP 200 byte-identical → **owner incognito re-check confirmed 4 banner-free tiles — G-05-1 formally closed**
 
 **Plan metadata:** committed alongside STATE.md update (see final docs commit)
 
@@ -153,10 +159,11 @@ None — all device actions completed in-session by the owner at the checkpoint.
 
 ## Next Phase Readiness
 
-- **Task 3 checkpoint OPEN (the only remaining work):** (1) ORCHESTRATOR performs the single controlled push of `941f2cd` to main; (2) executor monitors CI validate + Pages deploy; (3) automated smoke: 4 live WebP URLs 200 + byte-identical to committed files; (4) owner incognito re-check of https://persano.github.io/geohist/ gallery — formally closes G-05-1; (5) then flip this SUMMARY's `status` to `complete`, mark state, and update ROADMAP row
-- UAT test 8 (ES/pt-BR switch re-check) remains owner-pending in the UAT ledger — untouched by this plan (not a diagnosed gap)
-- Pre-existing uncommitted working-tree dirt (`.planning/config.json`, `opencode.json`, untracked `.planning/debug/`, `opencode/`, part of `.planning/STATE.md`) is owner/runtime-owned and was deliberately NOT staged — push of `941f2cd` is unaffected
+- **G-05-1 CLOSED** (2026-09-04): live gallery verified clean by owner — UAT gap ledger can reconcile test 1 as fixed; UAT tests 2-7 unaffected; test 8 (ES/pt-BR switch re-check) remains owner-pending in the UAT ledger, untouched by this plan
+- **Post-plan note (owner's call, zero repo impact):** the ad-free device state came from the persistence-flag write (Option C). When the real IAP goes live post-review, the owner may revert the device to ad-supported state by deleting `files/datastore/geo_hist_entitlements.preferences_pb` (or leave it — the entitlement matches what a real purchase will write; a future real purchase simply re-asserts it). No repo or site dependency either way
+- **Pre-existing uncommitted working-tree dirt** (`.planning/config.json`, `opencode.json`, untracked `.planning/debug/`, `opencode/`) is owner/runtime-owned and was deliberately NOT staged or touched
+- Phase 05 plans 1-4 now executed; next: phase verification / `/gsd-verify-work` for the phase, then milestone close
 
 ---
 *Phase: 05-discovery-quality-screenshots-seo-json-ld-aa-audit*
-*Completed: 2026-09-04 (Tasks 1-2; Task 3 checkpoint open)*
+*Completed: 2026-09-04*
