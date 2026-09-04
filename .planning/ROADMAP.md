@@ -145,7 +145,7 @@ Plans:
 
 **Gap closure** *(from 05-UAT G-05-1)*
 
-- [ ] 05-04-PLAN.md — G-05-1: owner ad-free activation + banner-free recapture of the 4 screens (D-52/D-53 framing) + asset-only reconvert/commit + orchestrator push + post-deploy smoke + owner live re-check (gap closure)
+- [x] 05-04-PLAN.md — G-05-1: owner ad-free activation + banner-free recapture of the 4 screens (D-52/D-53 framing) + asset-only reconvert/commit + orchestrator push + post-deploy smoke + owner live re-check (gap closure)
 
 ## Coverage
 
@@ -170,7 +170,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. GeoHist Landing + Hub Content (EN) | 2/2 | Complete    | 2026-09-02 |
 | 3. i18n — Engine, ES/pt-BR Dictionaries, Switcher | 2/2 | Complete    | 2026-09-02 |
 | 4. Consent Gate + Firebase (Analytics + Contact Form) | 2/2 | Complete    | 2026-09-03 |
-| 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 3/3 | In Progress|  |
+| 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 4/4 | In Progress|  |
 
 ## Manual Prerequisites Checklist (user actions, not code)
 

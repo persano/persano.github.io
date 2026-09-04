@@ -2,15 +2,16 @@
 gsd_state_version: 1.0
 current_phase: 05
 current_phase_name: Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit
-status: completed
-stopped_at: Completed 05-03-PLAN.md (phase 05 plans 3/3 done; D-69 checkpoint OPEN - owner console steps + D-70 deletion are post-ship debt)
-last_updated: "2026-09-04T15:58:37.860Z"
+status: executing
+stopped_at: Completed 05-04 tasks 1-2 (asset commit 941f2cd unpushed); Task 3 checkpoint OPEN - orchestrator push + CI + smoke + owner live re-check remain
+last_updated: "2026-09-04T21:14:23.346Z"
 last_activity: 2026-09-04
-state_head: 265f06fd68549fe25ea15e6eff236afc538ce468
+last_activity_desc: Phase 05 execution started
+state_head: 941f2cd4d456b000d5fb15acf3dc1dd37cba14cb
 progress:
   total_phases: 5
   completed_phases: 4
-  total_plans: 11
+  total_plans: 12
   completed_plans: 11
   percent: 80
 ---
@@ -27,9 +28,9 @@ See: .planning/PROJECT.md (updated 2026-09-03)
 ## Current Position
 
 Phase: 05 (Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit) — EXECUTING
-Plan: 3 of 3
-Status: Phase 05 shipped + D-70 closed — all 4 post-ship items done (rich result OK, GSC sitemap OK, D-69 Play URL OK, policy files deleted 265f06f; privacy 200 / old URL 404 / validate 0 / smoke ALL PASS)
-Last activity: 2026-09-04
+Plan: 4 of 4 (Tasks 1-2 done; Task 3 checkpoint OPEN)
+Status: Executing 05-04 — asset commit 941f2cd unpushed; orchestrator push + smoke + owner re-check remain
+Last activity: 2026-09-04 — 05-04 Tasks 1-2 executed (G-05-1 device + site stages)
 
 Progress: [████████████████████] 4/4 plans ([████████░░] 4/5 phases; [████████░░] 80% of milestone)
 
@@ -70,6 +71,7 @@ Progress: [████████████████████] 4/4 pla
 | Phase 05 P01 | 40 | 3 tasks | 9 files |
 | Phase 05 P02 | 9 min | 3 tasks | 11 files |
 | Phase 05 P03 | split-session | 3 tasks | 7 files |
+| Phase 05 P04 | 221 min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -108,6 +110,8 @@ Recent decisions affecting current work:
 - [Phase 05]: Phase 05 plan 03: automated AA battery green 5/5 (axe 0 critical/serious, LH a11y 100 all pages, palette tokens byte-verified) - A11Y-01 marked complete
 - [Phase 05]: Phase 05 plan 03: owner manual battery items 1-3 PASS; item 4 (Rich Results Test) PENDING post-ship - deployed URL serves old page while changes uncommitted
 - [Phase 05]: Phase 05 plan 03: D-70 policy-file deletion WITHHELD - gate unmet (no owner D-69 confirmation, sitemap.xml 404 live); checkpoint OPEN, owner console steps recorded in SUMMARY for post-ship
+- [Phase 05]: [Phase 05 05-04] G-05-1 ad-free state via persistence-flag write (Option C), owner-approved - NOT a real IAP; Option A dead (product not found on debug build), B not viable (in Play review) — Capture verification is visual; flag write produces the genuine banner-free runtime state. Recorded honestly as simulated.
+- [Phase 05]: [Phase 05 05-04] DataStore boolean field = 1 in installed build (NOT 4) - derived empirically from app-written prefs file after attempt-1 crash (Long->Boolean CCE, fully recovered); binary pulls must use exec-out not shell cat — Schema assumptions from upstream proto numbering are unsafe; device-written file is ground truth.
 
 ### Pending Todos
 
@@ -134,6 +138,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-04T13:50:32.754Z
-Stopped at: Completed 05-03-PLAN.md (phase 05 plans 3/3 done; D-69 checkpoint OPEN - owner console steps + D-70 deletion are post-ship debt)
+Last session: 2026-09-04T21:14:22.779Z
+Stopped at: Completed 05-04 tasks 1-2 (asset commit 941f2cd unpushed); Task 3 checkpoint OPEN - orchestrator push + CI + smoke + owner live re-check remain
 Resume file: None
