@@ -1,9 +1,9 @@
 ---
-status: complete
+status: diagnosed
 phase: 05-discovery-quality-screenshots-seo-json-ld-aa-audit
 source: [05-01-SUMMARY.md, 05-02-SUMMARY.md, 05-03-SUMMARY.md]
 started: 2026-09-04T15:05:00Z
-updated: 2026-09-04T16:51:22Z
+updated: 2026-09-04T17:05:24Z
 ---
 
 
@@ -65,5 +65,18 @@ blocked: 0
   reason: "User reported: looks horrible — banners de anuncio de PRUEBA de AdMob ('Anuncio de prueba' / 'You've loaded a test ad from AdMob' / 'AdMob Adaptive Banner') grabados en las capturas menu + map (y presumiblemente flags + timeline)"
   severity: major
   test: 1
-  artifacts: []
-  missing: []
+  root_cause: "Las 4 capturas ADB se tomaron desde un build DEBUG de GeoHist-Trivia, que sirve determinísticamente el banner de PRUEBA público de AdMob (ca-app-pub-3940256099942544/9214589741, hardwired vía BuildConfig.DEBUG en AdBanner.kt:24,27; build.gradle.kts:117 fuerza TEST app ID en debug). Dispositivo no ad-free (isAdFree=false) → banner 'Anuncio de prueba' en cada pantalla capturada → horneado en los PNG crudos → make-webp.mjs los convirtió 1:1 (CROPS vacío, D-53 approved-as-framed) a los WebP desplegados. El código del sitio es correcto — el defecto es estado del dispositivo en captura propagado a assets."
+  artifacts:
+    - path: "geohist/screenshots/screenshot.menu.webp"
+      issue: "banner de prueba AdMob horneado"
+    - path: "geohist/screenshots/screenshot.map.webp"
+      issue: "banner de prueba AdMob horneado"
+    - path: "geohist/screenshots/screenshot.flags.webp"
+      issue: "banner de prueba AdMob horneado"
+    - path: "geohist/screenshots/screenshot.timeline.webp"
+      issue: "banner de prueba AdMob horneado"
+  missing:
+    - "Owner (dispositivo): activar estado ad-free ('Quitar anuncios' IAP vía license testing sin cargo, o toggle debug ad-free / internal-testing-track install) → banner oculto en las 4 pantallas"
+    - "Owner (dispositivo): recapturar las mismas 4 pantallas (menú, mapa, banderas, timeline) a 720x1600 con el mismo encuadre (D-52/D-53)"
+    - "Sitio (repo): reemplazar los 4 PNG crudos con los mismos nombres → npm run convert:screenshots → verificar WebP limpios → commit + deploy (HTML/sitemap sin cambios)"
+  debug_session: ".planning/debug/admob-test-ads-in-gallery-captures.md"
