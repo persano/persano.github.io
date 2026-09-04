@@ -143,6 +143,10 @@ Plans:
 
 - [x] 05-03-PLAN.md — A11y AA gate: axe/Lighthouse battery (A11Y-01) + owner manual battery checkpoint + D-69 console steps + D-70 superseded-policy-file deletion in final deploy (wave 3)
 
+**Gap closure** *(from 05-UAT G-05-1)*
+
+- [ ] 05-04-PLAN.md — G-05-1: owner ad-free activation + banner-free recapture of the 4 screens (D-52/D-53 framing) + asset-only reconvert/commit + orchestrator push + post-deploy smoke + owner live re-check (gap closure)
+
 ## Coverage
 
 | Requirement | Phase |
