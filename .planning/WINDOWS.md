@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 6
+open_count: 9
 waived_count: 0
 fixed_count: 0
-total_count: 6
-last_updated: 2026-09-03T01:34:39.814Z
+total_count: 9
+last_updated: 2026-09-04T13:45:44.598Z
 ---
 
 # Broken Windows Ledger
@@ -21,6 +21,9 @@ last_updated: 2026-09-03T01:34:39.814Z
 | 4 | 03 | deviation | js/i18n.js |  | detect() scan skips en-*/unknown tags per D-32 example (es anywhere in prefs wins); research Pattern 2 pseudocode corrected; owner browser-check pending per human-check list | open |  | 2026-09-02T18:18:30.842Z |  |
 | 5 | 4 | unrun-verify | geohist/index.html |  | Plan 04-01 Task 3 live 6-check battery (fresh-incognito zero-request, Accept/Reject network flows, GA4 DebugView events) not yet run by owner - transferred to phase UAT as D5 (04-01-SUMMARY.md) | open |  | 2026-09-03T01:23:03.674Z |  |
 | 6 | 4 | unrun-verify | firebase/firestore.rules | 10 | 04-02 Task 3: Rules Playground battery (cases 1-6) + live submit battery (cases 7-10) not runnable until owner completes Firebase console prerequisites (Anonymous provider, production Firestore, rules paste) | open |  | 2026-09-03T01:34:39.814Z |  |
+| 7 | 05 | unrun-verify | geohist/index.html |  | Rich Results Test on live /geohist/ (SoftwareApplication, zero errors) NOT run - changes uncommitted at execution, deployed URL serves old page; PENDING post-ship human verification | open |  | 2026-09-04T13:45:40.418Z |  |
+| 8 | 05 | unrun-verify | .planning/phases/05-discovery-quality-screenshots-seo-json-ld-aa-audit/05-03-SUMMARY.md |  | D-69 owner console steps NOT executed (Play Console privacy-URL field + GSC sitemap submit) - owner-only actions, sitemap.xml not yet deployed (404 live); instructions recorded in SUMMARY, checkpoint OPEN | open |  | 2026-09-04T13:45:44.457Z |  |
+| 9 | 05 | deviation | GeoHist_Trivia_Privacy_Policy.html |  | D-70 deletion of 3 superseded root policy files (.html/.md/.pdf) deferred - gate unmet (no owner D-69 confirmation, final deploy not shipped); files untouched in working tree, deletion rides post-confirmation deploy | open |  | 2026-09-04T13:45:44.598Z |  |
 
 ````json
 [
@@ -94,6 +97,42 @@ last_updated: 2026-09-03T01:34:39.814Z
     "status": "open",
     "reason": "",
     "recorded_at": "2026-09-03T01:34:39.814Z",
+    "resolved_at": null
+  },
+  {
+    "id": 7,
+    "kind": "unrun-verify",
+    "phase": "05",
+    "file": "geohist/index.html",
+    "line": null,
+    "description": "Rich Results Test on live /geohist/ (SoftwareApplication, zero errors) NOT run - changes uncommitted at execution, deployed URL serves old page; PENDING post-ship human verification",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-04T13:45:40.418Z",
+    "resolved_at": null
+  },
+  {
+    "id": 8,
+    "kind": "unrun-verify",
+    "phase": "05",
+    "file": ".planning/phases/05-discovery-quality-screenshots-seo-json-ld-aa-audit/05-03-SUMMARY.md",
+    "line": null,
+    "description": "D-69 owner console steps NOT executed (Play Console privacy-URL field + GSC sitemap submit) - owner-only actions, sitemap.xml not yet deployed (404 live); instructions recorded in SUMMARY, checkpoint OPEN",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-04T13:45:44.457Z",
+    "resolved_at": null
+  },
+  {
+    "id": 9,
+    "kind": "deviation",
+    "phase": "05",
+    "file": "GeoHist_Trivia_Privacy_Policy.html",
+    "line": null,
+    "description": "D-70 deletion of 3 superseded root policy files (.html/.md/.pdf) deferred - gate unmet (no owner D-69 confirmation, final deploy not shipped); files untouched in working tree, deletion rides post-confirmation deploy",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-04T13:45:44.598Z",
     "resolved_at": null
   }
 ]
