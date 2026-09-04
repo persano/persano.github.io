@@ -141,7 +141,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 05-03-PLAN.md — A11y AA gate: axe/Lighthouse battery (A11Y-01) + owner manual battery checkpoint + D-69 console steps + D-70 superseded-policy-file deletion in final deploy (wave 3)
+- [x] 05-03-PLAN.md — A11y AA gate: axe/Lighthouse battery (A11Y-01) + owner manual battery checkpoint + D-69 console steps + D-70 superseded-policy-file deletion in final deploy (wave 3)
 
 ## Coverage
 
@@ -166,7 +166,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. GeoHist Landing + Hub Content (EN) | 2/2 | Complete    | 2026-09-02 |
 | 3. i18n — Engine, ES/pt-BR Dictionaries, Switcher | 2/2 | Complete    | 2026-09-02 |
 | 4. Consent Gate + Firebase (Analytics + Contact Form) | 2/2 | Complete    | 2026-09-03 |
-| 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 2/3 | In Progress|  |
+| 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 3/3 | In Progress|  |
 
 ## Manual Prerequisites Checklist (user actions, not code)
 

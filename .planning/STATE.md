@@ -2,17 +2,17 @@
 gsd_state_version: 1.0
 current_phase: 05
 current_phase_name: Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit
-status: executing
-stopped_at: Completed 05-02-PLAN.md
-last_updated: "2026-09-04T03:35:01.666Z"
+status: verifying
+stopped_at: Completed 05-03-PLAN.md (phase 05 plans 3/3 done; D-69 checkpoint OPEN - owner console steps + D-70 deletion are post-ship debt)
+last_updated: "2026-09-04T13:50:33.254Z"
 last_activity: 2026-09-03
 last_activity_desc: Phase 05 execution started
-state_head: 44d6d48e24751d2b5e89f0968ce3232cc0bd58ef
+state_head: ec6d3e9637af6c460113e699773af2a1db8c42ae
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 11
-  completed_plans: 10
+  completed_plans: 11
   percent: 80
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-09-03)
 
 Phase: 05 (Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit) — EXECUTING
 Plan: 3 of 3
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-09-03 — Phase 05 execution started
 
 Progress: [████████████████████] 4/4 plans ([████████░░] 4/5 phases; [████████░░] 80% of milestone)
@@ -70,6 +70,7 @@ Progress: [████████████████████] 4/4 pla
 | Phase 4 P02 | 24 min | 3 tasks | 14 files |
 | Phase 05 P01 | 40 | 3 tasks | 9 files |
 | Phase 05 P02 | 9 min | 3 tasks | 11 files |
+| Phase 05 P03 | split-session | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -105,6 +106,9 @@ Recent decisions affecting current work:
 - [Phase 04]: Persano brand removed from all user-visible copy (quick task) — site refers directly to Santiago David Postorivo; privacy.html entity updated in place (CMPL-04 surfaces kept verbatim-consistent); internal identifiers (persano.lang, persano:langchange, data-persano-lang, persanoFirebaseConfig, domain, package id) intentionally unchanged
 - [Phase 05]: [Phase 05 05-01] No crop map in make-webp.mjs - all 4 shots owner-approved as framed (720x1600); WebP q82 no downscale (28-68KB); npm needs NODE_OPTIONS=--dns-result-order=ipv4first on this machine (IPv6 fetch stall)
 - [Phase 05]: [Phase 05 05-02] JSON-LD ships the plan-header corrected form (@type [SoftwareApplication, MobileApplication] + applicationCategory GameApplication) - literal D-61 GameApplication type does not exist on schema.org; flagged deviation honored as recorded. Post-deploy validate+smoke recorded PENDING for /gsd-ship (code uncommitted at execution time); GSC submission stays in 05-03 owner step (D-65)
+- [Phase 05]: Phase 05 plan 03: automated AA battery green 5/5 (axe 0 critical/serious, LH a11y 100 all pages, palette tokens byte-verified) - A11Y-01 marked complete
+- [Phase 05]: Phase 05 plan 03: owner manual battery items 1-3 PASS; item 4 (Rich Results Test) PENDING post-ship - deployed URL serves old page while changes uncommitted
+- [Phase 05]: Phase 05 plan 03: D-70 policy-file deletion WITHHELD - gate unmet (no owner D-69 confirmation, sitemap.xml 404 live); checkpoint OPEN, owner console steps recorded in SUMMARY for post-ship
 
 ### Pending Todos
 
@@ -131,6 +135,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-04T03:34:33.670Z
-Stopped at: Completed 05-02-PLAN.md
-Resume file: .planning/phases/05-discovery-quality-screenshots-seo-json-ld-aa-audit/05-03-PLAN.md
+Last session: 2026-09-04T13:50:32.754Z
+Stopped at: Completed 05-03-PLAN.md (phase 05 plans 3/3 done; D-69 checkpoint OPEN - owner console steps + D-70 deletion are post-ship debt)
+Resume file: None

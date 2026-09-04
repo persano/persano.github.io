@@ -52,7 +52,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **SEO-02**: Open Graph + Twitter cards with absolute URLs; og:image 1200×630
 - [x] **SEO-03**: sitemap.xml + robots.txt (allow-all + sitemap line); sitemap submitted to Search Console
 - [x] **SEO-04**: SoftwareApplication JSON-LD (name, operatingSystem ANDROID, GameApplication, offers price 0) — NO aggregateRating until real Play ratings exist
-- [ ] **A11Y-01**: WCAG 2.1 AA audit as explicit final step: contrast (math-checked palette at design time), keyboard nav, focus states, form labels, axe/Lighthouse clean
+- [x] **A11Y-01**: WCAG 2.1 AA audit as explicit final step: contrast (math-checked palette at design time), keyboard nav, focus states, form labels, axe/Lighthouse clean
 - [x] **OPS-01**: GitHub Actions CI: validation job (html-validate + link check) gates Pages deploy
 - [x] **OPS-02**: Deploy chain: checkout@v7 → configure-pages@v6 → upload-pages-artifact@v5 (`path: '.'`, `include-hidden-files: true`) → deploy-pages@v5; `.nojekyll` in first site commit
 - [x] **OPS-03**: Live URL + privacy-policy URL verified 200 before Play submission; existing root files (`app-ads.txt`, Search Console verification) regress-checked after first deploy
@@ -117,7 +117,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SEO-02 | Phase 5 | Complete |
 | SEO-03 | Phase 5 | Complete |
 | SEO-04 | Phase 5 | Complete |
-| A11Y-01 | Phase 5 | Pending |
+| A11Y-01 | Phase 5 | Complete |
 | OPS-01 | Phase 1 | Complete |
 | OPS-02 | Phase 1 | Complete |
 | OPS-03 | Phase 1 | Complete |
