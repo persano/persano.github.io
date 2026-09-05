@@ -3,17 +3,13 @@
   "model": "openrouter/z-ai/glm-5.3-flash",
   "small_model": "openrouter/google/gemma-4-31b-it:free",
   "instructions": [
-    "Execute commands and file edits silently without conversational preamble.",
-    "Do not explain what you plan to do before a tool call—run the tool immediately.",
-    "Respond in terse technical fragments. Omit conversational filler, polite intros, and self-evident summaries.",
-    "Only provide detailed textual explanations when explicitly prompted by the user."
+    ".opencode/style.md"
   ],
   "compaction": {
     "auto": true,
-    "keep": {
-      "tokens": 12000
-    },
-    "buffer": 10000
+    "prune": true,
+    "preserve_recent_tokens": 12000,
+    "reserved": 10000
   },
   "tool_output": {
     "max_lines": 500,
@@ -24,15 +20,11 @@
       "models": {
         "z-ai/glm-5.3-flash": {
           "limit": {
-            "context": 75000,
-            "output": 8192
+            "context": 180000,
+            "output": 16384
           },
           "options": {
             "provider": {
-              "sort": {
-                "by": "latency",
-                "partition": null
-              },
               "order": [
                 "relace",
                 "deepinfra",
@@ -52,7 +44,6 @@
         "google/gemma-4-31b-it:free": {
           "options": {
             "models": [
-              "google/gemma-4-31b-it:free",
               "poolside/laguna-s-2.1:free",
               "poolside/laguna-xs-2.1:free",
               "meta-llama/llama-3.1-8b-instruct:free"
