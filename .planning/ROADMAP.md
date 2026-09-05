@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: GeoHist Landing + Hub Content (EN)** - Full English landing, FAQ, guide, hub; `data-i18n` keys in all markup (completed 2026-09-02)
 - [x] **Phase 3: i18n — Engine, ES/pt-BR Dictionaries, Switcher** - In-place language swap with auto-detect, switcher, EN fallback (completed 2026-09-02)
 - [x] **Phase 4: Consent Gate + Firebase (Analytics + Contact Form)** - Consent banner gating Analytics; form works after any consent choice (completed 2026-09-03)
-- [ ] **Phase 5: Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit** - Real screenshots, full SEO, schema, WCAG 2.1 AA audit gate
+- [x] **Phase 5: Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit** - Real screenshots, full SEO, schema, WCAG 2.1 AA audit gate (completed 2026-09-04)
 
 ## Phase Details
 
@@ -170,7 +170,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. GeoHist Landing + Hub Content (EN) | 2/2 | Complete    | 2026-09-02 |
 | 3. i18n — Engine, ES/pt-BR Dictionaries, Switcher | 2/2 | Complete    | 2026-09-02 |
 | 4. Consent Gate + Firebase (Analytics + Contact Form) | 2/2 | Complete    | 2026-09-03 |
-| 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 4/4 | In Progress|  |
+| 5. Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit | 4/4 | Complete    | 2026-09-04 |
 
 ## Manual Prerequisites Checklist (user actions, not code)
 

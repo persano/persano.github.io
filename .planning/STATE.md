@@ -1,44 +1,43 @@
 ---
 gsd_state_version: 1.0
 current_phase: 05
-current_phase_name: Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit
-status: executing
-stopped_at: Completed 05-04-PLAN.md — G-05-1 CLOSED (asset 941f2cd pushed, CI 33920495287 green, smoke 4/4 byte-identical, owner confirmed live gallery); phase 05 plans 4/4 executed
-last_updated: "2026-09-04T22:30:55.307Z"
+status: completed
+stopped_at: Phase 05 complete — all phases complete
+last_updated: "2026-09-05T00:45:19.088Z"
 last_activity: 2026-09-04
-last_activity_desc: Phase 05 execution started
-state_head: 2ba141e36735f6a97131b4cbe92568ccb90475cd
+last_activity_desc: Phase 05 complete
+state_head: 5ad558b6c8b1b21a85d73251380be2e01ba0b1ea
 progress:
   total_phases: 5
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 12
   completed_plans: 12
-  percent: 80
+  percent: 100
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-09-03)
+See: .planning/PROJECT.md (updated 2026-09-04)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel — before the app goes live on Google Play.
-**Current focus:** Phase 05 — Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit
+**Current focus:** Milestone v1 complete — all 5 phases shipped; next: `/gsd-complete-milestone`
 
 ## Current Position
 
-Phase: 05 (Discovery & Quality — Screenshots, SEO, JSON-LD, AA Audit) — EXECUTING
-Plan: 4 of 4 (Tasks 1-2 done; Task 3 checkpoint OPEN)
-Status: Executing 05-04 — asset commit 941f2cd unpushed; orchestrator push + smoke + owner re-check remain
-Last activity: 2026-09-04 — 05-04 Tasks 1-2 executed (G-05-1 device + site stages)
+Phase: 05
+Plan: Not started
+Status: All phases complete
+Last activity: 2026-09-04 — Phase 05 complete
 
-Progress: [████████████████████] 4/4 plans ([████████░░] 4/5 phases; [████████░░] 80% of milestone)
+Progress: [████████████████████] 12/12 plans ([████████████████████] 5/5 phases; [████████████████████] 100% of milestone)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 6
+- Total plans completed: 10
 - Average duration: —
 - Total execution time: —
 
@@ -49,6 +48,7 @@ Progress: [████████████████████] 4/4 pla
 | 01 | 2 | - | - |
 | 02 | 2 | - | - |
 | 04 | 2 | - | - |
+| 05 | 4 | - | - |
 
 **Recent Trend:**
 
@@ -123,7 +123,7 @@ None yet.
 - ~~Manual prerequisite before Phase 1 first deploy: Repo Settings → Pages → Source = GitHub Actions~~ RESOLVED 2026-09-02 (build_type "workflow" verified; deploy green)
 - ~~Phase 4 manual prerequisites (Firebase Web App registration, authorized domain, Anonymous provider, Firestore)~~ RESOLVED 2026-09-03 during Phase 4 (config committed, rules merged+published, anonymous auth live)
 - Firestore console ruleset is NOT byte-identical to repo `firebase/firestore.rules` (owner merge path) — future rules edits require console re-paste
-- Play Console privacy-URL field must be updated to /geohist/privacy.html before Play submission; superseded root policy files deleted after (Phase 5 trace)
+- ~~Play Console privacy-URL field must be updated to /geohist/privacy.html before Play submission; superseded root policy files deleted after (Phase 5 trace)~~ Policy files DELETED 2026-09-04 (404 live, UAT test 3 pass); Play Console field update still owner-pending before Play submission
 
 ## Deferred Items
 
@@ -139,6 +139,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-04T22:30:54.629Z
-Stopped at: Completed 05-04-PLAN.md — G-05-1 CLOSED (asset 941f2cd pushed, CI 33920495287 green, smoke 4/4 byte-identical, owner confirmed live gallery); phase 05 plans 4/4 executed
+Last session: 2026-09-05T00:45:19.088Z
+Stopped at: Phase 05 UAT complete (8/8 pass, G-05-1 resolved by 05-04) — milestone 100% done, ready for /gsd-complete-milestone
 Resume file: None

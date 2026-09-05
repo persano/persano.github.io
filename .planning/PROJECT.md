@@ -34,15 +34,17 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 - ✓ Contact form via Firebase JS SDK → Firestore (`/geohist/contact.html`) — Phase 4 (FIRE-04, FIRE-06)
 - ✓ Anonymous Firebase Auth for form spam resistance + create-only Firestore security rules in repo — Phase 4 (FIRE-04, FIRE-05)
 - ✓ Data-deletion request path via form topic 'deletion' (CMPL-03) — Phase 4
+- ✓ Screenshot gallery with real ADB captures (4 pinned WebPs, ad-free recapture after G-05-1 fix) — Phase 5 (LNDG-03)
+- ✓ Full SEO: meta descriptions, Open Graph image (1200×630 composite), sitemap.xml, robots.txt — Phase 5 (SEO-01..04)
+- ✓ Rich snippets: SoftwareApplication + MobileApplication JSON-LD (applicationCategory GameApplication) — Phase 5
+- ✓ WCAG 2.1 AA accessibility audit: axe 0 critical/serious + Lighthouse a11y 100 on all 5 pages, owner keyboard/form/language battery — Phase 5 (A11Y-01)
+- ✓ Superseded root privacy-policy files deleted (old URL 404 live; /geohist/privacy.html canonical) — Phase 5 (D-70)
 
 ### Active
 
-- [ ] Restore `npm ci` + `cache: npm` in validate job once a package-lock.json lands (local npm proxy-broken)
-- [ ] Screenshot gallery with real screenshots captured via ADB from a connected phone (tools exist in app repo)
+- [ ] Restore `npm ci` + `cache: npm` in validate job — package-lock.json now exists (Phase 5), restore is unblocked
+- [ ] Play Console privacy-URL field → `/geohist/privacy.html` before Play submission (owner console step)
 - [ ] Play Store link as placeholder until listing is live, then real link
-- [ ] Full SEO: meta descriptions, Open Graph image, sitemap.xml, robots.txt
-- [ ] Rich snippets: SoftwareApplication structured data
-- [ ] WCAG 2.1 AA accessibility audit as an explicit step
 - [ ] Structure anticipates future apps as new subdirs without visible placeholders
 
 ### Out of Scope
@@ -87,9 +89,9 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 | Fork-shaped Firebase split: analytics imported only in consent.js; auth+firestore only in contact.js | Form is the compliance surface — works identically after Accept or Reject | ✓ Phase 4 |
 | Firebase config public-by-design; hardening console-side (API-key HTTP-referrer restriction + create-only Firestore rules) | Standard Firebase web pattern; repo rules file is source of truth (merged into existing project ruleset) | ✓ Phase 4 |
 | EN+ES+PT v1, 17 others deferred | Core audience first; i18n structure ready for expansion | ✓ Phase 3 |
-| ADB screenshot capture in v1 | Real screenshots beat placeholders; tools already exist | — Pending (Phase 5) |
-| AA accessibility audit explicit | Play ecosystem quality bar; broadens audience | — Pending (Phase 5) |
-| Old root policy files kept; deletion deferred | Play Console privacy field already points at old root URL — update it to `/geohist/privacy.html` before Play submission, then delete the 3 old files | Deferred — Phase 5 trace |
+| ADB screenshot capture in v1 | Real screenshots beat placeholders; tools already exist | ✓ Phase 5 — 4 real WebPs; G-05-1 test-banner contamination recaptured ad-free |
+| AA accessibility audit explicit | Play ecosystem quality bar; broadens audience | ✓ Phase 5 — axe 0 critical/serious, LH a11y 100 all 5 pages |
+| Old root policy files kept; deletion deferred | Play Console privacy field already points at old root URL — update it to `/geohist/privacy.html` before Play submission, then delete the 3 old files | ✓ Phase 5 — old files deleted (404 live); Play Console field update remains owner step |
 | Dark antique theme; secondary accent = aged-map teal #8fc3bd (over terracotta) | Differentiates harder against warm brown-black; 9.30:1 contrast; all 8 WCAG 2.2 pairs re-proven | ✓ Phase 2 |
 | data-i18n keys baked into all Phase 2 markup; keyed nodes plain text only | Phase 3 textContent dictionary swap is markup-safe; namespaces geohist.*/guide.*/hub.* mapped 1:1 | ✓ Phase 2 |
 | Texture utilities decoration-only (never behind body copy); zero JS in any page | Readability + i18n/no-JS safety; native `<details>` accordions | ✓ Phase 2 |
@@ -112,4 +114,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-03 after Phase 4*
+*Last updated: 2026-09-04 after Phase 5*
