@@ -1,9 +1,9 @@
 ---
-status: complete
+status: diagnosed
 phase: 06-changelog-page
 source: 06-01-SUMMARY.md, 06-02-SUMMARY.md
 started: 2026-09-05T18:05:00Z
-updated: 2026-09-05T18:15:00Z
+updated: 2026-09-05T19:25:00Z
 ---
 
 ## Current Test
@@ -96,5 +96,10 @@ blocked: 0
   reason: "User reported: sorry, one error, changelog is only in english, even when setting site to spanish"
   severity: major
   test: 9
-  artifacts: []
-  missing: []
+  root_cause: "Expectation/design mismatch, not a code bug. Chrome (nav/footer/title/intro) is fully keyed with changelog.* — es.json + pt-BR.json carry all 17 keys, engine applies page-agnostically, keycheck PASS at 169 including changelog.html. The English the user sees is the six changelog ENTRY articles (subheads Added/Changed/Fixed + bullets), EN-unkeyed by documented design (06-01 key-decisions i18n exception, enforced keysInsideEntries=0). Entries dominate the page, so it reads as 'in English'. Owner design decision needed."
+  artifacts:
+    - path: "geohist/changelog.html"
+      issue: "entries region zero data-i18n (deliberate, documented exception) — dominates page visually"
+  missing:
+    - "Owner design decision: (a) key entry content, (b) accept EN entries + add keyed per-language 'entries shown in English' notice, or (c) key only the 3 category subheads"
+  debug_session: ".planning/debug/changelog-not-translating.md"
