@@ -365,14 +365,19 @@ const pages = ['index.html', join('geohist', 'index.html'), join('geohist', 'gui
 | A4 | Entry header format "0.88 — 2026-09-04" vs "2026-09-04 — 0.88" — both validated; CONTEXT Specifics suggests version-first | Code Examples | Cosmetic only |
 | A5 | Backfill sources: git-derived versionName timeline is the authoritative date source; app-repo `.planning/` milestone audits (v1.0–v1.6) inform milestone arc wording | Common Pitfalls 2/3 | Low — cross-checkable by owner in review (D-03 mandates owner review) |
 
-## Open Questions
+## Open Questions (RESOLVED)
+
+All three questions were substantively resolved by executed Phase 6 work. Original recommendations retained for traceability; resolution pointer added to each.
 
 1. **Are the per-entry category subheads keyed or EN-unkeyed?**
    - What we know: D-06 limits categories to Added/Changed/Fixed; entries are the documented EN exception; subheads sit *inside* entries.
    - What's unclear: whether they count as "chrome" (keyed) or "entries" (EN).
    - Recommendation: **EN unkeyed** (entry-scoped content, consistent with the exception; keeps estimate at ~23). If the planner prefers keyed subheads (`changelog.cat.added/changed/fixed`), add exactly 3 keys and they must land in the same atomic commit.
+   - **RESOLVED: EN unkeyed** — see `06-01-SUMMARY.md` ("Decisions Made"): subheads sit inside the documented EN entries exception (`keysInsideEntries=0`).
 2. **Red-gate demo scope** (planner's call per discretion): recommend demonstrating **both** failure directions (Pattern 3) locally — cheap (two mutations + reverts) and proves the gate's symmetric design.
+   - **RESOLVED: both failure directions demonstrated** — see `red-gate-proof.md` and `06-UAT.md` (D4 pass).
 3. **privacy.html footer link** (A3): nav-only is my recommendation; footer addition is optional owner polish.
+   - **RESOLVED: footer stays as-is** per A3 (nav-only adopted; no footer addition made in Phase 6).
 
 ## Environment Availability
 
