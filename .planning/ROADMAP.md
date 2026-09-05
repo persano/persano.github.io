@@ -41,7 +41,10 @@ Full details: [.planning/milestones/v1-ROADMAP.md](milestones/v1-ROADMAP.md)
   2. Visitor browsing in es or pt-BR sees the changelog chrome (nav, headings, back links) in their language
   3. Changelog is reachable from every existing page via nav/footer links and listed in `sitemap.xml`
   4. A dictionary missing `changelog.*` keys — or an unregistered keycheck `pages` entry — fails CI (red-gate proven)
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 06-01-PLAN.md — Keyed-chrome changelog page + atomic i18n key wiring (page, navs/footers, dictionaries, keycheck registration) + red-gate proof
+- [ ] 06-02-PLAN.md — App-repo-mined curated 0.x backfill (4-6 owner-reviewed entries) shipped into the page
 **UI hint**: yes
 
 ### Phase 7: Localization ×20 + RTL
@@ -105,7 +108,7 @@ Full details: [.planning/milestones/v1-ROADMAP.md](milestones/v1-ROADMAP.md)
 | 3. i18n Engine + Dictionaries | v1.0 | 2/2 | Complete | 2026-09-02 |
 | 4. Consent Gate + Firebase | v1.0 | 2/2 | Complete | 2026-09-03 |
 | 5. Discovery & Quality | v1.0 | 4/4 | Complete | 2026-09-05 |
-| 6. Changelog Page | v2.0 | 0/? | Not started | - |
+| 6. Changelog Page | v2.0 | 0/2 | Planning done | - |
 | 7. Localization ×20 + RTL | v2.0 | 0/? | Not started | - |
 | 8. Custom Domain Migration | v2.0 | 0/? | Not started | - |
 | 9. App Check, Monitor-First | v2.0 | 0/? | Not started | - |
