@@ -184,3 +184,9 @@ None - no external service configuration required.
 ---
 *Phase: 06-changelog-page*
 *Completed: 2026-09-05*
+
+## Self-Check: PASSED
+
+- All created files exist on disk: geohist/changelog.html, red-gate-proof.md, 06-01-SUMMARY.md ✓
+- All 4 commits present: 3eeb38e, cba2763, ce60036, afd8ef0 ✓
+- Final battery re-verified: keycheck PASS 169 keys both dictionaries; npm run validate exit 0 ✓
