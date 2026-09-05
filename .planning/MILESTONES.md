@@ -18,4 +18,7 @@
 - Scripted axe + Lighthouse AA battery green 5/5 pages (LH a11y 100 everywhere, zero critical/serious violations) with palette tokens byte-verified; owner keyboard/form/language battery items 1–3 PASS, item 4 + D-69/D-70 console steps honestly carried as post-ship human debt.
 - 4 gallery WebPs regenerated from owner-captured banner-free raws via Option-C device state — asset-only commit 941f2cd, zero HTML/JSON-LD/dictionary change; Task 3 (push + smoke + live re-check) checkpoint open
 
+**Stats:** 2026-09-01 → 2026-09-05 (4 days) · 27/27 v1 requirements validated · UAT final 8/8 pass (G-05-1 gap closed by 05-04) · verification 27/27 must-haves · zero runtime deps beyond Firebase CDN
+**Closeout:** verified_closeout — artifact audit clear (0 open, 0 suppressed)
+
 ---

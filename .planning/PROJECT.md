@@ -58,15 +58,14 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 
 ## Context
 
-- This repo (`persano.github.io`) currently holds only the app's privacy policy files and Google Search Console verification — it becomes the live site
-- App published/review context: GeoHist Trivia is in Google Play review ("soon"); Play Store link will be a placeholder first
-- App has 20 localizations; site v1 covers EN + ES + PT-BR as core
-- Existing tooling in app repo: Python ADB screenshot tools, `translations.json`, `translate_categories.py` — reusable where sensible
-- Firebase: reuse the app's Firebase project (config keys exist in app repo `.env`); web app registration needed
-- AdMob + Firebase means privacy policy must stay accurate on the site (data collection disclosure)
+- **Shipped v1 (2026-09-05)**: site fully live at https://persano.github.io — 5 phases, 12 plans, 27/27 v1 requirements validated; see `.planning/MILESTONES.md` and `.planning/milestones/v1-ROADMAP.md`
+- Current stack reality: plain HTML/CSS/vanilla JS, zero-build; one JS surface set (i18n.js, consent.js, contact.js via Firebase CDN dynamic imports); 4 real WebP screenshots; OG image composite; sitemap + robots + SoftwareApplication JSON-LD
+- Owner-pending before Play submission: Play Console privacy-URL field → `/geohist/privacy.html`; Search Console sitemap submit; Play Store link swap once listing is live
+- App published/review context: GeoHist Trivia is in Google Play review ("soon"); Play Store link stays placeholder until approval
+- App has 20 localizations; site v1 covers EN + ES + PT-BR as core (17 deferred to v2)
+- Firebase: reuse of app's project (analytics + anonymous auth + Firestore `messages`, create-only rules); API-key hardening console-side
 - Site maintenance model: agent-maintained — content updates happen via chat sessions, not raw HTML editing by the owner
-- Marketing copy: AI-drafted from app README/docs, owner reviews
-- Visual style: agent's call — dark landing aesthetic with history+geography mood (map textures, antique accents), consistent between hub and app site
+- Visual style: dark antique aesthetic (map textures, aged-map teal accent), consistent between hub and app site
 
 ## Constraints
 
@@ -114,4 +113,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-04 after Phase 5*
+*Last updated: 2026-09-05 after v1 milestone*
