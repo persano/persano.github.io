@@ -44,7 +44,7 @@ Full details: [.planning/milestones/v1-ROADMAP.md](milestones/v1-ROADMAP.md)
   3. Changelog is reachable from every existing page via nav/footer links and listed in `sitemap.xml`
   4. A dictionary missing `changelog.*` keys — or an unregistered keycheck `pages` entry — fails CI (red-gate proven)
 
-**Plans**: 2/2 plans executed
+**Plans**: 2/2 plans executed + 1 gap-closure plan
 Plans:
 **Wave 1**
 
@@ -53,6 +53,10 @@ Plans:
 **Wave 2** *(blocked on Wave 1 completion)*
 
 - [x] 06-02-PLAN.md — App-repo-mined curated 0.x backfill (4-6 owner-reviewed entries) shipped into the page
+
+**Wave 3** *(gap closure: G-06-9, owner decision "Notice only")*
+
+- [ ] 06-03-PLAN.md — Translated entries-language notice on changelog + trilingual keyless notice on privacy (closes UAT test 9)
 
 **UI hint**: yes
 
