@@ -11,7 +11,7 @@ Continues requirement numbering from v1 (archived at `.planning/milestones/v1-RE
 
 ### Changelog
 
-- [ ] **CONT-06**: Visitor can view app changelog at `/geohist/changelog.html` — newest-first, ISO dates, Keep-a-Changelog format, EN entries (documented i18n exception: chrome keyed, entries stay EN)
+- [x] **CONT-06**: Visitor can view app changelog at `/geohist/changelog.html` — newest-first, ISO dates, Keep-a-Changelog format, EN entries (documented i18n exception: chrome keyed, entries stay EN)
 - [x] **CONT-07**: Changelog page chrome is i18n-keyed; `i18n-keycheck.mjs` `pages` array entry red-gate tested; sitemap + nav/footer links added; es/pt-BR dictionaries gain `changelog.*` keys atomically with the page
 
 ### Localization ×20
@@ -67,7 +67,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CONT-06 | Phase 6 | Pending |
+| CONT-06 | Phase 6 | Complete |
 | CONT-07 | Phase 6 | Complete |
 | I18N-05 | Phase 7 | Pending |
 | I18N-06 | Phase 7 | Pending |

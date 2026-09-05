@@ -44,7 +44,7 @@ Full details: [.planning/milestones/v1-ROADMAP.md](milestones/v1-ROADMAP.md)
   3. Changelog is reachable from every existing page via nav/footer links and listed in `sitemap.xml`
   4. A dictionary missing `changelog.*` keys — or an unregistered keycheck `pages` entry — fails CI (red-gate proven)
 
-**Plans**: 1/2 plans executed
+**Plans**: 2/2 plans executed
 Plans:
 **Wave 1**
 
@@ -52,7 +52,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 06-02-PLAN.md — App-repo-mined curated 0.x backfill (4-6 owner-reviewed entries) shipped into the page
+- [x] 06-02-PLAN.md — App-repo-mined curated 0.x backfill (4-6 owner-reviewed entries) shipped into the page
 
 **UI hint**: yes
 
@@ -129,7 +129,7 @@ Plans:
 | 3. i18n Engine + Dictionaries | v1.0 | 2/2 | Complete | 2026-09-02 |
 | 4. Consent Gate + Firebase | v1.0 | 2/2 | Complete | 2026-09-03 |
 | 5. Discovery & Quality | v1.0 | 4/4 | Complete | 2026-09-05 |
-| 6. Changelog Page | v2.0 | 1/2 | In Progress|  |
+| 6. Changelog Page | v2.0 | 2/2 | In Progress|  |
 | 7. Localization ×20 + RTL | v2.0 | 0/? | Not started | - |
 | 8. Custom Domain Migration | v2.0 | 0/? | Not started | - |
 | 9. App Check, Monitor-First | v2.0 | 0/? | Not started | - |
