@@ -8,6 +8,17 @@ A static GitHub Pages website at https://persano.github.io serving as Santiago D
 
 GeoHist Trivia players and Google Play reviewers can reach an authoritative, accessible web page for the app — featuring it, explaining it, hosting its privacy policy, and offering a working contact channel — before the app goes live.
 
+## Current Milestone: v2.0 Full Deferred Scope
+
+**Goal:** Ship every v2-deferred item — 17 new localizations (incl. RTL), gated social proof, App Check, changelog page, custom domain.
+
+**Target features:**
+- I18N-05: 17 new localizations (hi, zh, fr, vi, nl, ur, el, ko, tr, de, ja, ru, id, pl, it, bn, ar) with key-parity gate × 20 and RTL dir-switching for ar/ur
+- CONT-06: `/geohist/changelog.html`, keyed for i18n (build before locale expansion so all 20 dictionaries include its keys)
+- HOST-01: custom domain (owner registers; name decided during phase) — Pages config, CNAME, DNS, rewrite all absolute URLs
+- FIRE-07: App Check via reCAPTCHA v3, monitoring mode first, enforcement flip after metrics clean
+- SEO-05: aggregateRating + social-proof wiring, gated on real Play ratings
+
 ## Business Context
 
 - **Customer**: GeoHist Trivia players (Google Play), prospective players, Play review team
@@ -46,6 +57,11 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 - [ ] Play Console privacy-URL field → `/geohist/privacy.html` before Play submission (owner console step)
 - [ ] Play Store link as placeholder until listing is live, then real link
 - [ ] Structure anticipates future apps as new subdirs without visible placeholders
+- [ ] I18N-05: 17 new localizations (hi, zh, fr, vi, nl, ur, el, ko, tr, de, ja, ru, id, pl, it, bn, ar) — agent-drafted dictionaries, owner-reviewed; RTL `dir` switching for ar/ur
+- [ ] CONT-06: changelog page at `/geohist/changelog.html`, i18n-keyed
+- [ ] HOST-01: custom domain — owner registers, Pages config + CNAME file + DNS records, rewrite all absolute URLs (canonical/og/sitemap/robots/JSON-LD), HTTPS cert
+- [ ] FIRE-07: App Check via reCAPTCHA v3 — monitoring mode first, enforcement flip after metrics clean
+- [ ] SEO-05: aggregateRating + social-proof wiring, gated on real Play ratings (owner flips gate when listing live)
 
 ### Out of Scope
 
@@ -113,4 +129,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-05 after v1 milestone*
+*Last updated: 2026-09-05 after v2.0 milestone start*
