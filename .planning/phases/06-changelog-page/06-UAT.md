@@ -1,0 +1,100 @@
+---
+status: complete
+phase: 06-changelog-page
+source: 06-01-SUMMARY.md, 06-02-SUMMARY.md
+started: 2026-09-05T18:05:00Z
+updated: 2026-09-05T18:15:00Z
+---
+
+## Current Test
+<!-- OVERWRITE each test - shows where we are -->
+
+[testing complete]
+
+## Tests
+
+### 1. Changelog page in Keep-a-Changelog timeline form (D1)
+expected: Changelog page at /geohist/changelog.html in KaC timeline form with git-verified entry 0.88 — 2026-09-04 (Added/Fixed subheads, player-facing bullets, newest-first)
+result: pass
+source: automated
+coverage_id: D1
+covering: npm run validate:html exit 0; grep article.changelog-entry + time datetime=2026-09-04 + h3 Added/Fixed matched
+
+### 2. Atomic i18n wiring, 169-key surface (D2)
+expected: Keyed chrome + per-page nav/footer keys + 23 keys in es/pt-BR + keycheck pages registration in ONE commit; exact set-equality PASS at 169
+result: pass
+source: automated
+coverage_id: D2
+covering: i18n-keycheck PASS both dictionaries at 169; commit cba2763 diff contains markup + es.json + pt-BR.json + keycheck.mjs together
+
+### 3. Reachability from all pages (D3)
+expected: Nav + footer Changelog links on index/guide/contact, plain nav link on privacy, root hub untouched, sitemap + smoke-check enumerate the URL
+result: pass
+source: automated
+coverage_id: D3
+covering: validate:links 18 links all [200]; grep anchors index/guide/contact ×2, privacy ×1, root ×0; sitemap + smoke-check contain the URL
+
+### 4. Red gate proof (D4)
+expected: Keycheck failure directions (missing probe key, unregistered page) + dead-link direction each proven red (exit 1) then reverted to green
+result: pass
+source: automated
+coverage_id: D4
+covering: red-gate-proof.md — cycles a/b/c with observed output + exit codes
+
+### 5. Curated owner-review draft (06-02 D1)
+expected: 6 milestone entries (version, git-mined ISO date, arc, Added/Changed/Fixed bullets) in backfill-draft.md
+result: pass
+source: automated
+coverage_id: 06-02/D1
+covering: Test-Path + 6 '^## ' sections + 2026-09-04 present; every draft date equals a versionName-touching commit date
+
+### 6. Full curated arc in entries region (06-02 D2)
+expected: 6 article.changelog-entry rows, 0.88 (2026-09-04) first, dates non-increasing, 0.8>0.7 version-descending tie-break
+result: pass
+source: automated
+coverage_id: 06-02/D2
+covering: regex count articles=6 times=6; h2 order 0.88→0.87→0.84→0.8→0.7→0.2 with dates 09-04/09-02/08-31/08-26/08-26/08-24
+
+### 7. Entry content rules (06-02 D3)
+expected: Subheads limited to Added/Changed/Fixed, 1-4 bullets per category, zero data-i18n inside entries, player-facing plain language
+result: pass
+source: automated
+coverage_id: 06-02/D3
+covering: keysInsideEntries=0; allowedH3=9 totalH3=9; bullet counts all 1-4
+
+### 8. Phase-closing validate battery green (06-02 D4)
+expected: Key surface untouched after content edit; HTML/links/i18n all pass
+result: pass
+source: automated
+coverage_id: 06-02/D4
+covering: keycheck PASS both dictionaries at 169; npm run validate exit 0 (18 links all 200)
+
+### 9. Translated chrome quality (es/pt-BR)
+expected: Switch to Español or Português on /geohist/changelog.html — chrome (nav, footer, title, intro) reads in that language with tone parity to existing dictionaries; intro copy owner-approved
+result: issue
+reported: "sorry, one error, changelog is only in english, even when setting site to spanish"
+severity: major
+
+### 10. Owner content review of backfilled milestones
+expected: You read the 6 backfilled entries — arc truthful, tone and depth right, 0.88 at top, intro wording approved — before any public deploy push
+result: pass
+
+## Summary
+
+total: 10
+passed: 9
+issues: 1
+pending: 0
+skipped: 0
+blocked: 0
+
+## Gaps
+
+- gap_id: G-06-9
+  truth: "Changelog page chrome (nav, footer, title, intro) reads in the selected site language (Spanish/Portuguese)"
+  status: failed
+  reason: "User reported: sorry, one error, changelog is only in english, even when setting site to spanish"
+  severity: major
+  test: 9
+  artifacts: []
+  missing: []
