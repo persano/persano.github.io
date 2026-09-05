@@ -211,6 +211,16 @@ a:hover {
   overflow: hidden;
 }
 
+/* screenshot fills the phone-aspect tile; ~equal ratios (720/1600 vs 9/19.5) so cover barely crops */
+.gallery-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
 /* graticule texture fill: crossed low-opacity rule layers (decoration only) */
 .gallery-tile::before {
   content: "";
