@@ -67,29 +67,29 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CONT-06 | — | Pending |
-| CONT-07 | — | Pending |
-| I18N-05 | — | Pending |
-| I18N-06 | — | Pending |
-| I18N-07 | — | Pending |
-| I18N-08 | — | Pending |
-| I18N-09 | — | Pending |
-| HOST-01 | — | Pending |
-| HOST-02 | — | Pending |
-| HOST-03 | — | Pending |
-| FIRE-07 | — | Pending |
-| FIRE-08 | — | Pending |
-| FIRE-09 | — | Pending |
-| CMPL-05 | — | Pending |
-| SEO-05 | — | Pending |
-| SEO-06 | — | Pending |
-| SEO-07 | — | Pending |
+| CONT-06 | Phase 6 | Pending |
+| CONT-07 | Phase 6 | Pending |
+| I18N-05 | Phase 7 | Pending |
+| I18N-06 | Phase 7 | Pending |
+| I18N-07 | Phase 7 | Pending |
+| I18N-08 | Phase 7 | Pending |
+| I18N-09 | Phase 7 | Pending |
+| HOST-01 | Phase 8 | Pending |
+| HOST-02 | Phase 8 | Pending |
+| HOST-03 | Phase 8 | Pending |
+| FIRE-07 | Phase 9 | Pending |
+| FIRE-08 | Phase 9 | Pending |
+| FIRE-09 | Phase 9 | Pending |
+| CMPL-05 | Phase 9 | Pending |
+| SEO-05 | Phase 10 | Pending |
+| SEO-06 | Phase 10 | Pending |
+| SEO-07 | Phase 10 | Pending |
 
 **Coverage:**
 - v2 requirements: 17 total
-- Mapped to phases: 0
-- Unmapped: 17 ⚠️
+- Mapped to phases: 17 ✓ (Phases 6-10, milestone v2.0)
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-09-05*
-*Last updated: 2026-09-05 after initial v2.0 definition*
+*Last updated: 2026-09-05 after v2.0 roadmap creation (phases 6-10 assigned)*
