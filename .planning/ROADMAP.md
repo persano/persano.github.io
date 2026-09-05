@@ -33,67 +33,88 @@ Full details: [.planning/milestones/v1-ROADMAP.md](milestones/v1-ROADMAP.md)
 ## Phase Details
 
 ### Phase 6: Changelog Page
+
 **Goal**: Visitors can read the app's update history at a stable URL, with page chrome presented in their chosen language
 **Depends on**: Nothing (first phase of v2.0; builds on shipped v1 architecture)
 **Requirements**: CONT-06, CONT-07
 **Success Criteria** (what must be TRUE):
+
   1. Visitor opening `/geohist/changelog.html` sees entries newest-first with ISO dates in Keep-a-Changelog format (entries stay EN — documented i18n exception)
   2. Visitor browsing in es or pt-BR sees the changelog chrome (nav, headings, back links) in their language
   3. Changelog is reachable from every existing page via nav/footer links and listed in `sitemap.xml`
   4. A dictionary missing `changelog.*` keys — or an unregistered keycheck `pages` entry — fails CI (red-gate proven)
-**Plans**: 2 plans
+
+**Plans**: 1/2 plans executed
 Plans:
-- [ ] 06-01-PLAN.md — Keyed-chrome changelog page + atomic i18n key wiring (page, navs/footers, dictionaries, keycheck registration) + red-gate proof
+**Wave 1**
+
+- [x] 06-01-PLAN.md — Keyed-chrome changelog page + atomic i18n key wiring (page, navs/footers, dictionaries, keycheck registration) + red-gate proof
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 06-02-PLAN.md — App-repo-mined curated 0.x backfill (4-6 owner-reviewed entries) shipped into the page
+
 **UI hint**: yes
 
 ### Phase 7: Localization ×20 + RTL
+
 **Goal**: Visitors in any of the app's 20 supported languages see the whole site in their language, with properly mirrored layout for RTL readers
 **Depends on**: Phase 6 (changelog keys must exist before ×20 expansion, or all 20 dictionaries re-trigger a parity sweep)
 **Requirements**: I18N-05, I18N-06, I18N-07, I18N-08, I18N-09
 **Success Criteria** (what must be TRUE):
+
   1. Visitor with browser language among the 17 new locales is auto-detected and sees all pages translated (17 dictionaries at exact key parity with the live 146+changelog surface)
   2. Arabic/Urdu visitors see a mirrored RTL layout with bidi isolation and script-appropriate line-height (Urdu ~2, CJK ~1.7)
   3. Legacy/edge locale tags detect correctly: `in-*` → id, `zh-*` → zh Simplified, es/pt behavior unchanged (unit-tested prefix table)
   4. Language switcher presents all 20 endonyms as a compact select/menu and persists choice to `persano.lang`
   5. CI gate rejects any dictionary with missing keys, empty values, or CJK half-width punctuation — across all 20 dictionaries
+
 **Plans**: TBD (plan as waves: engine+RTL first, then dictionaries in 3–4-language batches with register table + app-`strings.xml` glossary)
 **UI hint**: yes
 
 ### Phase 8: Custom Domain Migration
+
 **Goal**: The site serves at the owner's custom domain over HTTPS with every Firebase integration and SEO surface intact through the migration
 **Depends on**: Phase 7 (domain rewrite is a mechanical pass over final content; no locale PR may reintroduce old-domain strings)
 **Requirements**: HOST-01, HOST-02, HOST-03
 **Success Criteria** (what must be TRUE):
+
   1. Site loads at the custom domain (apex + www) with a verified HTTPS certificate; github.io dual-hosts then redirects (Pages 301)
   2. Zero mixed-domain references: canonical, og:url, `sitemap.xml`, `robots.txt`, JSON-LD, smoke-check BASE, linkinator skips — all 42 refs rewritten in one commit, grep-verified
   3. Contact form works at the new domain: Firebase Auth authorized domains, API-key HTTP-referrer allowlist, reCAPTCHA domain list, and Search Console property all updated BEFORE the URL rewrite (cert verified before rewrite too)
   4. Owner resubmits the sitemap to Google Search Console under the new property post-migration
+
 **Plans**: TBD (code PR waits on owner DNS + registration; owner steps parallelizable from day 1)
 **UI hint**: no
 
 ### Phase 9: App Check, Monitor-First
+
 **Goal**: The contact form gains bot protection that is invisible to real users, with enforcement deferred until submission-count evidence says it is safe
 **Depends on**: Phase 8 (reCAPTCHA site key is domain-allowlisted — register once against the final domain)
 **Requirements**: FIRE-07, FIRE-08, FIRE-09, CMPL-05
 **Success Criteria** (what must be TRUE):
+
   1. Form submissions succeed with zero user-visible change while App Check runs in monitoring mode (`initializeAppCheck` as 4th lazy CDN module in `contact.js` submit path, init before auth/firestore; zero reCAPTCHA bytes in served HTML)
   2. A token-failure visitor sees a dedicated `contact.status.appcheck` status message with an email fallback — never a dead form
   3. App Check token-failure Analytics event fires (consent-gated), giving the owner metrics for the enforcement decision
   4. Enforcement flip is documented as a per-product (Firestore + Auth), reversible owner console step gated on successful-submission count — never calendar-based — with an owner-agreed monitoring threshold; provider decision (reCAPTCHA v3 vs Enterprise) recorded in-phase
   5. Privacy policy mentions reCAPTCHA/App Check and its consent interplay
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 10: Gated Social Proof
+
 **Goal**: The landing page proves credibility with verifiable facts today, with templates ready to flip the moment real Play ratings exist — never fabricating ratings
 **Depends on**: Phase 8 (avoid conflicting edits to `geohist/index.html` around the URL rewrite); externally gated on Play listing going live
 **Requirements**: SEO-05, SEO-06, SEO-07
 **Success Criteria** (what must be TRUE):
+
   1. Landing page shows a facts-only social-proof strip (20 localizations, offline-capable, game modes) — every claim verifiable on-site
   2. "Rated X.X ★ on Google Play" Tier-1 proof row exists in markup shipping OFF, with attributed link template; owner flips it when the listing is live with real ratings
   3. aggregateRating JSON-LD (Tier-2) stays permanently OFF with documented precondition (an on-site review source must exist) — never mirrors Play ratings
   4. Live structured data passes Google review-snippet policy — no fabricated ratings or placeholder reviews anywhere
+
 **Plans**: TBD
 **UI hint**: yes
 
@@ -108,7 +129,7 @@ Plans:
 | 3. i18n Engine + Dictionaries | v1.0 | 2/2 | Complete | 2026-09-02 |
 | 4. Consent Gate + Firebase | v1.0 | 2/2 | Complete | 2026-09-03 |
 | 5. Discovery & Quality | v1.0 | 4/4 | Complete | 2026-09-05 |
-| 6. Changelog Page | v2.0 | 0/2 | Planning done | - |
+| 6. Changelog Page | v2.0 | 1/2 | In Progress|  |
 | 7. Localization ×20 + RTL | v2.0 | 0/? | Not started | - |
 | 8. Custom Domain Migration | v2.0 | 0/? | Not started | - |
 | 9. App Check, Monitor-First | v2.0 | 0/? | Not started | - |

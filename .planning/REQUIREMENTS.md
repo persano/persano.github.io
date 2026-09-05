@@ -12,7 +12,7 @@ Continues requirement numbering from v1 (archived at `.planning/milestones/v1-RE
 ### Changelog
 
 - [ ] **CONT-06**: Visitor can view app changelog at `/geohist/changelog.html` — newest-first, ISO dates, Keep-a-Changelog format, EN entries (documented i18n exception: chrome keyed, entries stay EN)
-- [ ] **CONT-07**: Changelog page chrome is i18n-keyed; `i18n-keycheck.mjs` `pages` array entry red-gate tested; sitemap + nav/footer links added; es/pt-BR dictionaries gain `changelog.*` keys atomically with the page
+- [x] **CONT-07**: Changelog page chrome is i18n-keyed; `i18n-keycheck.mjs` `pages` array entry red-gate tested; sitemap + nav/footer links added; es/pt-BR dictionaries gain `changelog.*` keys atomically with the page
 
 ### Localization ×20
 
@@ -68,7 +68,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | CONT-06 | Phase 6 | Pending |
-| CONT-07 | Phase 6 | Pending |
+| CONT-07 | Phase 6 | Complete |
 | I18N-05 | Phase 7 | Pending |
 | I18N-06 | Phase 7 | Pending |
 | I18N-07 | Phase 7 | Pending |
@@ -86,6 +86,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SEO-07 | Phase 10 | Pending |
 
 **Coverage:**
+
 - v2 requirements: 17 total
 - Mapped to phases: 17 ✓ (Phases 6-10, milestone v2.0)
 - Unmapped: 0

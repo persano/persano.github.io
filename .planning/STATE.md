@@ -5,11 +5,11 @@ milestone_name: Full Deferred Scope
 current_phase: 06
 current_phase_name: Changelog Page
 status: executing
-stopped_at: Phase 6 context gathered
-last_updated: "2026-09-05T17:19:10.557Z"
+stopped_at: Completed 06-01-PLAN.md
+last_updated: "2026-09-05T17:48:43.747Z"
 last_activity: 2026-09-05
-last_activity_desc: v2.0 roadmap created (5 phases, 17/17 requirements mapped)
-state_head: 643fcdfb134ee0fe6c68561f9f6070ac2c8fd9f9
+last_activity_desc: Phase 06 execution started
+state_head: ce600360cb567c81af665705c16f784af2fecdd6
 progress:
   total_phases: 5
   completed_phases: 0
@@ -25,14 +25,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-09-05)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel — before the app goes live on Google Play.
-**Current focus:** Phase 6 — Changelog Page (ready to plan)
+**Current focus:** Phase 06 — Changelog Page
 
 ## Current Position
 
-Phase: 06 (Changelog Page) — READY TO EXECUTE
-Plan: 0 of TBD in current phase
+Phase: 06 (Changelog Page) — EXECUTING
+Plan: 2 of 2
 Status: Ready to execute
-Last activity: 2026-09-05 — v2.0 roadmap created (5 phases, 17/17 requirements mapped)
+Last activity: 2026-09-05 — Phase 06 execution started
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -54,6 +54,11 @@ Progress: [░░░░░░░░░░] 0%
 | 10 | 0 | - | - |
 
 *Updated after each plan completion. v1 per-plan durations archived in MILESTONES.md.*
+**Per-Plan Metrics:**
+
+| Plan | Duration | Tasks | Files |
+|------|----------|-------|-------|
+| Phase 06 P01 | 23 min | 3 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -69,6 +74,9 @@ Recent decisions affecting current work:
 - [Locked] aggregateRating JSON-LD permanently OFF unless an on-site review source exists (Google review-snippet policy bars mirroring Play ratings)
 - [v1] Firestore console ruleset is NOT byte-identical to repo `firebase/firestore.rules` — future rules edits require console re-paste
 - [v1] Canonical measurementId G-KDWVVHRYD5; site copy refers to Santiago David Postorivo (internal `persano.*` identifiers unchanged)
+- [Phase 06]: Changelog chrome keyed changelog.* mirroring guide.html 1:1; entry content stays EN-unkeyed (documented i18n exception)
+- [Phase 06]: Fixed vacuous validate:links — linkinator 8.1.0 treats the ^https?:// lookahead skip as match-nothing (0 links scanned); replaced with plain-string skips, live self-URL checks live in smoke-check.sh
+- [Phase 06]: Key surface 146→169 moved atomically (page + 3 nav/footer inserts + 2 dictionaries + keycheck registration, one commit); red gate proven both directions locally
 
 ### Pending Todos
 
@@ -100,6 +108,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-05T16:41:30.764Z
-Stopped at: Phase 6 context gathered
-Resume file: .planning/phases/06-changelog-page/06-CONTEXT.md
+Last session: 2026-09-05T17:48:32.469Z
+Stopped at: Completed 06-01-PLAN.md
+Resume file: None
