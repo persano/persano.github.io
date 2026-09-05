@@ -505,3 +505,34 @@ footer {
   height: 1px;
   overflow: hidden;
 }
+
+/* ---- Changelog timeline entries (CONT-06/D-06/D-07/D-09) ----
+   Card-block rows following the .mode-item convention; solid token
+   surface only — decoration never sits behind copy. */
+
+.changelog-entry {
+  background-color: var(--color-surface);
+  border: var(--hairline);
+  border-radius: 0.5rem;
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.changelog-entry h2 {
+  font-size: 1.35rem;
+  margin: 0 0 0.75rem;
+}
+
+.changelog-entry h3 {
+  margin: 1.1rem 0 0.4rem;
+  color: var(--color-accent-2);
+  font-size: 1.05rem;
+}
+
+.changelog-entry ul {
+  margin: 0 0 0.25rem 1.25rem;
+}
+
+.changelog-entry li {
+  margin-bottom: 0.4rem;
+}
