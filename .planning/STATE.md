@@ -4,17 +4,17 @@ milestone: v2.0
 milestone_name: Full Deferred Scope
 current_phase: 06
 current_phase_name: Changelog Page
-status: verifying
-stopped_at: Completed 06-02-PLAN.md
-last_updated: "2026-09-05T18:03:04.978Z"
+status: executing
+stopped_at: Completed 06-03-PLAN.md — Phase 06 all plans executed
+last_updated: "2026-09-06T00:01:06.855Z"
 last_activity: 2026-09-05
 last_activity_desc: Phase 06 execution started
-state_head: 03e06f5b7082f4a90d727429e43e55c23e4d7583
+state_head: 05aef1d26d556a1d26838688ee67af88ae49aaef
 progress:
   total_phases: 5
   completed_phases: 0
-  total_plans: 2
-  completed_plans: 2
+  total_plans: 3
+  completed_plans: 3
   percent: 0
 ---
 
@@ -30,9 +30,9 @@ See: .planning/PROJECT.md (updated 2026-09-05)
 ## Current Position
 
 Phase: 06 (Changelog Page) — EXECUTING
-Plan: 2 of 2
-Status: Phase complete — ready for verification
-Last activity: 2026-09-05 — Phase 06 execution started
+Plan: 3 of 3 — all plans executed
+Status: Phase 06 execution complete (verifier/ship pending)
+Last activity: 2026-09-06 — 06-03 gap closure executed (G-06-9 resolved)
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -60,6 +60,7 @@ Progress: [░░░░░░░░░░] 0%
 |------|----------|-------|-------|
 | Phase 06 P01 | 23 min | 3 tasks | 12 files |
 | Phase 06 P02 | 7 min | 2 tasks | 2 files |
+| Phase 06 P03 | 10 min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -79,6 +80,7 @@ Recent decisions affecting current work:
 - [Phase 06]: Fixed vacuous validate:links — linkinator 8.1.0 treats the ^https?:// lookahead skip as match-nothing (0 links scanned); replaced with plain-string skips, live self-URL checks live in smoke-check.sh
 - [Phase 06]: Key surface 146→169 moved atomically (page + 3 nav/footer inserts + 2 dictionaries + keycheck registration, one commit); red gate proven both directions locally
 - [Phase 06]: Curated 6 of 13 real 0.x versions for changelog backfill (0.88/0.87/0.84/0.8/0.7/0.2) telling the arc; git-mined dates authoritative (0.2 -> 2026-08-24, 0.88 -> 2026-09-04); pre-scheme 3.0-10.0 era excluded — D-02 curation over commit-log dump; D-08 honesty - dates match versionName-touching commits, cross-checkable against Play history
+- [Phase 06]: [Phase 06] G-06-9 resolved per owner D-notice: Notice only — keyed changelog notice (170-key atomic surface move) + static EN-ES-PT line on scriptless privacy.html (06-01 D-13 stands, no dead-key swap); browser-native translation remains the mechanism; deploy push gate unblocked
 
 ### Pending Todos
 
@@ -110,6 +112,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-05T18:03:04.960Z
-Stopped at: Completed 06-02-PLAN.md
+Last session: 2026-09-06T00:01:06.839Z
+Stopped at: Completed 06-03-PLAN.md — Phase 06 all plans executed
 Resume file: None
