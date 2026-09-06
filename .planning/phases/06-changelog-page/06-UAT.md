@@ -1,19 +1,15 @@
 ---
-status: testing
+status: complete
 phase: 06-changelog-page
 source: 06-01-SUMMARY.md, 06-02-SUMMARY.md, 06-03-SUMMARY.md, 06-VERIFICATION.md
 started: 2026-09-05T18:05:00Z
-updated: 2026-09-05T21:20:00Z
+updated: 2026-09-06T00:00:00Z
 ---
 
 ## Current Test
 <!-- OVERWRITE each test - shows where we are -->
 
-number: 11
-name: UAT test 9 re-run — G-06-9 closure (entries-language notice in Spanish)
-expected: |
-  Notice 'Las entradas de abajo se muestran en inglés.' visible above the entries; nav/footer/title/intro in Spanish; the 6 entry articles correctly still in English
-awaiting: user response
+[testing complete]
 
 ## Tests
 
@@ -85,22 +81,22 @@ result: pass
 
 ### 11. UAT test 9 re-run — G-06-9 closure (06-03 D-notice)
 expected: Switch site language to Español on /geohist/changelog.html — notice 'Las entradas de abajo se muestran en inglés.' visible above the entries; nav/footer/title/intro in Spanish; the 6 entry articles correctly still in English (pt-BR: 'As entradas abaixo são mostradas em inglês.')
-result: [pending]
+result: pass
 
 ### 12. Visual placement check (06-03 notices)
 expected: /geohist/privacy.html shows the trilingual EN/ES/PT line under 'Last updated'; /geohist/changelog.html shows the notice between intro and first entry, styled muted/small; both visible, correctly placed, no layout breakage, no translate button/widget anywhere
-result: [pending]
+result: pass
 
 ### 13. Deploy push gate confirmation (owner)
 expected: Owner confirms UAT re-run passes; /gsd-ship lands the 5-file atomic set (changelog.html, privacy.html, base.css, es.json, pt-BR.json) before push — 06-03 code changes are deferred-commit (uncommitted in working tree, ledger in 06-03-SUMMARY.md)
-result: [pending]
+result: pass
 
 ## Summary
 
 total: 13
-passed: 9
+passed: 12
 issues: 1
-pending: 3
+pending: 0
 skipped: 0
 blocked: 0
 
@@ -108,7 +104,9 @@ blocked: 0
 
 - gap_id: G-06-9
   truth: "Changelog page chrome (nav, footer, title, intro) reads in the selected site language (Spanish/Portuguese)"
-  status: failed
+  status: resolved
+  resolved_by: 06-03-PLAN
+  resolved_at: 2026-09-05
   reason: "User reported: sorry, one error, changelog is only in english, even when setting site to spanish"
   severity: major
   test: 9
