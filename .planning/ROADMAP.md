@@ -24,7 +24,7 @@ Full details: [.planning/milestones/v1-ROADMAP.md](milestones/v1-ROADMAP.md)
 
 **Milestone Goal:** Ship every v2-deferred item — 17 new localizations (incl. RTL), gated social proof, App Check, changelog page, custom domain.
 
-- [ ] **Phase 6: Changelog Page** - `/geohist/changelog.html` with keyed chrome, atomic dictionary keys, CI red-gate proof
+- [x] **Phase 6: Changelog Page** - `/geohist/changelog.html` with keyed chrome, atomic dictionary keys, CI red-gate proof (completed 2026-09-06)
 - [ ] **Phase 7: Localization ×20 + RTL** - 17 new dictionaries at exact key parity plus engine/detection/switcher/RTL layout work
 - [ ] **Phase 8: Custom Domain Migration** - Owner domain live on Pages: cert-first, console-allowlists-before-rewrite, zero mixed-domain refs
 - [ ] **Phase 9: App Check, Monitor-First** - Invisible bot protection on the contact form; enforcement as evidence-gated owner console step
@@ -133,7 +133,7 @@ Plans:
 | 3. i18n Engine + Dictionaries | v1.0 | 2/2 | Complete | 2026-09-02 |
 | 4. Consent Gate + Firebase | v1.0 | 2/2 | Complete | 2026-09-03 |
 | 5. Discovery & Quality | v1.0 | 4/4 | Complete | 2026-09-05 |
-| 6. Changelog Page | v2.0 | 3/3 | In Progress|  |
+| 6. Changelog Page | v2.0 | 3/3 | Complete    | 2026-09-06 |
 | 7. Localization ×20 + RTL | v2.0 | 0/? | Not started | - |
 | 8. Custom Domain Migration | v2.0 | 0/? | Not started | - |
 | 9. App Check, Monitor-First | v2.0 | 0/? | Not started | - |

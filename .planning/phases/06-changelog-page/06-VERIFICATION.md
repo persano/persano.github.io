@@ -1,7 +1,7 @@
 ---
 phase: 06-changelog-page
 verified: 2026-09-05T21:13:49Z
-status: human_needed
+status: passed
 score: 18/20 must-haves verified
 behavior_unverified: 2
 overrides_applied: 0
@@ -9,38 +9,47 @@ re_verification:
   previous_status: null
   previous_score: null
   gaps_closed:
+
     - "G-06-9 — changelog reads as English-only when site set to Spanish (UAT test 9); closed by plan 06-03 per owner D-notice: keyed translated entries-language notice on changelog.html + static trilingual notice on privacy.html"
   gaps_remaining: []
   regressions: []
 prohibitions:
+
   - statement: "MUST NOT invent or misdate versions (06-02 P1)"
     status: verified
     verification: judgment
     evidence: "Fresh git mining this session: all 6 page dates match versionName-touching commits (0.88→2cefab4 2026-09-04, 0.87→9c6eef9 2026-09-02, 0.84→4f2eedf 2026-08-31, 0.8→745abc8 2026-08-26, 0.7→4d22ca3 2026-08-26, 0.2→491ca9c 2026-08-24)"
+
   - statement: "Entries must NOT become a commit-log dump (06-02 P2)"
     status: verified
     verification: judgment
     evidence: "Entry text read in full — player-facing plain language, no hashes/waves/jargon; owner UAT test 10 (content review) recorded pass in 06-UAT.md"
+
   - statement: "Entry content must stay unkeyed EN (06-02 P3)"
     status: verified
     verification: test
     evidence: "Mechanical: swapkeys=0 inside all 6 article.changelog-entry blocks (entry-check script this session); keycheck PASS at 170 proves no orphan keys"
 behavior_unverified_items:
+
   - truth: "A visitor reading /geohist/changelog.html in Spanish or Portuguese sees a one-line notice in their language stating the entries are shown in English"
     test: "Switch site language to Español (footer switcher) on /geohist/changelog.html — the UAT test 9 re-run from 06-03-SUMMARY.md"
     expected: "Notice line under the intro reads 'Las entradas de abajo se muestran en inglés.' (pt-BR: 'As entradas abaixo são mostradas em inglês.')"
     why_human: "Runtime behavior: dictionary fetch + DOM textContent swap in js/i18n.js. Presence and wiring are proven (keyed node, non-empty es/pt values, keycheck PASS at 170, engine applies page-agnostically) but no automated test exercises the language-switch → translated-notice rendering; needs a real browser with the switcher"
+
   - truth: "Visitor browsing in es or pt-BR sees the changelog chrome (nav, headings, back links) in their language (roadmap SC 2)"
     test: "Same switcher pass: while on Español/Português, read nav links, H1, intro, back link, footer on /geohist/changelog.html"
     expected: "Chrome reads in the chosen language (e.g. nav 'Juego/Guía/Preguntas frecuentes/Changelog/Privacidad'), with entries and subheads correctly remaining in English"
     why_human: "Runtime dictionary application; UAT test 9's original 'all English' report was diagnosed as entries-dominance/file:// artifact, not a clean chrome observation — a clean post-fix switcher pass closes both this and the notice truth"
 human_verification:
+
   - test: "UAT test 9 re-run (06-03-SUMMARY.md): switch site language to Español on /geohist/changelog.html"
     expected: "Notice 'Las entradas de abajo se muestran en inglés.' visible above the entries; nav/footer/title/intro in Spanish; the 6 entry articles correctly still in English"
     why_human: "Runtime i18n rendering; the exact gap G-06-9 closure condition"
+
   - test: "Visual check: /geohist/privacy.html shows the trilingual line under 'Last updated'; /geohist/changelog.html shows the notice between intro and first entry, styled muted/small"
     expected: "Both notices visible, correctly placed, no layout breakage, no translate button/widget anywhere"
     why_human: "Visual appearance and placement"
+
   - test: "Confirm deploy push gate state with owner: 06-03 declared the gate unblocked; all 06-03 code changes are deferred-commit (uncommitted in working tree, ledger in 06-03-SUMMARY.md)"
     expected: "Owner confirms UAT re-run passes; /gsd-ship lands the 5-file atomic set (changelog.html, privacy.html, base.css, es.json, pt-BR.json) before push"
     why_human: "Deploy authorization is an owner decision (D-03)"
