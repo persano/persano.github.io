@@ -546,3 +546,12 @@ footer {
 .changelog-entry li {
   margin-bottom: 0.4rem;
 }
+
+/* EN-entries notice (G-06-9/D-notice): keyed one-liner above the entries,
+   telling es/pt-BR visitors the entry content is shown in English. Muted
+   token reuses the verified 9.38:1 contrast; 0.95rem matches base.css:110. */
+.lang-notice {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  margin-bottom: 0.9rem;
+}

@@ -167,5 +167,6 @@
   "changelog.footer.changelog": "Novedades",
   "changelog.footer.back": "Volver al inicio",
   "changelog.footer.consent": "Consentimiento",
-  "changelog.footer.copyright": "© Santiago David Postorivo"
+  "changelog.footer.copyright": "© Santiago David Postorivo",
+  "changelog.entries.notice": "Las entradas de abajo se muestran en inglés."
 }
