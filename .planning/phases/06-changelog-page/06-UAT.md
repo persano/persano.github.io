@@ -71,9 +71,8 @@ covering: keycheck PASS both dictionaries at 169; npm run validate exit 0 (18 li
 
 ### 9. Translated chrome quality (es/pt-BR)
 expected: Switch to Español or Português on /geohist/changelog.html — chrome (nav, footer, title, intro) reads in that language with tone parity to existing dictionaries; intro copy owner-approved
-result: issue
-reported: "sorry, one error, changelog is only in english, even when setting site to spanish"
-severity: major
+result: pass
+resolved_by: 06-03-PLAN (gap G-06-9) — re-run as test 11 passed; entries stay EN by design with keyed per-language notice
 
 ### 10. Owner content review of backfilled milestones
 expected: You read the 6 backfilled entries — arc truthful, tone and depth right, 0.88 at top, intro wording approved — before any public deploy push
@@ -94,8 +93,8 @@ result: pass
 ## Summary
 
 total: 13
-passed: 12
-issues: 1
+passed: 13
+issues: 0
 pending: 0
 skipped: 0
 blocked: 0
