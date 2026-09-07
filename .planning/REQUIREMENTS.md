@@ -26,7 +26,7 @@ Continues requirement numbering from v1 (archived at `.planning/milestones/v1-RE
 
 - [x] **HOST-01**: Site serves at owner-registered custom domain with HTTPS — GitHub Pages repo-Settings config (no CNAME file under Actions publishing), DNS (apex A×4 + AAAA×4, www CNAME, TXT verification), cert verified BEFORE rewrite; console allowlists (Firebase Auth authorized domains, API-key HTTP-referrer restriction, reCAPTCHA domain list, Search Console property) updated BEFORE URL rewrite
 - [x] **HOST-02**: All 42 hardcoded absolute URLs rewritten in one commit (canonical, og:url, sitemap.xml, robots.txt, JSON-LD URLs, smoke-check BASE, linkinator skips) — zero mixed-domain refs, grep-verified; github.io dual-hosts then redirects
-- [ ] **HOST-03**: Sitemap resubmitted to Google Search Console post-migration (owner console step)
+- [x] **HOST-03**: Sitemap resubmitted to Google Search Console post-migration (owner console step)
 
 ### App Check
 
@@ -76,7 +76,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | I18N-09 | Phase 7 | Complete |
 | HOST-01 | Phase 8 | Complete |
 | HOST-02 | Phase 8 | Complete |
-| HOST-03 | Phase 8 | Pending |
+| HOST-03 | Phase 8 | Complete |
 | FIRE-07 | Phase 9 | Pending |
 | FIRE-08 | Phase 9 | Pending |
 | FIRE-09 | Phase 9 | Pending |
