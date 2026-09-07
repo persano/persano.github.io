@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Full Deferred Scope
-current_phase: 8
+current_phase: 08
 current_phase_name: Custom Domain Migration
-status: "Phase 7 shipped — PR #3"
-stopped_at: Phase 8 context gathered
-last_updated: "2026-09-07T21:03:36.284Z"
+status: executing
+stopped_at: Completed 08-01-PLAN.md agent portion (Task 3 owner gate open, six items)
+last_updated: "2026-09-07T21:20:14.014Z"
 last_activity: 2026-09-07
-last_activity_desc: Phase 8 planning complete
-state_head: fbc0c39d7dfbdd0a6484c56924a8e8b4862d2ac2
+last_activity_desc: Phase 08 execution started
+state_head: 4bb2ea889448e2159e194a135b24e2761584ade2
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 12
-  completed_plans: 9
+  completed_plans: 10
   percent: 40
 ---
 
@@ -25,18 +25,18 @@ progress:
 See: .planning/PROJECT.md (updated 2026-09-07)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel — before the app goes live on Google Play.
-**Current focus:** Phase 8 — Custom Domain Migration
+**Current focus:** Phase 08 — Custom Domain Migration
 
 ## Current Position
 
-Phase: 8 (Custom Domain Migration) — READY TO EXECUTE
-Plan: Not started
-Status: Phase 7 shipped — PR #3
+Phase: 08 (Custom Domain Migration) — EXECUTING
+Plan: 2 of 3
+Status: Ready to execute
 Total Plans in Phase: 3
 Plans Executed: 6
-Last activity: 2026-09-07 — Phase 8 planning complete
+Last activity: 2026-09-07 — Phase 08 execution started
 
-Progress: [████████████████████] 9/9 plans — v2.0 milestone 40% (2/5 phases)
+Progress: [████████████████████] 9/9 plans — v2.0 milestone [████░░░░░░] 40% (2/5 phases)
 
 ## Performance Metrics
 
@@ -68,6 +68,7 @@ Progress: [████████████████████] 9/9 pla
 | Phase 07 P03 | 42 min | 2 tasks | 4 files |
 | Phase 07 P04 | 40 min | 2 tasks | 4 files |
 | Phase 07 P06 | 4 min | 3 tasks | 21 files |
+| Phase 08 P01 | 12 min | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -95,6 +96,7 @@ Recent decisions affecting current work:
 - [Phase 07]: [Phase 07]: ko register = 해요체 (locked default; app values-ko leans 합니다체 — used for terminology only); ko keeps half-width punctuation per documented gate exemption
 - [Phase 07]: [Phase 07]: Dictionary wave 3 (it pl nl vi) landed at exact 170-key parity; registers from defaults table confirmed by app data (it tu 50/Lei 17, pl Ty 24/Pan 4, nl je 94/u 1); vi pronoun-avoidant per table (0 real personal pronouns) despite app values-vi using bạn 76x; vi length 109.2% of EN with 5 longest values 91-119 percent (no 2x blowups); Latin brand kept in all four per app_name
 - [Phase 07]: Phase 07: G-07-5a closed — FAQ languages answer count-style ('…and 17 more languages.') in EN baseline + all 19 dictionaries; key surface unchanged at 170 keys; validate chain green; 07-RESEARCH Open Questions marked RESOLVED (all 4 answered by 07-01/07-02)
+- [Phase 08]: Phase 08 P01: owner option-B divergence ruling — GitHub TXT NXDOMAIN absorbed as runbook §1b/§2 re-add flow; https_enforced flipped true on cert-approved (GET-after-PUT proof); Task 3 gate = six items; http edge propagation ≤24h pending
 
 ### Pending Todos
 
@@ -109,6 +111,7 @@ None yet.
 - App Check enforcement threshold (N successful submissions + token-failure %) to be agreed with owner in Phase 9
 - Play Console privacy-URL field still owner-pending before Play submission (v1 carryover); Play listing live date gates SEO-06 flip
 - Urdu Nastaliq rendering quality needs real-device visual verification (documented degradation acceptable, silent discovery is not)
+- Phase 08 plan 01 Task 3 owner gate OPEN (blocking-human): AAAA×4 (Spaceship), TXT re-add + Verify click (profile Settings), Firebase Auth authorized-domains, API-key referrer allowlist, GSC Domain property, soft protected_domain_state — 08-02 rewrite must NOT start until gate passes
 
 ## Deferred Items
 
@@ -126,6 +129,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-07T20:09:00.905Z
-Stopped at: Phase 8 context gathered
-Resume file: .planning/phases/08-custom-domain-migration/08-CONTEXT.md
+Last session: 2026-09-07T21:20:13.602Z
+Stopped at: Completed 08-01-PLAN.md agent portion (Task 3 owner gate open, six items)
+Resume file: None
