@@ -5,16 +5,16 @@ milestone_name: Full Deferred Scope
 current_phase: 07
 current_phase_name: Localization ×20 + RTL
 status: executing
-stopped_at: Completed 07-02-PLAN.md (dictionary wave 1)
-last_updated: "2026-09-07T03:49:04.029Z"
+stopped_at: Completed 07-03-PLAN.md (dictionary wave 2)
+last_updated: "2026-09-07T04:36:27.378Z"
 last_activity: 2026-09-06
 last_activity_desc: Phase 07 execution started
-state_head: 67b5c96cba07725880856bfd026a608efd44b7fe
+state_head: ecea3f771449a40d0d7d73588c493ad9ffaddc35
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 8
-  completed_plans: 5
+  completed_plans: 6
   percent: 20
 ---
 
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-09-06)
 ## Current Position
 
 Phase: 07 (Localization ×20 + RTL) — EXECUTING
-Plan: 3 of 5
+Plan: 4 of 5
 Status: Ready to execute
 Total Plans in Phase: 5
 Plans Executed: 0
@@ -65,6 +65,7 @@ Progress: [████████████████████] 3/3 pla
 | Phase 06 P03 | 10 min | 3 tasks | 5 files |
 | Phase 07 P01 | 14 min | 3 tasks | 5 files |
 | Phase 07 P02 | 41 min | 3 tasks | 5 files |
+| Phase 07 P03 | 42 min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -88,6 +89,8 @@ Recent decisions affecting current work:
 - [Phase 07]: Phase 07: el placed as own script group between Cyrillic and Indic in the D-03 switcher order; हिन्दी endonym spelling chosen (stay consistent)
 - [Phase 07]: Phase 07: keycheck CJK half-width punct gate scoped ja+zh, ko exempt (common Korean usage); digit-period exception (0.88 passes); [zh,pt] now detects zh (first supported match wins) — documented intentional change
 - [Phase 07]: [Phase 07]: Dictionary wave 1 (hi de fr ru) landed at exact 170-key parity; de drafted in Sie (app values-de mixed-register — used for terminology only), Sie-vs-du flagged for D-06 owner spot check
+- [Phase 07]: [Phase 07]: Dictionary wave 2 (ja ko tr id) landed at exact 170-key parity; ja green under the live CJK punct gate with zero gate edits; raw email kept out of ja VALUES (ASCII dots fail CJK gate — mailto href keeps the address, ja prose points to contact form); brand Latin in all four per app app_name
+- [Phase 07]: [Phase 07]: ko register = 해요체 (locked default; app values-ko leans 합니다체 — used for terminology only); ko keeps half-width punctuation per documented gate exemption
 
 ### Pending Todos
 
@@ -119,6 +122,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-07T03:49:03.852Z
-Stopped at: Completed 07-02-PLAN.md (dictionary wave 1)
+Last session: 2026-09-07T04:36:27.205Z
+Stopped at: Completed 07-03-PLAN.md (dictionary wave 2)
 Resume file: None
