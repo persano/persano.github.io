@@ -107,7 +107,12 @@ Plans:
   3. Contact form works at the new domain: Firebase Auth authorized domains, API-key HTTP-referrer allowlist, reCAPTCHA domain list, and Search Console property all updated BEFORE the URL rewrite (cert verified before rewrite too)
   4. Owner resubmits the sitemap to Google Search Console under the new property post-migration
 
-**Plans**: TBD (code PR waits on owner DNS + registration; owner steps parallelizable from day 1)
+**Plans**: 3 plans (owner DNS + registration already largely live per research; owner console steps parallelizable from day 1 via 08-RUNBOOK.md)
+
+Plans:
+- [ ] 08-01-infra-verify-runbook-PLAN.md — re-verify live Pages/DNS state, gh-CLI HTTPS enforce flip, owner runbook + blocking owner gate (HOST-01)
+- [ ] 08-02-rewrite-ci-gate-PLAN.md — atomic 44-ref rewrite + permanent CI old-domain gate + smoke green on apex (HOST-02)
+- [ ] 08-03-gsc-post-migration-PLAN.md — final sweep + owner GSC sitemap resubmit + Change of Address (HOST-03)
 **UI hint**: no
 
 ### Phase 9: App Check, Monitor-First
