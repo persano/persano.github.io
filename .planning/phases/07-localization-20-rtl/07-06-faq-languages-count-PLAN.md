@@ -6,6 +6,7 @@ wave: 6
 depends_on: ["07-05"]
 files_modified:
   - geohist/index.html
+  - .planning/phases/07-localization-20-rtl/07-RESEARCH.md
   - js/i18n/ar.json
   - js/i18n/bn.json
   - js/i18n/de.json
@@ -34,7 +35,7 @@ user_setup: []
 estimate:
   tokens: 24000
   raw_tokens: 12000
-  tasks: 2
+  tasks: 3
   confidence: low
 
 must_haves:
@@ -84,7 +85,7 @@ Edit ONLY the text between the tags. Do not touch the data-i18n attribute, surro
 The number is 16 per the locked user decision ("3 existing + 16 more = 20 total") — do not substitute 17 or any other figure.
   </action>
   <verify>
-    <automated>rg -n "English, Spanish, Portuguese and 16 more languages." geohist/index.html && rg -c "Portuguese and more" geohist/index.html; if [ $? -eq 0 ]; then echo "FAIL: old value still present"; exit 1; else echo "OK: old value gone"; fi</automated>
+    <automated>node -e "const fs=require('fs');const h=fs.readFileSync('geohist/index.html','utf8');if(!h.includes('English, Spanish, Portuguese and 16 more languages.')){console.error('FAIL: new value missing');process.exit(1)}if(h.includes('Portuguese and more')){console.error('FAIL: old value still present');process.exit(1)}console.log('OK: EN baseline count-style')"</automated>
   </verify>
   <done>geohist/index.html:142 reads "English, Spanish, Portuguese and 16 more languages." and the old "and more" phrasing is gone from the file.</done>
 </task>
@@ -137,6 +138,18 @@ After all 19 edits, run the full validation chain. html-validate/linkinator/dete
   <done>npm run validate exits 0 (html-validate clean, linkinator 200s, 23/23 detect, keycheck PASS ×19 at 170-key parity, zero empty values); every dictionary's geohist.faq.languages.a contains the count-style "16" phrasing; ja/zh pass the CJK punct gate with full-width 、 and 。; ur keeps ، and ۔; no other key differs (git diff shows exactly 20 changed value lines across the phase: 1 HTML + 19 JSON).</done>
 </task>
 
+<task type="auto">
+  <name>Task 3: research bookkeeping — mark 07-RESEARCH.md Open Questions RESOLVED (checker warning)</name>
+  <files>.planning/phases/07-localization-20-rtl/07-RESEARCH.md</files>
+  <action>
+Doc-only touch (checker warning research_resolution): at line 472 of 07-RESEARCH.md, rename the heading `## Open Questions` to `## Open Questions (RESOLVED)`. Then append one bullet per question, each starting with `RESOLVED: `, pointing at the resolving artifact — Q1 (de register du vs Sie): resolved by 07-01 (Sie-implied neutral register, no pronoun in this value) + UAT checks 10/10; Q2 (switcher aria-label mechanism): resolved by 07-01 (per-language LANG_LABELS map — language-correct, zero key-surface impact); Q3 (committed scripts/i18n-surface.mjs vs one-off node scripts): resolved by 07-02 (committed reusable extractor); Q4 (ko line-height grouping): resolved by 07-01 (ko included in the 1.7 CJK rule, documented). Change nothing else in the file — no line renumbering of body content beyond the appended bullets and heading suffix.
+  </action>
+  <verify>
+    <automated>node -e "const fs=require('fs');const h=fs.readFileSync('.planning/phases/07-localization-20-rtl/07-RESEARCH.md','utf8');if(!h.includes('## Open Questions (RESOLVED)')){console.error('FAIL: heading not marked');process.exit(1)}const c=(h.match(/RESOLVED:/g)||[]).length;if(c<4){console.error('FAIL: expected >=4 RESOLVED notes, got '+c);process.exit(1)}console.log('OK: research open questions marked RESOLVED')"</automated>
+  </verify>
+  <done>07-RESEARCH.md heading reads "## Open Questions (RESOLVED)" and all 4 questions carry inline RESOLVED notes pointing at 07-01/07-02 solutions and UAT evidence.</done>
+</task>
+
 </tasks>
 
 <threat_model>
@@ -154,14 +167,14 @@ After all 19 edits, run the full validation chain. html-validate/linkinator/dete
 </threat_model>
 
 <verification>
-- `npm run validate` exit 0 after both tasks: html-validate clean, linkinator 200s, 23/23 detect tests, keycheck PASS ×19 (exact 170-key parity, zero empty values).
-- `git diff --stat` shows exactly 20 files, 1 line each (index.html + 19 json) — no key additions/removals, no other files touched.
+- `npm run validate` exit 0 after the content tasks: html-validate clean, linkinator 200s, 23/23 detect tests, keycheck PASS ×19 (exact 170-key parity, zero empty values).
+- `git diff --stat` shows exactly 20 content files, 1 line each (index.html + 19 json), plus the docs-only 07-RESEARCH.md edit — no key additions/removals, no other files touched.
 </verification>
 
 <success_criteria>
 - G-07-5a closed: FAQ languages answer states the 20-language surface in count-style phrasing ("... 16 more languages" form) in EN and all 19 locales.
 - Key set unchanged at 170 keys; CJK/Urdu punctuation conventions intact; validate chain fully green.
-- Single commit: `fix(07-06): FAQ languages answer count-style across EN + 19 dicts (G-07-5a)`.
+- Single commit: `fix(07-06): FAQ languages answer count-style across EN + 19 dicts (G-07-5a)`; docs bookkeeping may ride a second commit `docs(07-06): mark 07-RESEARCH Open Questions RESOLVED`.
 </success_criteria>
 
 <output>
