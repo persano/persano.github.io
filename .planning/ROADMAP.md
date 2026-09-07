@@ -73,7 +73,18 @@ Plans:
   4. Language switcher presents all 20 endonyms as a compact select/menu and persists choice to `persano.lang`
   5. CI gate rejects any dictionary with missing keys, empty values, or CJK half-width punctuation — across all 20 dictionaries
 
-**Plans**: TBD (plan as waves: engine+RTL first, then dictionaries in 3–4-language batches with register table + app-`strings.xml` glossary)
+**Plans:** 5 plans
+
+**Wave 1** *(engine + RTL + switcher + gate hardening)*
+
+- [ ] 07-01-PLAN.md — Detect prefix table + tests, select switcher, dir switching, RTL/line-height CSS, keycheck hardening
+
+**Waves 2–5** *(dictionaries, market-size order per D-05: glossary mining + two-pass drafting + gate, one atomic commit per wave)*
+
+- [ ] 07-02-PLAN.md — Dicts W1: hi, de, fr, ru (+ i18n-surface.mjs helper)
+- [ ] 07-03-PLAN.md — Dicts W2: ja, ko, tr, id
+- [ ] 07-04-PLAN.md — Dicts W3: it, pl, nl, vi
+- [ ] 07-05-PLAN.md — Dicts W4: el, bn, ar, ur, zh
 **UI hint**: yes
 
 ### Phase 8: Custom Domain Migration
