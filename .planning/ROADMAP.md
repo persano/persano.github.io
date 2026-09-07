@@ -73,13 +73,14 @@ Plans:
   4. Language switcher presents all 20 endonyms as a compact select/menu and persists choice to `persano.lang`
   5. CI gate rejects any dictionary with missing keys, empty values, or CJK half-width punctuation — across all 20 dictionaries
 
-**Plans:** 5/5 plans executed
+**Plans:** 6 plans (5 executed + 1 gap-closure)
 
 - [x] 07-01-engine-rtl-switcher-gate-PLAN.md
 - [x] 07-02-dicts-wave1-hi-de-fr-ru-PLAN.md
 - [x] 07-03-dicts-wave2-ja-ko-tr-id-PLAN.md
 - [x] 07-04-dicts-wave3-it-pl-nl-vi-PLAN.md
 - [x] 07-05-dicts-wave4-el-bn-ar-ur-zh-PLAN.md
+- [ ] 07-06-faq-languages-count-PLAN.md — Gap G-07-5a: FAQ languages answer count-style (EN + 19 dicts)
 
 **Wave 1** *(engine + RTL + switcher + gate hardening)*
 
