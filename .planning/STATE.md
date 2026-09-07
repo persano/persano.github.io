@@ -4,12 +4,11 @@ milestone: v2.0
 milestone_name: Full Deferred Scope
 current_phase: 8
 current_phase_name: Custom Domain Migration
-status: planning
+status: "Phase 7 shipped — PR #3"
 stopped_at: Phase 07 complete, ready to plan Phase 8
-last_updated: "2026-09-07T17:54:50.182Z"
+last_updated: "2026-09-07T18:14:45.424Z"
 last_activity: 2026-09-07
-last_activity_desc: Phase 07 complete, transitioned to Phase 8
-state_head: 6cc76daa1f2a104d5ae851b8de4f571f53b06324
+state_head: 005144660da5dba6d1b8a2965d4f415d018eaf61
 progress:
   total_phases: 5
   completed_phases: 2
@@ -31,10 +30,10 @@ See: .planning/PROJECT.md (updated 2026-09-07)
 
 Phase: 8 — Custom Domain Migration
 Plan: Not started
-Status: Ready to plan
+Status: Phase 7 shipped — PR #3
 Total Plans in Phase: 6
 Plans Executed: 6
-Last activity: 2026-09-07 — Phase 07 complete, transitioned to Phase 8
+Last activity: 2026-09-07
 
 Progress: [████████████████████] 9/9 plans — v2.0 milestone 40% (2/5 phases)
 
