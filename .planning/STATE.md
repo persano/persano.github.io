@@ -5,10 +5,10 @@ milestone_name: Full Deferred Scope
 current_phase: 8
 current_phase_name: Custom Domain Migration
 status: "Phase 7 shipped — PR #3"
-stopped_at: Phase 07 complete, ready to plan Phase 8
-last_updated: "2026-09-07T18:14:45.424Z"
+stopped_at: Phase 8 context gathered
+last_updated: "2026-09-07T20:09:01.278Z"
 last_activity: 2026-09-07
-state_head: 005144660da5dba6d1b8a2965d4f415d018eaf61
+state_head: 188640134cadd179dc4c25b081a2bd825b292eb9
 progress:
   total_phases: 5
   completed_phases: 2
@@ -125,6 +125,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-07T17:57:01.548Z
-Stopped at: Phase 07 complete, ready to plan Phase 8
-Resume file: None
+Last session: 2026-09-07T20:09:00.905Z
+Stopped at: Phase 8 context gathered
+Resume file: .planning/phases/08-custom-domain-migration/08-CONTEXT.md
