@@ -1,212 +1,158 @@
 # Project Research Summary
 
-**Project:** Persano — Personal Apps Hub + GeoHist Trivia Landing Site (persano.github.io)
-**Domain:** Static GitHub Pages app-landing/portfolio site with Firebase-powered contact form, GDPR consent, i18n, SEO, Google Play-review support
-**Researched:** 2026-09-01/02
-**Confidence:** HIGH overall (most claims verified against first-party docs + live probes this session; MEDIUM items flagged below)
+**Project:** Persano — GeoHist Trivia site, v2.0 "Full Deferred Scope" milestone
+**Domain:** Live zero-build static GitHub Pages site (agent-maintained) — additive features onto a shipped v1
+**Researched:** 2026-09-05
+**Confidence:** HIGH (all load-bearing claims verified against official Firebase / Google Search Central / GitHub / MDN docs fetched this session, plus direct reads of the live repo source)
 
 ## Executive Summary
 
-This project is a compliance-critical app landing site, not a marketing brochure. Research established that the website is part of GeoHist Trivia's Google Play compliance surface: Play's User Data policy (fetched directly, HIGH) mandates a live, public, non-PDF privacy policy URL, Data-safety/policy consistency, affirmative (non-auto-dismissing) consent, and — because the game uses Play Games Services sign-in — an account/data-deletion request path, for which this website is the natural home. The single non-negotiable artifact is `/geohist/privacy.html`; the site must be live and that URL returning 200 before Play review depends on it. Everything else (hero, screenshots, FAQ, guide, hub) is standard static-site work well served by the chosen approach.
+This milestone adds five features to an already-live, already-validated site: a changelog page (CONT-06), 17 new localizations with RTL for ar/ur (I18N-05), a custom-domain migration (HOST-01), Firebase App Check on the contact form (FIRE-07), and gated social proof / aggregateRating (SEO-05). The defining research conclusion: **this is an integration milestone, not a build milestone** — zero new runtime or dev dependencies are needed, the only new artifact beyond JSON dictionaries is one static HTML page, and every feature bolts onto existing, frozen architecture (`i18n.js` dictionary-swap engine, `contact.js` lazy-import fork, hand-rolled CI). The recommended stack delta is minimal: `dir` attribute + CSS logical properties for RTL (platform features), `firebase-app-check.js` at the existing 12.18.0 pin (verified live on gstatic), and an extension of the existing zero-dep `i18n-keycheck.mjs` gate.
 
-The recommended approach: hand-authored HTML/CSS/vanilla JS with zero build step (the repo tree IS the deploy tree), Firebase JS SDK 12.18.0 modular ESM from gstatic (exact-pinned, consent-gated dynamic imports only), GitHub Actions official Pages chain (`checkout@v7 → configure-pages@v6 → upload-pages-artifact@v5 → deploy-pages@v5`) with a validate job gating deploy, and i18n via a single HTML set per page + JSON dictionary in-place DOM swap (decision below). Analytics loads strictly after consent (load-gating, stronger than Consent Mode); the contact form uses anonymous auth at submit-time only + create-only Firestore rules with server-side field validation + honeypot.
+Three research findings overturn assumptions inherited from the v1 planning docs and must be encoded in the roadmap: (1) **no hreflang / per-language URLs** — v1 shipped in-place dictionary-swap on single URLs, so hreflang is not applicable to any of the 17 new languages; converting to per-language static subdirs is the top anti-pattern (120 files of duplicate markup, ×20 maintenance). (2) **No CNAME file** — GitHub docs are explicit that Actions-published Pages ignore it; the domain lives in repo Settings. (3) **aggregateRating cannot legally mirror Play ratings** — Google's review-snippet guidelines bar aggregating ratings "from other websites," so the gate's precondition must be reworded to "on-site rating source exists"; Play-sourced numbers get a *visible, attributed link* (Tier 1) instead of markup. Also corrected: the live key surface is **146 keys** (not 102), which prices the 17-dictionary expansion at ~2,700 strings.
 
-Key risks and mitigations: (1) Play review failure from a broken or mismatched privacy URL — deploy pipeline first, policy page early, policy-URL curl check as a release gate; (2) consent-ordering violation (Analytics before banner) — no Firebase script tag in HTML, ever; dynamic import only post-consent, an explicit acceptance criterion; (3) deploy-chain traps — `.nojekyll` committed in the first commit AND `include-hidden-files: true` in upload-pages-artifact (default `false` silently drops `.nojekyll`), explicit `path: '.'`, one-time manual Pages Source setting; (4) schema spam — no `aggregateRating` in SoftwareApplication JSON-LD until real Play ratings exist; (5) dark-theme accessibility — pick the palette by contrast math (4.5:1/3:1) before styling, not during the audit.
+The dominant risks are quality-gate failures that human review cannot catch (an owner who reads ~2 of 20 languages), so prevention must be mechanical: register-decision table + app-`strings.xml` glossary + two-pass agent drafting + 3–4-language waves for I18N-05; a red-gate test for the changelog's keycheck registration; an ordered console-side checklist (Firebase Auth authorized domains, API-key referrer restriction, reCAPTCHA domain list) before the domain URL rewrite; and a submission-count-gated (never calendar-gated) App Check enforcement flip with dedicated token-failure UX. Build order is dependency-forced: **CONT-06 → I18N-05 → HOST-01 → FIRE-07 → SEO-05**, with owner-side DNS/registration parallelizable from day 1.
 
 ## Key Findings
 
 ### Recommended Stack
 
-Zero-build, agent-maintained static site: plain HTML5/CSS3/vanilla ES2020+, no SSG, no framework, no Tailwind. Every dependency was version-verified live this session (npm registry, GitHub API `releases/latest`, official docs). SSGs (Jekyll/Astro/Eleventy) were rejected: the agent-maintenance model removes the authoring-ergonomics benefit, page count (~6 layouts) is far below the ~15-page threshold where templating pays, and zero-build means zero CI dependency-rot failure modes.
+Full detail in [STACK.md](STACK.md). The v1 stack (plain HTML/CSS/vanilla JS, Firebase 12.18.0 CDN pin, html-validate CI) is unchanged; the delta is:
 
-**Core technologies:**
-- **HTML/CSS/vanilla JS (no framework, no build)** — repo tree IS deploy tree; every file inspectable; push → live
-- **Firebase JS SDK 12.18.0, modular API, gstatic ESM CDN, exact-pinned** — Analytics + Anonymous Auth + Firestore; never the v8 `*-compat` builds; never `npm install firebase`
-- **Consent via load-gating** — no `firebase/analytics` import until `localStorage` consent = granted; custom ~50-line banner, no CMP library; auto-dismissing banners are a Play policy violation
-- **Contact form** — `signInAnonymously()` (at submit-time only) → `addDoc()` to one collection; `create`-only Firestore rules with `hasOnly` schema lock, field length caps, `request.time` timestamps; honeypot; App Check later in monitor mode (do not block v1 on it)
-- **GitHub Actions deploy chain** — `actions/checkout@v7`, `configure-pages@v6`, `upload-pages-artifact@v5`, `deploy-pages@v5` (all API-verified current; GitHub docs samples show stale majors); validate job gates deploy
-- **CI validation** — `html-validate` 11.12.0 (primary gate), optional `vnu-jar` 26.8.30 (periodic audit), optional `linkinator` (dead-link check, phase 2+)
-- **SEO: hand-rolled** — sitemap.xml (with hreflang entries if/where applicable), robots.txt (allow-all + sitemap line), SoftwareApplication JSON-LD, Open Graph with absolute URLs, 1200×630 og:image
-
-### i18n Strategy — RESOLVED CONFLICT
-
-The four research files split on i18n: STACK.md recommended per-language HTML subdirs (`/es/`, `/pt/`) + hreflang + detect/redirect; ARCHITECTURE.md and PITFALLS.md recommended a single HTML set + JS dictionary in-place swap (no redirects, crawler sees EN). **Decision: single HTML set + JS dictionary swap (data-i18n + JSON dicts).**
-
-Rationale, weighing the four deciding factors:
-1. **Installs come from Play search, not web SEO.** Per-language SEO is the subdirs' main advantage; here its conversion value is ~zero. EN-only indexing costs nothing measurable.
-2. **Agent-maintained site.** 3 languages × ~6 layouts = ~18 hand-maintained HTML files with per-page drift risk; one fix must be replayed everywhere. Dictionary swap keeps one HTML source per page — a copy fix lands in one file, translations in JSON. Drift is the dominant long-term cost in this maintenance model.
-3. **Expansion path.** Adding language #4–20 under subdirs means new page trees; under swap it means one new JSON dict. If traffic ever justifies more localizations, swap scales far cheaper.
-4. **Googlebot crawls without Accept-Language.** With swap, Google indexes the EN default — acceptable and predictable (Pitfall C2). With subdirs, the STACK plan's detect-redirect script is the exact pattern Google warns against (Pitfall C1: "avoid automatically redirecting users between language versions"), and sessionStorage gating only partially contains it. Swap eliminates the entire redirect-pitfall class.
-
-Constraints that come with this decision (bake into the i18n phase): EN copy ships in the raw HTML (never empty placeholders — otherwise nothing is indexable at all); NO hreflang (invalid on a single URL — known spam signal); detect `navigator.language` and apply in place without URL change; stored preference beats re-detection; switcher overrides all; `document.documentElement.lang` updates with content (WCAG 3.1.1/3.1.2); `<title>`/meta description translate too.
-
-**Revisit trigger:** web organic search becomes a real acquisition channel — Search Console shows meaningful non-EN impressions/clicks after a few months live, or a custom domain + content push is adopted. Migration path is documented (Pitfall C2): real duplicated HTML files + self-referencing hreflang set + sitemap entries; the `data-i18n` keys in markup port directly.
+- **HTML `dir` attribute + CSS logical properties** — RTL for ar/ur with no new tooling; `dir` set by `i18n.js` in the same `applyLanguage()` pass that syncs `lang`; one small `[dir="rtl"]` override block (~4 rules verified against `base.css`); system font stack covers all 19 scripts (per-lang `line-height` overrides for ur/CJK).
+- **`firebase-app-check.js` @ 12.18.0 (existing pin, verified live)** — 4th lazy CDN module inside `contact.js`; reCAPTCHA v3 provider (Enterprise is Google's stated preference for new work but requires Cloud Billing linkage; v3 remains fully supported — provider decision is a recorded in-phase task, not a roadmap commitment).
+- **Extended `scripts/i18n-keycheck.mjs`** — exact-parity gate auto-scales to 20 dictionaries; add changelog page to `pages` array, empty-value rejection, optional length-ratio warning. No npm i18n tool beats it for this shape.
+- **GitHub Pages custom domain via repo Settings** — apex A×4 + AAAA×4 + www CNAME + TXT verification; **no CNAME file** (ignored under Actions publishing).
+- **Nothing else.** No new npm deps, no webfonts, no CMP, no SSG, no per-language URL plumbing.
 
 ### Expected Features
 
-**Must have (table stakes):**
-- **Privacy policy page** (`/geohist/privacy.html`, EN, non-PDF, public) — hard Play requirement; must name the store-listing entity, include contact mechanism + retention/deletion policy; linked from every footer
-- **Privacy-policy ↔ Data-safety consistency** — every SDK (AdMob, Play Games, IAP, Firebase Analytics, contact form) named in policy matches Data safety declarations
-- **Account/data-deletion request path** — Play requires it for apps with account creation (Play Games sign-in applies). Simplest compliant form: FAQ entry + contact-form "request data deletion" topic + documented manual process
-- **Hero + Play badge (placeholder until listing live) + 3–6 real ADB screenshots + feature list** — core conversion block; screenshots are the #1 conversion asset
-- **FAQ** (data collection, offline, devices) — wording must mirror the privacy policy (single source of truth)
-- **Working contact form with success/error states** — part of the feature, not polish
-- **GDPR consent banner with affirmative action** — gates Analytics (and gates form-Firebase init to the choice, see below); never auto-dismissing
-- **Mobile-first responsive + fast load** — most traffic is phones tapping Play/social links
-- **Hub page: bio + app-card grid that renders correctly with exactly 1 app** — no visible "coming soon" placeholders (explicit constraint)
-- **Meta titles/descriptions, canonicals, sitemap.xml, robots.txt, OG/Twitter cards, favicon, custom 404** — Search Console already verified on this repo
+Full detail in [FEATURES.md](FEATURES.md).
 
-**Should have (differentiators):**
-- How-to-play guide on its own page (also feeds FAQ)
-- SoftwareApplication JSON-LD (name, operatingSystem ANDROID, applicationCategory GameApplication, offers price 0) — **skip aggregateRating until real Play ratings exist**
-- Language switcher + browser auto-detect (EN/ES/PT-BR)
-- Changelog page (post-launch, once updates exist)
-- Consent-gated analytics events (Play clicks, language switches)
-- Honeypot + App Check (monitor mode) on the form
-- WCAG 2.1 AA audit as an explicit step
+**Must have (table stakes, P1):**
+- 17 dictionaries at exact 146+changelog key parity, gated by CI — silent EN fallback is otherwise invisible
+- Engine extension: `SUPPORTED` 3→20, 20 endonyms, data-driven detection prefix table (incl. legacy `in-*`→`id`, `zh-*` handling), `dir` switching
+- CSS RTL audit for ar/ur — the only genuinely design-heavy work (~4-rule override block + manual bidi checks)
+- Changelog page: Keep-a-Changelog format, newest-first, ISO dates, **keyed chrome but EN entries** (documented exception)
+- App Check in monitoring mode: client init + metrics review; zero user-visible change
+- Social-proof gate: commented Tier-1/Tier-2 templates; pre-rating proof = verifiable facts only
 
-**Defer (v2+):**
-- aggregateRating + social-proof strip — requires live Play listing data
-- 17 additional localizations — staged if traffic justifies (see revisit trigger above)
-- App Check enforcement — after monitor-mode metrics
-- Custom domain, deep links, SSG migration — explicitly out of scope
+**Sequenced inside the milestone on a trigger (P2):**
+- App Check enforcement flip (Firestore + Auth, per-product, reversible) — gated on submission-count evidence, owner-approved
+- Tier-1 visible proof row ("Rated X.X ★ on Google Play →" with attribution) — gated on Play listing live
+
+**Defer / reject (P3 or anti-feature):**
+- Per-language static HTML + hreflang sets — reject for now (anti-pattern 3); revisit only with a crawlability case
+- Tier-2 `aggregateRating` JSON-LD — treat as **permanently off** unless the site collects its own reviews (Pitfall 9)
+- Translated changelog entries ×20, geo-IP redirects, auto-translate widgets, fabricated stars — all rejected
 
 ### Architecture Approach
 
-`persano.github.io` is a **user site**: the repo root IS `https://persano.github.io/`, so root-absolute paths (`/shared/css/base.css`) work from every page and every future app is a plain self-contained subdirectory (`/geohist/` now, `/nextapp/` later). No build step means all reuse is runtime: shared ES modules (`i18n.js`, `consent.js`, `firebase-config.js`) + `base.css` in `/shared/` (only what ≥2 apps need), app-owned `css/js/i18n/img` inside each app dir, manual `?v=` cache busting. Existing root files (`app-ads.txt`, `google*.html` Search Console verification, privacy-policy source files) stay untouched in place. Data flow is one-way: assets repo → CDN → browser; runtime data browser → Firebase only. Zero server-side state.
+Full detail in [ARCHITECTURE.md](ARCHITECTURE.md). This is integration research onto a shipped, frozen v1: every integration point was verified against live repo source. Only one new file exists beyond dictionaries (`geohist/changelog.html`); the changelog page + its `es.json`/`pt-BR.json` key additions + keycheck `pages` entry must land **atomically** (the exact-parity gate fails otherwise). App Check init rides `contact.js`'s submit-time `loadModules()` — never page load, never `consent.js` — preserving both the zero-third-party-bytes consent architecture and the fork-shaped Firebase split. The HOST-01 rewrite surface is a verified inventory: 42 absolute-URL refs across 13 files (canonicals, OG, JSON-LD, sitemap, robots, smoke-check BASE, linkinator skip); root-relative asset paths and all JS internals are deliberately untouched.
 
-**Major components:**
-1. **Hub (`/index.html`)** — brand intro + app cards; loads base.css, i18n.js + hub dicts
-2. **App site (`/geohist/`)** — landing, guide, privacy (EN-only static), gallery, form; loads shared modules + own dicts
-3. **i18n engine (`shared/js/i18n.js`)** — detect → fetch dict → DOM swap → persist pref; emits `i18n:changed`; knows nothing of Firebase/consent; falls back to shipped EN markup on any fetch failure
-4. **Consent module (`shared/js/consent.js`)** — banner UI, localStorage persistence, emits `consent:granted`/`consent:denied`; the only thing allowed to trigger the Analytics dynamic import
-5. **Firebase gate (per-app JS)** — lazy SDK import post-consent (Analytics) / at submit (form); SDK never in a static `<script>` tag
-6. **Deploy workflow** — validate job → artifact upload (`path: '.'`, **`include-hidden-files: true`**) → deploy-pages; `pages: write` + `id-token: write` permissions; `github-pages` environment
-
-**Consent ordering (critical, cross-file agreement):** banner choice precedes ANY Firebase load. Analytics: never loads without grant — zero SDK bytes before consent (stronger than Consent Mode, which exists to preserve cookieless pings this site doesn't need). Form: loads its Firebase modules on submit regardless of grant/deny — the account-deletion request path runs through this form, so blocking it on "deny" would break a Play requirement; anonymous auth is anti-spam, not tracking. The privacy policy must disclose the form's data handling either way (Pitfall B3).
+**Load-bearing integration facts:**
+1. App Check init must precede auth/firestore access (safe order from day 1); enforcement is console-only, client code identical in both modes
+2. reCAPTCHA v3 site key is domain-allowlisted → **HOST-01 must precede FIRE-07** or the key gets edited twice
+3. Firebase Auth authorized domains + v1 API-key referrer restriction block the new domain until updated → form breaks `auth/unauthorized-domain` at migration if the checklist is skipped
+4. No 301 exists between github.io and the custom domain (Pages serves both) → canonicals carry the migration; Change-of-Address tool unusable
+5. GitHub 301s github.io → custom domain *after* configuration, so ordering Pages-config → rewrite is safe
 
 ### Critical Pitfalls
 
-1. **Broken privacy-policy URL at Play review (E2)** — the site is a release dependency of the app. Verify `privacy.html` returns 200 before Play submission; keep that URL stable forever; policy must name every SDK the app+site actually use.
-2. **Analytics before consent (B1)** — no Firebase/Analytics script tag in page HTML ever; dynamic import only after grant; test in incognito that no `google-analytics.com/g/collect` request fires pre-banner. Persistence (B2): stored choice re-applied on every load; retraction honored.
-3. **Deploy-chain traps (D1/D2 + artifact)** — `.nojekyll` in the first commit AND `include-hidden-files: true` on upload-pages-artifact (default silently drops dotfiles); explicit `path: '.'`; permissions + environment in workflow; one-time manual Pages Source = GitHub Actions. Note Pages CDN caches ~10 min (`max-age=600`, live-verified) — don't mistake stale cache for deploy failure.
-4. **Open-write Firestore rules / anon-auth churn (A2/A3)** — create-only, schema-locked rules; sign in anonymously only at submit-time (not page load); enable anonymous auto-clean-up; add `persano.github.io` to Firebase authorized domains BEFORE first live test (`auth/unauthorized-domain`).
-5. **aggregateRating trap (E1)** — SoftwareApplication rich result officially requires aggregateRating OR review, but fabricating ratings = structured-data spam. Ship schema without it; add with real Play data post-launch. Treat Rich Results Test warnings as expected, errors as blockers.
+Full detail in [PITFALLS.md](PITFALLS.md). Top five:
+
+1. **Agent-drafted translations without register decision, terminology source, or functional review** — "owner-reviewed" is a rubber stamp across 17 languages the owner can't read. *Avoid:* per-language register table written into the plan, glossary extracted from the app's 20-locale `strings.xml`, two-pass drafting (draft, then fresh-context critique), waves of 3–4 languages with gate checks.
+2. **Detection-layer traps at 20 languages** — `zh` is Simplified-only by decision (document it; match the app), CJK half-width punctuation ships constantly from agent drafters (add grep gate), legacy `in-ID` browsers miss naive prefix checks (explicit table + unit tests).
+3. **RTL treated as "two more dictionaries" when it is a layout project** — engine has zero `dir` capability today; stylesheet audit is small but bidi isolation, Urdu Nastaliq line-height, and the 20-entry switcher redesign are real work. *Avoid:* RTL as its own wave inside I18N-05 with a per-page screenshot battery at mobile width.
+4. **Domain migration console-side blind spots** — repo rewrite is planned but Firebase Auth domains, API-key referrer restriction, App Check domain list, Search Console re-property, and cert-before-rewrite sequencing are where it actually breaks. Also: CNAME file is a no-op; don't "fix" its absence.
+5. **App Check enforcement blocking real humans** — privacy-browser users are indistinguishable from bots in metrics, and single-digit daily volume can't disprove a false block. *Avoid:* window sized by successful-submission count, dedicated `contact.status.appcheck` error node with email fallback, per-product reversible flips.
 
 ## Implications for Roadmap
 
-Based on research, suggested phase structure (dependency-driven; synthesizes ARCHITECTURE build-order, FEATURES MVP ordering, and PITFALLS phase mapping):
+Based on combined research, suggested phase structure (dependency-forced order; owner-side DNS/domain registration is a parallel task from day 1):
 
-### Phase 1: Foundation — Deploy Pipeline + Skeleton + Privacy Policy
-**Rationale:** Every later phase validates against the live URL, and the privacy URL is a Play release dependency — the site's reason to exist. Deploying first proves the pipeline and regression-checks existing root files.
-**Delivers:** `.nojekyll` (first commit), `404.html` (self-contained, root-absolute assets), minimal hub index (EN text), `base.css`, `deploy.yml` (validate → upload with `path: '.'` + `include-hidden-files: true` → deploy), **static EN `/geohist/privacy.html`** with website section + contact mechanism + retention/deletion, live URL + policy URL verified 200.
-**Addresses:** Privacy policy page (Play-critical), custom 404, footer.
-**Avoids:** D1 (Jekyll eating files), D2 (artifact path/permissions), D5 (context-less 404), E2 (broken policy URL).
-**Manual prerequisite:** Repo Settings → Pages → Source: GitHub Actions (one-time, before first deploy).
+### Phase 1: Changelog Page (CONT-06)
+**Rationale:** Hard dependency anchor — its `changelog.*` keys must exist in all dictionaries before the locale expansion, or the 17-dictionary work triggers a second 20-language parity sweep. Landing first means the atomic commit touches 2 dictionaries, not 20.
+**Delivers:** `/geohist/changelog.html` (keyed chrome, EN entries, ISO dates), keycheck `pages` array entry (with red-gate test), nav/sitemap links, es+pt-BR key additions — one atomic PR.
+**Avoids:** Pitfalls 10 (keycheck blind spot), 11 (staleness — chrome-vs-entries decision + update routine as convention).
+**Research flag:** none — standard patterns, research complete.
 
-### Phase 2: GeoHist Landing + Hub Content (EN, i18n-keys baked in)
-**Rationale:** Content next, with `data-i18n` keys authored from the start — retrofitting keys after writing copy is rework (ARCHITECTURE). Play link stays a placeholder (inert but visually identical) until the listing is live.
-**Delivers:** Landing (hero, features, screenshot gallery placeholders, FAQ, download CTA), guide.html, hub bio + one-app card grid; GeoHist-specific CSS with contrast-math-checked token pairs.
-**Addresses:** Core landing table stakes, FAQ, guide, hub.
-**Avoids:** F1 (dark-theme contrast — decide palette by math at design time), D4 (trailing-slash/root-absolute link convention).
+### Phase 2: Localization ×20 + RTL (I18N-05) — largest phase, plan as waves
+**Rationale:** Must follow Phase 1 (keys) and precede Phase 3 (rewrite final content only; no locale PR reintroducing old-domain strings). Content is domain-independent, so this is the last phase where the site can ship at github.io.
+**Delivers:** Wave A: engine extension (`SUPPORTED`, endonyms, detection table + unit tests, `dir` switching) + RTL wave (CSS audit, `[dir="rtl"]` block, bidi isolation, switcher redesign for 20 entries, line-height overrides) + gate extensions (value checks, punctuation gate, per-page `data-i18n` baseline). Waves B–F: 17 dictionaries in 3–4-language batches, each gated.
+**Addresses:** I18N-05 table stakes; RTL as its own sub-wave.
+**Avoids:** Pitfalls 1, 2, 3, 10 (register table + glossary + two-pass in plan; zh/punctuation/`in-ID` handling; RTL layout project).
+**Research flag:** none mandatory — research is deep. If planning hits friction, candidate sub-topic is RTL visual verification tooling (headless screenshot battery).
 
-### Phase 3: i18n — Engine + ES/PT Dictionaries + Switcher
-**Rationale:** Pattern proven on the hub dicts first, then applied to the larger app pages; markup already carries keys from Phase 2.
-**Delivers:** `shared/js/i18n.js` (detect in place, no redirects, no URL changes), `/shared/i18n/hub-*.json`, `/geohist/i18n/{es,pt-BR}.json`, manual switcher, localStorage persistence, `document.documentElement.lang` sync, EN fallback chain.
-**Addresses:** EN/ES/PT v1 requirement, language switcher + auto-detect.
-**Avoids:** C1 (auto-redirect), C2 (indexable EN in raw HTML; no invalid hreflang), C3 (lang-attribute drift).
-**Decision locked:** JS dictionary swap, not per-language subdirs (rationale + revisit trigger above).
+### Phase 3: Custom Domain Migration (HOST-01)
+**Rationale:** After content freeze (rewrite covers final pages), before App Check (single reCAPTCHA domain registration). The *code* PR waits for owner DNS + cert; owner steps (registrar, repo settings, verification) run in parallel from day 1.
+**Delivers:** Ordered checklist executed: repo Settings domain → DNS (A×4/AAAA×4/www CNAME/TXT) → cert verified → console allowlists (Firebase Auth domains, API-key referrer, reCAPTCHA domain list, Search Console new property) → 13-file URL rewrite in one commit → sitemap resubmit → smoke-check BASE update.
+**Addresses:** HOST-01.
+**Avoids:** Pitfalls 7, 8 (console allowlists, cert/HTTPS sequencing, CNAME-file trap, mixed-domain grep acceptance check).
+**Research flag:** none — GitHub docs cover everything; the checklist in ARCHITECTURE/PITFALLS is the plan backbone.
 
-### Phase 4: Consent Gate + Firebase Analytics
-**Rationale:** Consent must exist before Analytics goes live in any template — retrofitting the banner means auditing every page (FEATURES ordering constraint).
-**Delivers:** `shared/js/consent.js` (affirmative-action banner, localStorage + timestamp, retraction path), dynamic `import()` of firebase-analytics only on grant, analytics events (Play clicks, language switches) post-grant; accessible banner (focus, contrast, no trap).
-**Addresses:** GDPR consent banner, Firebase Analytics, consent-gated events.
-**Avoids:** B1 (pre-consent collection — acceptance criterion, not nice-to-have), B2 (unpersisted choice), F3 (inaccessible banner).
-**Manual prerequisite:** Firebase console → register **Web App** in the app's existing project → copy config → add `persano.github.io` to authorized domains.
+### Phase 4: App Check, Monitor-First (FIRE-07)
+**Rationale:** After HOST-01 so the reCAPTCHA key is registered once against the final domain and metrics reflect the permanent home.
+**Delivers:** Provider decision recorded (Enterprise-vs-v3 with billing tradeoff — owner input), `initializeAppCheck` in `contact.js` submit path (4th lazy module, init before auth/firestore), dedicated token-failure status node, Analytics token-failure event, monitoring window sized by submission count, privacy-policy reCAPTCHA mention. Enforcement flip is a **later owner console step**, not a phase.
+**Addresses:** FIRE-07 table stakes + monitoring ritual.
+**Avoids:** Pitfalls 4, 5, 6 (provider deprecation direction, human-blocking flip, consent-architecture breach — no reCAPTCHA bytes in served HTML).
+**Research flag:** none for docs; the provider decision needs an owner conversation, not research.
 
-### Phase 5: Contact Form + Firestore
-**Rationale:** LAST among features — the only stateful backend piece, with a rule-tuning loop; everything else ships static while Firebase setup is pending.
-**Delivers:** Form (labels, honeypot, client validation, success/error states), submit-time `signInAnonymously` (reuse `auth.currentUser`), `addDoc` with schema, create-only Firestore rules (field validation, length caps, server timestamps), rules file in repo as source of truth, console simulator tests.
-**Addresses:** Contact channel (Play inquiry mechanism), data-deletion request topic, spam resistance.
-**Avoids:** A2 (open-write rules), A3 (anon-auth churn), A4 (unauthorized-domain), A5 (App Check — register in monitor mode only, enforce post-launch), F2 (form label/focus failures).
-**Manual prerequisite:** Enable **Anonymous** sign-in provider; Firestore created (production mode) + rules deployed; anonymous auto-clean-up enabled.
-
-### Phase 6: SEO, Screenshots, JSON-LD, A11y Audit, Hardening
-**Rationale:** Discovery/quality gate last, once URLs are final — sitemap/OG/schema must enumerate the real page set.
-**Delivers:** Real ADB screenshots (WebP, lazy-load), og-image 1200×630 with absolute URLs, sitemap.xml + robots.txt + Search Console submission, SoftwareApplication JSON-LD (**no aggregateRating**), WCAG 2.1 AA audit (axe/Lighthouse post-language-switch too), link check, App Check monitor-mode metrics review.
-**Addresses:** Full SEO, rich snippets (deferred rating), screenshots, AA audit, Play pre-submission checks.
-**Avoids:** E1 (rating trap), E3 (relative OG URLs), E4 (sitemap drift), F1/F2 residuals, B3 (policy ↔ SDK cross-check as the final gate before Play submission).
+### Phase 5: Gated Social Proof (SEO-05)
+**Rationale:** Independent of phases 1–4 except the domain rewrite (do it after to avoid conflicting edits in `geohist/index.html`); only external gate is the Play listing.
+**Delivers:** Facts-based social proof (20 localizations, feature list, changelog as proof), commented Tier-1/Tier-2 templates, gate precondition reworded to "on-site rating source exists."
+**Addresses:** SEO-05.
+**Avoids:** Pitfall 9 (aggregateRating policy trap — Play-sourced markup is rejected regardless of gate).
+**Research flag:** none — guidelines verified.
 
 ### Phase Ordering Rationale
 
-- **Deploy pipeline first** — every phase validates on the live URL; existing `app-ads.txt`/verification files regression-check from day 1; Play-review dependency (E2) starts ticking immediately.
-- **i18n keys authored with content, engine before ES/PT content** — avoids markup rework; swap pattern proven small (hub) before large (app).
-- **Consent before Analytics, both before form's public launch** — the two ordering-critical compliance constraints (FEATURES dependency graph + B1).
-- **Firebase form last among features** — only piece needing backend setup and iteration; decoupled from all static work.
-- **SEO/screenshot/polish last** — URLs must be final before sitemap/OG/schema enumerate them.
-- **Play Store link stays placeholder throughout** — decoupled from all phases; swap in when listing goes live.
-
-### Research Flags
-
-Phases likely needing deeper research during planning (`/gsd-plan-phase --research-phase`):
-- **Phase 5 (Contact form/Firestore):** App Check web provider status is MEDIUM confidence (reCAPTCHA v3 vs Enterprise transition in flux — verify current provider when implementing); exact anonymous-auth cleanup behavior worth confirming. Rules shape is verified HIGH — research should target App Check only.
-- **Phase 3 (i18n):** dictionary-swap pattern is established practice but MEDIUM (no canonical first-party source) — a plan-level check of edge cases (attribute swaps, `pt` → pt-BR fallback, fetch-failure UX) is cheap insurance.
-
-Phases with standard patterns (skip research-phase):
-- **Phase 1 (deploy pipeline):** fully verified first-party this session — action versions, permissions, artifact inputs, `.nojekyll`, live CDN-cache behavior.
-- **Phase 2 (landing content):** static HTML/CSS craft; no external unknowns. Conversion/UX placement norms are MEDIUM (see Gaps) but low-risk to iterate.
-- **Phase 4 (consent):** load-gating pattern + Consent Mode fields verified first-party (HIGH).
-- **Phase 6 (SEO/a11y):** schema/sitemap/hreflang facts verified from Search Central this session; a11y thresholds are domain-standard.
+- **CONT-06 → I18N-05** is the single strongest ordering signal: exact-parity CI makes the changelog-keys-first build mandatory, not stylistic.
+- **I18N-05 → HOST-01** keeps the domain rewrite a mechanical pass over final content.
+- **HOST-01 → FIRE-07** avoids double-editing the domain-scoped reCAPTCHA key.
+- **SEO-05 floats last**, gated externally on Play.
+- Grouping RTL with the engine (not with dictionaries) matches the research: it's a layout project plus two dictionaries, and one reviewable engine PR is cleaner.
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | HIGH | Every version live-verified (npm registry, GitHub API releases, Firebase docs CDN); only SSG-tradeoff analysis is MEDIUM (training knowledge, low stakes) |
-| Features | HIGH | Play User Data policy fetched directly (privacy spec, deletion requirement, affirmative-consent rule); conversion/UX norms MEDIUM (no search MCP this session) |
-| Architecture | HIGH | Deploy pattern verified against action.yml primary sources + docs.github.com; Firebase flows verified first-party; i18n swap pattern MEDIUM (established practice) |
-| Pitfalls | HIGH | Official docs + live probes of persano.github.io itself (cache headers, 404, trailing-slash 301); Play policy article + WCAG numbers restated MEDIUM |
+| Stack | HIGH | Every version/URL/claim verified this session (gstatic CDN fetch, npm registry, MDN, Firebase/GitHub/Google docs) |
+| Features | HIGH | Policy claims from fetched official docs; repo facts read from live source; UX norms marked MEDIUM where practice-based |
+| Architecture | HIGH | All integration points verified against actual repo files; 42-ref URL inventory counted, not estimated |
+| Pitfalls | HIGH | Official-doc grounded + repo-verified; register conventions and Nastaliq font reality are MEDIUM |
 
-**Overall confidence:** HIGH — the deploy chain, Firebase versions/APIs, consent pattern, and Play policy requirements all rest on first-party sources fetched this session. The MEDIUM residue is concentrated in areas that are cheap to verify during execution.
+**Overall confidence:** HIGH. The milestone is low-ambiguity: known architecture, verified integration points, official-doc-backed decisions. Remaining uncertainty is concentrated in owner decisions and content quality, not technical unknowns.
 
 ### Gaps to Address
 
-- **Conversion/UX placement norms** (hero/CTA/badge placement, screenshot framing): MEDIUM, community-standard, not independently re-verified. Handle: treat as design iteration during Phase 2, not research blockers.
-- **App Check web provider (v3 vs Enterprise) status:** MEDIUM and moving. Handle: verify during Phase 5 planning; do not block v1 on App Check.
-- **Account-deletion mechanism details:** requirement is HIGH-verified; the concrete flow (FAQ entry + form topic + email-template manual process) is a planning decision, not a research gap. Decide in Phase 5 planning and mirror it in the policy's deletion section (B3).
-- **`html-validate` exact ruleset names:** MEDIUM (training knowledge). Handle: tune config empirically in Phase 1 CI setup.
-- **Form-Firebase vs consent-deny UX:** research converged on "form works after any consent choice (grant or deny), because the deletion-request path must not break" — PROJECT.md wording ("form load only after consent") should be read as "after the consent interaction," not "only after grant." Confirm this interpretation when writing the policy's Website section (Phase 1/6) and the banner behavior (Phase 4).
-- **og:image / app art assets:** production task (1200×630 from app art), no research needed — schedule in Phase 6.
-
-### Manual Prerequisites Checklist (roadmap items, not code)
-
-1. Repo Settings → Pages → Build and deployment → Source: **GitHub Actions** (before first deploy — Phase 1)
-2. Firebase console → register **Web App** in the app's existing project → copy config → authorized domain `persano.github.io` (Phase 4)
-3. Enable **Anonymous** sign-in provider + anonymous auto-clean-up (Phase 5)
-4. Firestore created (production mode) + rules deployed from repo file (Phase 5)
-5. Google Search Console → submit sitemap (verification file already in repo — Phase 6)
+- **Custom domain name + apex-vs-www choice:** undecided. GitHub recommends www (CNAME stability vs pinned apex IPs); convention favors apex; both DNS records configured either way. Owner decision at Phase 3 planning.
+- **reCAPTCHA provider (v3 vs Enterprise):** hinges on owner's willingness to link Cloud Billing. Decide as FIRE-07's first task; do not pre-commit in roadmap.
+- **`zh` variant confirmation:** check the app repo's actual zh localization (`values-zh-rCN`?) before locking Simplified-only; document the decision.
+- **Register table per language:** needs a one-time owner pass (e.g., German *du* vs *Sie* matching the Play listing tone) before dictionary drafting starts.
+- **App Check monitoring window threshold:** define N successful submissions (and token-failure %) with the owner before enforcement is even discussable.
+- **Urdu Nastaliq rendering quality:** visual verification on real devices; documented degradation acceptable, silent discovery is not.
+- **Play listing live date:** external gate for Tier-1 proof row; unknowable, so SEO-05 ships gated.
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- **Google Play Console Help** — User Data / Privacy policy (`support.google.com/googleplay/android-developer/answer/9888076`, fetched): privacy-policy spec (no PDF, non-geofenced, entity name, contact mechanism, retention/deletion), Data-safety consistency, account deletion + web deletion resource, affirmative-consent rule; Data safety (`answer/9888379`)
-- **Google Consent Mode v2** (`developers.google.com/tag-platform/security/guides/consent`, fetched): default-denied before tag load, `consent/update`, four signal names
-- **Google Search Central** — Software app structured data; sitemaps; multilingual/multiregional (hreflang, locale-adaptive crawling warning, "avoid auto-redirecting between language versions") — all fetched, updated 2025-12-10
-- **Firebase docs** (fetched): web learn-more (CDN modular imports, 12.18.0), anonymous auth (`/docs/auth/web/anonymous-auth`), Firestore rules get-started, API keys ("identify, not authorize"), App Check overview
-- **GitHub** (fetched): docs.github.com Pages custom workflows + About Pages; `actions/deploy-pages` README; `upload-pages-artifact`/`configure-pages` action.yml (inputs incl. `include-hidden-files` default false, tar dotfile exclusion)
-- **npm registry** (fetched): `firebase@12.18.0`, `html-validate@11.12.0`, `vnu-jar@26.8.30`
-- **GitHub API `releases/latest`** (fetched): checkout v7.0.1, configure-pages v6.0.0, upload-pages-artifact v5.0.0, deploy-pages v5.0.1
-- **Live probes this session:** persano.github.io (`Cache-Control: max-age=600`, ETag, 404 status behavior), trailing-slash 301 on a real Pages site
-- **schema.org/SoftwareApplication** (fetched): property list
-- **MDN** `Navigator.language(s)`
+- Firebase docs (fetched 2026-09-05): App Check reCAPTCHA v3 + Enterprise + debug provider, monitoring metrics, enforcement; anonymous auth; Firestore rules
+- gstatic CDN: `firebase-app-check.js` @ 12.18.0 fetched live (verified imports pinned `firebase-app.js`)
+- Google Search Central (fetched 2026-09-05): SoftwareApplication structured data, Review-snippet guidelines, localized versions/hreflang
+- GitHub docs (fetched 2026-09-05): Pages custom domain (CNAME-ignored under Actions publishing), domain verification
+- MDN (fetched 2026-09-05): `dir` global attribute, CSS logical properties module
+- Keep a Changelog 1.1.0 (fetched 2026-09-05)
+- Live repo source (read this session): `js/i18n.js`, `js/consent.js`, `js/contact.js`, `js/firebase-config.js`, `scripts/i18n-keycheck.mjs`, `scripts/smoke-check.sh`, `deploy.yml`, `package.json`, all 6 HTML pages, `css/base.css`, `sitemap.xml`, `robots.txt`, `firestore.rules`, both existing dictionaries (146 keys each)
 
 ### Secondary (MEDIUM confidence)
-- Conversion/UX norms for app landing pages (hero/badge/screenshots/CTA, OG 1200×630, indie hub patterns) — community-standard practice, no search MCP available this session; main re-verify target for phase planning
-- Play privacy-policy support article in PITFALLS session was a JS shell (restated from policy knowledge) — superseded by FEATURES.md's direct fetch of the same policy family (HIGH)
-- WCAG 2.1 AA numeric thresholds (4.5:1 / 3:1) — w3.org fetch blocked (Cloudflare); domain-standard knowledge
-- `html-validate` ruleset names; Consent Mode v2 field names corroborated across three files (treat as verified); `.nojekyll` behavior (community knowledge, GitHub docs page relocated)
-- SSG-vs-plain tradeoff (Astro 5/Eleventy 3 majors) — training knowledge + project constraints
+- npm registry live checks: `firebase@12.18.0`, `i18next-parser@9.4.0` (rejected alternative)
+- Per-language register conventions (de/ja/ko/hi/etc.); Urdu Nastaliq/Naskh font reality; `:dir()` evergreen support; 20-entry switcher UX norms
+- `isTokenAutoRefreshEnabled:false` recommendation (reasoning over official init docs)
+
+### Tertiary (LOW confidence)
+- Community reports of cert provisioning exceeding an hour; github.io dual-hosting behavior pre-configuration — mitigated by cert-gate sequencing in the plan
 
 ---
-*Research completed: 2026-09-02*
+*Research completed: 2026-09-05*
 *Ready for roadmap: yes*

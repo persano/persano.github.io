@@ -30,6 +30,7 @@ for u in \
   "$BASE/google7da873f4e9609872.html" \
   "$BASE/geohist/" \
   "$BASE/geohist/guide.html" \
+  "$BASE/geohist/changelog.html" \
   "$BASE/sitemap.xml" \
   "$BASE/robots.txt" \
   "$BASE/geohist/og-image.png" ; do

@@ -1,351 +1,237 @@
-# Technology Stack
+# Stack Research — v2.0 Milestone: New-Feature Stack Additions
 
-**Project:** Persano — Personal Apps Hub + GeoHist Trivia Landing Site (persano.github.io)
-**Researched:** 2026-09-01
-**Mode:** Stack research (greenfield, static GitHub Pages site)
-**Verification method:** Live fetches this session — npm registry, GitHub API `releases/latest`, official Google/Firebase/GitHub docs pages. No version in this report comes from memory alone unless marked otherwise.
+**Domain:** Static GitHub Pages multi-language site (existing zero-build stack) — new features only
+**Researched:** 2026-09-05
+**Confidence:** HIGH (all load-bearing claims fetched from official docs this session; nuance flagged where Medium)
 
----
+**Scope rule:** only stack needed for I18N-05, CONT-06, HOST-01, FIRE-07, SEO-05. The existing validated stack (plain HTML/CSS/vanilla JS, i18n.js dictionary-swap, consent banner, contact form, CI chain, sitemap/robots/JSON-LD) is **not re-researched and needs no changes** except the explicit integration points listed below.
 
-## Recommendation Summary
+## Recommended Stack
 
-| # | Decision | Pick | Version (verified 2026-09-01) | Confidence |
-|---|----------|------|-------------------------------|------------|
-| 1 | Base stack | Hand-authored HTML5 + CSS3 + vanilla ES2020+ JS. No framework, no SSG | n/a (platform) | High |
-| 2 | CSS approach | One shared stylesheet per site area + CSS custom properties + small utility layer. No Tailwind | n/a | High |
-| 3 | Firebase JS SDK | **Modular (v9+ API) via gstatic ESM CDN, exact-pinned** | **12.18.0** | High |
-| 4 | Firebase products | Analytics + Anonymous Auth + Firestore (cloud Firestore, not RTDB) | same SDK | High |
-| 5 | Analytics consent gating | Load-gating: don't import `firebase/analytics` until consent; custom ~50-line consent banner | n/a | High |
-| 6 | Contact form | `signInAnonymously()` → `addDoc()` to `messages` collection; rules `create`-only; honeypot; App Check as later hardening | n/a | High (form) / Medium (App Check details) |
-| 7 | i18n (EN/ES/PT) | **Per-language static HTML in subdirs** (`/es/`, `/pt/`) + hreflang alternates + tiny detect/redirect script | n/a | High |
-| 8 | SEO tooling | Hand-rolled `sitemap.xml` + `robots.txt` + `SoftwareApplication` JSON-LD + Open Graph | n/a | High |
-| 9 | Deployment | GitHub Actions official Pages chain: `actions/checkout@v7` → `actions/configure-pages@v6` → `actions/upload-pages-artifact@v5` → `actions/deploy-pages@v5` | see detail | High |
-| 10 | HTML validation (CI) | `html-validate` npm CLI (Node, no Java) | 11.12.0 | High |
-| 11 | Optional CI extras | `vnu-jar` (W3C Nu) 26.8.30, `linkinator` link check | see detail | Medium–High |
-| 12 | Runtime dependencies | Firebase CDN only. `package.json` exists solely for dev tooling | n/a | High |
+### Core Technologies
 
-**One-line stack:** Static hand-written HTML/CSS/JS on GitHub Pages, Firebase JS SDK 12.18.0 modular ESM from gstatic (pinned), per-language HTML subdirectories for i18n, hand-maintained sitemap + JSON-LD, GitHub Actions official deploy chain, `html-validate` as CI gate.
+| Technology | Version | Purpose | Why Recommended |
+|------------|---------|---------|-----------------|
+| HTML `dir` attribute + CSS logical properties | n/a (platform, evergreen) | RTL support for ar/ur (I18N-05) | `dir` on `<html>` is the *semantic* base-direction mechanism — MDN explicitly recommends the attribute over the CSS `direction` property so content renders correctly even with CSS disabled. Logical properties (`margin-inline-start`, `padding-inline-start`, `border-inline-start`, `inset-inline-start`, `text-align: start/end`) make the existing hand-rolled CSS direction-agnostic with zero duplication. Verified MDN "dir global attribute" (updated 2026-08-28) and "CSS logical properties and values" module this session. |
+| `dir` / `lang` setting via i18n.js | existing engine, ~10-line change | One-line dir switching on apply | i18n.js already sets `document.documentElement.lang` inside `applyLanguage()` — add `document.documentElement.dir = RTL_LANGS[lang] ? 'rtl' : 'ltr'` in the same pass. Zero new scripts, zero new files. |
+| Firebase JS SDK `firebase/app-check` module | **12.18.0 (existing exact pin — no change)** | App Check for the contact form (FIRE-07) | Verified this session: `https://www.gstatic.com/firebasejs/12.18.0/firebase-app-check.js` **exists on the gstatic ESM CDN** (content confirmed; imports `firebase-app.js` at the same pinned version). The app-check module has existed since the v9 modular line, so the 12.18.0 pin is version-safe. No new SDK version, no new CDN URLs beyond this one module. |
+| reCAPTCHA **v3** provider (not Enterprise) | n/a (Google service) | Attestation provider for App Check | Google's reCAPTCHA v3 App Check doc (fetched, *Last updated 2026-09-02*) still fully supports v3: invisible (no challenge ever), free, no billing. **Important honest caveat:** the same doc now states *"You should use reCAPTCHA Enterprise for new integrations, and we strongly recommend that developers of apps using reCAPTCHA v3 upgrade when possible"* — v3 is soft-deprecated for new integrations, not deprecated. Decision: stay with v3 because (a) reCAPTCHA Enterprise requires linking a **Cloud Billing account** to the Firebase project (verified in the Enterprise provider doc), adds GCP setup surface, and bills above 10k assessments/month; (b) the protected surface is one low-traffic contact form with monitoring-mode-first. Record the Enterprise migration as the documented plan-B (see Stack Patterns). |
+| GitHub Pages custom-domain mechanics | n/a (repo settings + DNS) | Custom domain (HOST-01) | Verified from `docs.github.com` (Managing a custom domain, Verifying your custom domain) this session. Apex `A` ×4 + `AAAA` ×4 records, `www` `CNAME`, TXT verification record, `Enforce HTTPS` toggle. Key correction to common lore: with **Actions-workflow publishing (this site), the `CNAME` file is ignored and not required** — the custom domain persists in repository Pages settings. No tooling needed beyond `Resolve-DnsName`/`dig` for DNS verification. |
+| Extended `scripts/i18n-keycheck.mjs` | existing zero-dep script | Dictionary quality gate × 20 (I18N-05, CONT-06) | The exact-parity gate already auto-covers every `js/i18n/*.json` — adding 17 dictionaries extends coverage with **zero edits to the gate logic**. Extend it with: (1) add `changelog.html` to the `pages` array, (2) reject empty/whitespace-only values, (3) optional simple length-ratio warning (a translation < 20% or > 400% of the EN value length is worth owner review). This keeps the zero-build, zero-new-dependency philosophy. No npm translation tool outperforms it for this flat-JSON shape. |
 
----
+### Supporting Libraries
 
-## Decision Detail
+| Library | Version | Purpose | When to Use |
+|---------|---------|---------|-------------|
+| *(none)* | — | — | **No new runtime or dev dependencies are needed for any of the five features.** App Check rides the existing pinned CDN SDK; RTL is HTML/CSS platform features; custom domain is repo settings + DNS; dictionaries are JSON files the existing gate already validates; aggregateRating is a JSON-LD edit. |
 
-### 1. Base stack: plain hand-authored HTML/CSS/vanilla JS — no SSG, no framework
+### Development Tools
 
-**Choice:** Every page is a real `.html` file in the repo. Shared behavior in a few small `.js` files. No build step, no bundler, no npm runtime dependency.
+| Tool | Purpose | Notes |
+|------|---------|-------|
+| Extended `i18n-keycheck.mjs` (see above) | Key parity × 20 + non-empty values | Also becomes the changelog-page key gate; runs in existing `npm run validate` |
+| `scripts/smoke-check.sh` (extend) | RTL sanity: assert `<html lang="ar">` renders `dir="rtl"` post-swap | Can grep the RTL_LANGS map or run a headless check; cheap insurance |
+| Rich Results Test (`search.google.com/test/rich-results`) | Validate SoftwareApplication + aggregateRating JSON-LD before and after SEO-05 gate flip | Free; catches aggregateRating field errors the Rich Results Test flags (ratingValue/ratingCount types) |
+| `Resolve-DnsName` (Windows) / `dig` | Verify the 8 DNS records before cutover | GitHub docs explicitly recommend this for Windows users |
+| Agent-drafted dictionaries + owner review | Produce 17 dictionaries | See "Dictionary workflow" below — the app's own 20-locale `strings.xml` is the terminology source |
 
-**Alternatives considered:**
+## Feature-by-Feature Detail
 
-| Alternative | Why not (for this project) |
-|-------------|---------------------------|
-| **Jekyll** (GitHub Pages native, auto-builds via `actions/jekyll-build-pages`) | Adds a Ruby build layer the project explicitly ruled out. Pages' whitelisted-plugin list has no real i18n plugin, so Jekyll wouldn't even help the multi-language requirement. Liquid templating buys little at ~6 unique page layouts. |
-| **Astro** (current major line: 5.x) | Best-in-class SSG for content sites and the right answer for a 30+ page site. But it requires a Node build pipeline and npm dependency tree — the exact "build complexity" this project bans. With agent-maintained content, the "authoring ergonomics" argument for SSGs (writing Markdown faster than HTML) matters much less. |
-| **Eleventy (11ty)** (3.x) | Same tradeoff as Astro: minimal but still a Node build step and config surface. Pays off with templating needs at higher page counts. |
-| **React/Vue/SPA** | Completely wrong shape. This is an SEO-first informational landing site; a SPA framework adds runtime cost, kills crawlability without SSR (which needs a build system), and provides zero value for static content. |
+### (a) RTL handling (I18N-05) — pure HTML/CSS, no tooling
 
-**Rationale:** The maintenance model is *agent-maintained* — content updates happen via chat sessions that regenerate/edit HTML, not by a human hand-editing files. This removes the classic SSG selling point (human authoring ergonomics). Page count is small (hub + ~4 GeoHist pages × 3 languages + privacy), well under the ~15-page threshold where template duplication forces a generator. Zero-build means: push → Pages serves it; no CI failure modes from dependency rot; every file inspectable. **Revisit trigger:** if multi-language page count doubles or shared-layout duplication starts producing copy-paste bugs, move to Astro 5 — the content structure (subdir-per-language HTML) ports directly.
+**HTML mechanism (verified, MDN):**
+- Set `dir="rtl"` on the `<html>` element for ar/ur, alongside `lang`. The `dir` attribute is semantic (Unicode BiDi base direction), survives CSS-off, and is the W3C-recommended mechanism. `lang` does **not** imply direction — `dir` must be set explicitly.
+- i18n.js already owns the `documentElement.lang` sync in `applyLanguage()` (line 71) — this is the one integration point. Add a `RTL_LANGS = { 'ar': 1, 'ur': 1 }` map (17 new langs: only these two are RTL) and set `document.documentElement.dir` in the same pass. The snapshot/restore path (EN restore) must reset `dir` to `''`/`ltr` — put it next to the `lang` restore.
+- `dir="auto"` is for unknown-directionality content (user comments); not needed here — all content language is known at switch time. Not at page level, ever.
+- Inline mixed-direction text (English/ES strings inside an RTL page, e.g. the language switcher): the `lang-switcher-slot` endonyms render best with `dir="ltr"` on the slot container (LTR separators stay stable inside an RTL page). For a single inline opposite-direction phrase inside RTL text, MDN's verified pattern is wrapping in an element with explicit `dir` — `<bdi>` is the terser inline-isolation tool (behaves as `dir="auto"` + isolation).
 
-**Confidence: High** (project constraint + domain fit; SSG tradeoff analysis is Medium — based on training knowledge of current Astro/Eleventy majors, not a live fetch).
+**CSS mechanism (verified, MDN logical properties module):**
+- Prefer logical properties in new/edited CSS: `margin-inline-start/end`, `padding-inline-*`, `border-inline-*`, `inset-inline-*`, `text-align: start` (never `left`/`right`), logical border radii (`border-start-start-radius`…). Flex row order flips automatically with direction; no per-Rule override needed.
+- For existing physical properties, don't rewrite the whole stylesheet: keep the shared stylesheet, add a small `[dir="rtl"]` attribute-selector override layer (guaranteed support) for the few genuinely directional bits: text-alignment edge cases, chevron/arrow inline-SVGs (`transform: scaleX(-1)`), background-position/texture offsets. `:dir()` pseudo-class is now evergreen-supported (Chrome 120+, Safari 16.4+, Firefox 49+) but attribute selectors are unambiguous and cost nothing — use `[dir="rtl"]` as the mechanism, `:dir()` is unnecessary.
+- `unicode-bidi: isolate` is the default rendering behavior of `dir`-bearing elements — don't hand-set `unicode-bidi` overrides (the `bidi-override` value in particular will mangle text).
 
----
+**Typography (no new dependency — system font stack covers all 19 scripts):**
+- System font stacks on Android/iOS/Windows ship Noto Naskh (Arabic), Noto Nastaliq (Urdu), Devanagari (Hindi), Bengali, CJK, and Cyrillic fonts — no webfont CDN, no privacy/latency cost, consistent with the v1 decision.
+- One real RTL/CJK risk: **line-height**. Nastaliq (Urdu) needs generous line-height (leading clipping is the classic Urdu breakage) and CJK prefers ~1.7. Add per-lang overrides like `[lang="ur"] { line-height: 2; }` in the shared stylesheet — a handful of lines, no tooling.
+- The dark antique textures are physical decorations — MDN-verified rule: they don't need mirroring unless they depict reading flow (arrow motifs would).
 
-### 2. CSS approach: single shared stylesheet + custom properties + small utility layer
+**i18n.js changes (all in-file, no architecture change):**
+- `SUPPORTED` grows to 20 entries; `detect()`'s hardcoded `pt*`/`es*` prefix folds become a data-driven scan (`SUPPORTED.map(l => l.toLowerCase().split('-')[0])` — but keep explicit `pt-BR`/`es` special-cases as they are today; simpler: replace the two `indexOf` lines with a loop over a `{prefix → lang}` map covering all 20).
+- `ENDONYMS` grows to 20 entries — ready-to-use endonyms (standard native names; verify against the app's own locale list during implementation): ar العربية · bn বাংলা · de Deutsch · el Ελληνικά · en English · es Español · fr Français · hi हिन्दी · id Bahasa Indonesia · it Italiano · ja 日本語 · ko 한국어 · nl Nederlands · pl Polski · pt-BR Português · ru Русский · tr Türkçe · ur اردو · vi Tiếng Việt · zh 中文.
+- **URL structure:** dictionary-swap means no new URLs — the 17 new languages have **no subdirs, no sitemap entries, no hreflang alternates**. `/es/`, `/pt/` static-page URLs from v1's original plan were superseded by the shipped in-place swap engine; nothing changes for the new languages. Dictionaries only: `js/i18n/{ar,bn,de,el,fr,hi,id,it,ja,ko,nl,pl,ru,tr,ur,vi,zh}.json` (102 keys each). Chinese = Simplified (`zh.json` = zh-CN vocabulary) unless the app's `strings.xml` shows otherwise.
 
-**Choice:** One `styles.css` for global tokens (colors, spacing, typography via CSS custom properties) + base elements + shared components (buttons, cards, header/footer). One additional stylesheet for the GeoHist pages if it grows. A handful of utility classes (`.visually-hidden`, `.container`, `.skip-link`) — the accessibility-critical ones.
+### (b) Firebase App Check via reCAPTCHA v3 (FIRE-07)
 
-**Why not Tailwind (even the CDN Play build):**
-- Tailwind Play CDN is a ~100KB+ runtime JS compiler that generates styles in-browser — FOUC risk, render-blocking, and explicitly not for production per Tailwind docs.
-- Tailwind via npm needs a build step — banned by constraint.
-- Hand-rolled utilities + custom properties cover 100% of a 6-layout site with ~0 dead weight.
-
-**Why not CSS framework (Bootstrap/Bulma):** landing pages need a distinctive dark, map-textured, antique-accent aesthetic; overriding a framework's look costs more than writing ~300 lines of custom CSS. Also removes accessibility surprises from framework components.
-
-**Accessibility hooks built into the CSS choice:** `:focus-visible` styling, `prefers-reduced-motion` media query, WCAG-safe custom-property color pairs (define tokens as WCAG 2.1 AA pairs from day one — makes the audit trivial).
-
-**Confidence: High** (low-stakes decision with clear constraint alignment).
-
----
-
-### 3. Firebase JS SDK: modular v9+ API via gstatic ESM CDN, exact-pinned
-
-**Choice:** Load as ES modules directly from Google's CDN, importing only what's used:
-
-```html
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-  import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
-</script>
-```
-
-**Verified version facts (this session):**
-- npm `firebase` latest = **12.18.0** (fetched from `registry.npmjs.org/firebase/latest`).
-- Official docs (`firebase.google.com/docs/web/learn-more`) serve the gstatic CDN at the same version: `https://www.gstatic.com/firebasejs/12.18.0/firebase-*.js` — modular **and** `*-compat.js` (legacy v8-namespaced) builds both published.
-- **Pin the exact version** (`12.18.0`) in the import URL. Don't track "latest" — a CDN major bump silently changing behavior on a site with no test suite is an avoidable risk. Bump deliberately (one-line change), and it's a cheap Claude-session task.
-
-**Rules of engagement:**
-- **Modular API only.** Never import `firebase-app-compat.js` / v8 namespaced API in new code — it's legacy, heavier, and the compat surface exists only for migrations.
-- Never `npm install firebase` for this project — the CDN import *is* the dependency (project constraint). npm firebase exists only if a future build step is adopted.
-- Config values (apiKey etc.) are public by design for Firebase web apps; security lives in Firestore rules, not in hiding the key. Register the site as a Web App in the existing Firebase project and optionally restrict via authorized domains (`persano.github.io`).
-
-**Confidence: High** — version cross-verified from two primary sources (npm registry + official docs CDN snippet) this session.
-
----
-
-### 4. Firebase products used: Analytics + Anonymous Auth + Firestore
-
-**Choice:** Exactly three products, one project (the app's existing Firebase project, after registering the website as a Web App).
-
-| Product | Purpose | Module |
-|---------|---------|--------|
-| Analytics | Page/visit tracking, link clicks (Play Store CTA) | `firebase-analytics.js` |
-| Anonymous Auth | Contact-form spam resistance: rules require `request.auth != null` without any signup UX | `firebase-auth.js` |
-| Firestore | `messages` collection for contact submissions | `firebase-firestore.js` |
-
-Not used and why: Realtime Database (Firestore is the modern default with better rules model), Cloud Functions (no deploy path from a static site + unnecessary for a write-only form), App Hosting/Hosting (GitHub Pages already does this), Storage (no uploads).
-
-**Confidence: High.**
-
----
-
-### 5. GDPR consent gating: load-gating pattern (stricter and simpler than consent mode)
-
-**Choice:** Do **not** load or initialize Analytics at page load. Keep a small `consent.js` that:
-1. On load, reads consent state from `localStorage` (`persano-consent` = `granted|denied|null`).
-2. If `null`: show custom banner (~40 lines HTML/CSS/JS, no CMP library), buttons "Accept all" / "Essential only".
-3. Only on `granted`: `import("https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js")` dynamically, then `getAnalytics(app)` and subsequent `logEvent` calls.
-4. On "Accept all", also gate the contact form: it can only initialize Firebase Auth/Firestore after consent (or reveal the form only after consent — simplest compliant UX: form section renders after consent choice; privacy policy already discloses what's collected).
-5. Listen for changes across tabs via the `storage` event (nice-to-have).
-
-**Why load-gating instead of gtag Consent Mode v2:** Consent Mode (`gtag('consent', 'default', {analytics_storage:'denied', ...})` before load, then `consent('update')` on grant — fields verified on `support.google.com/analytics/answer/9976101`: `ad_storage`, `analytics_storage`; v2 adds `ad_user_data`, `ad_personalization` for EU/DMA) exists to preserve *modeled/cookieless* conversions while denied. A small app landing site gains nothing from cookieless pings. Load-gating is: fewer moving parts, zero SDK bytes before consent (better LCP for EU visitors), trivially auditable ("no script, no tracking" is stronger than "SDK loaded but consent-denied"). It also automatically satisfies the `ad_user_data`/`ad_personalization` v2 fields since nothing loads.
-
-**Why not a CMP library (Cookiebot, Klaro, Osano):** one banner, two choices, no ads on the website itself. A library adds a dependency + IAB TCF complexity the site doesn't need. Custom banner also fully styles-consistent and ~50 lines the agent can maintain.
-
-**Confidence: High** for the pattern (canonical consent-mode doc fetched this session; load-gating is the conservative superset). Medium for the claim that `ad_user_data`/`ad_personalization` are the exact v2 field names (from training knowledge of the March 2024 EU rollout; the fetched support page confirmed the two storage fields).
-
----
-
-### 6. Contact form: anonymous auth + Firestore `create`-only rules + honeypot
-
-**Choice:** Flow on submit:
-1. Client-side validation (required fields, length caps, honeypot field must be empty).
-2. `signInAnonymously(getAuth())` (cached by default persistence — subsequent visits reuse the anonymous uid).
-3. `addDoc(collection(db, "messages"), {...})` with a fixed schema: `{ name, email, subject, body, locale, userAgent, createdAt: serverTimestamp(), uid }`.
-4. Users see success/error inline. No email delivery (v1) — submissions live in Firestore console; owner reads them.
-
-**Firestore rules (the actual spam resistance):**
-
+**SDK module (verified this session):**
 ```js
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /messages/{id} {
-      allow create: if request.auth != null
-        && request.resource.data.keys().hasAll(['name','email','body','createdAt'])
-        && request.resource.data.keys().hasOnly(['name','email','subject','body','locale','userAgent','createdAt','uid'])
-        && request.resource.data.name is string && request.resource.data.name.size() > 1 && request.resource.data.name.size() < 100
-        && request.resource.data.email is string && request.resource.data.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
-        && request.resource.data.body is string && request.resource.data.body.size() > 1 && request.resource.data.body.size() < 5000
-        && request.resource.data.createdAt == request.time;
-      allow read, update, delete: if false; // owner reads via console only
-    }
+// inside contact.js, after initializeApp(), before the dynamic auth/firestore imports
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app-check.js";
+
+const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider('<reCAPTCHA-v3-site-key>'),
+  isTokenAutoRefreshEnabled: true
+});
+```
+- Same pinned CDN version (12.18.0), same ESM style as existing imports. **No `<script>` tag for reCAPTCHA is added to HTML** — the provider fetches the reCAPTCHA JS itself. Keep the fork-shaped architecture: App Check init lives in contact.js (the Auth+Firestore fork), touching nothing in consent.js.
+- Setup: register the site for reCAPTCHA v3 (get site key + **secret key**) → Firebase console **App Check → Apps tab**: register the web app with the secret key → client `initializeAppCheck` with the site key. Default token TTL 1 day (library refreshes at ~half TTL); default app-risk threshold 0.5 — both fine defaults, no changes needed for this use case.
+
+**Monitoring vs enforcement (verified):**
+- **Monitoring mode requires zero console enforcement changes:** once the SDK is initialized, every Firebase request from the site carries an App Check token, but *no product blocks requests* until enforcement is enabled. Client code is **identical** in both modes — the flip is console-only.
+- Monitoring phase = deploy init + watch **App Check request metrics** in the Firebase console (verified/unknown-origin breakdown; the console shows per-product Cloud Firestore + Authentication metrics). No dashboards to build.
+- Enforcement flip = console toggle for **Cloud Firestore** (and Auth if desired). No client code change. Until then, invalid-token requests are only *recorded*, never blocked — zero user risk while metrics settle.
+- Debug environments (localhost/local file): `self.FIREBASE_APPCHECK_DEBUG_TOKEN = true` before `initializeAppCheck`; the SDK prints the debug token in the console; register it via console → Manage debug tokens. **Never commit the debug token** (verified warning). CI environment: store the token as a GitHub Actions secret, set the variable before init. On a static site the CI rarely touches the form, so this is mainly a local-testing affordance.
+
+**Integration points with the existing stack:**
+- Init order is load-bearing: `initializeApp` → `initializeAppCheck` → dynamic import of `firebase-auth.js`/`firebase-firestore.js`. Monitoring mode tolerates any order; enforcement later requires the appCheck init to precede any enforced-service call — write it in the safe order from day one.
+- **reCAPTCHA key domain list must include `persano.github.io` now AND the custom domain before HOST-01 cutover** — otherwise the contact form breaks at migration (silent failure mode: reCAPTCHA rejects the origin). This is the single cross-feature coupling in the milestone; put it in the HOST-01 checklist.
+- Privacy surface: reCAPTCHA v3 JS loads from `google.com` when the form initializes — mention reCAPTCHA in the privacy policy text (one sentence, no new page), and note the form still works identically after analytics Accept/Reject (App Check is form infrastructure, not analytics).
+
+### (c) GitHub Pages custom domain (HOST-01)
+
+**Repo side (verified — Actions-published Pages):**
+1. Repo **Settings → Pages → Custom domain**: enter the domain → Save. This persists server-side. Per the docs, with a custom GitHub Actions workflow **no `CNAME` file is created, and any existing `CNAME` file is ignored and is not required**. Committing a `CNAME` file is harmless (ignored) but unnecessary — the settings field is the mechanism. (If you ever switched to branch publishing, the file becomes load-bearing — worth a one-line comment in the workflow.)
+2. Domain **verification** (recommended before DNS): Profile (user) **Settings → Pages → Add a domain** → add the DNS TXT record `_github-pages-challenge-persano.<domain>` with the generated code → Verify. Prevents takeover of the domain by other GitHub users if the repo/Pages link ever breaks.
+3. After DNS is live: `Enforce HTTPS` toggle (available up to 24h after cert provision). GitHub auto-redirects apex ↔ `www` when both are configured — configure both, pick one as the Pages custom-domain value (convention: apex; `www` CNAME redirects to it).
+
+**DNS side (owner's registrar — exact records, verified):**
+
+| Record | Name | Value |
+|--------|------|-------|
+| `A` ×4 | `@` (apex) | `185.199.108.153` `185.199.109.153` `185.199.110.153` `185.199.111.153` |
+| `AAAA` ×4 | `@` (apex) | `2606:50c0:8000::153` `2606:50c0:8001::153` `2606:50c0:8002::153` `2606:50c0:8003::153` |
+| `CNAME` ×1 | `www` | `persano.github.io` (points directly at the `<user>.github.io` default domain, no repo name) |
+
+Order matters (docs warning): **add the domain in repo settings BEFORE pointing DNS** — configuring DNS first leaves a takeover window. Remove any provider default records first. No wildcard records (takeover risk).
+
+**URL rewrite inventory (all hardcoded absolute URLs, one mechanical pass):**
+- `<link rel="canonical">`, `og:url`, `og:image` (absolute URL), `twitter:image` on all pages; every `hreflang` alternate URL (v1 rule: fully-qualified, self-referencing, reciprocal).
+- `sitemap.xml` — every `<loc>`; `robots.txt` — `Sitemap:` line; JSON-LD — `url`/`installUrl` fields.
+- **Unaffected:** all root-relative assets and fetches — `DICT_URL_PREFIX = '/js/i18n/'`, CSS/JS/WebP references — so zero JavaScript changes.
+- Firebase console: add the custom domain to the App Check reCAPTCHA key's domain list (before cutover); Fire-Side Auth authorized domains list gains the custom domain.
+- External re-registration: Search Console (add/verify the new domain property, re-submit sitemap), Play Console website field (owner step).
+- GitHub 301s `persano.github.io` → custom domain automatically once configured, so stale old-URL references don't break.
+
+### (d) 17 dictionaries — drafting & quality tooling (I18N-05)
+
+**No new tooling dependency.** Recommended workflow (zero-build, agent-maintained model):
+
+1. **Terminology source (the biggest quality lever):** the app itself has the same 20 localizations in `C:\Users\Familia\antigravity\GeoHist-Trivia` (`strings.xml` × 20). Borrow the app's established translations for game terms (history/geography vocabulary, mode names) so site and app never contradict each other. This replaces any translation-memory tool.
+2. **Agent drafts each of the 17 flat JSON dictionaries** (102 keys mirroring es/pt-BR shape), owner reviews before merge — this is already the project's maintenance model.
+3. **Gate extension** (extend the existing zero-dep `i18n-keycheck.mjs`, no new deps):
+   - add `changelog.html` to the `pages` array (CONT-06 keys enter the surface);
+   - flag empty / whitespace-only values;
+   - (optional) length-ratio warning vs the EN value — catches translation accidents (truncation, untranslated EN leftovers).
+   - No placeholder-parity check is needed: the dictionaries are plain strings with **no interpolation tokens** (verified — no `{}`/`%s` in current dicts).
+4. **RTL spot-check as part of review:** paste ar/ur values into the page, verify punctuation lands on the correct side and endonyms/switcher stay isolated (`<bdi>`/`dir="ltr"` on the switcher slot).
+5. Ordering constraint (already in PROJECT.md, reaffirm): build the changelog page's keys into the **3 existing dictionaries first**, then expand to 20 — otherwise the parity gate fails mid-flight.
+
+**Considered and rejected — verified alternatives:** `i18next-parser` (latest **9.4.0** via npm registry this session) is a key-*extraction* tool for framework projects — wrong shape for a flat-dictionary parity problem the existing gate already solves. Any TMS (Lokalise/Crowdin) is overkill for 102 keys × 20 locales with an agent-maintained content model.
+
+### (e) Gated aggregateRating + social proof (SEO-05)
+
+**No new libraries.** Verified against Google Search Central (Software App structured-data page, updated 2025-12-10, fetched this session):
+
+- Rich-result eligibility for `SoftwareApplication` requires: `name`, `offers.price` (**already present in the shipped JSON-LD** — `"offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }`), and **either** `aggregateRating` **or** `review`. So SEO-05 is a pure JSON-LD addition:
+  ```json
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": <from Play>,
+    "ratingCount": <from Play>
   }
-}
-```
+  ```
+  (default best/worst 1–5 matches Play's scale; add `bestRating` only if ever non-5).
+- **Self-serving nuance (verified in the Review Snippet doc):** the "entity reviews itself" ineligibility rule applies **only to `LocalBusiness` and `Organization` types** — a `SoftwareApplication` page carrying the app's real Play rating **is eligible** for star rich results. The gating decision (SEO-05: wired but structurally off until real Play ratings exist) is still correct — Google takes manual action on inauthentic ratings, and the app currently has none.
+- **Gate mechanics (zero JS):** keep the `aggregateRating` block as commented-out JSON-LD (or commented `<script>`), plus a `hidden` social-proof section; the owner's gate flip = one uncomment + one `hidden` removal in a chat session (site is agent-maintained). Stars/ visuals are inline SVG (existing icon policy); the rating text ("X.Y · N ratings") is **i18n-keyed** and rides the dictionary expansion — one more reason changelog/social-proof keys land before the 17-locale expansion.
+- Validate with the Rich Results Test after the gate flip; note Google explicitly does not guarantee rich-result display even for valid markup.
 
-Key properties: **create-only** (no scraping of other visitors' submissions — there are none anyway since reads are false, but rules defense-in-depth), schema-locked via `hasOnly`, server-authoritative timestamps (`request.time`), anonymous auth required.
+### (f) Changelog page (CONT-06) — nothing to add
 
-**Honest limits (important for planning):** anonymous auth stops *nothing* by itself against a scripted attacker (they can create anonymous accounts too, and the web API key is public). Real spam resistance for this scale = Firestore rules validation + honeypot + (optionally, phase 2) **Firebase App Check**. App Check web providers: reCAPTCHA Enterprise is the currently recommended provider; legacy reCAPTCHA v3 support is being phased out — verify current provider status when implementing that phase. Do not block v1 on App Check; the honeypot + rules validation is proportionate for a new site's contact form.
+Pure static HTML page in `/geohist/`, same layout machinery, new `data-i18n` keys. Stack impact is exactly two items already covered: keycheck `pages` array edit + dictionary key additions before locale expansion. CI picks it up automatically (`html-validate` glob `geohist/*.html`, `linkinator` crawl).
 
-**Anti-pattern to avoid:** writing the form through an unrestricted "open write" collection or through client-side-only validation. Also avoid email-sending add-ons (Cloud Functions + SendGrid) — out of scope, adds secrets management.
-
-**Confidence: High** for the flow and rules shape (verified API surface on `firebase.google.com/docs/auth/web/anonymous-auth` — slug changed from `/anonymous`, fetched this session; Firestore rules get-started fetched). **Medium** for App Check provider specifics (reCAPTCHA Enterprise recommendation is from training knowledge).
-
----
-
-### 7. i18n: per-language HTML subdirectories (NOT JSON-DOM-swap), hreflang + auto-detect
-
-**Choice:** Three parallel static trees. Language pages are complete, pre-rendered HTML files:
-
-```
-/                     → hub, EN (default)
-/es/                  → hub, ES
-/pt/                  → hub, PT-BR
-/geohist/             → app landing, EN
-/geohist/es/          → app landing, ES
-/geohist/pt/          → app landing, PT
-/geohist/guide.html   → EN only (v1 scope)
-/geohist/privacy.html → EN only (legally authoritative)
-```
-
-- `<html lang="...">` correct per file; every page declares self-referencing `link rel="alternate" hreflang` for all three + `x-default` → `/geohist/`. (Google Search Central requires alternates to be reciprocal/self-referencing — verified on the international docs page this session, slug: `managing-multi-regional-sites`.)
-- **Auto-detect:** tiny inline script (runs before paint on the root landing pages only): `navigator.language` → if `es-*` or `pt-*` and no `sessionStorage.persano-lang-redirect`, redirect to the matching subdir, set the flag. EN is the canonical URL and no-redirect fallback. The manual switcher (visible footer/header links) sets the same flag and navigates — so crawlers (no JS storage) and humans (explicit choice) are both respected. Never UA-sniff server-side (GitHub Pages can't) and never redirect on deep pages — root pages only.
-- **What JSON dictionaries are still for:** dynamic strings that don't exist in pre-rendered HTML — form validation messages, consent-banner text, success/error toasts. One small `i18n/{locale}.json` (or a JS object) swapped via `data-i18n` attributes on those few nodes. That's the *complement*, not the primary mechanism.
-
-**Why not JSON dictionary + JS DOM swap as the primary mechanism (the tempting "one file per page" approach):**
-1. **SEO:** crawlers index the pre-JS DOM → all three languages collapse into one indexed URL in one language; you lose per-language targeting entirely. hreflang has nothing to point at.
-2. No separate URLs per language → can't share/share-target language-specific links, no per-language Search Console performance data.
-3. Flash of untranslated content on slow devices; content invisible if JS fails — directly conflicts with the WCAG 2.1 AA goal.
-4. The duplication cost it avoids is small: ~6 unique page layouts × 3 languages with agent-maintained content = mechanical copy edits.
-
-**Why not Jekyll/SSG i18n:** Pages' whitelisted plugin set has no i18n story, and any SSG contradicts the zero-build constraint (see Decision 1).
-
-**Confidence: High** — SEO reasoning grounded in Google Search Central international docs fetched this session; pattern is the standard one for hand-built static multilingual sites.
-
----
-
-### 8. SEO tooling: hand-rolled sitemap.xml + robots.txt + SoftwareApplication JSON-LD
-
-**Choice:** No tooling needed — these files are tiny, static, and agent-maintained:
-
-- **`sitemap.xml`** (root): full URL list including `/es/`, `/pt/`, `/geohist/*` variants, with `xhtml:link rel="alternate" hreflang` entries per URL. XML format (Search Central also accepts `.txt`/RSS/Atom — XML is the right default). Submit via Google Search Console (verification already exists in this repo).
-- **`robots.txt`** (root): allow all, `Sitemap: https://persano.github.io/sitemap.xml`. No crawl-delay, no disallow rules (nothing to hide — the Firebase config values being public is fine; robots can't protect anything anyway).
-- **`SoftwareApplication` JSON-LD** on `/geohist/` (verified field list from Google Search Central's software-app schema page this session):
-
-```html
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "GeoHist Trivia",
-  "operatingSystem": "Android",
-  "applicationCategory": "GameApplication",
-  "description": "...",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "author": { "@type": "Person", "name": "Santiago David Postorivo" },
-  "url": "https://persano.github.io/geohist/"
-}
-</script>
-```
-
-  ⚠️ **Do not add `aggregateRating` until real ratings exist** — Search Central treats fabricated review markup as structured-data spam. Add it (from Play listing data) after launch.
-- **Per-page SEO:** unique `<title>` + `<meta name="description">`, Open Graph (`og:title/description/image/url/type`), Twitter `summary_large_image`, canonical URL per language page, one `og-image.png` (1200×630) generated from app art.
-- Play Store link: `<a rel="noopener">` to the `https://play.google.com/store/apps/details?id=com.persano.geohisttrivia` package URL — placeholder-safe because the package ID is fixed; the listing going live is all that's needed.
-
-**Confidence: High** — all schema/sitemap/hreflang facts from Search Central pages fetched this session.
-
----
-
-### 9. Deployment: GitHub Actions official Pages chain
-
-**Choice:** Custom workflow (not "deploy from branch") — CI validation *gates* deployment. Verified latest majors via GitHub API `releases/latest` this session:
-
-| Action | Pin | Role |
-|--------|-----|------|
-| `actions/checkout` | `@v7` (v7.0.1) | Fetch repo |
-| `actions/configure-pages` | `@v6` (v6.0.0) | Enables Pages metadata |
-| `actions/upload-pages-artifact` | `@v5` (v5.0.0) | Uploads site as artifact |
-| `actions/deploy-pages` | `@v5` (v5.0.1) | Deploys artifact to Pages CDN |
-
-```yaml
-name: Deploy
-on:
-  push: { branches: [main] }
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-jobs:
-  validate:            # html-validate (+ optional link check) must pass first
-    ...
-  deploy:
-    needs: validate
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/configure-pages@v6
-      - uses: actions/upload-pages-artifact@v5
-        with: { path: '.' }
-      - id: deployment
-        uses: actions/deploy-pages@v5
-```
-
-Requires repo Settings → Pages → Source: **GitHub Actions** (one-time manual step — plan for it).
-Note: GitHub's docs page still shows older majors (`@v4`/`@v5`) in samples; the API-verified versions above are current.
-
-**Why not deploy-from-branch:** loses the validation gate (validate job must pass before deploy — the project requires CI-validated deploys) and the artifact model gives immutable deployments.
-
-**Confidence: High** — all four versions from GitHub API this session.
-
----
-
-### 10. HTML validation tooling for CI
-
-**Choice:** **`html-validate`** (npm, current **11.12.0**) as the primary gate, run with `npx html-validate "**/*.html"` in the `validate` job. Config file (`.htmlvalidate.json`) tuned: enable rules `require-doctype`, `no-duplicate-id`, `wcag` ruleset subset (missing alt, label association, heading order), disable pedantic rules that fight hand-authored pages (e.g., inline-style restrictions) as needed.
-
-**Alternatives:**
-
-| Tool | Verdict |
-|------|---------|
-| **`vnu-jar`** (W3C Nu validator, npm wrapper, current **26.8.30**) | The strictest, spec-grade validator. Needs Java (`setup-java`) → slower CI, more moving parts. Good as a *secondary* audit run (weekly or per-milestone), not the fast inner-loop gate. |
-| `tidy` (HTML Tidy) | Legacy; not spec-grade, noisy on modern HTML. Skip. |
-| `linkinator` / `lychee` (link checkers, npm/Rust) | Optional third step: catches the #1 real-world rot on hand-maintained sites (dead Play Store/docs links). Recommend `linkinator` (pure npm, no binary). Low priority — phase 2+ CI hardening. |
-
-**`package.json` consequence:** runtime has **zero npm dependencies** (Firebase comes from CDN). `package.json` exists only for devDependencies (`html-validate`, optional `linkinator`, optional `markdownlint` if content moves to md). `npx` without install also works in CI.
-
-**Confidence: High** for versions (npm registry this session) and the primary/secondary split; Medium on exact `html-validate` ruleset names (from training knowledge).
-
----
-
-### 11. Supporting libraries (complete list)
-
-| Library | Version | Purpose | When |
-|---------|---------|---------|------|
-| Firebase JS SDK (gstatic ESM) | 12.18.0 pinned | Analytics, Auth, Firestore | Runtime, consent-gated |
-| html-validate | 11.12.0 (dev) | CI HTML validation | CI validate job |
-| vnu-jar | 26.8.30 (dev, optional) | Spec-grade audit | Periodic audits |
-| linkinator | latest (dev, optional) | Dead-link check | Phase 2+ CI |
-| Everything else | — | — | **Nothing.** No runtime npm deps, no fonts CDN needed (system font stack fits the antique aesthetic; avoids Google Fonts privacy/latency), no icon library (inline SVG), no JS libraries for sliders/lightbox (~30 lines vanilla) |
-
----
-
-## What NOT to Use (explicit)
-
-| Do not use | Why |
-|------------|-----|
-| SSGs: Jekyll / Astro / Eleventy | Zero-build constraint; agent-maintained content removes the authoring-ergonomics benefit; page count too low. Revisit only past ~15 pages (see Decision 1). |
-| React / Vue / any SPA | SEO-first static site; adds build step, runtime cost, zero payoff. |
-| Tailwind (CDN or build) | CDN build is a runtime JS compiler (FOUC, not for production); build variant violates constraint; hand-rolled tokens suffice at this scale. |
-| Firebase `*-compat.js` (v8 namespaced API) | Legacy surface; heavier; new code should be modular-only. |
-| npm `firebase` package at runtime | CDN import *is* the dependency (project constraint); npm copy needs a bundler. |
-| gtag Consent Mode as the primary gate | Preserves cookieless measurement the site doesn't need; load-gating is simpler and stricter. |
-| CMP/consent libraries (Cookiebot, Klaro…) | One two-choice banner doesn't justify a dependency + TCF complexity. |
-| JSON-dictionary JS-swap as primary i18n | Kills per-language SEO, hreflang targets, no-JS accessibility. |
-| Firebase Cloud Functions / email add-ons for the form | Secrets, deploy surface, cost — all avoided; Firestore console suffices for reading submissions. |
-| Jekyll i18n plugins / pages-plugins whitelist bets | Not on the Pages whitelist; contradicts zero-build. |
-| `aggregateRating` in JSON-LD before real ratings | Structured-data spam → manual actions. |
-
----
-
-## Installation / Setup (nothing to install at runtime)
+## Installation
 
 ```bash
-# Dev tooling only (optional — CI can use npx)
-npm install -D html-validate@11 linkinator
+# Runtime: NOTHING new. Firebase app-check rides the existing pinned CDN module:
+#   https://www.gstatic.com/firebasejs/12.18.0/firebase-app-check.js  (verified live)
+
+# Dev dependencies: unchanged from v1 — package.json needs zero edits.
+# (All new "tooling" is an extension of scripts/i18n-keycheck.mjs, node built-ins only.)
 ```
 
-Manual one-time steps (roadmap items, not code):
-1. Firebase console → register **Web App** in existing project → copy config → authorized domain `persano.github.io`.
-2. Enable **Anonymous** sign-in provider; create Firestore (production mode) + deploy rules from Decision 6.
-3. Repo Settings → Pages → Source: **GitHub Actions**.
-4. Google Search Console → submit sitemap (verification already in repo).
+```text
+# DNS (owner, at registrar — HOST-01):
+@     A     185.199.108.153 / 109.153 / 110.153 / 111.153
+@     AAAA  2606:50c0:8000::153 / 8001::153 / 8002::153 / 8003::153
+www   CNAME persano.github.io
+_github-pages-challenge-persano.<domain>  TXT  <code from profile Pages settings>
+```
+
+## Alternatives Considered
+
+| Recommended | Alternative | When to Use Alternative |
+|-------------|-------------|-------------------------|
+| reCAPTCHA v3 App Check provider | **reCAPTCHA Enterprise** (`ReCaptchaEnterpriseProvider`) | Google's stated preference for *new* integrations (10k assessments/mo free). Use it instead if the owner is willing to link a Cloud Billing account to the Firebase project, or if form spam turns out to be sophisticated enough to need Enterprise fraud signals. Switching later is contained: swap `ReCaptchaV3Provider` → `ReCaptchaEnterpriseProvider` and re-register the key in console. |
+| `dir` attribute + logical properties | Separate mirrored RTL stylesheet (`rtl.css`) duplicating selectors | Only if the design ever needs *different visual layouts* (not mirrored) for RTL — not the case; logical properties + a handful of `[dir="rtl"]` overrides mirror everything correctly. |
+| `dir="rtl"` on `<html>` set by i18n.js | `dir="auto"` | Never as page-level mechanism — `auto` is a per-element heuristic for unknown-direction content (MDN-verified); explicit `dir` is correct here because language is known per switch. |
+| Repo-settings custom domain (Actions publishing) | `CNAME` file in repo root | Required **only** if publishing source changes from Actions to a branch. Keep the settings field authoritative. |
+| Extended `i18n-keycheck.mjs` | `i18next-parser` 9.4.0 / translation-management platforms | i18next-parser when keys are extracted from source code with frameworks/TMs — not for 20 flat dictionaries under an exact-parity gate. |
+| Agent-drafted + app-strings terminology + owner review | Paid translation service | If owner wants professional QA on the 17 dictionaries before shipping; cost/benefit poor for a landing site where the app itself is the authoritative terminology source. |
+| Commented-out JSON-LD gate for aggregateRating | Fetching live Play rating client-side (Play scraper/Google API) | Never for this project — runtime dependency + ToS-stability risk; a manual gate flip in an agent-maintained site is free. |
+
+## What NOT to Use
+
+| Avoid | Why | Use Instead |
+|-------|-----|-------------|
+| reCAPTCHA Enterprise *for this milestone* | Requires Cloud Billing account linkage + GCP surface for a single form; Google's "use Enterprise" guidance is a recommendation, not a deprecation — v3 remains fully supported (doc live 2026-09-02) | reCAPTCHA v3 + monitoring-first; document Enterprise as upgrade path |
+| A third-party consent/CMP or captcha-widget library | Zero-build constraint; App Check's reCAPTCHA integration needs no widget markup | `ReCaptchaV3Provider` (invisible; no widget, no user interaction) |
+| `dir` via CSS `direction`/`unicode-bidi` as the primary mechanism | Presentation-only; breaks with CSS off; MDN explicitly recommends the HTML attribute as semantic | `dir` attribute, CSS as override only |
+| Separate `dir=auto` markup for known-language content | Heuristic designed for unknown-direction user content | Explicit `dir` per language + `<bdi>` for inline mixed runs |
+| Mirrored duplicate stylesheets / `html[dir=rtl]` full overrides of everything | Maintenance × 2 for a site that mostly uses flex + center alignment | Logical properties at edit points + minimal `[dir="rtl"]` overrides |
+| New npm deps for i18n lint/parity (i18next-parser, linting platforms) | Wrong tool shape; existing exact-parity gate is stricter than generic tools | Extend `i18n-keycheck.mjs` |
+| CNAME file as the domain mechanism | Explicitly "ignored and not required" for Actions publishing (docs, verified) | Repo Settings → Pages custom-domain field |
+| hreflang/sitemap entries for the 17 JS-swap languages | They have no URLs — in-place swap; alternates exist only for real URL variants (en/es/pt-BR) | Endonym switcher + navigator-language detection only |
+| Webfont CDNs for Arabic/Urdu/Hindi/Bengali/CJK glyphs | Privacy/latency cost; system fonts cover all 19 scripts | System font stack + per-lang line-height overrides |
+| Fetching Play ratings live for social proof | No official lightweight endpoint; scrapes break; adds runtime dependency | Static JSON-LD + hidden-section manual gate flip |
+
+## Stack Patterns by Variant
+
+**If form spam survives App Check enforcement (v3):**
+- Keep monitoring metrics for one cycle, raise the app-risk threshold (slider, console — default 0.5), or flip to `ReCaptchaEnterpriseProvider` (requires billing-account linkage). Zero client-architecture change either way.
+
+**If the owner registers a subdomain custom domain (e.g. `apps.example.com`):**
+- Single `CNAME` record → `persano.github.io` instead of the 9 apex records; everything else identical (settings, verification TXT, URL rewrite).
+
+**If a future language needs true per-URL SEO (e.g. Arabic static pages):**
+- Reuse the v1 `/es/`-style static-subdir pattern for that language only; the JS-swap languages stay dictionary-only. This is a URL-structure change, not a stack change.
+
+**If Play ratings fluctuate after gate flip:**
+- Ratings are hand-updated in the JSON-LD + social-proof text during agent sessions (matches maintenance model); keep the gate flip commit as the moment to record the owner's updating habit.
+
+## Version Compatibility
+
+| Package A | Compatible With | Notes |
+|-----------|-----------------|-------|
+| `firebase` (CDN) @ 12.18.0 | `firebase-app-check.js` @ 12.18.0 | Verified live on gstatic this session — the module exists at the exact pinned version and imports the pinned `firebase-app.js`. No version bump required. |
+| `firebase/app-check` @ 12.x | reCAPTCHA v3 / Enterprise providers | Debug-token mechanism (`self.FIREBASE_APPCHECK_DEBUG_TOKEN`) is read at initialization time in v9+ — the pre-v9 "must set in index.html before bundle load" restriction does not apply. |
+| `html-validate` 11.12.0 | new changelog page, RTL attributes | `geohist/*.html` glob covers the new page; `dir` is a standard global attribute (no plugin needed). |
+| `i18next-parser` 9.4.0 | n/a | Not adopted — listed only to pin the "considered alternative" reference honestly. |
 
 ## Sources
 
-Verified live this session (2026-09-01), all **High** confidence unless noted:
+- Firebase App Check — reCAPTCHA v3 web provider (`firebase.google.com/docs/app-check/web/recaptcha-provider`, page dated 2026-09-02) — init API, TTL, risk threshold, monitoring/enforcement split, Enterprise recommendation — **HIGH**
+- Firebase App Check — reCAPTCHA Enterprise provider (same session) — `ReCaptchaEnterpriseProvider`, Cloud Billing linkage, 10k/mo free quota, 2×/hour token refresh — **HIGH**
+- Firebase App Check — debug provider (web) — `self.FIREBASE_APPCHECK_DEBUG_TOKEN`, console registration, "do not commit" warning — **HIGH**
+- gstatic CDN — fetched `https://www.gstatic.com/firebasejs/12.18.0/firebase-app-check.js` directly (200, imports pinned `firebase-app.js`) — **HIGH**
+- npm registry (live this session) — `firebase@latest` = 12.18.0 (pin current), `i18next-parser@latest` = 9.4.0 — **HIGH**
+- GitHub Docs — Managing a custom domain for your GitHub Pages site (apex A/AAAA values, www CNAME, "add domain before DNS" warning, **CNAME file ignored under Actions publishing**, Enforce HTTPS) — **HIGH**
+- GitHub Docs — Verifying your custom domain for GitHub Pages (`_github-pages-challenge-<user>` TXT record, profile-level settings) — **HIGH**
+- MDN — `dir` HTML global attribute (updated 2026-08-28): `dir` on `<html>`, `dir=auto` semantics, `<bdi>` isolation, `unicode-bidi` override guidance — **HIGH**
+- MDN — CSS logical properties and values module: full property list for direction-relative margins/padding/borders/insets/alignment — **HIGH**
+- Google Search Central — Software app (`SoftwareApplication`) structured data (updated 2025-12-10): required `name` + `offers.price` + (`aggregateRating` | `review`) — **HIGH**
+- Google Search Central — Review Snippet (Review, AggregateRating): self-serving restriction scoped to `LocalBusiness`/`Organization` (SoftwareApplication not restricted); aggregateRating field guidance — **HIGH**
+- Endonyms for the 20-language switcher: standard native-language names (training knowledge, cross-checkable against the app's own `strings.xml` locale list) — **MEDIUM-HIGH**
+- `:dir()` evergreen support status — Chrome 120+/Safari 16.4+/Firefox 49+ (training knowledge, not re-verified this session) — **MEDIUM** (irrelevant if attribute selectors are used, as recommended)
 
-- npm registry — `firebase@12.18.0`, `html-validate@11.12.0`, `vnu-jar@26.8.30` (`registry.npmjs.org/<pkg>/latest`)
-- Firebase docs — CDN modular imports + gstatic version strings: `firebase.google.com/docs/web/learn-more`
-- Firebase docs — anonymous auth (current slug `…/docs/auth/web/anonymous-auth`): `firebase.google.com/docs/auth/web/anonymous-auth`
-- Firebase docs — Firestore security rules get-started: `firebase.google.com/docs/firestore/security/get-started`
-- Consent Mode (fields `ad_storage`, `analytics_storage`): `support.google.com/analytics/answer/9976101` — v2 `ad_user_data`/`ad_personalization` from training knowledge (Medium)
-- GitHub API `releases/latest` — `actions/checkout` v7.0.1, `actions/configure-pages` v6.0.0, `actions/upload-pages-artifact` v5.0.0, `actions/deploy-pages` v5.0.1, `actions/upload-artifact` v7.0.1
-- Google Search Central — SoftwareApplication schema: `developers.google.com/search/docs/appearance/structured-data/software-app`
-- Google Search Central — sitemaps: `developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap`
-- Google Search Central — multilingual/multiregional (hreflang): `developers.google.com/search/docs/specialty/international/managing-multi-regional-sites`
-- SSG-vs-plain tradeoff analysis: training knowledge + project constraints (**Medium** — not independently re-verified this session)
+---
+*Stack research for: Persano / GeoHist Trivia site — v2.0 milestone additions*
+*Researched: 2026-09-05*

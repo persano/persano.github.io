@@ -1,191 +1,269 @@
-# Feature Landscape
+# Feature Research
 
-**Domain:** Indie Android app landing site + personal developer hub (GitHub Pages, plain HTML/CSS)
-**Project:** Persano — root portfolio hub + `/geohist/` landing page for GeoHist Trivia (Android trivia game, in Google Play review)
-**Researched:** 2026-09-01
-**Mode:** Features (ecosystem research, feature-dimension only)
+**Domain:** Static app-landing site expansion (v2.0: 20-language i18n incl. RTL, App Check, changelog page, gated social proof)
+**Researched:** 2026-09-05
+**Confidence:** HIGH overall — all policy/behavior claims verified against official Firebase and Google Search Central documentation fetched live this session; UX-norm claims marked MEDIUM where they rest on established practice rather than a fetched spec.
 
-**Overall confidence:** HIGH for Play policy requirements (verified against Google Play Console Help policy pages fetched directly); MEDIUM for conversion/UX community norms (no search MCP available this session; based on established practice); per-claim confidence noted inline.
+**Confidence legend used below:** claims tagged **[HIGH]** come from official docs fetched this session (Firebase docs, Google Search Central, MDN, keepachangelog.com). Claims tagged **[MEDIUM]** are established community practice, not independently verified by a fetched spec.
 
----
+## Grounding: Existing Implementation (verified by reading repo code)
 
-## Critical Research Finding (read this first)
+Dependencies named in tables below refer to these verified facts:
 
-**Google Play's User Data policy (verified, HIGH)** — fetched directly from Play Console Help policy pages:
-
-1. **Privacy policy is mandatory for every app** — even apps with zero data collection. It must be on an **active, publicly accessible, non-geofenced URL, no PDFs, non-editable**. It must include: developer information **and a privacy point of contact or inquiry mechanism**, data types collected/used/shared, secure handling, **data retention and deletion policy**, be titled "privacy policy," and **name the entity exactly as it appears in the Play store listing** (or vice versa).
-2. **Data safety form must stay consistent** with the privacy policy — the site policy and the Play Console Data safety section must tell the same story (AdMob, Firebase Analytics, Play Games sign-in all count as collection).
-3. **Account deletion requirement (HIGH relevance):** apps that let users create an account **must offer account + data deletion**, and if deletion happens outside the app, Play requires a **web deletion-request resource** whose link must not be broken. GeoHist uses **Google Play Games Services** sign-in → this requirement plausibly applies → the site is the natural home for a "request deletion of my game data" path (even if it's an email-template + contact-form flow).
-4. Consent must be affirmative action — **auto-dismissing consent popups are explicitly prohibited** by the policy text.
-
-This makes the website **part of the app's compliance surface**, not just marketing. The privacy policy page alone justifies the site's existence.
+- `js/i18n.js` — dictionary-swap engine. `SUPPORTED = ['en','es','pt-BR']`; flat JSON dictionaries at `/js/i18n/{lang}.json` (`es.json`, `pt-BR.json` exist); EN is raw HTML restored from a snapshot; swap is `textContent`/`setAttribute` only (keyed nodes carry plain text by Phase-2 contract); `document.documentElement.lang` synced in the apply pass; **no `dir` handling exists anywhere**; detection is prefix-folding hardcoded for `pt-*`/`es-*`; endonym footer switcher built from an `ENDONYMS` map; persists `localStorage.persano.lang`; dispatches `persano:langchange`.
+- `sitemap.xml` — plain `urlset`, **no hreflang/`xhtml:link` entries**, 5 URLs. (The pre-build STACK recommendation of per-language static HTML + hreflang sets was NOT how v1 shipped; v1 is single-URL dictionary swap, and the sitemap correctly reflects that.)
+- `js/contact.js` + `js/firebase-config.js` — contact form imports Firebase auth+firestore modules via CDN dynamic import; anonymous auth → `addDoc` to `messages`.
+- No auto URL redirect exists for language (in-place swap on one URL) — consistent with Google's anti-redirect guidance **[HIGH]**.
 
 ---
 
-## Table Stakes
+## Feature Landscape
 
-Missing any of these = reviewers reject, players bounce, or the site feels unfinished.
+### Area A — I18N-05: 17 New Localizations (hi, zh, fr, vi, nl, ur, el, ko, tr, de, ja, ru, id, pl, it, bn, ar) + RTL
 
-### Core Landing
+**Expected behavior on a high-quality multilingual site:** every visitor lands on readable content in their language with zero configuration; manual choice is one interaction and sticks; languages read in the correct direction with correctly mirroring layout; crawlers see a consistent language story. Google detects page language algorithmically — **not** from `hreflang` or `lang` **[HIGH]**, so a single-URL dictionary-swap site is a legitimate architecture; what matters is that content, `lang`, and `dir` agree once swapped.
 
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| Hero with app name + one-line value prop + game icon | First 5 seconds decide stay/leave; every app site has this | Low | Static HTML, zero deps |
-| "Get it on Google Play" official badge + link | Users expect the canonical install path; badge is Google's official artwork (policy-safe) | Low | Play link placeholder until listing live (per PROJECT.md) — placeholder must be visually identical but inert, or hidden until live |
-| Screenshot gallery (3–6 real screenshots) | Screenshots are the #1 conversion asset; stock/dummy art reads as scam | Low–Med | ADB capture tools already exist in app repo; phone-frame mockups are the polish tier (optional) |
-| Feature list / "what makes it different" | Visitors scan, don't read; 4–6 bullets with icons | Low | Source: app README/docs, AI-drafted, owner reviews |
-| Mobile-first responsive layout | Most game-landing traffic is on phones (people tap a Play/social link on their device) | Low | Constraint already set; just don't break it |
-| Fast load (no build step, optimized images) | Core Web Vitals affect both UX and ranking; plain HTML is inherently fast | Low | Compress screenshots (WebP + fallback), lazy-load below-fold images |
-| Footer with copyright + brand name | Bare minimum legitimacy signal | Low | Entity name should match Play listing (see compliance) |
-
-### Trust & Compliance
+#### Table Stakes
 
 | Feature | Why Expected | Complexity | Notes |
 |---------|--------------|------------|-------|
-| Privacy policy page (`/geohist/privacy.html`) | **Hard Play policy requirement** (HIGH, verified). No PDF, public URL, correct entity name, contact mechanism, retention/deletion | Low (page) / Med (content accuracy) | Source file exists (`GeoHist_Trivia_Privacy_Policy`); must be updated to name the store-listing entity and include contact + retention/deletion sections if missing |
-| Contact channel (email or working form) | Play policy expects a privacy inquiry mechanism; players expect support access; reviewers sometimes test it | Med | Firebase JS SDK → Firestore; anonymous auth + security rules per PROJECT.md. **Form success/error states are part of the feature, not polish** |
-| GDPR consent banner gating Analytics + form | EU visitors; AdMob app is already privacy-sensitive; Google Consent Mode v2 pattern is the verified way (HIGH): `gtag('consent','default',…denied…, wait_for_update)` → `gtag('consent','update',…)` on choice; SDK loads only after "accept" | Med | Banner must require affirmative action (auto-dismiss = policy violation). Store choice in localStorage. Note: consent state must also gate the contact form's anonymous auth |
-| Working links, no placeholders, no lorem ipsum | Reviewers and visitors treat dead links as abandonment | Low | CI link check (see Ops) catches this |
-| Privacy policy linked from site footer **and** discoverable | Play checks the URL works and is reachable; buried 3 clicks deep looks evasive | Low | |
+| 17 new dictionaries with 1:1 key parity vs EN | Missing keys = silent EN fallback (existing D-30 behavior); parity is the quality gate | MEDIUM | Mechanical drafting, owner review per language; add a CI/parity-check script (compare key sets across all 20 `js/i18n/*.json`) — without it, misses are invisible until a user hits one |
+| Engine `SUPPORTED` + `ENDONYMS` extension | Switcher and validation read these two constants; 17 new endonyms (हिन्दी, 中文, Français…) | LOW | ~20-line change; endonym display is the expected UX (each language listed in itself) |
+| Detection prefix-folding for new languages | Existing `detect()` hardcodes `pt-*`→`pt-BR`, `es-*`→`es`; must fold all 20 (e.g. `de-*`→`de`, `ar-*`→`ar`) | LOW | One folding table; decide zh handling (site scope = `zh` ≈ Simplified; `zh-*`→`zh`) |
+| `lang` sync on swap | Already automatic (`applyLanguage` sets `documentElement.lang`) | DONE | Existing behavior carries over |
+| RTL base direction for ar/ur | `dir="rtl"` must be set on `<html>` alongside `lang`; `lang` does not imply direction **[HIGH]** | LOW | Add RTL_LANGS list to engine; set `documentElement.dir` in `applyLanguage`; remove on switch back to LTR |
+| CSS RTL audit (mirrored layout) | Logical order properties (margin-inline-start, text-align:start) mirror automatically; physical `left/right` properties and directional pseudo-element spacing do not **[HIGH]** | MEDIUM-HIGH | The real cost of RTL. Audit every stylesheet for `margin-left/right`, `padding-left/right`, `text-align: left/right`, directional icons/arrows; fix via logical properties or `[dir="rtl"]` overrides. Flexbox/Grid row direction mirror automatically |
+| Bidi-safe inline mixed content | Latin runs ("GeoHist Trivia", version numbers) inside RTL text; neutral punctuation at run boundaries can land on the wrong side **[HIGH]** | MEDIUM | Constraint: keyed nodes are plain-text-only (textContent contract) → cannot insert `<bdi>`. Mitigations: keep mixed content at run-friendly positions, or extend `data-i18n-attr` to carry `dir` on specific nodes; manual check of ar/ur pages against landing copy |
+| Form inputs direction for RTL | `<input>`/`<textarea>` inherit direction; users typing Urdu/Arabic expect RTL field content | LOW | dir inheritance covers it once `<html dir="rtl">`; verify contact form under ar/ur |
+| Switcher UX scales to 20 entries | Footer inline "A · B · C" breaks at 20 languages | MEDIUM | Expected pattern at 20 languages: a labeled `<select>` or footer language menu; must remain keyboard-accessible and keep `lang`/`hreflang` attrs on options; MEDIUM confidence (UX norm, not spec) |
+| Font coverage for new scripts | System font stacks generally cover Arabic, Devanagari, Bengali, CJK, Cyrillic, Greek via OS fallback | LOW | Verify visually on 2–3 pages per script; Nastaliq (ur) fallback quality is the main watch item [MEDIUM] |
 
-### Content Depth
-
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| FAQ (offline mode, data collected, devices supported) | Players ask these pre-install; also the exact questions Play reviewers probe | Low | Data-collection FAQ must mirror privacy policy wording — single source of truth |
-| Download/store section with requirements (Android version, size) | Sets expectations, cuts 1-star "won't install" reviews | Low | |
-| Privacy policy in same language as site (EN) | Required for Play listing; translations explicitly out of scope (PROJECT.md) | — | EN authoritative |
-
-### Discovery (SEO / Sharing)
-
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| Meta titles + descriptions per page | Search is how people find "[app name] privacy policy" — a top query pattern | Low | |
-| Canonical URLs + `sitemap.xml` + `robots.txt` | Site is at `persano.github.io` root + `/geohist/` subdir; sitemap must list all real pages | Low | Search Console already verified on this repo |
-| Open Graph + Twitter card tags (og:image 1200×630) | Every share (WhatsApp, Discord, Reddit) renders a link preview; missing preview = dead link look | Med (image asset) / Low (markup) | One branded image for hub, one for GeoHist |
-| Favicon + favicon set | Browser tab + bookmark legitimacy | Low | Reuse app icon |
-| Custom 404 page | GitHub Pages honors `/404.html`; protects against broken subdir links | Low | |
-
-### Multi-App Hub
-
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| Root page with short bio + portrait/logo + "about the developer" | Personal-brand hub needs a human face; Play "developer website" links point here | Low | Santiago David Postorivo / Persano identity |
-| App cards (icon, name, tagline, badge) linking to `/geohist/` | The hub's entire job is routing visitors to apps | Low | Card grid must render sensibly with **1 app** (single card ≠ broken layout) and scale to N without code changes |
-| Hub ↔ app-site navigation both directions | Users landing on `/geohist/privacy.html` from Play must reach the hub and vice versa | Low | Shared header/footer pattern, hand-copied between pages (no build step) |
-| **No visible placeholders for future apps** | Empty "coming soon" cards destroy credibility (explicit PROJECT.md constraint) | Low | Design decision: grid reflows when a new subdir appears |
-
-### Ops
-
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| GitHub Actions CI: validate (HTML/link check) → deploy to Pages | Broken privacy-policy URL during review is the nightmare scenario; validate-before-deploy is the guard | Med | Docs confirm custom workflows are supported for Pages deploys (HIGH, GitHub docs) |
-| Firebase Analytics (site) | Already required by PROJECT.md; load only after consent | Low | Same Firebase project as app |
-
----
-
-## Differentiators
-
-Not expected by reviewers — but raise conversions, trust, or maintainability.
+#### Differentiators
 
 | Feature | Value Proposition | Complexity | Notes |
 |---------|-------------------|------------|-------|
-| **How-to-play guide on its own page** | For a trivia game with mechanics (history+geography modes), a guide converts "what is this?" → install; also feeds FAQ | Med | PROJECT.md already requires this — treated as differentiator-grade content worth investing in |
-| **Changelog / version notes page** | Shows the app is alive (reviewers and players both notice staleness); maps to `releaseNotes` in SoftwareApplication schema | Low–Med | Simple list per release; update on each app release |
-| **SoftwareApplication structured data (JSON-LD)** | Google documents a "Software app" rich result (HIGH, verified): `@type: SoftwareApplication, operatingSystem: ANDROID, applicationCategory: GameApplication, offers, aggregateRating`. Eligible for richer search presentation | Low | One `<script type="application/ld+json">` block; keep `offers.price = 0`; add `aggregateRating` only once real Play ratings exist (fabricating ratings violates schema guidelines) |
-| **Language switcher + browser-language auto-detect (EN/ES/PT)** | Game has 20 localizations; matching the site to the player's language is trust + conversion | Med | **Verified constraint (HIGH):** Google warns locale-adaptive pages (content varies by visitor) may not be fully crawled. Safe pattern: content swapped client-side via `data-i18n` keys + `navigator.language` detection + manual switcher + `localStorage` persistence + EN fallback; document `<html lang>` kept accurate dynamically. SEO cost is acceptable — installs come from Play search, not organic web |
-| **Rating/social-proof strip** (once live) | "4.6 ★ on Google Play" converts; pull statically, update manually | Low (later) | Only after listing is live and has ratings |
-| **Consent-mode-aware analytics events** (Play button clicks, language switched, guide opened) | Measures whether the site converts, informs where traffic comes from | Med | Consent-gated; only fire after grant |
-| **Firebase App Check on the web form** | Hardens contact form against scripted abuse beyond anonymous auth | Med | ReCAPTCHA-enterprise-free (v3 app check) — small config, real spam reduction |
-| **Honeypot field + basic client-side rate limiting on form** | Cheap second spam layer; zero UX cost | Low | Complements Firestore rules |
-| **Accessibility WCAG 2.1 AA + audit step** | Explicitly required by PROJECT.md; broadens audience, matches Play ecosystem quality bar | Med | Alt text on screenshots, contrast on dark theme, keyboard nav, focus states, form labels |
-| **Dedicated data-deletion request path** (email template / form tag / dedicated FAQ entry) | Directly answers the Play account-deletion requirement (HIGH); reviewers check for a working deletion channel | Low–Med | Simplest compliant form: FAQ entry + contact form with "request data deletion" topic + documented manual process |
-| **Screenshot gallery with captions per screenshot** | Captions explain mechanics; alt text doubles as accessibility | Low | |
-| **Dark history+geography visual theme** (map textures, antique accents) | Brand cohesion hub↔app; memorable niche aesthetic | Med | Agent's call per PROJECT.md; pure CSS |
-| **GitHub Search Console verification retained** | Already in repo; keeping it enables indexing monitoring from day 1 | Low | |
+| hreflang + sitemap `xhtml:link` sets for per-language URLs | Only meaningful if the site moves to per-language static HTML (distinct URLs per language); enables Google to link the right language version in results **[HIGH]** | HIGH | 5 pages × 20 languages = ~100 URL variants, reciprocal self-referencing sets, x-default → EN. **Architecture decision pending** — see Dependency Notes. Under current single-URL dictionary-swap, hreflang is *not applicable* (nothing to annotate) and correctly stays out of scope |
+| Per-language static HTML (subdirs) | Crawlable per-language content, no JS dependency for translation, cleaner analytics | HIGH | Contradicts zero-build maintenance model at this page count; would multiply page maintenance ~×20. Current STACK.md favors it; v1 shipped dictionary-swap. Roadmap must pick one — complexity swing is large |
+| `changelog.*` dictionary keys included in all 20 dicts from day one | One build order instead of a 21-language catch-up later | LOW | Already planned (CONT-06 before I18N-05) |
+
+#### Anti-Features
+
+| Feature | Why Requested | Why Problematic | Alternative |
+|---------|---------------|-----------------|-------------|
+| Geo-IP / server-side language redirect | "Serve users their language" | Impossible on GitHub Pages (no server); Google explicitly advises against automatic redirects based on guessed language and against IP analysis **[HIGH]** | Client-side detect (already built) + visible switcher; EN always reachable |
+| URL auto-redirect on deep pages | Maximize localized reach | Redirect loops, crawler confusion, users trapped in a language | If per-language URLs ever adopted: entry pages only, persistence flag, never crawlers |
+| Translating the privacy policy | "Full i18n" | English is the legally authoritative version (PROJECT.md out-of-scope) | Keep EN policy; link it from translated pages with translated label |
+| Third-party auto-translate widget | Cheap coverage | Machine-translated HTML = poor quality + no control; Google translates user-side | Owner-reviewed agent-drafted dictionaries (current plan) |
+| Adding languages one-off as JSON without a parity gate | Fast shipping | Silent key misses degrade to EN invisibly | Parity check × 20 in CI before each deploy |
 
 ---
 
-## Anti-Features
+### Area B — FIRE-07: Firebase App Check (reCAPTCHA v3) on the Contact Form
 
-Deliberately NOT build. Each maps to a PROJECT.md Out-of-Scope item or a verified policy/efficiency reason.
+**Expected behavior (verified, official Firebase docs):** after the SDK is integrated, the client sends App Check tokens with Firebase requests, but **products do not reject anything until enforcement is enabled console-side** — that is monitoring mode **[HIGH]**. It is an observability phase, not a protection phase. reCAPTCHA v3 returns a 0.0–1.0 score; App Check compares against a configurable app-risk threshold (default 0.5); scores strictly below the threshold are rejected *once enforcing* **[HIGH]**. v3 is invisible — no checkbox, no user interaction required **[HIGH]**.
 
-| Anti-Feature | Why Avoid | What to Do Instead |
-|--------------|-----------|-------------------|
-| PDF privacy policy | Play policy **explicitly bans PDFs** and requires non-editable HTML on a public URL (HIGH, verified) | HTML privacy page at `/geohist/privacy.html` |
-| Auto-dismissing consent popup | Explicit Play policy violation ("Don't use auto-dismissing consent popups when affirmative action is required") | Banner requiring explicit Accept/Reject click |
-| Server-side language redirect (serving different HTML per Accept-Language) | Google warns locale-adaptive pages risk incomplete crawling/indexing (HIGH, verified); static host can't do it anyway | Client-side detect + manual switcher + per-language URLs only if/when SEO justifies real subdirectories |
-| Translated privacy policy | Legal risk of divergent authoritative texts; PROJECT.md excludes | English-only policy; language switcher hides legal pages from translation scope |
-| Native App Links / deep links into the game | Adds Android intent-filter + assetlinks.json maintenance for zero gain on an informational site (PROJECT.md) | Plain Play Store links |
-| Real-time chat, comments, user accounts on site | Not core to landing value; huge spam/abuse surface; PROJECT.md excludes | Contact form (Firebase) + FAQ |
-| Jekyll/SSG, build pipeline, JS frameworks | Zero-build constraint is deliberate; plain HTML is agent-maintainable and GitHub Pages native | Hand-maintained HTML/CSS + vanilla JS |
-| Custom domain (v1) | Deferred per PROJECT.md; `persano.github.io` works and Search Console is already verified on it | Revisit at a later milestone; keep URLs relative so a domain swap is config-only |
-| Fabricated ratings/reviews/social proof pre-launch | Schema.org guidelines + honesty; empty social proof reads worse than none | Add aggregateRating/social proof only after real Play data exists |
-| Placeholder app cards on hub | PROJECT.md forbids visible placeholders for future apps | Grid renders with actual apps only |
-| Auto-playing video / heavy hero media | Kills mobile performance; most visitors are on phones; no build step to optimize media | Static hero image + screenshot gallery |
-| Cookie banner that also gates core content | Consent should gate tracking, not access; gating content hurts conversion and AA accessibility | Analytics + form gated; content always available |
+**What monitoring mode means operationally:** every anonymous-auth sign-in and Firestore `addDoc` from the form already carries a token; the Firebase console (**Security > App Check > APIs tab**) classifies requests as **Verified / Uncertain / likely-outdated / Reused token**; "ready to enforce" = almost all recent requests are Verified **[HIGH]**. Enforcement is a per-product console flip (Firestore **and** Authentication — the form's whole chain) with instant rollback (flip off) **[HIGH]**.
+
+#### Table Stakes
+
+| Feature | Why Expected | Complexity | Notes |
+|---------|--------------|------------|-------|
+| reCAPTCHA v3 site key registration (reCAPTCHA Admin) | Prerequisite for the provider | LOW | Owner console step; allowlist `persano.github.io` and later the custom domain (HOST-01 interaction — see dependencies) |
+| `initializeAppCheck` in `contact.js` (CDN `firebase-app-check.js`) | Same fork-shaped pattern as auth/firestore; analytics surface untouched | LOW | Fits existing dynamic-import structure; no other JS surface needs App Check |
+| Monitoring mode first (default state) | Docs: verify no legitimate-user disruption before enforcing **[HIGH]** | LOW | Zero code beyond the init; zero UX change |
+| Metrics review ritual | "Almost all recent requests Verified" is the documented green light **[HIGH]** | LOW | Owner/agent check cadence; **small-sample caveat**: a low-traffic contact form needs a pragmatic window (e.g., ≥ 2 weeks and ≥ N verified submissions) before "almost all" means anything [MEDIUM] |
+| Enforcement flip: Firestore + Authentication per-product | Console-side; both products in the form chain must enforce or protection is half-done **[HIGH]** | LOW | Owner console step; document the exact flip path |
+| Pre-enforcement error UX in `contact.js` | Token fetch can fail (offline, provider error); at enforce time a rejected token = failed request | LOW-MEDIUM | Wrap submission: get token → proceed; on failure show the existing i18n'd error message + retry; map App Check/permission-denied errors to a friendly retry message, not a console error |
+| Rollback plan | Unenforce = console flip off, immediate **[HIGH]**; before raising the threshold, temporarily unenforce **[HIGH]** | LOW | Written rollback note in phase plan |
+
+#### Differentiators
+
+| Feature | Value Proposition | Complexity | Notes |
+|---------|-------------------|------------|-------|
+| Replay protection on Firestore | Tokens become one-use; strongest config **[HIGH]** | LOW | Optional toggle at enforcement time; sensible for a spam-targeted form |
+| Threshold tuning from reCAPTCHA score distribution | Raise strictness only when score distribution proves it **[HIGH]** | LOW | Score distribution lives in reCAPTCHA Admin console; default 0.5 first |
+| Honeypot (already specced in STACK.md) | Defense-in-depth independent of App Check | LOW | Complements, does not replace; App Check gates abuse of the Firebase backend itself |
+
+#### Anti-Features
+
+| Feature | Why Requested | Why Problematic | Alternative |
+|---------|---------------|-----------------|-------------|
+| Enforce-on-day-1 on a live form | "Protected immediately" | Legitimate users whose tokens fail get silent form errors; docs' own warning path is monitor-then-enforce **[HIGH]** | Monitoring window, then flip |
+| Threshold raised toward 1.0 | "Zero bots" | Can deny real users; docs explicitly warn and require unenforce-first **[HIGH]** | Keep 0.5; tune only with score-distribution evidence |
+| Building enforcement UI (checkbox/challenge UX) | Perceived rigor | v3 is invisible by design; adding visible challenge UI is a different product (v2) | Stay v3-invisible |
+| Do-it-yourself token checks in `contact.js` beyond SDK | Extra skepticism | Re-implementing the SDK badly; enforcement lives console-side | SDK + rules + replay protection |
+
+---
+
+### Area C — CONT-06: Changelog Page (`/geohist/changelog.html`)
+
+**Expected behavior (Keep a Changelog 1.1.0, fetched live):** changelogs are *for humans* — curated, reverse-chronological, one entry per version, ISO 8601 dates (`2026-09-05`), linkable version headings, changes grouped into **Added / Changed / Deprecated / Removed / Fixed / Security**, latest first, with an `Unreleased` section when useful **[HIGH]**. Players landing on an app changelog expect: newest version on top, plain-language "what's new / what got fixed", dates, and consistency — not commit dumps **[HIGH]**.
+
+#### Table Stakes
+
+| Feature | Why Expected | Complexity | Notes |
+|---------|--------------|------------|-------|
+| Newest-first version sections with version + date | Universal player expectation; dates ambiguous-region-proof in ISO 8601 **[HIGH]** | LOW | `## [1.0.0] — 2026-09-05` heading pattern; anchor ids per version |
+| Grouped change types per entry | Players scan for "what's fixed" **[HIGH]** | LOW | Trim to the types the app actually uses (likely Added/Changed/Fixed); empty sections omitted (anti-pattern per KAC) |
+| Plain-language, human-curated entries | Git-log dumps are noise **[HIGH]** | LOW | One curated bullet per notable change; agent-maintained model fits perfectly |
+| i18n chrome keys (`changelog.*` namespace) | Page must exist in the 20-language dictionary build | LOW | Translate headings/labels; entries themselves default EN — see differentiator |
+| Nav/footer + sitemap + landing link | Discoverability; sitemap gains the URL | LOW | Fits existing hand-rolled sitemap; also add to 404/backlinks pattern |
+| `Unreleased` section convention | Lets the owner stage notes between releases **[HIGH]** | LOW | Optional but cheap; hide when empty |
+
+#### Differentiators
+
+| Feature | Value Proposition | Complexity | Notes |
+|---------|-------------------|------------|-------|
+| Translated changelog entries × 20 | Full localization parity for readers | HIGH (ongoing upkeep) | Every app release = 20 translations. Recommend: chrome translated, entries EN with owner opt-in per release; app in-game "What's new" is already localized, so the web page is the durable archive |
+| Permalinked versions + "latest" anchor | Community/support can link to a version | LOW | Version headings already linkable per KAC principles |
+| Dates in visitors' locale? | Readability | MEDIUM | ISO 8601 is the recommended unambiguous format **[HIGH]** — resist locale-formatting; it stays parseable for everyone |
+
+#### Anti-Features
+
+| Feature | Why Requested | Why Problematic | Alternative |
+|---------|---------------|-----------------|-------------|
+| Commit-log dump / auto-generated notes | "Automate it" | Noise, not for humans **[HIGH]** | Curated per-release entries |
+| `YANKED` mechanics / release-pulled states | Format completeness | Not applicable to an app-store release cadence | Simply remove/never list broken releases |
+| Changelog as JSON consumed by JS | "One source of truth" | Kills no-JS/crawler access; page is static HTML by contract | Static HTML entries (dictionaries only for chrome) |
+| Syncing Play "What's new" verbatim via scraping | Low effort | Fragile + ToS-gray | Hand-copy the notable lines at each release |
+
+---
+
+### Area D — SEO-05: Gated aggregateRating + Social Proof
+
+**Expected behavior:** a landing page pre-ratings shows honest, verifiable proof and **no rating markup at all**; the rating story unlocks only when real ratings exist. Verified guideline facts **[HIGH]**: `aggregateRating` requires `ratingValue` plus `ratingCount` or `reviewCount`; the marked-up rating must be *visible on the page* (invisible markup = guideline violation); **do not aggregate reviews or ratings from other websites**; no fake or undisclosed-incentivized reviews; the "self-serving" prohibition applies only to `LocalBusiness`/`Organization` — `SoftwareApplication` is not restricted, so an app's own site *may* carry its own rating markup *when the rating is genuinely sourced on that page's terms*.
+
+**Critical nuance for this project:** Play Store ratings pasted into the site's JSON-LD are "ratings from another website" — the guideline text excludes aggregating them **[HIGH]**. Community practice diverges (many app sites mark up Play numbers) [MEDIUM], but the compliant wiring for this milestone is two-tier (below). No fabricated numbers, ever.
+
+#### Table Stakes
+
+| Feature | Why Expected | Complexity | Notes |
+|---------|--------------|------------|-------|
+| Gate mechanism: authoring-time, not JS runtime | Static site; markup present-but-invisible violates the visibility guideline **[HIGH]**; JS-gated markup is crawler-visible anyway | LOW | Content (stars row, rating text, ratingCount in JSON-LD) lives as **HTML comments / absent JSON-LD properties** until the owner flips the gate. Commented-out = never served = zero risk. Matches PROJECT.md "owner flips gate" |
+| Honest placeholder social proof while gate is closed | "Coming soon to Google Play" (existing Play badge placeholder already does this); real verifiable facts as proof | LOW | Real facts available now: offline-capable, 20 in-app localizations, history+geography scope, 4 real screenshots, Play Games Services, privacy contact path |
+| Pre-registration / notify-me path while unpublished | Standard indie-app pattern [MEDIUM] | LOW | Play pre-registration link when available; otherwise "Follow releases via changelog" |
+| JSON-LD stays `SoftwareApplication`-without-`aggregateRating` pre-ratings | Adding `aggregateRating: 0` or placeholder numbers = structured-data spam risk | LOW | Current shipped state is already correct; gate = a future property addition, nothing more |
+
+#### Differentiators
+
+| Feature | Value Proposition | Complexity | Notes |
+|---------|-------------------|------------|-------|
+| Tier 1 gate flip (Play listing live): visible proof row | "Rated X.X ★ on Google Play →" as **visible text + link with clear attribution** | LOW | Visible content with attribution is standard practice [MEDIUM]; no JSON-LD change required for this tier |
+| Tier 2 gate flip: `aggregateRating` in JSON-LD | Rich-result star potential | LOW (code) — but eligibility-limited | Only if the site ever collects its own reviews (it doesn't today); Play-sourced numbers are excluded by the don't-aggregate rule **[HIGH]**. Honest recommendation: wire the *shape* (commented template), leave activation explicitly conditional on own-site review collection |
+| Social-proof content set (translated) | 20-language parity for the proof row | LOW | Reuses changelog-order i18n key-parity build |
+
+#### Anti-Features
+
+| Feature | Why Requested | Why Problematic | Alternative |
+|---------|---------------|-----------------|-------------|
+| Fabricated stars/counts ("4.9★, 10k players") | Looks launched | Google fake-review guidelines **[HIGH]**; trust destruction if caught; Play policy contamination | Real facts + "coming soon" |
+| Invisible/JS-injected markup pre-ratings | "Ready for later" | Invisible-markup guideline violation **[HIGH]**; JS-gated stars render for nobody yet are crawler-visible = worst of both | Commented template, owner flips |
+| Incentivized review solicitation without disclosure | Seed ratings | Explicitly barred **[HIGH]** | None needed — let organic Play ratings exist at Play |
+| Marking up Play reviews individually (`Review` items) | Richer snippet | Aggregating another site's content **[HIGH]** + author-validation rules | Link out to Play reviews instead |
 
 ---
 
 ## Feature Dependencies
 
 ```
-Privacy policy content (existing file)
-  └─ Privacy policy page ── footer link ── every page
-  └─ Data-safety consistency (Play Console, outside site)
+[CONT-06 changelog page]
+    └──requires──> [i18n chrome keys present in ALL 20 dictionaries]
+                        └──requires──> [I18N-05 built AFTER changelog keys exist
+                                        (build changelog first — PROJECT.md already orders this)]
 
-Firebase project (web app registration in app repo's project)
-  ├─ Anonymous Auth ── Contact form
-  ├─ Firestore security rules ── Contact form (payload validation, per-uid write limits)
-  ├─ App Check (optional hardening) ── Contact form
-  └─ Firebase Analytics (site) ── GDPR consent banner (banner MUST gate: gtag consent default denied → update on accept)
+[I18N-05 dictionaries ×17]
+    └──requires──> [key-parity gate (CI script) — new CI work]
+    └──requires──> [i18n.js engine extension: SUPPORTED, ENDONYMS, folding table, dir switching]
+    └──conflicts──> [text-only keyed-node contract] (bidi isolation needs workarounds — see RTL table)
 
-Screenshots: ADB capture tooling (app repo) ── Gallery ── og:image / schema screenshot / hero art
+[FIRE-07 App Check]
+    └──requires──> [reCAPTCHA v3 site key (owner, reCAPTCHA Admin)]
+    └──requires──> [contact.js: token init + failure UX]
+    └──requires──> [HOST-01 domain decided BEFORE reCAPTCHA site-key domain allowlist is finalized]
+                        (site-key domain list + Firebase authorized domains must include the final
+                         domain; changing domains after means re-editing both console configs)
 
-Language keys (data-i18n dictionary) ── i18n switcher ── auto-detect (navigator.language) ── localStorage persistence
+[SEO-05 social proof]
+    └──gated──> [Play listing live (external, owner)] — no code dependency on other v2 features
+    └──enhances──> [landing page] (proof row slots into existing hero/features)
 
-Play Store listing live
-  └─ Real store link (replaces placeholder badge link)
-  └─ aggregateRating in structured data (only when real ratings exist)
-
-Hub page ── app cards ── /geohist/ pages (nav both ways)
-
-GitHub Actions validate (HTML + links) ── Pages deploy ── live site
-sitemap.xml ── all final URLs (generate after page set is stable)
+[HOST-01 custom domain]
+    └──conflicts──> [FIRE-07 enforcement flip] if App Check config is finalized before the domain
+                     (reCAPTCHA allowlist + authorized domains must be re-edited post-flip)
 ```
 
-**Critical ordering constraint:** the consent banner must exist **before or with** the Analytics snippet in every page template — retrofitting it means auditing every page. Likewise sitemap/OG/schema belong to the last content phase, once URLs are final.
+### Dependency Notes
+
+- **CONT-06 requires the changelog keys before I18N-05:** dictionaries are drafted per-language with a parity gate; retrofitting `changelog.*` into 20 dicts later = a second 20-language pass. Build order already stated in PROJECT.md.
+- **FIRE-07 depends on HOST-01 ordering:** reCAPTCHA v3 site keys are domain-allowlisted; Firebase authorized domains gate auth. Decide/land the custom domain first (or re-edit console configs at flip time). This ordering is a phase-sequencing recommendation.
+- **I18N-05 conflicts with the text-only keyed-node contract for RTL:** bidi isolation normally wants `<bdi>` wrappers; the snapshot/textContent contract forbids markup inside keyed nodes. The engine's `dir` switch + CSS logical audit are the compatible path; hand-check ar/ur pages for punctuation-at-run-boundary glitches.
+- **SEO-05 is the only externally gated feature:** everything else ships at the site's own pace.
 
 ---
 
-## MVP Recommendation
+## MVP Definition
 
-Prioritize (maps 1:1 onto the Active requirements list — the researched landscape confirms the scoping is correct):
+### Launch With (v2.0 milestone)
 
-1. **Privacy policy page + footer links** — the single non-negotiable Play-facing artifact (HIGH-verified requirement)
-2. **Hero + screenshots + Play badge (placeholder) + feature list** — core conversion block
-3. **FAQ + contact form (anon auth + Firestore rules + consent-gated load)** — reviewer and player trust surface
-4. **Consent banner (Consent Mode v2 pattern) wired before Analytics goes live** — ordering-critical
-5. **Hub page with one-app card grid + EN/ES/PT i18n** — brand foundation with multi-app structure
-6. **Meta/OG/sitemap/SoftwareApplication JSON-LD + CI validate-deploy + AA audit** — discovery and quality gate
+- [ ] 17 dictionaries + parity gate × 20 — the headline commitment; mechanical but review-heavy
+- [ ] Engine extension: SUPPORTED/ENDONYMS/folding/dir switching — small, unblocks everything above
+- [ ] CSS RTL audit for ar/ur on all pages — the only genuinely design-heavy i18n work
+- [ ] Changelog page (EN entries, i18n chrome) — built *before* the locale expansion lands
+- [ ] App Check monitoring mode wired into `contact.js` + owner console steps documented
+- [ ] Social-proof gate: commented Tier-1/Tier-2 templates in place; pre-rating proof = real facts only
 
-Defer:
-- **Changelog page**: valuable but nothing links to it until the app has shipped updates; add in first post-launch phase
-- **Rating/social-proof strip + aggregateRating schema**: requires live Play listing data
-- **17 additional localizations**: staged per PROJECT.md if traffic justifies
-- **App Check on web form**: harden in ops phase after form proves it works
-- **Custom domain, deep links, SSG migration**: explicitly out of scope
+### Add After Validation (v1.x of this milestone)
+
+- [ ] App Check enforcement flip (Firestore + Authentication) — trigger: metrics window shows verified share ≈ 100%
+- [ ] Tier-1 visible proof row — trigger: Play listing live (owner flips)
+- [ ] hreflang/sitemap alternates — trigger: only if roadmap adopts per-language static HTML
+
+### Future Consideration (v2+)
+
+- [ ] Per-language static HTML expansion — revisit only if a crawlability/traffic case emerges
+- [ ] Tier-2 JSON-LD `aggregateRating` — revisit only if the site collects its own reviews
+- [ ] Translated changelog entries per release — revisit if changelog becomes a traffic surface
+
+---
+
+## Feature Prioritization Matrix
+
+| Feature | User Value | Implementation Cost | Priority |
+|---------|------------|---------------------|----------|
+| 17 dictionaries + parity gate | HIGH (core audience reach) | MEDIUM (volume, review) | P1 |
+| RTL dir switching + CSS audit | HIGH (ar/ur unusable without) | MEDIUM-HIGH | P1 |
+| Engine extension (SUPPORTED/ENDONYMS/folding/dir) | HIGH | LOW | P1 |
+| Changelog page (pre-locale build order) | MEDIUM-HIGH | LOW-MEDIUM | P1 |
+| App Check monitoring mode | MEDIUM (invisible, observability) | LOW | P1 |
+| App Check enforcement flip | HIGH (spam-free form) | LOW (console) + UX wiring | P2 (after metrics) |
+| Gated social proof wiring | MEDIUM (pre-ratings) → HIGH (post) | LOW | P2 |
+| hreflang/per-language URLs | MEDIUM (SEO) | HIGH | P3 (architecture decision first) |
+
+**Priority key:** P1 = must have in this milestone · P2 = sequenced inside the milestone on a trigger · P3 = deferred pending a decision
+
+---
+
+## How High-Quality Sites Do It (Analogue Analysis)
+
+| Concern | Large multilingual sites (hreflang-heavy) | App web changelogs (Signal/Telegram-style) | App landing pages w/ ratings | This site's approach |
+|---------|------------------------------------------|--------------------------------------------|------------------------------|----------------------|
+| Language serving | Per-language URLs + reciprocal hreflang + sitemap `xhtml:link` **[HIGH]** | n/a | n/a | Dictionary-swap, one URL — valid because Google detects language algorithmically, not via hreflang **[HIGH]**; upgrade path documented above |
+| Auto-redirect | Entry-page-only, flag-persisted, never crawlers | n/a | n/a | No redirect at all (in-place swap); Google's anti-redirect guidance is satisfied by construction **[HIGH]** |
+| Changelog format | n/a | Newest-first, ISO dates, grouped Added/Changed/Fixed **[HIGH]** | n/a | Keep a Changelog principles, trimmed type set |
+| Rating display | n/a | n/a | Visible rating with on-store attribution + link | Two-tier gate; JSON-LD only for own-site reviews |
 
 ---
 
 ## Sources
 
-- Google Play Console Help — User Data / Privacy, Deception and Device Abuse policy page (`support.google.com/googleplay/android-developer/answer/9888076`, fetched via curl, read directly) — **HIGH**: privacy policy spec (no PDF, non-geofenced, entity name, contact mechanism, retention/deletion), Data safety consistency, account deletion + web deletion resource, affirmative-consent rule
-- Google Play Console Help — Data safety section (`answer/9888379`, fetched) — **HIGH**: form must match privacy policy disclosures
-- Google Consent Mode v2 (`developers.google.com/tag-platform/security/guides/consent`, fetched) — **HIGH**: `gtag('consent','default',…)` denied by default + `wait_for_update`, `update` on choice; EEA requirement
-- Google Search Central — International/multilingual overview (fetched, updated 2025-12-10) — **HIGH**: locale-adaptive page crawling warning; nav confirms "Software app" is a current structured data feature
-- Google Search Central — Software app structured data (fetched) — **HIGH**: SoftwareApplication JSON-LD example (name, operatingSystem ANDROID, applicationCategory GameApplication, aggregateRating, offers)
-- schema.org/SoftwareApplication (fetched) — **HIGH**: property list (featureList, screenshot, installUrl, releaseNotes, softwareVersion…), usage tier 1M–10M domains
-- GitHub Docs — What is GitHub Pages (fetched) — **HIGH**: user site at `owner.github.io` from `<owner>.github.io` repo; custom workflows for deploy; GitHub logs visitor IPs
-- Firebase docs (anonymous auth / Firestore rules pages returned 404 shells this session; patterns corroborated by fetched Firestore security rules doc present in workspace temp) — **MEDIUM**
-- Conversion/UX norms for app landing pages (hero/badge/screenshots/CTA placement, OG 1200×630, changelog/social-proof expectations, indie hub patterns) — **MEDIUM**, community-standard practice, not independently re-verified this session (no search MCP available); flagged as the main re-verify target for phase planning
+- Firebase docs — App Check reCAPTCHA v3 setup (`firebase.google.com/docs/app-check/web/recaptcha-provider`), monitoring metrics (`/docs/app-check/monitor-metrics`), enforcement (`/docs/app-check/enable-enforcement`) — fetched live 2026-09-05 — **HIGH**
+- Google Search Central — Localized versions / hreflang (`/search/docs/specialty/international/localized-versions`) and Managing multi-regional and multilingual sites — fetched live 2026-09-05 — **HIGH**
+- Google Search Central — Review snippet / AggregateRating structured data (`/search/docs/appearance/structured-data/review-snippet`) — fetched live 2026-09-05 — **HIGH**
+- MDN — `dir` global attribute (`developer.mozilla.org/.../Global_attributes/dir`) — fetched live 2026-09-05 — **HIGH**
+- Keep a Changelog 1.1.0 (`keepachangelog.com/en/1.1.0/`) — fetched live 2026-09-05 — **HIGH**
+- Static-site language-detection UX patterns and indie-app social-proof norms — training knowledge, consistent with the fetched Google guidance — **MEDIUM**
+- Existing implementation facts (`js/i18n.js`, `sitemap.xml`, `js/contact.js`) — read directly from repo — **HIGH**
+
+---
+*Feature research for: Persano v2.0 milestone (multilingual ×20, App Check, changelog, gated social proof)*
+*Researched: 2026-09-05*
