@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# Post-deploy smoke check for https://persano.github.io (OPS-03, Phase 1 Plan 01-02).
+# Post-deploy smoke check for https://geohisttrivia.com (OPS-03, Phase 1 Plan 01-02).
 # Targets the LIVE site. Right after a deploy, GitHub Pages CDN propagation
 # needs a short retry window (~60s) — wait before declaring failure.
 # Re-run before Play submission to re-verify the Play-critical privacy URL.
 set -u
 
-BASE="https://persano.github.io"
+BASE="https://geohisttrivia.com"
 FAIL=0
 
 expect_status() {

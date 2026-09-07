@@ -1,5 +1,5 @@
 /*!
- * persano.github.io — contact form submit pipeline (FIRE-04/FIRE-05).
+ * geohisttrivia.com — contact form submit pipeline (FIRE-04/FIRE-05).
  *
  * Classic defer script, module-free, zero globals (D-26 house style).
  * Owns /geohist/contact.html: the honeypot bot swallow, client-side

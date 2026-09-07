@@ -1,5 +1,5 @@
 /*!
- * persano.github.io — i18n engine (the site's first and only script).
+ * geohisttrivia.com — i18n engine (the site's first and only script).
  *
  * Classic defer script, module-free, zero dependencies, zero globals
  * (D-26). EN is the shipped raw HTML; this engine snapshots it exactly
