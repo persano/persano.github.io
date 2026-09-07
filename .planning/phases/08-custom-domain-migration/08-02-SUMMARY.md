@@ -211,3 +211,16 @@ All local proofs are done. Orchestrator must run:
 
 *Phase: 08-custom-domain-migration*
 *Completed: 2026-09-07 (Tasks 1–2; Task 3 pending with orchestrator)*
+
+## Self-Check: PASSED
+
+- [x] All 15 payload files exist on disk (15/15 FOUND)
+- [x] All 15 payload files uncommitted in working tree (14 M + 1 ??) — deferred-commit mode honored; the ONE atomic code commit = orchestrator Task 3
+- [x] Gate both-directions proof: RED exit 1 (43 hits, clean list) pre-rewrite → GREEN exit 0 post-rewrite → re-run GREEN (GATE=0) after bookkeeping
+- [x] rg acceptance: zero legacy-host matches outside allowlist (literal, ignore-respecting)
+- [x] npm run validate → exit 0 (all 5 steps incl. validate:domain + validate:links with plain-string apex skip)
+- [x] 5 prose-header files proven single-hunk line-2-only diffs (git diff --stat: 2 ± each; smoke 2+8)
+- [x] sitemap 6 apex <loc>, zero <lastmod>; robots apex; smoke BASE apex
+- [x] SUMMARY.md on disk; docs commit 224cdc3 present (git log)
+- [x] STATE.md (advance-plan 2→3, update-progress, record-metric, record-session, 2 decisions) + ROADMAP.md (08 progress row: 2/3 summaries) + REQUIREMENTS.md (HOST-02, HOST-01 marked) updated
+
