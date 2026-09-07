@@ -2,11 +2,12 @@
   "name": "persano-github-io",
   "private": true,
   "scripts": {
-    "validate": "npm run validate:html && npm run validate:links && npm run validate:i18n-detect && npm run validate:i18n",
+    "validate": "npm run validate:html && npm run validate:domain && npm run validate:links && npm run validate:i18n-detect && npm run validate:i18n",
     "validate:html": "html-validate index.html 404.html geohist/*.html",
+    "validate:domain": "node scripts/check-no-old-domain.mjs",
     "validate:i18n": "node scripts/i18n-keycheck.mjs",
     "validate:i18n-detect": "node --test scripts/i18n-detect.test.mjs",
-    "validate:links": "linkinator . --recurse --skip \"https://persano.github.io\" --skip \"play.google.com\" --skip \"policies.google.com\" --skip \"planning\" --skip \"node_modules\" --timeout 10000",
+    "validate:links": "linkinator . --recurse --skip \"https://geohisttrivia.com\" --skip \"play.google.com\" --skip \"policies.google.com\" --skip \"planning\" --skip \"node_modules\" --timeout 10000",
     "audit:a11y": "node scripts/a11y-audit.mjs",
     "convert:screenshots": "node scripts/make-webp.mjs",
     "og:image": "node scripts/og-image.mjs"

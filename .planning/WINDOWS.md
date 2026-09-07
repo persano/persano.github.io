@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 10
+open_count: 12
 waived_count: 0
-fixed_count: 0
-total_count: 10
-last_updated: 2026-09-07T02:29:30.974Z
+fixed_count: 1
+total_count: 13
+last_updated: 2026-09-07T22:07:42.844Z
 ---
 
 # Broken Windows Ledger
@@ -25,6 +25,9 @@ last_updated: 2026-09-07T02:29:30.974Z
 | 8 | 05 | unrun-verify | .planning/phases/05-discovery-quality-screenshots-seo-json-ld-aa-audit/05-03-SUMMARY.md |  | D-69 owner console steps NOT executed (Play Console privacy-URL field + GSC sitemap submit) - owner-only actions, sitemap.xml not yet deployed (404 live); instructions recorded in SUMMARY, checkpoint OPEN | open |  | 2026-09-04T13:45:44.457Z |  |
 | 9 | 05 | deviation | GeoHist_Trivia_Privacy_Policy.html |  | D-70 deletion of 3 superseded root policy files (.html/.md/.pdf) deferred - gate unmet (no owner D-69 confirmation, final deploy not shipped); files untouched in working tree, deletion rides post-confirmation deploy | open |  | 2026-09-04T13:45:44.598Z |  |
 | 10 | 7 | unrun-verify | css/base.css |  | Owner-rendered checks deferred to D-06 skim: computed line-height on a paragraph under lang=ur shows 2, select keyboard/AT-operable, mirrored layout under ar | open |  | 2026-09-07T02:29:30.974Z |  |
+| 11 | 08 | unmet-truth | geohisttrivia.com (live edge) |  | http://geohisttrivia.com/ serves 200 (no 301 to https) after https_enforced PUT; API state true; docs 24h propagation window; re-check runbook 08-RUNBOOK.md §0 row 12 | fixed |  | 2026-09-07T21:19:43.919Z | 2026-09-07T21:21:40.983Z |
+| 12 | 08 | deviation | .planning/phases/08-custom-domain-migration/08-RUNBOOK.md |  | Owner option-B divergence ruling: GitHub verification TXT NXDOMAIN between sessions; absorbed as runbook §1b/§2 re-add flow; Task 3 gate expanded to six items | open |  | 2026-09-07T21:19:44.491Z |  |
+| 13 | 08 | deviation | scripts/check-no-old-domain.mjs |  | gate walk skips hidden dirs (tooling state) so fs-walk semantics mirror the ignore-respecting rg acceptance; ALLOW set unchanged | open |  | 2026-09-07T22:07:42.844Z |  |
 
 ````json
 [
@@ -146,6 +149,42 @@ last_updated: 2026-09-07T02:29:30.974Z
     "status": "open",
     "reason": "",
     "recorded_at": "2026-09-07T02:29:30.974Z",
+    "resolved_at": null
+  },
+  {
+    "id": 11,
+    "kind": "unmet-truth",
+    "phase": "08",
+    "file": "geohisttrivia.com (live edge)",
+    "line": null,
+    "description": "http://geohisttrivia.com/ serves 200 (no 301 to https) after https_enforced PUT; API state true; docs 24h propagation window; re-check runbook 08-RUNBOOK.md §0 row 12",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-09-07T21:19:43.919Z",
+    "resolved_at": "2026-09-07T21:21:40.983Z"
+  },
+  {
+    "id": 12,
+    "kind": "deviation",
+    "phase": "08",
+    "file": ".planning/phases/08-custom-domain-migration/08-RUNBOOK.md",
+    "line": null,
+    "description": "Owner option-B divergence ruling: GitHub verification TXT NXDOMAIN between sessions; absorbed as runbook §1b/§2 re-add flow; Task 3 gate expanded to six items",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-07T21:19:44.491Z",
+    "resolved_at": null
+  },
+  {
+    "id": 13,
+    "kind": "deviation",
+    "phase": "08",
+    "file": "scripts/check-no-old-domain.mjs",
+    "line": null,
+    "description": "gate walk skips hidden dirs (tooling state) so fs-walk semantics mirror the ignore-respecting rg acceptance; ALLOW set unchanged",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-07T22:07:42.844Z",
     "resolved_at": null
   }
 ]

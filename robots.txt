@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://persano.github.io/sitemap.xml
+Sitemap: https://geohisttrivia.com/sitemap.xml

@@ -1,5 +1,5 @@
 /*!
- * persano.github.io — GDPR consent gate + post-grant Analytics loader.
+ * geohisttrivia.com — GDPR consent gate + post-grant Analytics loader.
  *
  * Classic defer script, module-free, zero globals (D-26 house style).
  * Owns the single consent choice (localStorage "persano.consent",

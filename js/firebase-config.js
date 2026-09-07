@@ -1,5 +1,5 @@
 /*!
- * persano.github.io — Firebase Web App config (public-by-design).
+ * geohisttrivia.com — Firebase Web App config (public-by-design).
  *
  * Classic script (no modules, D-26). Assigns the single global the
  * consent gate and the contact form read: window.persanoFirebaseConfig.
