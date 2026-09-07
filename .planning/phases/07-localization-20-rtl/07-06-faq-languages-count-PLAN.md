@@ -96,7 +96,7 @@ The number is 16 per the locked user decision ("3 existing + 16 more = 20 total"
   <action>
 Update ONLY the value of key `geohist.faq.languages.a` in each of the 19 files below, to exactly the listed new value. Each file's current value is given as old — use it as the Edit oldString anchor (each old value is unique within its file). Replace only the value text between the JSON quotes: never rewrite the whole file (files are CRLF, 2-space indent, one key per line — a whole-file rewrite would mangle line endings and risk reordering), never touch the `.q` sibling key, and never touch any other key.
 
-Digits: use Latin digits `16` in every locale — verified convention (ar/ur/hi dictionaries already use Latin digits exclusively; bn uses Latin digits in 32 places vs 4 native).
+Digits: use Latin digits `16` in every locale — verified convention (ar/ur/hi dictionaries already use Latin digits exclusively; bn uses Latin digits in 4 places vs 4 native).
 
 Exact per-file replacements (old → new):
 
@@ -135,7 +135,7 @@ After all 19 edits, run the full validation chain. html-validate/linkinator/dete
   <verify>
     <automated>npm run validate && node -e "const fs=require('fs');let bad=0;for(const f of fs.readdirSync('js/i18n')){const v=JSON.parse(fs.readFileSync('js/i18n/'+f,'utf8'))['geohist.faq.languages.a'];if(!v||!v.includes('16')){console.log('MISSING count-style:',f);bad++}}process.exit(bad===0?0:1)" && echo "OK: all 19 count-style"</automated>
   </verify>
-  <done>npm run validate exits 0 (html-validate clean, linkinator 200s, 23/23 detect, keycheck PASS ×19 at 170-key parity, zero empty values); every dictionary's geohist.faq.languages.a contains the count-style "16" phrasing; ja/zh pass the CJK punct gate with full-width 、 and 。; ur keeps ، and ۔; no other key differs (git diff shows exactly 20 changed value lines across the phase: 1 HTML + 19 JSON).</done>
+  <done>npm run validate exits 0 (html-validate clean, linkinator 200s, 23/23 detect, keycheck PASS ×19 at 170-key parity, zero empty values); every dictionary's geohist.faq.languages.a contains the count-style "16" phrasing; ja/zh pass the CJK punct gate with full-width 、 and 。; ur keeps ، and ۔; no other key differs (scope proof: `git diff --stat -- geohist/index.html` shows 1 file, 1 line; the 19 dictionary values are covered by keycheck 170-key parity plus this task's 19× includes('16') node check — repo-wide diff-stat is not a usable gate here since the dictionaries are untracked under deferred-commit mode).</done>
 </task>
 
 <task type="auto">
@@ -168,7 +168,7 @@ Doc-only touch (checker warning research_resolution): at line 472 of 07-RESEARCH
 
 <verification>
 - `npm run validate` exit 0 after the content tasks: html-validate clean, linkinator 200s, 23/23 detect tests, keycheck PASS ×19 (exact 170-key parity, zero empty values).
-- `git diff --stat` shows exactly 20 content files, 1 line each (index.html + 19 json), plus the docs-only 07-RESEARCH.md edit — no key additions/removals, no other files touched.
+- Scope proof (annotated, not repo-wide diff-stat): `git diff --stat -- geohist/index.html` shows 1 file, 1 line; dictionary value coverage is established by keycheck parity + the Task 2 node count-check (19 × includes('16')), since the 17 untracked dictionaries are invisible to git diff under deferred-commit mode; 07-RESEARCH.md is a docs-only edit. No key additions/removals.
 </verification>
 
 <success_criteria>
