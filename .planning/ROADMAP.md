@@ -110,9 +110,18 @@ Plans:
 **Plans**: 3 plans (owner DNS + registration already largely live per research; owner console steps parallelizable from day 1 via 08-RUNBOOK.md)
 
 Plans:
+**Wave 1**
+
 - [ ] 08-01-infra-verify-runbook-PLAN.md — re-verify live Pages/DNS state, gh-CLI HTTPS enforce flip, owner runbook + blocking owner gate (HOST-01)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 08-02-rewrite-ci-gate-PLAN.md — atomic 44-ref rewrite + permanent CI old-domain gate + smoke green on apex (HOST-02)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 08-03-gsc-post-migration-PLAN.md — final sweep + owner GSC sitemap resubmit + Change of Address (HOST-03)
+
 **UI hint**: no
 
 ### Phase 9: App Check, Monitor-First
