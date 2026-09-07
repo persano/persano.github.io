@@ -69,7 +69,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | CONT-06 | Phase 6 | Complete |
 | CONT-07 | Phase 6 | Complete |
-| I18N-05 | Phase 7 | Pending |
+| I18N-05 | Phase 7 | In Progress (wave 1/4 done) |
 | I18N-06 | Phase 7 | Complete |
 | I18N-07 | Phase 7 | Complete |
 | I18N-08 | Phase 7 | Complete |

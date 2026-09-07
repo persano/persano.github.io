@@ -73,10 +73,10 @@ Plans:
   4. Language switcher presents all 20 endonyms as a compact select/menu and persists choice to `persano.lang`
   5. CI gate rejects any dictionary with missing keys, empty values, or CJK half-width punctuation — across all 20 dictionaries
 
-**Plans:** 1/5 plans executed
+**Plans:** 2/5 plans executed
 
 - [x] 07-01-engine-rtl-switcher-gate-PLAN.md
-- [ ] 07-02-dicts-wave1-hi-de-fr-ru-PLAN.md
+- [x] 07-02-dicts-wave1-hi-de-fr-ru-PLAN.md
 - [ ] 07-03-dicts-wave2-ja-ko-tr-id-PLAN.md
 - [ ] 07-04-dicts-wave3-it-pl-nl-vi-PLAN.md
 - [ ] 07-05-dicts-wave4-el-bn-ar-ur-zh-PLAN.md
@@ -152,7 +152,7 @@ Plans:
 | 4. Consent Gate + Firebase | v1.0 | 2/2 | Complete | 2026-09-03 |
 | 5. Discovery & Quality | v1.0 | 4/4 | Complete | 2026-09-05 |
 | 6. Changelog Page | v2.0 | 3/3 | Complete    | 2026-09-06 |
-| 7. Localization ×20 + RTL | v2.0 | 1/5 | In Progress|  |
+| 7. Localization ×20 + RTL | v2.0 | 2/5 | In Progress|  |
 | 8. Custom Domain Migration | v2.0 | 0/? | Not started | - |
 | 9. App Check, Monitor-First | v2.0 | 0/? | Not started | - |
 | 10. Gated Social Proof | v2.0 | 0/? | Not started | - |
