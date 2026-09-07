@@ -4,17 +4,17 @@ milestone: v2.0
 milestone_name: Full Deferred Scope
 current_phase: 08
 current_phase_name: Custom Domain Migration
-status: executing
-stopped_at: Plan 08-02 Tasks 1-2 COMPLETE (44-ref rewrite + CI gate authored, locally proven RED/GREEN; atomic commit+push+CI+smoke = orchestrator Task 3)
-last_updated: "2026-09-07T22:08:07.505Z"
+status: verifying
+stopped_at: Completed 08-03-PLAN.md — phase 8 plans all complete; selector-page request logged for planning
+last_updated: "2026-09-07T22:22:36.412Z"
 last_activity: 2026-09-07
 last_activity_desc: Phase 08 execution started
-state_head: 633ab2c41d41f6924b765d63744d1133cdb187ec
+state_head: c72b3a27161dfc222e99d73a08d0360e61e38ed2
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 12
-  completed_plans: 11
+  completed_plans: 12
   percent: 40
 ---
 
@@ -31,7 +31,7 @@ See: .planning/PROJECT.md (updated 2026-09-07)
 
 Phase: 08 (Custom Domain Migration) — EXECUTING
 Plan: 3 of 3
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Total Plans in Phase: 3
 Plans Executed: 6
 Last activity: 2026-09-07 — Phase 08 execution started
@@ -70,6 +70,7 @@ Progress: [████████████████████] 9/9 pla
 | Phase 07 P06 | 4 min | 3 tasks | 21 files |
 | Phase 08 P01 | 12 min | 3 tasks | 3 files |
 | Phase 08 P02 | 5 min | 2 tasks | 15 files |
+| Phase 08 P03 | 5 min | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -101,6 +102,7 @@ Recent decisions affecting current work:
 - [Phase 08]: [Phase 08] TXT divergence ruled option B by owner: enforce flip proceeded before TXT restore; runbook §1/§2 amended; six-item gate passed with protected_domain_state=verified
 - [Phase 08]: Phase 08 P02: CI gate needle runtime-assembled ([persano,github,io].join) so gate source stays legacy-host-free (self-scan-safe); hidden-dir walk skip mirrors the ignore-respecting rg acceptance; NUL-byte binary skip for media
 - [Phase 08]: Phase 08 P02: validate:domain chained after validate:html; linkinator skip = plain-string apex (never regex lookahead); 44-ref rewrite via literal equal-length host swap — path-preserved 1:1, apex only, never www
+- [Phase 08]: [Phase 08] 08-02 landed: migration commit c72b3a2 (15 files, gate+44 refs atomic) merged to main 7f0cf4e, CI validate+deploy green incl validate:domain, smoke ALL PASS on apex, curl triple (apex 200 / www 301 / github.io 301 path-preserved). Owner ruled push-now over deferred-ship to close mixed-domain window; smoke-check.sh blob has CRLF (normalized LF in worktree for Git Bash; cosmetic, git-normalized)
 
 ### Pending Todos
 
@@ -133,6 +135,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-07T22:07:55.857Z
-Stopped at: Plan 08-02 Tasks 1-2 COMPLETE (44-ref rewrite + CI gate authored, locally proven RED/GREEN; atomic commit+push+CI+smoke = orchestrator Task 3)
+Last session: 2026-09-07T22:22:36.086Z
+Stopped at: Completed 08-03-PLAN.md — phase 8 plans all complete; selector-page request logged for planning
 Resume file: None

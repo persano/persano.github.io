@@ -107,7 +107,7 @@ Plans:
   3. Contact form works at the new domain: Firebase Auth authorized domains, API-key HTTP-referrer allowlist, reCAPTCHA domain list, and Search Console property all updated BEFORE the URL rewrite (cert verified before rewrite too)
   4. Owner resubmits the sitemap to Google Search Console under the new property post-migration
 
-**Plans**: 2/3 plans executed (owner DNS + registration already largely live per research; owner console steps parallelizable from day 1 via 08-RUNBOOK.md)
+**Plans**: 3/3 plans executed (owner DNS + registration already largely live per research; owner console steps parallelizable from day 1 via 08-RUNBOOK.md)
 
 Plans:
 **Wave 1**
@@ -120,7 +120,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 08-03-gsc-post-migration-PLAN.md — final sweep + owner GSC sitemap resubmit + Change of Address (HOST-03)
+- [x] 08-03-gsc-post-migration-PLAN.md — final sweep + owner GSC sitemap resubmit + Change of Address (HOST-03)
 
 **UI hint**: no
 
@@ -168,7 +168,7 @@ Plans:
 | 5. Discovery & Quality | v1.0 | 4/4 | Complete | 2026-09-05 |
 | 6. Changelog Page | v2.0 | 3/3 | Complete    | 2026-09-06 |
 | 7. Localization ×20 + RTL | v2.0 | 6/6 | Complete    | 2026-09-07 |
-| 8. Custom Domain Migration | v2.0 | 2/3 | In Progress|  |
+| 8. Custom Domain Migration | v2.0 | 3/3 | In Progress|  |
 | 9. App Check, Monitor-First | v2.0 | 0/? | Not started | - |
 | 10. Gated Social Proof | v2.0 | 0/? | Not started | - |
 
