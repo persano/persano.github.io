@@ -469,14 +469,18 @@ Display order per D-03: trio first, then Latin group (fr, de, it, nl, pl, tr, vi
 | A4 | Urdu Nastaliq renders acceptably via system fonts on real devices | Pattern 5 | STATE.md blocker stands: needs real-device visual verification (documented degradation acceptable, silent discovery is not) |
 | A5 | ko exempt from the CJK half-width punctuation rule (Korean commonly uses half-width punctuation) | Pattern 6 | Over-strict gate → false FAILs on valid ko copy; documented decision per CONTEXT discretion |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **German register (du vs Sie) — owner pass still pending (STATE.md blocker).**
    - What we know: app `values-de/strings.xml` is internally inconsistent (58 Sie-form / 40 du-form hits, verified this session) — D-07 cannot settle it.
    - Recommendation: draft de with **Sie** (safe default for general-audience copy), flag explicitly in the wave-1 owner spot-check (D-06) rather than blocking wave 1.
+   - RESOLVED: 07-01 drafted de with Sie-implied neutral register (no pronoun in this value); UAT German check passed, full run 10/10.
 2. **Switcher aria-label mechanism** — per-language `LANG_LABELS` map in the engine (recommended: language-correct, zero key-surface impact) vs hardcoded `"Language"`. Planner's call; both avoid the Pitfall 5/6 traps.
+   - RESOLVED: 07-01 implemented the per-language `LANG_LABELS` map — language-correct labels, zero key-surface impact.
 3. **Committed `scripts/i18n-surface.mjs` (key→EN dump) vs one-off node scripts per wave** — recommended committed (reusable by the optional length-ratio gate check and all future content edits); zero-dep ~40 lines.
+   - RESOLVED: 07-02 committed the reusable `scripts/i18n-surface.mjs` extractor; used by keycheck for the live-surface baseline.
 4. **ko line-height grouping** — included in the 1.7 CJK rule above (harmless, consistent); planner may drop ko if a rationale for strict minimalism is preferred. Document either way.
+   - RESOLVED: 07-01 included ko in the 1.7 CJK line-height rule; documented in STATE.md decisions.
 
 ## Sources
 

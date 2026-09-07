@@ -16,7 +16,7 @@ Continues requirement numbering from v1 (archived at `.planning/milestones/v1-RE
 
 ### Localization ×20
 
-- [ ] **I18N-05**: Visitor browsing in any of the 17 new languages (hi, zh, fr, vi, nl, ur, el, ko, tr, de, ja, ru, id, pl, it, bn, ar) sees site text in their language — 17 JSON dictionaries at exact key parity with the live 146+changelog-key surface, CI-gated; agent-drafted in waves of 3–4 languages with per-language register table + app-`strings.xml` glossary + two-pass drafting
+- [x] **I18N-05**: Visitor browsing in any of the 17 new languages (hi, zh, fr, vi, nl, ur, el, ko, tr, de, ja, ru, id, pl, it, bn, ar) sees site text in their language — 17 JSON dictionaries at exact key parity with the live 146+changelog-key surface, CI-gated; agent-drafted in waves of 3–4 languages with per-language register table + app-`strings.xml` glossary + two-pass drafting
 - [x] **I18N-06**: Language detection handles all 20 locale tags — data-driven prefix table replacing hardcoded pt/es checks (legacy `in-*`→id, `zh-*`→zh Simplified, es/pt preserved), unit tested
 - [x] **I18N-07**: RTL visitors (ar, ur) get properly mirrored layout — `dir` switching inside `i18n.js` applyLanguage pass, `[dir="rtl"]` CSS override block, bidi isolation, per-language line-height overrides (Urdu Nastaliq ~2, CJK ~1.7)
 - [x] **I18N-08**: Language switcher presents 20 endonyms as a select/menu (no long inline list), persists choice to `persano.lang`
@@ -69,7 +69,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | CONT-06 | Phase 6 | Complete |
 | CONT-07 | Phase 6 | Complete |
-| I18N-05 | Phase 7 | In Progress (wave 1/4 done) |
+| I18N-05 | Phase 7 | Complete |
 | I18N-06 | Phase 7 | Complete |
 | I18N-07 | Phase 7 | Complete |
 | I18N-08 | Phase 7 | Complete |
