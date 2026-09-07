@@ -40,7 +40,7 @@ estimate:
 
 must_haves:
   truths:
-    - "FAQ answer 'What languages is the game available in?' states the count-style enumeration ('... and 16 more languages' form) in EN baseline and in all 19 locale dictionaries"
+    - "FAQ answer 'What languages is the game available in?' states the count-style enumeration ('... and 17 more languages' form) in EN baseline and in all 19 locale dictionaries"
     - "npm run validate exits 0: html-validate clean, linkinator 200s, 23/23 detect tests, keycheck PASS ×19 at exact 170-key parity with zero empty values"
     - "Key surface unchanged — no key added, removed, renamed; only geohist.faq.languages.a values (and the EN HTML baseline) differ from pre-plan state"
   artifacts:
@@ -78,16 +78,16 @@ Output: 20 changed values (1 EN HTML baseline + 19 dictionary values), validate 
   <action>
 Per UAT decision (user-approved count style, answered 2026-09-07): in geohist/index.html line 142, replace the inner text of the paragraph `<p data-i18n="geohist.faq.languages.a">English, Spanish, Portuguese and more.</p>` so it reads:
 
-`English, Spanish, Portuguese and 16 more languages.`
+`English, Spanish, Portuguese and 17 more languages.`
 
 Edit ONLY the text between the tags. Do not touch the data-i18n attribute, surrounding FAQ items, or any other line. The old value "English, Spanish, Portuguese and more." appears exactly once in the repo (verified), so a targeted substring edit is unambiguous.
 
-The number is 16 per the locked user decision ("3 existing + 16 more = 20 total") — do not substitute 17 or any other figure.
+The number is 17 per the locked user decision ("3 existing + 17 more = 20 total") — do not substitute 16 or any other figure.
   </action>
   <verify>
-    <automated>node -e "const fs=require('fs');const h=fs.readFileSync('geohist/index.html','utf8');if(!h.includes('English, Spanish, Portuguese and 16 more languages.')){console.error('FAIL: new value missing');process.exit(1)}if(h.includes('Portuguese and more')){console.error('FAIL: old value still present');process.exit(1)}console.log('OK: EN baseline count-style')"</automated>
+    <automated>node -e "const fs=require('fs');const h=fs.readFileSync('geohist/index.html','utf8');if(!h.includes('English, Spanish, Portuguese and 17 more languages.')){console.error('FAIL: new value missing');process.exit(1)}if(h.includes('Portuguese and more')){console.error('FAIL: old value still present');process.exit(1)}console.log('OK: EN baseline count-style')"</automated>
   </verify>
-  <done>geohist/index.html:142 reads "English, Spanish, Portuguese and 16 more languages." and the old "and more" phrasing is gone from the file.</done>
+  <done>geohist/index.html:142 reads "English, Spanish, Portuguese and 17 more languages." and the old "and more" phrasing is gone from the file.</done>
 </task>
 
 <task type="auto">
@@ -96,35 +96,35 @@ The number is 16 per the locked user decision ("3 existing + 16 more = 20 total"
   <action>
 Update ONLY the value of key `geohist.faq.languages.a` in each of the 19 files below, to exactly the listed new value. Each file's current value is given as old — use it as the Edit oldString anchor (each old value is unique within its file). Replace only the value text between the JSON quotes: never rewrite the whole file (files are CRLF, 2-space indent, one key per line — a whole-file rewrite would mangle line endings and risk reordering), never touch the `.q` sibling key, and never touch any other key.
 
-Digits: use Latin digits `16` in every locale — verified convention (ar/ur/hi dictionaries already use Latin digits exclusively; bn uses Latin digits in 4 places vs 4 native).
+Digits: use Latin digits `17` in every locale — verified convention (ar/ur/hi dictionaries already use Latin digits exclusively; bn uses Latin digits in 4 places vs 4 native).
 
 Exact per-file replacements (old → new):
 
 | File | Old value | New value |
 |------|-----------|-----------|
-| es.json | Inglés, español, portugués y más. | Inglés, español, portugués y 16 idiomas más. |
-| pt-BR.json | Inglês, espanhol, português e mais. | Inglês, espanhol, português e mais 16 idiomas. |
-| de.json | Englisch, Spanisch, Portugiesisch und mehr. | Englisch, Spanisch, Portugiesisch und 16 weitere Sprachen. |
-| fr.json | Anglais, espagnol, portugais et plus encore. | Anglais, espagnol, portugais et 16 autres langues. |
-| hi.json | अंग्रेज़ी, स्पेनिश, पुर्तगाली और भी बहुत कुछ। | अंग्रेज़ी, स्पेनिश, पुर्तगाली और 16 अन्य भाषाएँ। |
-| ru.json | Английский, испанский, португальский и другие. | Английский, испанский, португальский и ещё 16 языков. |
-| ja.json | 英語、スペイン語、ポルトガル語、そのほかの言語。 | 英語、スペイン語、ポルトガル語、ほか16言語。 |
-| ko.json | 영어, 스페인어, 포르투갈어 등이에요. | 영어, 스페인어, 포르투갈어 외 16개 언어예요. |
-| tr.json | İngilizce, İspanyolca, Portekizce ve dahası. | İngilizce, İspanyolca, Portekizce ve 16 dil daha. |
-| id.json | Bahasa Inggris, Spanyol, Portugis, dan lainnya. | Bahasa Inggris, Spanyol, Portugis, dan 16 bahasa lainnya. |
-| it.json | Inglese, spagnolo, portoghese e altro. | Inglese, spagnolo, portoghese e altre 16 lingue. |
-| nl.json | Engels, Spaans, Portugees en meer. | Engels, Spaans, Portugees en 16 andere talen. |
-| pl.json | Angielski, hiszpański, portugalski i więcej. | Angielski, hiszpański, portugalski i 16 innych języków. |
-| vi.json | Tiếng Anh, tiếng Tây Ban Nha, tiếng Bồ Đào Nha và nhiều hơn nữa. | Tiếng Anh, tiếng Tây Ban Nha, tiếng Bồ Đào Nha và 16 ngôn ngữ khác. |
-| el.json | Αγγλικά, ισπανικά, πορτογαλικά και άλλες. | Αγγλικά, ισπανικά, πορτογαλικά και άλλες 16 γλώσσες. |
-| bn.json | ইংরেজি, স্প্যানিশ, পর্তুগিজ এবং আরও অনেক ভাষা। | ইংরেজি, স্প্যানিশ, পর্তুগিজ এবং আরও 16টি ভাষা। |
-| ar.json | الإنجليزية والإسبانية والبرتغالية والمزيد. | الإنجليزية والإسبانية والبرتغالية و16 لغة أخرى. |
-| ur.json | انگریزی، ہسپانوی، پرتگیزی اور مزید۔ | انگریزی، ہسپانوی، پرتگیزی اور 16 مزید زبانیں۔ |
-| zh.json | 英语、西班牙语、葡萄牙语等。 | 英语、西班牙语、葡萄牙语等16种语言。 |
+| es.json | Inglés, español, portugués y más. | Inglés, español, portugués y 17 idiomas más. |
+| pt-BR.json | Inglês, espanhol, português e mais. | Inglês, espanhol, português e mais 17 idiomas. |
+| de.json | Englisch, Spanisch, Portugiesisch und mehr. | Englisch, Spanisch, Portugiesisch und 17 weitere Sprachen. |
+| fr.json | Anglais, espagnol, portugais et plus encore. | Anglais, espagnol, portugais et 17 autres langues. |
+| hi.json | अंग्रेज़ी, स्पेनिश, पुर्तगाली और भी बहुत कुछ। | अंग्रेज़ी, स्पेनिश, पुर्तगाली और 17 अन्य भाषाएँ। |
+| ru.json | Английский, испанский, португальский и другие. | Английский, испанский, португальский и ещё 17 языков. |
+| ja.json | 英語、スペイン語、ポルトガル語、そのほかの言語。 | 英語、スペイン語、ポルトガル語、ほか17言語。 |
+| ko.json | 영어, 스페인어, 포르투갈어 등이에요. | 영어, 스페인어, 포르투갈어 외 17개 언어예요. |
+| tr.json | İngilizce, İspanyolca, Portekizce ve dahası. | İngilizce, İspanyolca, Portekizce ve 17 dil daha. |
+| id.json | Bahasa Inggris, Spanyol, Portugis, dan lainnya. | Bahasa Inggris, Spanyol, Portugis, dan 17 bahasa lainnya. |
+| it.json | Inglese, spagnolo, portoghese e altro. | Inglese, spagnolo, portoghese e altre 17 lingue. |
+| nl.json | Engels, Spaans, Portugees en meer. | Engels, Spaans, Portugees en 17 andere talen. |
+| pl.json | Angielski, hiszpański, portugalski i więcej. | Angielski, hiszpański, portugalski i 17 innych języków. |
+| vi.json | Tiếng Anh, tiếng Tây Ban Nha, tiếng Bồ Đào Nha và nhiều hơn nữa. | Tiếng Anh, tiếng Tây Ban Nha, tiếng Bồ Đào Nha và 17 ngôn ngữ khác. |
+| el.json | Αγγλικά, ισπανικά, πορτογαλικά και άλλες. | Αγγλικά, ισπανικά, πορτογαλικά και άλλες 17 γλώσσες. |
+| bn.json | ইংরেজি, স্প্যানিশ, পর্তুগিজ এবং আরও অনেক ভাষা। | ইংরেজি, স্প্যানিশ, পর্তুগিজ এবং আরও 17টি ভাষা। |
+| ar.json | الإنجليزية والإسبانية والبرتغالية والمزيد. | الإنجليزية والإسبانية والبرتغالية و17 لغة أخرى. |
+| ur.json | انگریزی، ہسپانوی، پرتگیزی اور مزید۔ | انگریزی، ہسپانوی، پرتگیزی اور 17 مزید زبانیں۔ |
+| zh.json | 英语、西班牙语、葡萄牙语等。 | 英语、西班牙语、葡萄牙语等17种语言。 |
 
 Punctuation gates that MUST hold (per scripts/i18n-keycheck.mjs):
 
-- ja.json and zh.json (CJK gate scope — ASCII `[,!?:;()"]` banned, loose period banned): new ja value uses full-width 、 (U+3001) enumerators and ends with 。 (U+3002); new zh value same — 、 enumerators, 。 terminator, no spaces inside. Latin digit 16 is legal (digit-period exception already documented for 0.88). ko.json is gate-exempt (half-width comma, as current).
+- ja.json and zh.json (CJK gate scope — ASCII `[,!?:;()"]` banned, loose period banned): new ja value uses full-width 、 (U+3001) enumerators and ends with 。 (U+3002); new zh value same — 、 enumerators, 。 terminator, no spaces inside. Latin digit 17 is legal (digit-period exception already documented for 0.88). ko.json is gate-exempt (half-width comma, as current).
 - ur.json: keep Arabic-script punctuation — enumerator ، (U+060C Arabic comma, as current) and terminator ۔ (U+06D4 Urdu full stop, as current).
 - bn.json and hi.json: keep danda । terminator (as current values).
 
@@ -133,9 +133,9 @@ Register notes already locked in prior waves and preserved here: ko stays 해요
 After all 19 edits, run the full validation chain. html-validate/linkinator/detect must be unaffected (i18n-surface.mjs re-extracts the EN baseline from Task 1's HTML — value change is safe) and keycheck must stay at exact 170-key parity with zero empty values.
   </action>
   <verify>
-    <automated>npm run validate && node -e "const fs=require('fs');let bad=0;for(const f of fs.readdirSync('js/i18n')){const v=JSON.parse(fs.readFileSync('js/i18n/'+f,'utf8'))['geohist.faq.languages.a'];if(!v||!v.includes('16')){console.log('MISSING count-style:',f);bad++}}process.exit(bad===0?0:1)" && echo "OK: all 19 count-style"</automated>
+    <automated>npm run validate && node -e "const fs=require('fs');let bad=0;for(const f of fs.readdirSync('js/i18n')){const v=JSON.parse(fs.readFileSync('js/i18n/'+f,'utf8'))['geohist.faq.languages.a'];if(!v||!v.includes('17')){console.log('MISSING count-style:',f);bad++}}process.exit(bad===0?0:1)" && echo "OK: all 19 count-style"</automated>
   </verify>
-  <done>npm run validate exits 0 (html-validate clean, linkinator 200s, 23/23 detect, keycheck PASS ×19 at 170-key parity, zero empty values); every dictionary's geohist.faq.languages.a contains the count-style "16" phrasing; ja/zh pass the CJK punct gate with full-width 、 and 。; ur keeps ، and ۔; no other key differs (scope proof: `git diff --stat -- geohist/index.html` shows 1 file, 1 line; the 19 dictionary values are covered by keycheck 170-key parity plus this task's 19× includes('16') node check — repo-wide diff-stat is not a usable gate here since the dictionaries are untracked under deferred-commit mode).</done>
+  <done>npm run validate exits 0 (html-validate clean, linkinator 200s, 23/23 detect, keycheck PASS ×19 at 170-key parity, zero empty values); every dictionary's geohist.faq.languages.a contains the count-style "17" phrasing; ja/zh pass the CJK punct gate with full-width 、 and 。; ur keeps ، and ۔; no other key differs (scope proof: `git diff --stat -- geohist/index.html` shows 1 file, 1 line; the 19 dictionary values are covered by keycheck 170-key parity plus this task's 19× includes('17') node check — repo-wide diff-stat is not a usable gate here since the dictionaries are untracked under deferred-commit mode).</done>
 </task>
 
 <task type="auto">
@@ -168,11 +168,11 @@ Doc-only touch (checker warning research_resolution): at line 472 of 07-RESEARCH
 
 <verification>
 - `npm run validate` exit 0 after the content tasks: html-validate clean, linkinator 200s, 23/23 detect tests, keycheck PASS ×19 (exact 170-key parity, zero empty values).
-- Scope proof (annotated, not repo-wide diff-stat): `git diff --stat -- geohist/index.html` shows 1 file, 1 line; dictionary value coverage is established by keycheck parity + the Task 2 node count-check (19 × includes('16')), since the 17 untracked dictionaries are invisible to git diff under deferred-commit mode; 07-RESEARCH.md is a docs-only edit. No key additions/removals.
+- Scope proof (annotated, not repo-wide diff-stat): `git diff --stat -- geohist/index.html` shows 1 file, 1 line; dictionary value coverage is established by keycheck parity + the Task 2 node count-check (19 × includes('17')), since the 17 untracked dictionaries are invisible to git diff under deferred-commit mode; 07-RESEARCH.md is a docs-only edit. No key additions/removals.
 </verification>
 
 <success_criteria>
-- G-07-5a closed: FAQ languages answer states the 20-language surface in count-style phrasing ("... 16 more languages" form) in EN and all 19 locales.
+- G-07-5a closed: FAQ languages answer states the 20-language surface in count-style phrasing ("... 17 more languages" form) in EN and all 19 locales.
 - Key set unchanged at 170 keys; CJK/Urdu punctuation conventions intact; validate chain fully green.
 - Single commit: `fix(07-06): FAQ languages answer count-style across EN + 19 dicts (G-07-5a)`; docs bookkeeping may ride a second commit `docs(07-06): mark 07-RESEARCH Open Questions RESOLVED`.
 </success_criteria>

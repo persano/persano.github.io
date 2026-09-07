@@ -76,7 +76,7 @@ blocked: 0
     - path: "js/i18n/*.json (all 19)"
       issue: "Same 3-language enumeration translated in every dictionary"
   missing:
-    - "Update geohist.faq.languages.a EN baseline (geohist/index.html:142) to 'English, Spanish, Portuguese and 16 more languages.' (user-approved count style)"
+    - "Update geohist.faq.languages.a EN baseline (geohist/index.html:142) to 'English, Spanish, Portuguese and 17 more languages.' (user-approved count style)"
     - "Update geohist.faq.languages.a in all 19 js/i18n/*.json with the equivalent count-style phrasing per locale register"
     - "Re-run npm run validate (keycheck parity must stay green; key set unchanged)"
-  decision: "User picked count style (question answered 2026-09-07): EN 'English, Spanish, Portuguese and 16 more languages.'"
+  decision: "User picked count style (question answered 2026-09-07): EN 'English, Spanish, Portuguese and 17 more languages.'"
