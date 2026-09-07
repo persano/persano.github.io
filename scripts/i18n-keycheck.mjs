@@ -1,18 +1,34 @@
 #!/usr/bin/env node
 /**
- * i18n key-coverage gate (zero-dependency — node built-ins only).
+ * i18n key-coverage + value-quality gate (zero-dependency — node built-ins only).
  *
- * Extracts the live data-i18n / data-i18n-attr key surface from the four
- * keyed pages (hub /index.html, /geohist/index.html, /geohist/guide.html,
- * /geohist/contact.html),
- * then asserts that EVERY js/i18n/*.json dictionary's key set EQUALS that
- * surface exactly — zero missing keys, zero extra keys (Pitfall 8 defense).
+ * 1. Key parity: extracts the live data-i18n / data-i18n-attr key surface
+ *    from the five keyed pages (hub /index.html, /geohist/index.html,
+ *    /geohist/guide.html, /geohist/contact.html, /geohist/changelog.html),
+ *    then asserts that EVERY js/i18n/*.json dictionary's key set EQUALS
+ *    that surface exactly — zero missing keys, zero extra keys (Pitfall 8
+ *    defense). Exact code-point string-set equality; the gate covers
+ *    whatever dictionaries exist.
  *
- * The gate covers whatever dictionaries exist: adding pt-BR.json in
- * plan 03-02 extends coverage with no edits to this script.
+ * 2. Value-quality hardening (Phase 7, I18N-09):
+ *    a. Empty-value rejection — a value that is NOT a string or whose
+ *       trim is the empty string fails the gate, in EVERY dictionary,
+ *       naming the file and key.
+ *    b. CJK half-width punctuation — a value containing ASCII
+ *       , ! ? : ; ( ) " fails in ja.json and zh.json ONLY. Korean
+ *       (ko.json) is EXEMPT: half-width punctuation is common, accepted
+ *       Korean usage (documented per Phase-7 CONTEXT discretion).
+ *       Exception to the rule: an ASCII period is allowed when it sits
+ *       between two digits (decimals/versions like "0.88", "3.0") — all
+ *       \d.\d occurrences are stripped first, then any remaining "."
+ *       fails. Red-gate proven in both directions (Phase 6 precedent).
  *
- * Exit codes: 0 = every dictionary matches exactly; 1 = any mismatch or
- * unreadable/invalid input (printed with missing/extra keys per file).
+ * The gate covers whatever dictionaries exist: adding a new .json file
+ * extends coverage with no edits to this script.
+ *
+ * Exit codes: 0 = every dictionary matches exactly and passes the value
+ * checks; 1 = any mismatch or unreadable/invalid input (printed with
+ * missing/extra keys per file).
  */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -21,6 +37,17 @@ import { fileURLToPath } from 'node:url';
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const pages = ['index.html', join('geohist', 'index.html'), join('geohist', 'guide.html'), join('geohist', 'contact.html'), join('geohist', 'changelog.html')];
 const dictDir = join(repoRoot, 'js', 'i18n');
+
+// CJK half-width punctuation scope (see header): ja + zh only; ko exempt.
+const PUNCT_LANGS = new Set(['ja.json', 'zh.json']);
+// ASCII half-width punctuation never legal in zh/ja copy.
+const CJK_PUNCT = /[,!?:;()"]/;
+// A period is legal only between two digits (decimals/versions "0.88",
+// "3.0"): strip every digit.digit run, then any remaining "." fails.
+const PERIOD_BETWEEN_DIGITS = /\d\.\d/g;
+function hasLoosePeriod(value) {
+  return value.replace(PERIOD_BETWEEN_DIGITS, '').includes('.');
+}
 
 /**
  * Extract the key set from one page's HTML.
@@ -95,6 +122,18 @@ function run() {
       console.error(`i18n-keycheck: FAIL — ${file} is not a flat JSON object`);
       failed = true;
       continue;
+    }
+    // Value-quality checks (I18N-09 — see header for rules + exceptions).
+    for (const [key, value] of Object.entries(dict)) {
+      if (typeof value !== 'string' || value.trim() === '') {
+        console.error(`i18n-keycheck: FAIL — ${file}: empty/non-string value for "${key}"`);
+        failed = true;
+        continue;
+      }
+      if (PUNCT_LANGS.has(file) && (CJK_PUNCT.test(value) || hasLoosePeriod(value))) {
+        console.error(`i18n-keycheck: FAIL — ${file}: "${key}" contains half-width punctuation (${value.slice(0, 40)}…)`);
+        failed = true;
+      }
     }
     const dictKeys = new Set(Object.keys(dict));
     const missing = [...surface].filter((k) => !dictKeys.has(k)).sort();

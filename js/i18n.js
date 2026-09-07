@@ -19,9 +19,28 @@
 (function () {
   'use strict';
 
-  var SUPPORTED = ['en', 'es', 'pt-BR'];
+  /* 20 supported languages (I18N-08) in the fixed D-03 grouped display
+   * order — established trio first, then script groups: Latin, Cyrillic,
+   * Greek (own script group, placed between Cyrillic and Indic), Indic,
+   * Arabic, CJK. Detection no longer depends on this order (table-driven
+   * DETECT_TABLE below); readPref()/switchTo() are order-insensitive, so
+   * this array IS the switcher display order (D-03, no dynamic reorder). */
+  var SUPPORTED = [
+    'en', 'es', 'pt-BR',                    /* established trio */
+    'fr', 'de', 'it', 'nl', 'pl', 'tr', 'vi', 'id',  /* Latin */
+    'ru',                                   /* Cyrillic */
+    'el',                                   /* Greek */
+    'hi', 'bn',                             /* Indic */
+    'ar', 'ur',                             /* Arabic — RTL */
+    'ja', 'ko', 'zh'                        /* CJK */
+  ];
   var STORAGE_KEY = 'persano.lang';
   var DICT_URL_PREFIX = '/js/i18n/';
+
+  /* RTL languages (I18N-07): applyLanguage flips <html dir> in the same
+   * pass as the lang sync — no separate DOM walk. Any other language
+   * (including the EN-restore path) resets to ltr automatically. */
+  var RTL_LANGS = { 'ar': 1, 'ur': 1 };
 
   var snapshot = [];   // EN baseline captured before any apply (D-28)
   var captured = false;
@@ -69,6 +88,7 @@
       }
     }
     document.documentElement.lang = lang;   /* I18N-04 sync, same pass (D-29) */
+    document.documentElement.dir = RTL_LANGS[lang] ? 'rtl' : 'ltr';   /* I18N-07 RTL flip, same pass (EN-restore resets ltr) */
   }
 
   /* Storage read — membership-validated (Pitfall 4); anything not in
@@ -85,22 +105,41 @@
   /* Detection: first supported TRANSLATED match across ALL
    * navigator.languages entries in preference order (D-32) — an
    * en-US-primary + es-secondary browser still gets Spanish, so en-*
-   * and unknown tags do not stop the scan. Lowercase prefix folding
-   * pt-* -> pt-BR and es-* -> es (D-33); guarded, EN fallback. */
-  function detect() {
+   * and unknown tags do not stop the scan. Flat prefix table (I18N-06):
+   * each candidate tag is lowercased and folded to its primary
+   * subtag ('zh-Hant-CN' -> 'zh', 'in-ID' -> 'in'); a table hit returns
+   * the mapped language, unknown tags keep scanning, EN is the terminal
+   * return — never a table entry (D-32). The optional candidatesOverride
+   * parameter exists for unit-test injection only (scripts/
+   * i18n-detect.test.mjs); the browser path passes no argument. */
+  var DETECT_TABLE = {
+    'es': 'es', 'pt': 'pt-BR',
+    'fr': 'fr', 'de': 'de', 'it': 'it', 'nl': 'nl', 'pl': 'pl',
+    'tr': 'tr', 'vi': 'vi', 'id': 'id',
+    'ru': 'ru',
+    'hi': 'hi', 'bn': 'bn',
+    'ar': 'ar', 'ur': 'ur',
+    'ja': 'ja', 'ko': 'ko', 'zh': 'zh',
+    'in': 'id'          /* legacy BCP-47 Indonesian code (deprecated, still emitted by old stacks) */
+  };
+  /* NOTE: no 'en' entry — EN is the terminal fallback, never a scan stop
+   * (D-32: an en-* primary must not abort the preference-list scan). */
+
+  function detect(candidatesOverride) {
     var candidates;
     try {
-      candidates = (navigator.languages && navigator.languages.length)
-        ? navigator.languages
-        : [navigator.language];
+      candidates = candidatesOverride ||
+        ((navigator.languages && navigator.languages.length)
+          ? navigator.languages
+          : [navigator.language]);
     } catch (err) {
       candidates = [];
     }
     for (var i = 0; i < candidates.length; i++) {
       var tag = String(candidates[i] || '').toLowerCase();
-      if (tag.indexOf('pt') === 0) return 'pt-BR';
-      if (tag.indexOf('es') === 0) return 'es';
-      /* en-* / unknown tags: keep scanning (D-32 — ES anywhere in the
+      var prefix = tag.split('-')[0];
+      if (DETECT_TABLE[prefix]) return DETECT_TABLE[prefix];
+      /* unknown tags keep scanning (D-32 — ES anywhere in the
        * preference list wins; EN is the terminal fallback, not a match) */
     }
     return 'en';
@@ -140,53 +179,64 @@
     }
   }
 
-  /* Switcher (D-36/D-38): three endonym text entries inside the reserved
-   * footer slot — English · Español · Português. The active language is a
-   * non-interactive span with aria-current="true"; inactive entries are
-   * anchors carrying data-persano-lang. Rides existing footer styles —
-   * zero new CSS, zero new classes. */
-  var ENDONYMS = { 'en': 'English', 'es': 'Español', 'pt-BR': 'Português' };
+  /* Switcher (I18N-08, D-01..D-04): one native <select class="lang-select">
+   * built into the reserved footer lang-switcher-slot — native keyboard/
+   * screen-reader behavior for free, zero new interaction JS (D-01).
+   * Option labels are endonyms only (D-04 — no English glosses, no
+   * optgroups), one option per SUPPORTED entry in fixed D-03 grouped
+   * order; the active language IS the select's value. */
+  var ENDONYMS = {
+    'en': 'English', 'es': 'Español', 'pt-BR': 'Português',
+    'fr': 'Français', 'de': 'Deutsch', 'it': 'Italiano', 'nl': 'Nederlands',
+    'pl': 'Polski', 'tr': 'Türkçe', 'vi': 'Tiếng Việt', 'id': 'Bahasa Indonesia',
+    'ru': 'Русский', 'el': 'Ελληνικά',
+    'hi': 'हिन्दी', 'bn': 'বাংলা',
+    'ar': 'العربية', 'ur': 'اردو',
+    'ja': '日本語', 'ko': '한국어', 'zh': '中文'
+  };
+
+  /* Select accessible name (Pitfall 6): the word "Language" per current
+   * language, from this engine-internal map — never from dictionary keys,
+   * because JS-built nodes are invisible to the keycheck markup surface
+   * and a dictionary-only key would fail the parity gate (Pitfall 5). */
+  var LANG_LABELS = {
+    'en': 'Language', 'es': 'Idioma', 'pt-BR': 'Idioma',
+    'fr': 'Langue', 'de': 'Sprache', 'it': 'Lingua', 'nl': 'Taal',
+    'pl': 'Język', 'tr': 'Dil', 'vi': 'Ngôn ngữ', 'id': 'Bahasa',
+    'ru': 'Язык', 'el': 'Γλώσσα',
+    'hi': 'भाषा', 'bn': 'ভাষা',
+    'ar': 'اللغة', 'ur': 'زبان',
+    'ja': '言語', 'ko': '언어', 'zh': '语言'
+  };
 
   function renderSwitcher() {
     var slot = document.getElementById('lang-switcher-slot');
     if (!slot) return;                      /* absent slot: clean no-op (D-37) */
     slot.removeAttribute('hidden');
     while (slot.firstChild) slot.removeChild(slot.firstChild);
+    var select = document.createElement('select');
+    select.className = 'lang-select';
+    select.setAttribute('aria-label', LANG_LABELS[current] || 'Language');
     for (var i = 0; i < SUPPORTED.length; i++) {
       var lang = SUPPORTED[i];
-      if (i > 0) slot.appendChild(document.createTextNode(' · '));
-      if (lang === current) {
-        var span = document.createElement('span');
-        span.setAttribute('lang', lang);
-        span.setAttribute('aria-current', 'true');
-        span.textContent = ENDONYMS[lang];
-        slot.appendChild(span);
-      } else {
-        var anchor = document.createElement('a');
-        anchor.setAttribute('href', '#');
-        anchor.setAttribute('lang', lang);
-        anchor.setAttribute('hreflang', lang);
-        anchor.setAttribute('data-persano-lang', lang);
-        anchor.textContent = ENDONYMS[lang];
-        slot.appendChild(anchor);
-      }
+      var opt = document.createElement('option');
+      opt.value = lang;
+      opt.setAttribute('lang', lang);
+      opt.textContent = ENDONYMS[lang];     /* endonym only (D-04) */
+      select.appendChild(opt);
     }
+    select.value = current;                 /* active language = the value */
+    slot.appendChild(select);
   }
 
-  /* Exactly ONE delegated click handler on the slot container, bound once
-   * at init — re-renders never stack listeners (the handler rides the
-   * slot container, not the re-rendered entries). Clicks on the active
-   * span are naturally inert: it carries no data-persano-lang. */
+  /* Exactly ONE change handler, attached by PROPERTY ASSIGNMENT on the
+   * slot container — re-renders replace the handler instead of stacking
+   * listeners (D-01 anti-pattern rule). Bubbles up from the select. */
   function bindSwitcher() {
     var slot = document.getElementById('lang-switcher-slot');
     if (!slot) return;
-    slot.onclick = function (ev) {
-      var entry = (ev.target && typeof ev.target.closest === 'function')
-        ? ev.target.closest('[data-persano-lang]')
-        : null;
-      if (!entry) return;
-      ev.preventDefault();
-      switchTo(entry.getAttribute('data-persano-lang'));
+    slot.onchange = function (ev) {
+      if (ev.target && ev.target.tagName === 'SELECT') switchTo(ev.target.value);
     };
   }
 
@@ -245,4 +295,9 @@
   } else {
     init();
   }
+
+  /* test-only export — inert in browsers (typeof module === 'undefined');
+   * MUST sit inside the IIFE or require() throws ReferenceError
+   * (detect is IIFE-scoped — research Pitfall 1, reproduced). */
+  if (typeof module === 'object' && module.exports) module.exports = { detect: detect };
 })();

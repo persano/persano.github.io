@@ -178,7 +178,9 @@ a:hover {
 }
 
 .feature-group ul {
-  margin: 0 0 0.25rem 1.25rem;
+  /* logical property (I18N-07 RTL): 1.25rem indent flips per direction */
+  margin: 0 0 0.25rem 0;
+  margin-inline-start: 1.25rem;
 }
 
 .feature-group li {
@@ -266,7 +268,10 @@ a:hover {
   list-style: none;
   cursor: pointer;
   position: relative;
-  padding: 0.8rem 2.6rem 0.8rem 1rem;
+  /* logical properties (I18N-07 RTL): text edge 1rem, chevron edge 2.6rem,
+     both flip per direction */
+  padding-block: 0.8rem;
+  padding-inline: 1rem 2.6rem;
   font-weight: 600;
 }
 
@@ -278,7 +283,7 @@ a:hover {
 .faq-item summary::after {
   content: "+";
   position: absolute;
-  right: 1rem;
+  inset-inline-end: 1rem; /* logical property (I18N-07 RTL): flips per direction */
   top: 50%;
   transform: translateY(-52%);
   color: var(--color-accent);
@@ -540,7 +545,9 @@ footer {
 }
 
 .changelog-entry ul {
-  margin: 0 0 0.25rem 1.25rem;
+  /* logical property (I18N-07 RTL): 1.25rem indent flips per direction */
+  margin: 0 0 0.25rem 0;
+  margin-inline-start: 1.25rem;
 }
 
 .changelog-entry li {
@@ -554,4 +561,55 @@ footer {
   color: var(--color-muted);
   font-size: 0.95rem;
   margin-bottom: 0.9rem;
+}
+
+/* ---- Language switcher (I18N-08, D-01..D-04) ----
+   Native <select> built by js/i18n.js into the footer lang-switcher-slot.
+   Form-control token conventions (mirrors .form-field input/select);
+   44px minimum tap target. */
+.lang-select {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+  border: var(--hairline-gold);
+  border-radius: 0.4rem;
+  padding: 0.4rem 0.6rem;
+  min-height: 44px; /* tap target */
+}
+
+/* ---- RTL mirroring + per-language typography (I18N-07) ----
+   Base direction flips via <html dir="rtl"> set by js/i18n.js applyLanguage
+   for ar/ur (same pass as the lang sync). Direction-sensitive physical
+   declarations were converted to logical properties IN PLACE (see
+   .feature-group ul, .changelog-entry ul, .faq-item summary), so this
+   block is the designated home ONLY for overrides logical properties
+   cannot express (e.g. directional inline-SVG flips via
+   transform: scaleX(-1); background-position offsets). Empty by design —
+   seeded by the ar/ur screenshot pass if gaps surface. Game-screenshot
+   gallery tiles are NOT mirrored: they are the game's own rendering. */
+[dir="rtl"] {
+  /* intentionally empty — seed point for the RTL screenshot battery */
+}
+
+/* Per-language line-height (Pitfall 8): MUST target body/headings directly —
+   body carries an explicit line-height: 1.6 and h1-h3 carry 1.25, so an
+   html-level rule would never inherit down. Urdu Nastaliq needs ~2 to stop
+   ascender/descender clipping; CJK needs 1.7. ko included in the CJK rule
+   (consistent, harmless). Real-device rendering for ur remains an owner
+   verification step (STATE.md blocker). */
+html[lang="ur"] body {
+  line-height: 2;
+}
+
+html[lang="ur"] h1,
+html[lang="ur"] h2,
+html[lang="ur"] h3 {
+  line-height: 1.9;
+}
+
+html[lang="ja"] body,
+html[lang="zh"] body,
+html[lang="ko"] body {
+  line-height: 1.7;
 }

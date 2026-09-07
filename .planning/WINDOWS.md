@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 9
+open_count: 10
 waived_count: 0
 fixed_count: 0
-total_count: 9
-last_updated: 2026-09-04T13:45:44.598Z
+total_count: 10
+last_updated: 2026-09-07T02:29:30.974Z
 ---
 
 # Broken Windows Ledger
@@ -24,6 +24,7 @@ last_updated: 2026-09-04T13:45:44.598Z
 | 7 | 05 | unrun-verify | geohist/index.html |  | Rich Results Test on live /geohist/ (SoftwareApplication, zero errors) NOT run - changes uncommitted at execution, deployed URL serves old page; PENDING post-ship human verification | open |  | 2026-09-04T13:45:40.418Z |  |
 | 8 | 05 | unrun-verify | .planning/phases/05-discovery-quality-screenshots-seo-json-ld-aa-audit/05-03-SUMMARY.md |  | D-69 owner console steps NOT executed (Play Console privacy-URL field + GSC sitemap submit) - owner-only actions, sitemap.xml not yet deployed (404 live); instructions recorded in SUMMARY, checkpoint OPEN | open |  | 2026-09-04T13:45:44.457Z |  |
 | 9 | 05 | deviation | GeoHist_Trivia_Privacy_Policy.html |  | D-70 deletion of 3 superseded root policy files (.html/.md/.pdf) deferred - gate unmet (no owner D-69 confirmation, final deploy not shipped); files untouched in working tree, deletion rides post-confirmation deploy | open |  | 2026-09-04T13:45:44.598Z |  |
+| 10 | 7 | unrun-verify | css/base.css |  | Owner-rendered checks deferred to D-06 skim: computed line-height on a paragraph under lang=ur shows 2, select keyboard/AT-operable, mirrored layout under ar | open |  | 2026-09-07T02:29:30.974Z |  |
 
 ````json
 [
@@ -133,6 +134,18 @@ last_updated: 2026-09-04T13:45:44.598Z
     "status": "open",
     "reason": "",
     "recorded_at": "2026-09-04T13:45:44.598Z",
+    "resolved_at": null
+  },
+  {
+    "id": 10,
+    "kind": "unrun-verify",
+    "phase": "7",
+    "file": "css/base.css",
+    "line": null,
+    "description": "Owner-rendered checks deferred to D-06 skim: computed line-height on a paragraph under lang=ur shows 2, select keyboard/AT-operable, mirrored layout under ar",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-07T02:29:30.974Z",
     "resolved_at": null
   }
 ]
