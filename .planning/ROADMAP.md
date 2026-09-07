@@ -73,13 +73,13 @@ Plans:
   4. Language switcher presents all 20 endonyms as a compact select/menu and persists choice to `persano.lang`
   5. CI gate rejects any dictionary with missing keys, empty values, or CJK half-width punctuation — across all 20 dictionaries
 
-**Plans:** 4/5 plans executed
+**Plans:** 5/5 plans executed
 
 - [x] 07-01-engine-rtl-switcher-gate-PLAN.md
 - [x] 07-02-dicts-wave1-hi-de-fr-ru-PLAN.md
 - [x] 07-03-dicts-wave2-ja-ko-tr-id-PLAN.md
 - [x] 07-04-dicts-wave3-it-pl-nl-vi-PLAN.md
-- [ ] 07-05-dicts-wave4-el-bn-ar-ur-zh-PLAN.md
+- [x] 07-05-dicts-wave4-el-bn-ar-ur-zh-PLAN.md
 
 **Wave 1** *(engine + RTL + switcher + gate hardening)*
 
@@ -89,7 +89,7 @@ Plans:
 
 - [x] 07-02-PLAN.md — Dicts W1: hi, de, fr, ru (+ i18n-surface.mjs helper)
 - [x] 07-03-PLAN.md — Dicts W2: ja, ko, tr, id
-- [ ] 07-04-PLAN.md — Dicts W3: it, pl, nl, vi
+- [x] 07-04-PLAN.md — Dicts W3: it, pl, nl, vi
 - [ ] 07-05-PLAN.md — Dicts W4: el, bn, ar, ur, zh
 
 **UI hint**: yes
@@ -152,7 +152,7 @@ Plans:
 | 4. Consent Gate + Firebase | v1.0 | 2/2 | Complete | 2026-09-03 |
 | 5. Discovery & Quality | v1.0 | 4/4 | Complete | 2026-09-05 |
 | 6. Changelog Page | v2.0 | 3/3 | Complete    | 2026-09-06 |
-| 7. Localization ×20 + RTL | v2.0 | 4/5 | In Progress|  |
+| 7. Localization ×20 + RTL | v2.0 | 5/5 | In Progress|  |
 | 8. Custom Domain Migration | v2.0 | 0/? | Not started | - |
 | 9. App Check, Monitor-First | v2.0 | 0/? | Not started | - |
 | 10. Gated Social Proof | v2.0 | 0/? | Not started | - |
