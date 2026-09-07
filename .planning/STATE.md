@@ -5,16 +5,16 @@ milestone_name: Full Deferred Scope
 current_phase: 07
 current_phase_name: Localization ×20 + RTL
 status: executing
-stopped_at: Completed 07-03-PLAN.md (dictionary wave 2)
-last_updated: "2026-09-07T04:36:27.378Z"
+stopped_at: Completed 07-04-PLAN.md (dictionary wave 3)
+last_updated: "2026-09-07T05:09:46.305Z"
 last_activity: 2026-09-06
 last_activity_desc: Phase 07 execution started
-state_head: ecea3f771449a40d0d7d73588c493ad9ffaddc35
+state_head: 5f0cba113bd63f931bf98e26ed57c9f833c9ee9a
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 8
-  completed_plans: 6
+  completed_plans: 7
   percent: 20
 ---
 
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-09-06)
 ## Current Position
 
 Phase: 07 (Localization ×20 + RTL) — EXECUTING
-Plan: 4 of 5
+Plan: 5 of 5
 Status: Ready to execute
 Total Plans in Phase: 5
 Plans Executed: 0
@@ -66,6 +66,7 @@ Progress: [████████████████████] 3/3 pla
 | Phase 07 P01 | 14 min | 3 tasks | 5 files |
 | Phase 07 P02 | 41 min | 3 tasks | 5 files |
 | Phase 07 P03 | 42 min | 2 tasks | 4 files |
+| Phase 07 P04 | 40 min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -91,6 +92,7 @@ Recent decisions affecting current work:
 - [Phase 07]: [Phase 07]: Dictionary wave 1 (hi de fr ru) landed at exact 170-key parity; de drafted in Sie (app values-de mixed-register — used for terminology only), Sie-vs-du flagged for D-06 owner spot check
 - [Phase 07]: [Phase 07]: Dictionary wave 2 (ja ko tr id) landed at exact 170-key parity; ja green under the live CJK punct gate with zero gate edits; raw email kept out of ja VALUES (ASCII dots fail CJK gate — mailto href keeps the address, ja prose points to contact form); brand Latin in all four per app app_name
 - [Phase 07]: [Phase 07]: ko register = 해요체 (locked default; app values-ko leans 합니다체 — used for terminology only); ko keeps half-width punctuation per documented gate exemption
+- [Phase 07]: [Phase 07]: Dictionary wave 3 (it pl nl vi) landed at exact 170-key parity; registers from defaults table confirmed by app data (it tu 50/Lei 17, pl Ty 24/Pan 4, nl je 94/u 1); vi pronoun-avoidant per table (0 real personal pronouns) despite app values-vi using bạn 76x; vi length 109.2% of EN with 5 longest values 91-119 percent (no 2x blowups); Latin brand kept in all four per app_name
 
 ### Pending Todos
 
@@ -122,6 +124,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-07T04:36:27.205Z
-Stopped at: Completed 07-03-PLAN.md (dictionary wave 2)
+Last session: 2026-09-07T05:09:46.133Z
+Stopped at: Completed 07-04-PLAN.md (dictionary wave 3)
 Resume file: None
