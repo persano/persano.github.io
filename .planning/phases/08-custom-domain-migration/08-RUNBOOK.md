@@ -19,11 +19,11 @@
 | 5 | www CNAME | → `persano.github.io` | ✅ | none — do not touch |
 | 6 | Pages domain set (repo Settings equivalent) | `cname: geohisttrivia.com`, `build_type: workflow` | ✅ (agent via gh API) | none |
 | 7 | HTTPS certificate | `approved` for `geohisttrivia.com` + `www.geohisttrivia.com` (expires 2026-12-06) | ✅ | none |
-| 8 | HTTPS enforcement (`https_enforced`) | API state `true` (agent flipped it 2026-09-07 via one `PUT`); **live edge redirect still propagating** — see note below | ✅ (config) / 🔍 (edge) | re-check after ≤24 h |
+| 8 | HTTPS enforcement (`https_enforced`) | API state `true` (agent flipped it 2026-09-07 via one `PUT`); live edge redirect **converged ~15 min after the flip** (http→https 301 verified) | ✅ | none |
 | 9 | `https://geohisttrivia.com/` | **200** | ✅ | none |
 | 10 | `https://www.geohisttrivia.com/` | **301 → https://geohisttrivia.com/** | ✅ | none |
-| 11 | `https://persano.github.io/geohist/` | **301 → apex, path preserved** (target currently `http://…` — upgrades to `https://…` once enforcement propagates) | ✅ | none |
-| 12 | `http://geohisttrivia.com/` | **200** (not yet the 301→https you'd expect) | 🔍 | re-check after ≤24 h |
+| 11 | `https://persano.github.io/geohist/` | **301 → apex, path preserved** (the github.io edge still emits `http://` as the redirect *target* — a cosmetic remnant; that target itself 301s to `https://`, so the chain terminates on https) | ✅ | none |
+| 12 | `http://geohisttrivia.com/` | **301 → https://geohisttrivia.com/** (converged ~15 min after the flip — well inside the docs' 24 h window) | ✅ | none |
 | 13 | Profile-level domain verification (`protected_domain_state`) | `null` — Verify click not done | ⬜ | **§2 — re-add domain + TXT + Verify** |
 | 14 | Firebase Auth authorized domains | unknown (console not probeable) | ⬜ | **§3 — add + keep legacy** |
 | 15 | GCP API-key HTTP-referrer restriction | unknown (console not probeable) | ⬜ | **§3 — add + keep legacy** |
@@ -36,9 +36,9 @@ The research snapshot (same day, earlier session) showed the `_github-pages-chal
 
 Owner ruled: **proceed with the HTTPS-enforce flip now** (cert already `approved` — verified live before the flip), and absorb the TXT gap as runbook work: §1 gains a TXT re-add step, §2 is written for "re-add domain → TXT → Verify" instead of the original "TXT already resolving → Verify", and the Task-3 owner gate expands to **six items** (§0 rows 3, 4/13, 14, 15, 16, plus the soft re-probe of `protected_domain_state`).
 
-### HTTPS-enforce propagation note
+### HTTPS-enforce propagation note (RESOLVED)
 
-The API-level flip is done and confirmed (`GET /pages` → `https_enforced: true`; this GET-after-PUT is the correctness proof). The live edge behavior lags: `http://geohisttrivia.com/` still serves **200** instead of 301→https, and the github.io→apex 301 currently targets `http://…`. GitHub documents up to **24 h** for Enforce-HTTPS propagation to the edge. Nothing more to do — re-probe later; only investigate if `http://` still serves 200 after 24 h.
+The API-level flip is done and confirmed (`GET /pages` → `https_enforced: true`; this GET-after-PUT is the correctness proof). Immediately after the flip the edge lagged (`http://` apex served 200) — **it converged ~15 minutes later**: `http://geohisttrivia.com/` → 301 → `https://geohisttrivia.com/` verified live. GitHub documents up to 24 h for this window; only investigate if a probe ever regresses (fix path per docs: remove + re-add the domain).
 
 ### Owner note (console state unknown)
 

@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 12
+open_count: 11
 waived_count: 0
-fixed_count: 0
+fixed_count: 1
 total_count: 12
-last_updated: 2026-09-07T21:19:44.491Z
+last_updated: 2026-09-07T21:21:40.983Z
 ---
 
 # Broken Windows Ledger
@@ -25,7 +25,7 @@ last_updated: 2026-09-07T21:19:44.491Z
 | 8 | 05 | unrun-verify | .planning/phases/05-discovery-quality-screenshots-seo-json-ld-aa-audit/05-03-SUMMARY.md |  | D-69 owner console steps NOT executed (Play Console privacy-URL field + GSC sitemap submit) - owner-only actions, sitemap.xml not yet deployed (404 live); instructions recorded in SUMMARY, checkpoint OPEN | open |  | 2026-09-04T13:45:44.457Z |  |
 | 9 | 05 | deviation | GeoHist_Trivia_Privacy_Policy.html |  | D-70 deletion of 3 superseded root policy files (.html/.md/.pdf) deferred - gate unmet (no owner D-69 confirmation, final deploy not shipped); files untouched in working tree, deletion rides post-confirmation deploy | open |  | 2026-09-04T13:45:44.598Z |  |
 | 10 | 7 | unrun-verify | css/base.css |  | Owner-rendered checks deferred to D-06 skim: computed line-height on a paragraph under lang=ur shows 2, select keyboard/AT-operable, mirrored layout under ar | open |  | 2026-09-07T02:29:30.974Z |  |
-| 11 | 08 | unmet-truth | geohisttrivia.com (live edge) |  | http://geohisttrivia.com/ serves 200 (no 301 to https) after https_enforced PUT; API state true; docs 24h propagation window; re-check runbook 08-RUNBOOK.md §0 row 12 | open |  | 2026-09-07T21:19:43.919Z |  |
+| 11 | 08 | unmet-truth | geohisttrivia.com (live edge) |  | http://geohisttrivia.com/ serves 200 (no 301 to https) after https_enforced PUT; API state true; docs 24h propagation window; re-check runbook 08-RUNBOOK.md §0 row 12 | fixed |  | 2026-09-07T21:19:43.919Z | 2026-09-07T21:21:40.983Z |
 | 12 | 08 | deviation | .planning/phases/08-custom-domain-migration/08-RUNBOOK.md |  | Owner option-B divergence ruling: GitHub verification TXT NXDOMAIN between sessions; absorbed as runbook §1b/§2 re-add flow; Task 3 gate expanded to six items | open |  | 2026-09-07T21:19:44.491Z |  |
 
 ````json
@@ -157,10 +157,10 @@ last_updated: 2026-09-07T21:19:44.491Z
     "file": "geohisttrivia.com (live edge)",
     "line": null,
     "description": "http://geohisttrivia.com/ serves 200 (no 301 to https) after https_enforced PUT; API state true; docs 24h propagation window; re-check runbook 08-RUNBOOK.md §0 row 12",
-    "status": "open",
+    "status": "fixed",
     "reason": "",
     "recorded_at": "2026-09-07T21:19:43.919Z",
-    "resolved_at": null
+    "resolved_at": "2026-09-07T21:21:40.983Z"
   },
   {
     "id": 12,

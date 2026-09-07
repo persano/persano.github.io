@@ -68,10 +68,9 @@ coverage:
     requirement: HOST-01
     verification:
       - kind: e2e
-        ref: "curl -s -o NUL -w '%{http_code} %{redirect_url}' on 4 URLs (2026-09-07 ~21:15–21:20 UTC)"
-        status: fail
-    human_judgment: true
-    rationale: "http apex still serves 200 (not 301→https) after the enforce PUT — documented ≤24 h edge-propagation window; API state is true. Needs a later re-probe (runbook §0 row 12); verifier must not accept the plan while the redirect is still absent without checking the 24 h window has elapsed."
+        ref: "curl battery ×4 (2026-09-07 21:15–21:22 UTC): http apex 301→https (converged ~15 min post-PUT); https apex 200; www 301→apex; gh.io/geohist/ 301→apex path-preserved (2-hop chain terminates on https)"
+        status: pass
+    human_judgment: false
   - id: D4
     description: "Owner gate execution — SIX items (AAAA×4 in Spaceship; TXT re-add + Verify click in profile Settings; Firebase Auth authorized-domains add+keep; API-key referrer add+keep; GSC Domain property + TXT; protected_domain_state soft re-probe)"
     requirement: HOST-01
@@ -100,7 +99,7 @@ status: halted  # designed stop: Task 3 owner gate OPEN — 08-02 must not start
 ## Accomplishments
 
 - **HTTPS enforce flip (Task 1):** baseline GET confirmed cert `approved` for apex+www → issued `gh api -X PUT repos/persano/persano.github.io/pages -F https_enforced=true` (only that field, `-F` boolean) → GET-after-PUT: `https_enforced: true`, `cname: geohisttrivia.com`, `build_type: workflow`, cert `approved` — all unchanged. No DELETE endpoint touched anywhere.
-- **Live proofs:** `https://geohisttrivia.com/` → 200; `https://www.geohisttrivia.com/` → 301 apex; `https://persano.github.io/geohist/` → 301 apex path-preserved; `http://` apex still 200 (edge propagation — see Issues).
+- **Live proofs (final):** `http://geohisttrivia.com/` → **301 → https** (propagation converged ~15 min after the flip); `https://geohisttrivia.com/` → 200; `https://www.geohisttrivia.com/` → 301 apex; `https://persano.github.io/geohist/` → 301 apex path-preserved (its redirect target still emits `http://` — cosmetic remnant; that target 301s to https, chain terminates correctly).
 - **Runbook (Task 2):** `.planning/phases/08-custom-domain-migration/08-RUNBOOK.md` — 9 sections (§0 current state + divergence ruling; §1 Spaceship AAAA×4 **+ TXT re-add**; §2 re-add domain → TXT → Verify; §3 Firebase Auth + GCP API-key allowlists with keep-legacy-host rules; §4 GSC Domain property; §5 agent cross-ref; §6 sitemap resubmit + Change of Address; §7 live contact-form test; §8 rollback with CoA-cancel-first branch and DELETE-forbidden warning). Automated keycheck passed.
 - **CNAME-file invariant:** `Test-Path CNAME` → False (prohibition upheld).
 
@@ -134,17 +133,17 @@ status: halted  # designed stop: Task 3 owner gate OPEN — 08-02 must not start
 - **Ruling:** owner selected option B — proceed with enforce flip; absorb TXT re-add into runbook §1b/§2; expand Task 3 gate to six items
 - **Files modified:** 08-RUNBOOK.md (§0 divergence note, §1b, §2, gate expansion)
 
-**2. [Live-proof lag] http→https 301 not yet live at the edge after the enforce PUT**
+**2. [Live-proof lag — RESOLVED in-session] http→https 301 briefly absent at the edge after the enforce PUT**
 - **Found during:** Task 1 step 5 (live proofs)
-- **Issue:** `http://geohisttrivia.com/` returns 200 (not 301→https) and the github.io→apex 301 currently targets `http://…` even though GET-after-PUT shows `https_enforced: true`; cache-busted re-probes confirm it is not CDN cache (`x-proxy-cache: MISS`)
-- **Assessment:** documented platform propagation (GitHub docs: Enforce HTTPS up to 24 h at the edge); GET-after-PUT is the config correctness proof per research A5. No further agent action; re-check step recorded in runbook §0 row 12; windows-ledger entry `unmet-truth` appended.
-- **Files modified:** 08-RUNBOOK.md (§0 propagation note)
+- **Issue:** immediately after the PUT, `http://geohisttrivia.com/` served 200 (not 301→https) and the github.io→apex 301 targeted `http://…`; cache-busted re-probes confirmed it was not CDN cache (`x-proxy-cache: MISS`)
+- **Resolution:** propagation converged **~15 minutes after the flip** — final probe battery: http apex 301→https; https apex 200; www 301→apex; gh.io path-preserving 301 (target scheme remnant is cosmetic; the 2-hop chain terminates on https). GET-after-PUT had been the config correctness proof throughout (research A5). Windows-ledger entry recorded then closed as `fixed`.
+- **Files modified:** 08-RUNBOOK.md (§0 rows 8/11/12 + propagation note marked RESOLVED)
 
-**Total deviations:** 2 (1 owner-ruled divergence, 1 live-propagation lag). **Impact on plan:** neither blocks the gate structure; Task 3 gate now carries six items instead of five.
+**Total deviations:** 2 (1 owner-ruled divergence, 1 live-propagation lag — resolved in-session). **Impact on plan:** neither blocks the gate structure; Task 3 gate now carries six items instead of five.
 
 ## Issues Encountered
 
-- Enforcement edge propagation pending (above) — if `http://` still serves 200 after 24 h, investigate (fix path per docs: remove + re-add domain).
+- Enforcement edge propagation: briefly pending after the PUT (http apex 200 for ~15 min), then converged within the docs' 24 h window — resolved in-session, no action left (see Deviation 2).
 - Prior-session probe history recorded the TXT as resolving; research table row 10 was stale within hours. All §0 rows were re-probed live this session before writing the runbook.
 
 ## User Setup Required
@@ -168,7 +167,7 @@ None — no new attack surface; the plan *reduced* surface (HTTPS enforcement) a
 
 - [x] 08-RUNBOOK.md exists on disk; keycheck green
 - [x] GET-after-PUT proof captured (enforced true, other fields unchanged)
-- [x] Live probes captured (2 of 4 as expected; 1 propagation-pending, 1 OK-but-scheme-http)
+- [x] Live probes captured — all 4 green at session end (http apex 301→https after ~15 min propagation; 2-hop gh.io chain terminates on https)
 - [x] Commits: N/A — deferred_commit_mode (no code commits; ledger above); `.planning` docs commit made via `gsd_run query commit`
 - [x] STATE.md / ROADMAP.md updated via gsd-tools handlers
 
