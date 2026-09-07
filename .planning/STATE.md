@@ -6,10 +6,10 @@ current_phase: 08
 current_phase_name: Custom Domain Migration
 status: verifying
 stopped_at: Completed 08-03-PLAN.md — phase 8 plans all complete; selector-page request logged for planning
-last_updated: "2026-09-07T22:22:36.412Z"
+last_updated: "2026-09-07T22:25:20.878Z"
 last_activity: 2026-09-07
 last_activity_desc: Phase 08 execution started
-state_head: c72b3a27161dfc222e99d73a08d0360e61e38ed2
+state_head: cfd80b2872e49eb349ebb4cdc529fc7c5ed0b57e
 progress:
   total_phases: 5
   completed_phases: 2
@@ -118,6 +118,7 @@ None yet.
 - Play Console privacy-URL field still owner-pending before Play submission (v1 carryover); Play listing live date gates SEO-06 flip
 - Urdu Nastaliq rendering quality needs real-device visual verification (documented degradation acceptable, silent discovery is not)
 - Phase 08 plan 01 Task 3 owner gate OPEN (blocking-human): AAAA×4 (Spaceship), TXT re-add + Verify click (profile Settings), Firebase Auth authorized-domains, API-key referrer allowlist, GSC Domain property, soft protected_domain_state — 08-02 rewrite must NOT start until gate passes
+- Selector-page removal + GeoHist-as-home requested by owner during 08-03 gate — new product decision, route to /gsd-plan-phase (post-phase-8 backlog, not phase 8 scope)
 
 ## Deferred Items
 
