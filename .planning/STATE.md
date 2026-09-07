@@ -3,18 +3,18 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Full Deferred Scope
 current_phase: 07
-current_phase_name: localization-20-rtl
-status: "Phase 06 shipped — PR #2"
-stopped_at: Phase 7 context gathered
-last_updated: "2026-09-07T02:09:09.116Z"
+current_phase_name: Localization ×20 + RTL
+status: executing
+stopped_at: Completed 07-01-PLAN.md (engine wave)
+last_updated: "2026-09-07T02:31:30.545Z"
 last_activity: 2026-09-06
-last_activity_desc: Phase 07 planning complete
-state_head: 7803cfc06a5cf83ced4360f51a8139839c883210
+last_activity_desc: Phase 07 execution started
+state_head: ef0ccac418188936f410e4c997912c4041104d50
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 8
-  completed_plans: 3
+  completed_plans: 4
   percent: 20
 ---
 
@@ -25,18 +25,18 @@ progress:
 See: .planning/PROJECT.md (updated 2026-09-06)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel — before the app goes live on Google Play.
-**Current focus:** Phase 7 — Localization ×20 + RTL
+**Current focus:** Phase 07 — Localization ×20 + RTL
 
 ## Current Position
 
-Phase: 07 (localization-20-rtl) — READY TO EXECUTE
-Plan: Not started
+Phase: 07 (Localization ×20 + RTL) — EXECUTING
+Plan: 2 of 5
 Status: Ready to execute
 Total Plans in Phase: 5
 Plans Executed: 0
-Last activity: 2026-09-06 — Phase 07 planning complete (5 plans, 5 waves)
+Last activity: 2026-09-06 — Phase 07 execution started
 
-Progress: [████████████████████] 3/3 plans (100%) — v2.0 milestone 20% (1/5 phases)
+Progress: [████████████████████] 3/3 plans ([██░░░░░░░░] 20%) — v2.0 milestone 20% (1/5 phases)
 
 ## Performance Metrics
 
@@ -63,6 +63,7 @@ Progress: [████████████████████] 3/3 pla
 | Phase 06 P01 | 23 min | 3 tasks | 12 files |
 | Phase 06 P02 | 7 min | 2 tasks | 2 files |
 | Phase 06 P03 | 10 min | 3 tasks | 5 files |
+| Phase 07 P01 | 14 min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,8 @@ Recent decisions affecting current work:
 - [Phase 06]: Key surface 146→169 moved atomically (page + 3 nav/footer inserts + 2 dictionaries + keycheck registration, one commit); red gate proven both directions locally
 - [Phase 06]: Curated 6 of 13 real 0.x versions for changelog backfill (0.88/0.87/0.84/0.8/0.7/0.2) telling the arc; git-mined dates authoritative (0.2 -> 2026-08-24, 0.88 -> 2026-09-04); pre-scheme 3.0-10.0 era excluded — D-02 curation over commit-log dump; D-08 honesty - dates match versionName-touching commits, cross-checkable against Play history
 - [Phase 06]: [Phase 06] G-06-9 resolved per owner D-notice: Notice only — keyed changelog notice (170-key atomic surface move) + static EN-ES-PT line on scriptless privacy.html (06-01 D-13 stands, no dead-key swap); browser-native translation remains the mechanism; deploy push gate unblocked
+- [Phase 07]: Phase 07: el placed as own script group between Cyrillic and Indic in the D-03 switcher order; हिन्दी endonym spelling chosen (stay consistent)
+- [Phase 07]: Phase 07: keycheck CJK half-width punct gate scoped ja+zh, ko exempt (common Korean usage); digit-period exception (0.88 passes); [zh,pt] now detects zh (first supported match wins) — documented intentional change
 
 ### Pending Todos
 
@@ -114,6 +117,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-07T00:52:15.203Z
-Stopped at: Phase 7 context gathered
-Resume file: .planning/phases/07-localization-20-rtl/07-CONTEXT.md
+Last session: 2026-09-07T02:31:30.384Z
+Stopped at: Completed 07-01-PLAN.md (engine wave)
+Resume file: None
