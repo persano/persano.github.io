@@ -22,10 +22,10 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-09-06)
+See: .planning/PROJECT.md (updated 2026-09-07)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel — before the app goes live on Google Play.
-**Current focus:** Phase 07 — Localization ×20 + RTL
+**Current focus:** Phase 8 — Custom Domain Migration
 
 ## Current Position
 
@@ -36,7 +36,7 @@ Total Plans in Phase: 6
 Plans Executed: 6
 Last activity: 2026-09-07 — Phase 07 complete, transitioned to Phase 8
 
-Progress: [████████████████████] 3/3 plans ([██░░░░░░░░] 20%) — v2.0 milestone 20% (1/5 phases)
+Progress: [████████████████████] 9/9 plans — v2.0 milestone 40% (2/5 phases)
 
 ## Performance Metrics
 
@@ -104,7 +104,7 @@ None yet.
 
 - Custom domain name + apex-vs-www choice undecided — owner decision at Phase 8 planning
 - reCAPTCHA provider (v3 vs Enterprise) hinges on Cloud Billing willingness — owner decision, first task of Phase 9
-- Per-language register table needs a one-time owner pass before dictionary drafting (e.g., de du vs Sie)
+- ~~Per-language register table needs a one-time owner pass before dictionary drafting (e.g., de du vs Sie)~~ resolved Phase 7 (Sie-implied neutral de, UAT test 2 pass)
 - zh variant confirmation (Simplified-only?) — check app repo `strings.xml` (`values-zh-rCN`?) before locking
 - App Check enforcement threshold (N successful submissions + token-failure %) to be agreed with owner in Phase 9
 - Play Console privacy-URL field still owner-pending before Play submission (v1 carryover); Play listing live date gates SEO-06 flip
@@ -126,6 +126,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-07T17:42:16.500Z
+Last session: 2026-09-07T17:57:01.548Z
 Stopped at: Phase 07 complete, ready to plan Phase 8
 Resume file: None
