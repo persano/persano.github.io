@@ -175,6 +175,12 @@ None - no external service configuration required (owner console steps already e
 ## Commits
 - No code commits — verification-only plan; all changes are .planning/ docs (committed via docs commit below)
 
+## Self-Check: PASSED
+
+- SUMMARY exists on disk: FOUND (`.planning/phases/08-custom-domain-migration/08-03-SUMMARY.md`)
+- No task commits expected — verification-only plan (`files_modified: []`); docs commit only
+- HOST-03 marked complete in REQUIREMENTS.md (checkbox + traceability); shared-ID gate clear (HOST-01 already marked by 08-02, `ready-ids` returned no blocked IDs)
+
 ---
 *Phase: 08-custom-domain-migration*
 *Completed: 2026-09-07*
