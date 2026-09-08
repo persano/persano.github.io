@@ -44,7 +44,7 @@ Full details: [.planning/milestones/v1-ROADMAP.md](milestones/v1-ROADMAP.md)
   3. Changelog is reachable from every existing page via nav/footer links and listed in `sitemap.xml`
   4. A dictionary missing `changelog.*` keys — or an unregistered keycheck `pages` entry — fails CI (red-gate proven)
 
-**Plans**: 3/3 plans executed + 1 gap-closure plan
+**Plans**: 3/3 phase plans executed + 2 gap-closure plans (09-03 for G-09-2; 09-04 for G-09-5 + G-09-6)
 Plans:
 **Wave 1**
 
@@ -143,6 +143,7 @@ Plans:
 - [x] 09-01-PLAN.md — App Check gate end-to-end: 4th lazy module + getToken seam + catch mapping + consent-gated event; i18n key #171 atomic across 19 dictionaries (FIRE-07, FIRE-08)
 - [x] 09-02-PLAN.md — 09-RUNBOOK.md owner console chain (register → activate → weekly ritual → evidence-gated per-product flip) + privacy.html reCAPTCHA/App Check disclosure (FIRE-09, CMPL-05)
 - [x] 09-03-PLAN.md — G-09-2 gap closure: Enterprise provider swap + site-key activation + Enterprise docs (COVERAGE/RUNBOOK/privacy) + deploy (FIRE-07, FIRE-08)
+- [ ] 09-04-PLAN.md — G-09-5 + G-09-6 gap closure: bounded deliver-anyway token-failure path in contact.js + site-wide favicon (icon links + favicon.ico) + deploy + re-verify handoff (FIRE-07, FIRE-08)
 
 **UI hint**: yes
 
