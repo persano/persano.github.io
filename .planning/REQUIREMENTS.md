@@ -32,8 +32,8 @@ Continues requirement numbering from v1 (archived at `.planning/milestones/v1-RE
 
 - [x] **FIRE-07**: Contact form protected by Firebase App Check in monitoring mode — `initializeAppCheck` as 4th lazy CDN module in `contact.js` submit path, init before auth/firestore; zero reCAPTCHA bytes in served HTML (submit-time load only); zero user-visible change; provider decision (reCAPTCHA v3 vs Enterprise, billing tradeoff) recorded in-phase
 - [x] **FIRE-08**: App Check token-failure UX — dedicated `contact.status.appcheck` status node with email fallback + Analytics token-failure event
-- [ ] **FIRE-09**: Enforcement flip is a documented owner console step, gated on successful-submission count evidence (never calendar-based); per-product (Firestore + Auth), reversible; monitoring ritual defined with owner-agreed threshold
-- [ ] **CMPL-05**: Privacy policy mentions reCAPTCHA/App Check (consent interplay nuance)
+- [x] **FIRE-09**: Enforcement flip is a documented owner console step, gated on successful-submission count evidence (never calendar-based); per-product (Firestore + Auth), reversible; monitoring ritual defined with owner-agreed threshold
+- [x] **CMPL-05**: Privacy policy mentions reCAPTCHA/App Check (consent interplay nuance)
 
 ### Social Proof
 
@@ -79,8 +79,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | HOST-03 | Phase 8 | Complete |
 | FIRE-07 | Phase 9 | Complete |
 | FIRE-08 | Phase 9 | Complete |
-| FIRE-09 | Phase 9 | Pending |
-| CMPL-05 | Phase 9 | Pending |
+| FIRE-09 | Phase 9 | Complete |
+| CMPL-05 | Phase 9 | Complete |
 | SEO-05 | Phase 10 | Pending |
 | SEO-06 | Phase 10 | Pending |
 | SEO-07 | Phase 10 | Pending |

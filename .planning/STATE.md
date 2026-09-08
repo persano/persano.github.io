@@ -4,17 +4,17 @@ milestone: v2.0
 milestone_name: Full Deferred Scope
 current_phase: 09
 current_phase_name: App Check, Monitor-First
-status: executing
-stopped_at: "Completed 09-01-PLAN.md (App Check gate + i18n key #171)"
-last_updated: "2026-09-08T02:48:45.354Z"
+status: verifying
+stopped_at: Completed 09-02-PLAN.md (owner runbook + privacy disclosure)
+last_updated: "2026-09-08T03:03:29.372Z"
 last_activity: 2026-09-07
 last_activity_desc: Phase 09 execution started
-state_head: 73fd4c2b178705e05cf2b262a764b024d99b933b
+state_head: da374ddd4b3feb091e2b964fb097af1ef6e105ae
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 14
-  completed_plans: 12
+  completed_plans: 14
   percent: 60
 ---
 
@@ -31,7 +31,7 @@ See: .planning/PROJECT.md (updated 2026-09-07)
 
 Phase: 09 (App Check, Monitor-First) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Total Plans in Phase: 2
 Plans Executed: 6
 Last activity: 2026-09-07 — Phase 09 execution started
@@ -72,6 +72,7 @@ Progress: [############] 12/12 plans - v2.0 milestone [██████░░�
 | Phase 08 P02 | 5 min | 2 tasks | 15 files |
 | Phase 08 P03 | 5 min | 2 tasks | 1 files |
 | Phase 09 P01 | 3 min | 2 tasks | 22 files |
+| Phase 09 P02 | 5 min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -108,6 +109,9 @@ Recent decisions affecting current work:
 - [Phase 09]: Phase 09 P01: explicit getToken(appCheck, false) gate is the only observable token-failure seam in monitoring mode (SDK swallows failures elsewhere); status UX + Analytics event wired from its rejection — Research Pattern 1/2: without the gate neither contact.status.appcheck nor appcheck_token_failure could ever fire
 - [Phase 09]: Phase 09 P01: appCheckInstance cache-once module-level guard (not same-options idempotence) - resubmit can never re-run initializeAppCheck — Pitfall 2: already-initialized throw on resubmit; cache-once is fragile-proof against config edits
 - [Phase 09]: Phase 09 P01: case-tolerant appcheck-family mapping (/^app-?check\//i + permission-denied) to dedicated status + consent-gated persano:appcheck event; no auto-retry — D-06/D-07 + research Pattern 3: runtime literal is camelCase appCheck/; permission-denied attribution unambiguous under create-only rules; init-time and token-time failures are one family
+- [Phase 09]: [Phase 09] P02: runbook evidence gate = console ready-to-enforce signal + 30-successful-submissions floor; unit = successful form submissions (one submission = 2+ console requests); boundary both directions; never calendar (FIRE-09/D-03)
+- [Phase 09]: [Phase 09] P02: local testing = debug-token flow only (Manage debug tokens safelist); never add localhost to the reCAPTCHA allowlist, never commit/ship token or flag - tree publicly served (T-09-07/T-09-08)
+- [Phase 09]: [Phase 09] P02: Firestore flip = baseline session-token protection; replay protection does NOT exist for Firestore (Firebase AI Logic only); Enforce + rollback both <=15 min; owner-only, FIRE-10 stays post-monitoring (D-05/Pitfall 5)
 
 ### Pending Todos
 
@@ -140,6 +144,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-08T02:48:44.836Z
-Stopped at: Completed 09-01-PLAN.md (App Check gate + i18n key #171)
+Last session: 2026-09-08T03:01:57.391Z
+Stopped at: Completed 09-02-PLAN.md (owner runbook + privacy disclosure)
 Resume file: None
