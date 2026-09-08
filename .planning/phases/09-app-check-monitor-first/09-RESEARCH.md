@@ -365,20 +365,13 @@ cookie choice, and only when you submit the form.</li>
 | A4 | `location.hostname === 'localhost'` debug-token guard ships safely (never activates on prod hosts) | Pitfall 7 | Low — docs verify the flag is read at init/activation time and only honored by the SDK locally; planner may prefer a local-only uncommitted tweak instead |
 | A5 | App Check token TTL default "1 day" phrasing read through a compressed docs fetch; 30 min–7 days range is firm, exact default wording slightly garbled | Standard Stack / Pitfall 5 | Negligible — irrelevant to phase code (submit-time instance; cached token either valid or refetched) |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Exact floor value (≈30) — planner pins per D-03.**
-   - What we know: driver locked (Verified-rate + floor); owner said ≈30; Phase 7/8 precedent puts exact constants on the planner.
-   - What's unclear: whether 30 counts *successful submissions* (D-03 wording) vs *Verified requests* (console metric — one submission = 2+ requests: auth + firestore).
-   - Recommendation: pin to **successful form submissions** (user-facing unit, matches REQUIREMENTS.md FIRE-09 wording "successful-submission count"), read alongside the console Verified split in the weekly ritual.
-
-2. **Should the appcheck status cover hard `initializeAppCheck` failure? (agent's discretion per CONTEXT)**
-   - What we know: init can fail with `appCheck/already-initialized` (guarded against) or, practically, fail inside the reCAPTCHA exchange surfaced through `getToken` (`appCheck/recaptcha-error`). Cleanly separating "init failed" from "token failed" adds code with no user-visible difference.
-   - Recommendation: treat init and token acquisition as one appCheck-family failure surface (both map to the appcheck status via the case-tolerant prefix test). Simpler, matches D-07's "App Check-family errors → appcheck status".
-
-3. **Debug-provider guard shipped vs local-only.**
-   - What we know: docs forbid shipping debug tokens, not the `true` flag guarded by hostname (no token in repo either way).
-   - Recommendation: prefer the local-only/hostname-guarded approach the agent finds cleanest; if any doubt, keep the guard out of the committed bundle and note the debug flow in the runbook's local-testing section. Owner-facing risk ≈ zero either way.
+1. **Exact floor value (≈30) — planner pins per D-03.** — **RESOLVED (shipped):** pinned to **successful form submissions**, floor **≥ 30** — see 09-RUNBOOK §5 ("Submission floor: ≥ 30 successful submissions" + "Unit, pinned: ... successful form submissions, **not** console request rows", lines ~97-104).
+   - What we knew: driver locked (Verified-rate + floor); owner said ≈30; Phase 7/8 precedent puts exact constants on the planner.
+   - Resolution note: the successful-submission unit was chosen (user-facing, matches REQUIREMENTS.md FIRE-09 wording) and is read alongside the console Verified split in the weekly ritual — exactly the original recommendation.
+2. **Should the appcheck status cover hard `initializeAppCheck` failure? (agent's discretion per CONTEXT)** — **RESOLVED (shipped):** init and token acquisition are ONE appCheck-family failure surface — see js/contact.js's case-tolerant appCheck-family catch mapping (comment block at ~line 212: "token-time appCheck/* failures are one family, one status"), matching D-07's "App Check-family errors → appcheck status".
+3. **Debug-provider guard shipped vs local-only.** — **RESOLVED (shipped):** local-only debug flow — see 09-RUNBOOK §7 ("Local testing — the debug-token flow (never the domain list)", line ~129); nothing debug-flagged in the committed bundle.
 
 ## Environment Availability
 
