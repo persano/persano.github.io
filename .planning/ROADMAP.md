@@ -137,7 +137,11 @@ Plans:
   4. Enforcement flip is documented as a per-product (Firestore + Auth), reversible owner console step gated on successful-submission count — never calendar-based — with an owner-agreed monitoring threshold; provider decision (reCAPTCHA v3 vs Enterprise) recorded in-phase
   5. Privacy policy mentions reCAPTCHA/App Check and its consent interplay
 
-**Plans**: TBD
+**Plans**: 2 plans (Wave 1 parallel — zero file overlap)
+Plans:
+- [ ] 09-01-PLAN.md — App Check gate end-to-end: 4th lazy module + getToken seam + catch mapping + consent-gated event; i18n key #171 atomic across 19 dictionaries (FIRE-07, FIRE-08)
+- [ ] 09-02-PLAN.md — 09-RUNBOOK.md owner console chain (register → activate → weekly ritual → evidence-gated per-product flip) + privacy.html reCAPTCHA/App Check disclosure (FIRE-09, CMPL-05)
+
 **UI hint**: yes
 
 ### Phase 10: Gated Social Proof
