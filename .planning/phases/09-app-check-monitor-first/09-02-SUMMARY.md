@@ -138,3 +138,11 @@ None generated - the owner console steps ARE the runbook content itself: `.plann
 ---
 *Phase: 09-app-check-monitor-first*
 *Completed: 2026-09-07*
+
+## Self-Check: PASSED
+
+- Files verified on disk: `09-RUNBOOK.md` ✓, `09-02-SUMMARY.md` ✓, `geohist/privacy.html` (modified) ✓
+- Commits verified in git log: `afd855d` (Task 1, runbook only) ✓, `da374dd` (Task 2, privacy.html only) ✓, `656650b` (plan metadata: SUMMARY + STATE + ROADMAP + REQUIREMENTS) ✓
+- Task 1 gates re-verified at execution time: runbook content gate exit 0 (all 10 required strings), `/AIza[\w-]{10,}/` 0 matches, `[0-9A-Za-z_-]{30,}` 0 matches, no localhost-allowlist instruction, no date/elapsed-time flip criterion, replay-protection refutation present, flip attributed to owner + FIRE-10 named
+- Task 2 gates re-verified at execution time: `npm run validate:html` exit 0, privacy content gate exit 0 (4 required strings, no data-i18n), one-file commit
+- Unrelated dirty files (`.planning/config.json`, `.gsd/`, `.planning/agent-history.json`) left unstaged throughout
