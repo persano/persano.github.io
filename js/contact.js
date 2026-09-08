@@ -148,7 +148,7 @@
       if (typeof config.recaptchaSiteKey === 'string' && config.recaptchaSiteKey !== '') {
         if (!appCheckInstance) {
           appCheckInstance = mods.appCheck.initializeAppCheck(app, {
-            provider: new mods.appCheck.ReCaptchaV3Provider(config.recaptchaSiteKey),
+            provider: new mods.appCheck.ReCaptchaEnterpriseProvider(config.recaptchaSiteKey),
             isTokenAutoRefreshEnabled: false
           });
         }

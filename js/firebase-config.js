@@ -15,9 +15,10 @@
  * recaptchaSiteKey is public-by-design like the rest of the config — it is
  * the counterpart of the SECRET key, which lives only in the reCAPTCHA
  * Admin / Firebase App Check consoles and NEVER in this repo (09-RUNBOOK).
- * The key stays empty until the owner completes console registration and
- * App Check activation; an empty key keeps App Check fully dormant, so
- * real users see zero change pre-activation (FIRE-07 monitoring mode).
+ * The key is live as of 2026-09-08 (G-09-2 gap closure, plan 09-03), after
+ * the owner completed console registration and App Check activation — still
+ * public-by-design, the secret key stays console-only (FIRE-07 monitoring
+ * mode).
  * No other exports.
  */
 (function () {
@@ -28,6 +29,6 @@
     projectId: 'geohist-trivia',
     appId: '1:319868923091:web:5f99d2cba76f6c7a247826',
     measurementId: 'G-KDWVVHRYD5',
-    recaptchaSiteKey: ''
+    recaptchaSiteKey: '6LfYjbAtAAAAABgPLG-4SuJJ9lggRWO-ZJxxOEPF'
   };
 })();
