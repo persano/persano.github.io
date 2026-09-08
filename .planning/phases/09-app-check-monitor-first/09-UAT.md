@@ -1,5 +1,5 @@
 ---
-status: complete
+status: diagnosed
 phase: 09-app-check-monitor-first
 source: [09-VERIFICATION.md]
 started: 2026-09-08T03:10:00Z
