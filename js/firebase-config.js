@@ -11,6 +11,13 @@
  * Project settings → General → Your apps → Web app), committed after the
  * owner pasted them. They are public by design: access is restricted
  * console-side via authorized domains and referrer restrictions.
+ *
+ * recaptchaSiteKey is public-by-design like the rest of the config — it is
+ * the counterpart of the SECRET key, which lives only in the reCAPTCHA
+ * Admin / Firebase App Check consoles and NEVER in this repo (09-RUNBOOK).
+ * The key stays empty until the owner completes console registration and
+ * App Check activation; an empty key keeps App Check fully dormant, so
+ * real users see zero change pre-activation (FIRE-07 monitoring mode).
  * No other exports.
  */
 (function () {
@@ -20,6 +27,7 @@
     authDomain: 'geohist-trivia.firebaseapp.com',
     projectId: 'geohist-trivia',
     appId: '1:319868923091:web:5f99d2cba76f6c7a247826',
-    measurementId: 'G-KDWVVHRYD5'
+    measurementId: 'G-KDWVVHRYD5',
+    recaptchaSiteKey: ''
   };
 })();

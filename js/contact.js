@@ -5,8 +5,21 @@
  * Owns /geohist/contact.html: the honeypot bot swallow, client-side
  * validation (UX only — the Firestore rules are the real schema gate),
  * the in-flight double-submit guard, and the lazy one-time dynamic
- * import of the three pinned 12.18.0 CDN modules (app + auth +
- * firestore) at submit time.
+ * import of the four pinned 12.18.0 CDN modules (app + auth +
+ * firestore + app-check) at submit time.
+ *
+ * App Check (FIRE-07/FIRE-08) is the submit-time attestation layer:
+ * initialized once per session AFTER the default app and BEFORE
+ * auth/firestore, only when the config site key is non-empty (dormant
+ * = monitoring mode pre-activation, zero user-visible change). The
+ * explicit getToken() gate is the only observable token-failure seam
+ * in monitoring mode — the SDK swallows failures elsewhere. A token
+ * failure surfaces the keyed appcheck status and dispatches the
+ * persano:appcheck document event (consent.js routes it to the
+ * consent-gated appcheck_token_failure Analytics metric). No
+ * auto-retry — the visitor resends manually. The token rides the
+ * X-Firebase-AppCheck request header via the SDK and is never written
+ * into the addDoc payload.
  *
  * The pipeline is deliberately independent of the banner choice: it
  * neither reads nor writes the banner storage key and never imports
@@ -37,8 +50,11 @@
   var topicEl = null;
   var messageEl = null;
   var statusEls = {};    /* data-status -> element map (Pattern 5) */
-  var modules = null;    /* cached { app, auth, firestore } namespaces */
+  var modules = null;    /* cached { app, auth, firestore, appCheck } namespaces */
   var importing = null;  /* in-flight import promise — import once */
+  var appCheckInstance = null; /* cache-once guard — "Can be called only
+                                  once per app"; same-options idempotence
+                                  is NOT relied on (resubmit safety) */
 
   /* ---- Pre-authored keyed status variants (research Pattern 5):
    * static elements present at DOMContentLoaded; JS only toggles
@@ -95,9 +111,10 @@
       importing = Promise.all([
         import(CDN_BASE + 'firebase-app.js'),
         import(CDN_BASE + 'firebase-auth.js'),
-        import(CDN_BASE + 'firebase-firestore.js')
+        import(CDN_BASE + 'firebase-firestore.js'),
+        import(CDN_BASE + 'firebase-app-check.js')
       ]).then(function (loaded) {
-        modules = { app: loaded[0], auth: loaded[1], firestore: loaded[2] };
+        modules = { app: loaded[0], auth: loaded[1], firestore: loaded[2], appCheck: loaded[3] };
         return modules;
       });
     }
@@ -116,24 +133,49 @@
       } catch (noDefault) {
         app = mods.app.initializeApp(config);
       }
-      var auth = mods.auth.getAuth(app);
-      var authReady = auth.currentUser
-        ? Promise.resolve()
-        : mods.auth.signInAnonymously(auth);   /* submit-time anonymous auth */
-      return authReady.then(function () {
-        var payload = {
-          email: values.email,
-          topic: values.topic,
-          message: values.message,
-          createdAt: mods.firestore.serverTimestamp()
-        };
-        /* Optional name: included ONLY when non-empty — a present null
-         * would fail the rules' string-type guard (Pitfall 4 adjacency). */
-        if (values.name) payload.name = values.name;
-        return mods.firestore.addDoc(
-          mods.firestore.collection(mods.firestore.getFirestore(app), 'messages'),
-          payload
-        );
+      /* App Check block (FIRE-07): submit-time attestation layer, init
+       * order app → appCheck → getToken → auth → firestore (docs
+       * requirement). Dormant while recaptchaSiteKey is empty — the
+       * legacy chain runs unchanged and users see zero change
+       * pre-activation. When active: initialize once per session
+       * (cache-once guard) and gate the chain on the explicit getToken
+       * call — monitoring mode swallows token failures elsewhere, so
+       * this rejection is the only observable failure seam (research
+       * Pattern 1/2). The token auto-attaches to the auth/firestore
+       * requests via the X-Firebase-AppCheck header; it is NEVER added
+       * to the addDoc payload. */
+      var attested;
+      if (typeof config.recaptchaSiteKey === 'string' && config.recaptchaSiteKey !== '') {
+        if (!appCheckInstance) {
+          appCheckInstance = mods.appCheck.initializeAppCheck(app, {
+            provider: new mods.appCheck.ReCaptchaV3Provider(config.recaptchaSiteKey),
+            isTokenAutoRefreshEnabled: false
+          });
+        }
+        attested = mods.appCheck.getToken(appCheckInstance, false);
+      } else {
+        attested = Promise.resolve();
+      }
+      return attested.then(function () {
+        var auth = mods.auth.getAuth(app);
+        var authReady = auth.currentUser
+          ? Promise.resolve()
+          : mods.auth.signInAnonymously(auth);   /* submit-time anonymous auth */
+        return authReady.then(function () {
+          var payload = {
+            email: values.email,
+            topic: values.topic,
+            message: values.message,
+            createdAt: mods.firestore.serverTimestamp()
+          };
+          /* Optional name: included ONLY when non-empty — a present null
+           * would fail the rules' string-type guard (Pitfall 4 adjacency). */
+          if (values.name) payload.name = values.name;
+          return mods.firestore.addDoc(
+            mods.firestore.collection(mods.firestore.getFirestore(app), 'messages'),
+            payload
+          );
+        });
       });
     });
   }
@@ -161,10 +203,26 @@
         form.reset();
       })
       .catch(function (err) {
-        showStatus('error');
-        /* log the FirebaseError code (auth/operation-not-allowed,
-         * permission-denied, …) for debuggability — users see the
-         * keyed generic status only */
+        var code = (err && err.code) ? String(err.code) : '';
+        /* App Check-family mapping (D-06/D-07): case-tolerant prefix —
+         * the runtime literal is camelCase appCheck/, the hyphenated
+         * form never appears (research Pattern 3) — plus permission-
+         * denied (post-enforcement Firestore wall; under the create-
+         * only ruleset attribution is unambiguous). Init-time and
+         * token-time appCheck/* failures are one family, one status.
+         * No auto-retry — the visitor resends manually. */
+        var isAppCheck = /^app-?check\//i.test(code) || code === 'permission-denied';
+        if (isAppCheck) {
+          showStatus('appcheck');
+          document.dispatchEvent(new CustomEvent('persano:appcheck', {
+            detail: { code: code ? code.slice(0, 40) : 'unknown' }
+          }));
+        } else {
+          showStatus('error');
+        }
+        /* log the FirebaseError code (appCheck/fetch-network-error,
+         * permission-denied, auth/operation-not-allowed, …) for
+         * debuggability — users see the keyed status only */
         if (err && err.code) {
           console.error('Contact form submit failed:', err.code);
         } else if (err) {
