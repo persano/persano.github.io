@@ -6,10 +6,10 @@
 
 | capability | decision | reason |
 |---|---|---|
-| initializeAppCheck(app, {ReCaptchaV3Provider, isTokenAutoRefreshEnabled:false}) — submit-path init as 4th lazy module | INTEGRATE | Core of FIRE-07; cache-once guard; init before auth/firestore |
+| initializeAppCheck + ReCaptchaV3Provider (submit-path lazy init) | INTEGRATE | Core of FIRE-07; cache-once guard; init before auth/firestore as 4th lazy module |
 | getToken(appCheck, false) explicit gate | INTEGRATE | The only observable token-failure seam in monitoring mode (research Pattern 2) — powers D-06 status UX + FIRE-08 event |
 | isTokenAutoRefreshEnabled: false init option | INTEGRATE | Submit-time instance used once; no background refresh pings (research/ARCHITECTURE §4) |
-| persano:appcheck document event → consent-gated Analytics event (appcheck_token_failure) | INTEGRATE | FIRE-08 metric; fork-preserving bridge (persano:langchange precedent) |
+| persano:appcheck doc event → consent-gated appcheck_token_failure | INTEGRATE | FIRE-08 metric; consent-gated Analytics bridge; fork-preserving (persano:langchange precedent) |
 | onTokenChanged listener | OPT-OUT | Not needed — token is fetched once per submit via the explicit gate; no token-lifecycle UI exists |
 | setTokenAutoRefreshEnabled (runtime toggle) | OPT-OUT | Superseded by the init option; no runtime surface toggles refresh |
 | getLimitedUseToken | OPT-OUT | For non-Firebase backends / replay protection; Firestore replay protection is unavailable (docs 2026-09-02) |
