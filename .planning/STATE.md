@@ -2,20 +2,20 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Full Deferred Scope
-current_phase: 08
-current_phase_name: Custom Domain Migration
-status: verifying
-stopped_at: Completed 08-03-PLAN.md — phase 8 plans all complete; selector-page request logged for planning
-last_updated: "2026-09-07T22:25:20.878Z"
+current_phase: 9
+current_phase_name: App Check, Monitor-First
+status: planning
+stopped_at: Phase 08 complete, ready to plan Phase 9
+last_updated: "2026-09-08T00:53:25.495Z"
 last_activity: 2026-09-07
-last_activity_desc: Phase 08 execution started
-state_head: cfd80b2872e49eb349ebb4cdc529fc7c5ed0b57e
+last_activity_desc: Phase 08 complete, transitioned to Phase 9
+state_head: 853bb3385220aacdf8067c16e8d64cc05b270bd4
 progress:
   total_phases: 5
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 12
   completed_plans: 12
-  percent: 40
+  percent: 60
 ---
 
 # Project State
@@ -25,25 +25,25 @@ progress:
 See: .planning/PROJECT.md (updated 2026-09-07)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel — before the app goes live on Google Play.
-**Current focus:** Phase 08 — Custom Domain Migration
+**Current focus:** Phase 09 — App Check, Monitor-First
 
 ## Current Position
 
-Phase: 08 (Custom Domain Migration) — EXECUTING
-Plan: 3 of 3
-Status: Phase complete — ready for verification
+Phase: 9 — App Check, Monitor-First
+Plan: Not started
+Status: Ready to plan
 Total Plans in Phase: 3
 Plans Executed: 6
-Last activity: 2026-09-07 — Phase 08 execution started
+Last activity: 2026-09-07 — Phase 08 complete, transitioned to Phase 9
 
-Progress: [████████████████████] 9/9 plans — v2.0 milestone [████░░░░░░] 40% (2/5 phases)
+Progress: [############] 12/12 plans - v2.0 milestone [##########......] 60% (3/5 phases)
 
 ## Performance Metrics
 
 **Velocity (lifetime — v1 shipped 12 plans / 30 tasks in 4 days):**
 
-- Total plans completed: 9 (v1)
-- v2.0 plans completed: 0
+- Total plans completed: 12 (v1)
+- v2.0 plans completed: 12 (Phase 6 ×3, Phase 7 ×6, Phase 8 ×3)
 
 **By Phase (v2.0):**
 
@@ -51,7 +51,7 @@ Progress: [████████████████████] 9/9 pla
 |-------|-------|-------|----------|
 | 06 | 3 | - | - |
 | 07 | 6 | - | - |
-| 08 | 0 | - | - |
+| 08 | 3 | - | - |
 | 09 | 0 | - | - |
 | 10 | 0 | - | - |
 
@@ -110,15 +110,14 @@ None yet.
 
 ### Blockers/Concerns
 
-- Custom domain name + apex-vs-www choice undecided — owner decision at Phase 8 planning
 - reCAPTCHA provider (v3 vs Enterprise) hinges on Cloud Billing willingness — owner decision, first task of Phase 9
 - ~~Per-language register table needs a one-time owner pass before dictionary drafting (e.g., de du vs Sie)~~ resolved Phase 7 (Sie-implied neutral de, UAT test 2 pass)
 - zh variant confirmation (Simplified-only?) — check app repo `strings.xml` (`values-zh-rCN`?) before locking
 - App Check enforcement threshold (N successful submissions + token-failure %) to be agreed with owner in Phase 9
 - Play Console privacy-URL field still owner-pending before Play submission (v1 carryover); Play listing live date gates SEO-06 flip
 - Urdu Nastaliq rendering quality needs real-device visual verification (documented degradation acceptable, silent discovery is not)
-- Phase 08 plan 01 Task 3 owner gate OPEN (blocking-human): AAAA×4 (Spaceship), TXT re-add + Verify click (profile Settings), Firebase Auth authorized-domains, API-key referrer allowlist, GSC Domain property, soft protected_domain_state — 08-02 rewrite must NOT start until gate passes
 - Selector-page removal + GeoHist-as-home requested by owner during 08-03 gate — new product decision, route to /gsd-plan-phase (post-phase-8 backlog, not phase 8 scope)
+- ⚠️ [Phase 8] GSC Change-of-Area 180-day signal window active until ~2027-03 — old property retained for D-08 index-decay monitoring; don't delete
 
 ## Deferred Items
 
@@ -136,6 +135,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-07T22:22:36.086Z
-Stopped at: Completed 08-03-PLAN.md — phase 8 plans all complete; selector-page request logged for planning
+Last session: 2026-09-08T01:00:00.000Z
+Stopped at: Phase 08 verified complete (UAT 5/5, VERIFICATION passed), ready to plan Phase 9
 Resume file: None

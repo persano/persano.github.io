@@ -52,6 +52,8 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 - ✓ Superseded root privacy-policy files deleted (old URL 404 live; /geohist/privacy.html canonical) — Phase 5 (D-70)
 - ✓ Changelog page at `/geohist/changelog.html` — KaC format, 6 curated git-mined entries, keyed chrome (nav/footer/title/intro), EN entries with per-language entries-language notice — Phase 6 (CONT-06, CONT-07)
 - ✓ i18n ×20: 17 new dictionaries at exact 170-key parity + engine/detect/switcher scale-up + RTL (ar/ur) mirroring with script line-heights + hardened validate chain — Phase 7 (I18N-05..09; UAT 10/10)
+- ✓ Custom domain live at https://geohisttrivia.com — apex + HTTPS enforced + `protected_domain_state: verified`, 44-URL rewrite in one commit, permanent CI old-domain gate — Phase 8 (HOST-01, HOST-02; UAT 5/5)
+- ✓ GSC migration complete — sitemap Success on new Domain property, Change of Address old→new (180-day window), old property retained for index-decay monitoring — Phase 8 (HOST-03)
 
 ### Active
 
@@ -59,7 +61,7 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 - [ ] Play Console privacy-URL field → `/geohist/privacy.html` before Play submission (owner console step)
 - [ ] Play Store link as placeholder until listing is live, then real link
 - [ ] Structure anticipates future apps as new subdirs without visible placeholders
-- [ ] HOST-01: custom domain — owner registers, Pages config + CNAME file + DNS records, rewrite all absolute URLs (canonical/og/sitemap/robots/JSON-LD), HTTPS cert
+- [ ] Owner request (post-phase-8): remove root selector/hub page and serve the GeoHist landing as site home — needs product decision + planning before Phase 9 work
 - [ ] FIRE-07: App Check via reCAPTCHA v3 — monitoring mode first, enforcement flip after metrics clean
 - [ ] SEO-05: aggregateRating + social-proof wiring, gated on real Play ratings (owner flips gate when listing live)
 
@@ -70,13 +72,13 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 - Remaining 17 localizations — staged later if traffic justifies
 - Real-time chat, comments, user accounts — not core to landing value
 - Jekyll/static-site generators — plain HTML/CSS chosen deliberately (zero build complexity)
-- Custom domain — GitHub default URL for v1
 
 ## Context
 
 - **Shipped v1 (2026-09-05)**: site fully live at https://persano.github.io — 5 phases, 12 plans, 27/27 v1 requirements validated; see `.planning/MILESTONES.md` and `.planning/milestones/v1-ROADMAP.md`
+- **v2.0 in progress**: site now canonical at https://geohisttrivia.com (persano.github.io 301s); Firebase contact form live on the new domain; GSC Domain property + CoA active
 - Current stack reality: plain HTML/CSS/vanilla JS, zero-build; one JS surface set (i18n.js, consent.js, contact.js via Firebase CDN dynamic imports); 4 real WebP screenshots; OG image composite; sitemap + robots + SoftwareApplication JSON-LD
-- Owner-pending before Play submission: Play Console privacy-URL field → `/geohist/privacy.html`; Search Console sitemap submit; Play Store link swap once listing is live
+- Owner-pending before Play submission: Play Console privacy-URL field → `/geohist/privacy.html`; Play Store link swap once listing is live
 - App published/review context: GeoHist Trivia is in Google Play review ("soon"); Play Store link stays placeholder until approval
 - App has 20 localizations; site v1 covers EN + ES + PT-BR as core (17 deferred to v2)
 - Firebase: reuse of app's project (analytics + anonymous auth + Firestore `messages`, create-only rules); API-key hardening console-side
@@ -86,7 +88,7 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 ## Constraints
 
 - **Tech stack**: Plain HTML/CSS (vanilla JS for interactivity) — zero build step, GitHub Pages native
-- **Hosting**: GitHub Pages, default URL `persano.github.io`, GeoHist site in `/geohist/` subdir from day 1
+- **Hosting**: GitHub Pages behind apex custom domain `geohisttrivia.com` (HTTPS enforced); GeoHist site in `/geohist/` subdir; legacy `persano.github.io` 301s preserved
 - **Deployment**: Push → GitHub Actions CI (validate) → Pages deploy
 - **Dependencies**: Firebase JS SDK via CDN; no other runtime dependencies
 - **Content source**: Screenshots and app facts from `C:\Users\Familia\antigravity\GeoHist-Trivia`
@@ -110,6 +112,9 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 | Dark antique theme; secondary accent = aged-map teal #8fc3bd (over terracotta) | Differentiates harder against warm brown-black; 9.30:1 contrast; all 8 WCAG 2.2 pairs re-proven | ✓ Phase 2 |
 | data-i18n keys baked into all Phase 2 markup; keyed nodes plain text only | Phase 3 textContent dictionary swap is markup-safe; namespaces geohist.*/guide.*/hub.* mapped 1:1 | ✓ Phase 2 |
 | Texture utilities decoration-only (never behind body copy); zero JS in any page | Readability + i18n/no-JS safety; native `<details>` accordions | ✓ Phase 2 |
+| Apex custom domain `geohisttrivia.com` (www canonicalized to apex); enforce-flip during TXT gap ruled by owner (option B) | SEO value on new domain early; gate script + runbook cover residual risk | ✓ Phase 8 — https_enforced, protected verified |
+| One-commit migration + permanent CI old-domain gate (`check-no-old-domain.mjs` in validate chain) | Atomic history (one revert = rollback); gate prevents legacy-host re-introduction | ✓ Phase 8 — CI green, gate RED→GREEN proven |
+| GSC: new Domain property, CoA old→new (180-day signal window), old property retained | Consolidates index signals; retained old property = D-08 decay monitoring surface | ✓ Phase 8 — sitemap Success, CoA filed |
 
 ## Evolution
 
@@ -129,4 +134,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-07 after Phase 7*
+*Last updated: 2026-09-07 after Phase 8*
