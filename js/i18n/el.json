@@ -140,7 +140,7 @@
   "contact.form.submit": "Αποστολή",
   "contact.status.sending": "Αποστολή…",
   "contact.status.success": "Ευχαριστούμε — το μήνυμά σας είναι στον δρόμο του.",
-  "contact.status.error": "Κάτι πήγε στραβά — γράψτε στο santiagopostorivo@gmail.com.",
+  "contact.status.error": "Κάτι πήγε στραβά — γράψτε στο santiagopostorivo@gmail.com.",
   "contact.status.appcheck": "Δεν καταφέραμε να επαληθεύσουμε το μήνυμά σας — γράψτε στο santiagopostorivo@gmail.com.",
   "contact.status.invalid-email": "Εισάγετε μια έγκυρη διεύθυνση email.",
   "contact.status.invalid-message": "Γράψτε ένα μήνυμα (έως 5000 χαρακτήρες).",

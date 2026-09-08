@@ -140,7 +140,7 @@
   "contact.form.submit": "Wyślij",
   "contact.status.sending": "Wysyłanie…",
   "contact.status.success": "Dziękujemy — wiadomość jest już w drodze.",
-  "contact.status.error": "Coś poszło nie tak — napisz na santiagopostorivo@gmail.com.",
+  "contact.status.error": "Coś poszło nie tak — napisz na santiagopostorivo@gmail.com.",
   "contact.status.appcheck": "Nie udało się zweryfikować wiadomości — napisz na santiagopostorivo@gmail.com.",
   "contact.status.invalid-email": "Podaj prawidłowy adres e-mail.",
   "contact.status.invalid-message": "Napisz wiadomość (do 5000 znaków).",

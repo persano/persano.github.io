@@ -140,7 +140,7 @@
   "contact.form.submit": "보내기",
   "contact.status.sending": "보내는 중…",
   "contact.status.success": "감사합니다 — 메시지가 전송됐어요.",
-  "contact.status.error": "문제가 생겼어요 — santiagopostorivo@gmail.com으로 메일을 보내 주세요.",
+  "contact.status.error": "문제가 생겼어요 — santiagopostorivo@gmail.com으로 메일을 보내 주세요.",
   "contact.status.appcheck": "메시지를 확인하지 못했어요 — santiagopostorivo@gmail.com으로 메일을 보내 주세요.",
   "contact.status.invalid-email": "유효한 이메일 주소를 입력해 주세요.",
   "contact.status.invalid-message": "메시지를 작성해 주세요(최대 5000자).",

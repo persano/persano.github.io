@@ -140,7 +140,7 @@
   "contact.form.submit": "Invia",
   "contact.status.sending": "Invio in corso…",
   "contact.status.success": "Grazie — il tuo messaggio è in viaggio.",
-  "contact.status.error": "Qualcosa è andato storto — scrivi a santiagopostorivo@gmail.com.",
+  "contact.status.error": "Qualcosa è andato storto — scrivi a santiagopostorivo@gmail.com.",
   "contact.status.appcheck": "Non è stato possibile verificare il tuo messaggio — scrivi a santiagopostorivo@gmail.com.",
   "contact.status.invalid-email": "Inserisci un indirizzo email valido.",
   "contact.status.invalid-message": "Scrivi un messaggio (fino a 5000 caratteri).",

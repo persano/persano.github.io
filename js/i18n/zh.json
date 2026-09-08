@@ -43,7 +43,7 @@
   "contact.nav.game": "游戏",
   "contact.nav.guide": "指南",
   "contact.nav.privacy": "隐私",
-  "contact.status.error": "出现了问题 — 请稍后再试。",
+  "contact.status.error": "出现了问题 — 请稍后再试。",
   "contact.status.appcheck": "无法确认您的消息 — 请稍后再试。",
   "contact.status.invalid-email": "请输入有效的电子邮箱地址。",
   "contact.status.invalid-message": "请填写留言内容（最多 5000 个字符）。",

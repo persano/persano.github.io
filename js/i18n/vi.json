@@ -140,7 +140,7 @@
   "contact.form.submit": "Gửi",
   "contact.status.sending": "Đang gửi…",
   "contact.status.success": "Cảm ơn — tin nhắn đang trên đường gửi đi.",
-  "contact.status.error": "Đã xảy ra lỗi — hãy viết thư đến santiagopostorivo@gmail.com.",
+  "contact.status.error": "Đã xảy ra lỗi — hãy viết thư đến santiagopostorivo@gmail.com.",
   "contact.status.appcheck": "Chúng tôi không thể xác minh tin nhắn của bạn — hãy viết thư đến santiagopostorivo@gmail.com.",
   "contact.status.invalid-email": "Vui lòng nhập địa chỉ email hợp lệ.",
   "contact.status.invalid-message": "Vui lòng viết tin nhắn (tối đa 5000 ký tự).",

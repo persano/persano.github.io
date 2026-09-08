@@ -140,7 +140,7 @@
   "contact.form.submit": "Kirim",
   "contact.status.sending": "Mengirim…",
   "contact.status.success": "Terima kasih — pesan Anda sedang dalam perjalanan.",
-  "contact.status.error": "Terjadi kesalahan — tulis ke santiagopostorivo@gmail.com.",
+  "contact.status.error": "Terjadi kesalahan — tulis ke santiagopostorivo@gmail.com.",
   "contact.status.appcheck": "Kami tidak bisa memverifikasi pesan Anda — tulis ke santiagopostorivo@gmail.com.",
   "contact.status.invalid-email": "Masukkan alamat email yang valid.",
   "contact.status.invalid-message": "Tulis pesan (maksimal 5000 karakter).",
