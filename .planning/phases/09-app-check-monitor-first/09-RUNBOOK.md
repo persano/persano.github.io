@@ -6,59 +6,65 @@
 
 **Status legend:** ✅ done (verified this session) · ⬜ TODO (yours) · 🔍 soft check (nice-to-have, non-blocking)
 
+> **Revised 2026-09-08 (G-09-2 / plan 09-03):** Firebase deprecated the classic reCAPTCHA provider for new App Check registrations; the owner registered web-geohist as reCAPTCHA Enterprise. D-01 (classic v3, Enterprise then rejected) is revised accordingly; the code now ships the Enterprise provider.
+
 ---
 
-## §0 · Current state (as of the 09-01 code ship, 2026-09-07)
+## §0 · Current state (as of the 09-03 Enterprise swap, 2026-09-08)
 
 | # | Surface | Live state | Status | Owner action |
 |---|---------|-----------|--------|--------------|
 | 1 | 09-01 App Check code | Shipped — dormant-by-default gate in `contact.js`'s submit path (init app → app check → `getToken` → auth → Firestore), `contact.status.appcheck` fallback status, consent-gated `appcheck_token_failure` event | ✅ | none |
-| 2 | reCAPTCHA v3 site key + secret key (reCAPTCHA Admin) | Not created | ⬜ | **§1** |
-| 3 | Firebase App Check app registration | Not registered | ⬜ | **§2** |
-| 4 | Site key in code (`js/firebase-config.js` `recaptchaSiteKey`) | Empty string = dormant (init skipped; legacy path unchanged) | ⬜ | **§3** |
-| 5 | Monitoring metrics (App Check → APIs tab) | Not accruing — needs §1 + §2 + §3 deployed on top of the shipped code | ⬜ | starts after §3 |
+| 2 | reCAPTCHA v3 site key + secret key (reCAPTCHA Admin) | Done — v3 key pair created 2026-09-08 (Migrate-keys step below) | ✅ | **§1 (one step left)** |
+| 3 | Firebase App Check app registration | Done — Enterprise registration completed 2026-09-08 | ✅ | none |
+| 4 | Site key in code (`js/firebase-config.js` `recaptchaSiteKey`) | Done — site key in code shipped by 09-03 | ✅ | none |
+| 5 | Monitoring metrics (App Check → APIs tab) | Not accruing yet — needs §1's Migrate-keys step + the 09-03 deploy | ⬜ | accrues once 09-03 deploys |
 | 6 | Enforcement (Firestore / Authentication) | OFF — monitoring mode (un-attested requests are accepted) | ✅ correct today | **do not flip until the §5 gate passes** |
 
 **Weekly ritual starts from the code-ship date** (09-01, shipped 2026-09-07): until §1–§3 complete there is nothing meaningful to read — the ritual becomes live the moment §3 activation deploys.
 
 ---
 
-## §1 · reCAPTCHA Admin — create the v3 key pair (D-01/D-02)
+## §1 · reCAPTCHA Admin — key pair (done 2026-09-08) + the remaining Migrate-keys step
 
-1. Open **google.com/recaptcha/admin/create** with the Google account that owns the Firebase project.
-2. Type: **reCAPTCHA v3** — free, no Cloud Billing, invisible (score 0.0–1.0, no checkbox, no challenge). Provider decision locked (D-01: Enterprise rejected).
-3. Label: anything you will recognize, e.g. `GeoHist contact form (App Check)`.
-4. **Domain list: add `geohisttrivia.com` ONLY.** The www host 301s to apex before any page loads, so the apex entry covers it (Phase 8 §3a rationale). Nothing else belongs in this list — and especially never `localhost` (§7 explains why).
-5. Submit. reCAPTCHA shows two keys:
-   - **SITE key** — public-by-design. This is the value §3 pastes into `recaptchaSiteKey`. You can re-read it anytime from the key's settings page.
-   - **SECRET key** — console-only credential. It is consumed exactly once, by §2 (Firebase App Check registration). **Never paste it into the repo, chat logs, or this file.** Store it in your password manager.
-6. 🔍 Soft check: on the key's settings page, confirm the domain list shows exactly `geohisttrivia.com`.
+**Record (completed):**
+
+1. Opened **google.com/recaptcha/admin** with the Google account that owns the Firebase project.
+2. Type: **reCAPTCHA v3** — free, no Cloud Billing, invisible (score 0.0–1.0, no checkbox, no challenge).
+3. Label: `GeoHist contact form (App Check)`.
+4. **Domain list: `geohisttrivia.com` ONLY** (still true). The www host 301s to apex before any page loads, so the apex entry covers it (Phase 8 §3a rationale). Nothing else belongs in this list — and especially never `localhost` (§7 explains why).
+5. Submitted. The key pair exists: the **SITE key** is public-by-design (the value 09-03 pasted into `recaptchaSiteKey`; re-readable anytime from the key's settings page) and the **SECRET key** is a console-only credential, consumed exactly once by §2 and never pasted into the repo, chat logs, or this file.
+
+**Remaining owner step — Migrate keys (required for token verification to succeed):**
+
+1. The key was created as classic v3, so the reCAPTCHA admin shows a **Migrate keys** banner (classic reCAPTCHA is obsolete for new App Check registrations; the Firebase registration in §2 is a reCAPTCHA **Enterprise** registration).
+2. Run the migration from the key's settings: the classic v3 key becomes GCP/Enterprise-managed, which is what makes the Firebase Enterprise registration's token verification succeed.
+3. The **site key value is unchanged** by the migration — `js/firebase-config.js` needs no further edit.
+4. 🔍 Soft check: after migrating, the key's settings page no longer shows the Migrate-keys banner.
 
 ---
 
-## §2 · Firebase console — register the app with App Check
+## §2 · Firebase console — register the app with App Check (done 2026-09-08)
+
+**Record (completed):**
 
 1. Firebase console → your project → **Security → App Check**.
-2. **Apps tab** → locate the web app (its config is the same Firebase project `js/firebase-config.js` points at) → **Register**.
-3. Provider: **reCAPTCHA** → paste the **SECRET key** from §1 when the console asks. This is the only place the secret is ever used.
-4. App-risk threshold: keep the **0.5 default** (D-01 — under enforcement, scores strictly below 0.5 are rejected; monitoring mode ignores the threshold entirely).
-5. Confirm: the app now shows as registered with the reCAPTCHA provider; the **APIs tab** will start listing **Firestore** and **Authentication** request metrics once §3 is deployed and requests flow.
+2. **Apps tab** → web app (its config is the same Firebase project `js/firebase-config.js` points at) → **Register**.
+3. Provider: the console's current flow registers the app with the **reCAPTCHA Enterprise** provider (the classic reCAPTCHA option is obsolete for new registrations); the **SECRET key** from §1 was consumed here — the only place it is ever used.
+4. App-risk threshold: **0.5 default** (under enforcement, scores strictly below 0.5 are rejected; monitoring mode ignores the threshold entirely).
+5. Confirmed: the app shows as registered with the reCAPTCHA Enterprise provider; the **APIs tab** lists **Firestore** and **Authentication** request metrics once the 09-03 activation deploy is live and requests flow.
 
 ---
 
-## §3 · Activation — paste the site key (the one-line code step)
+## §3 · Activation — site key pasted (done 2026-09-08 by plan 09-03)
 
-The shipped code is dormant until the site key exists:
+**Record (completed):** the **SITE key** (public-by-design) was pasted into `recaptchaSiteKey` in `js/firebase-config.js` by plan 09-03 (2026-09-08) — the one-line code step is done; the value is unchanged by the §1 Migrate-keys migration. The agent deploys (push → CI validate → Pages deploy).
 
-```js
-// js/firebase-config.js — current shipped state:
-recaptchaSiteKey: ''
-```
+**What happens with the next real submission** (one-real-submission expectation, unchanged):
 
-1. Paste your **SITE key** (public-by-design) between the quotes: `recaptchaSiteKey: '<your site key>'`. No other edit. You can do it yourself or hand the value to the agent in chat — this is the one value that is safe to share.
-2. Deploy (the agent pushes; CI validate → Pages deploy), then send **one real submission** through the form at `https://geohisttrivia.com/geohist/contact.html`.
-3. Expect **zero visible change** (monitoring mode): success toast, message lands in the Firestore `messages` collection. If instead you see the "We couldn't verify this message…" status or the generic error — stop and tell the agent; that is the failure path, not the expected post-activation behavior.
-4. After that submit, **Security → App Check → APIs tab** begins accruing request metrics for Firestore + Authentication. **§4 starts now.**
+1. Send **one real submission** through the form at `https://geohisttrivia.com/geohist/contact.html`.
+2. Expect **zero visible change** (monitoring mode): success toast, message lands in the Firestore `messages` collection. If instead you see the "We couldn't verify this message…" status or the generic error — stop and tell the agent; that is the failure path, not the expected post-activation behavior.
+3. After that submit, **Security → App Check → APIs tab** begins accruing request metrics for Firestore + Authentication. **§4 starts now.**
 
 ---
 
