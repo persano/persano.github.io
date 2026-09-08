@@ -12,7 +12,7 @@ None — the site key is already committed (public-by-design); the secret key ne
 
 ## Dashboard Configuration
 
-- [ ] **Run the "Migrate keys" migration for the GeoHist reCAPTCHA key**
+- [x] **Run the "Migrate keys" migration for the GeoHist reCAPTCHA key** — completed by owner 2026-09-08
   - Location: reCAPTCHA Admin (google.com/recaptcha/admin) → GeoHist key → settings → **Migrate keys** banner
   - Set to: migrate the classic v3 key so it becomes GCP/Enterprise-managed (site key value is **unchanged** by the migration — `js/firebase-config.js` needs no edit)
   - Notes: Firebase deprecated the classic reCAPTCHA provider for new App Check registrations; the owner registered web-geohist as reCAPTCHA Enterprise (2026-09-08). Until the key is migrated, the Firebase Enterprise registration cannot verify tokens from the deployed site key — this is the one console step between "deployed" and "verified". Documented in 09-RUNBOOK.md §1 ("Remaining owner step — Migrate keys").
