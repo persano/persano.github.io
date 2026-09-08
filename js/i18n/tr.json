@@ -141,6 +141,7 @@
   "contact.status.sending": "Gönderiliyor…",
   "contact.status.success": "Teşekkürler — mesajınız yolda.",
   "contact.status.error": "Bir şeyler ters gitti — santiagopostorivo@gmail.com adresine yazın.",
+  "contact.status.appcheck": "Mesajınızı doğrulayamadık — santiagopostorivo@gmail.com adresine yazın.",
   "contact.status.invalid-email": "Lütfen geçerli bir e-posta adresi girin.",
   "contact.status.invalid-message": "Lütfen bir mesaj yazın (en fazla 5000 karakter).",
   "contact.status.invalid-topic": "Lütfen bir konu seçin.",

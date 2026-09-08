@@ -141,6 +141,7 @@
   "contact.status.sending": "بھیجا جا رہا ہے…",
   "contact.status.success": "شکریہ — آپ کا پیغام راستے میں ہے۔",
   "contact.status.error": "کچھ غلط ہو گیا — santiagopostorivo@gmail.com پر لکھیں۔",
+  "contact.status.appcheck": "ہم آپ کا پیغام تصدیق نہیں کر سکے — santiagopostorivo@gmail.com پر لکھیں۔",
   "contact.status.invalid-email": "براہ کرم درست ای میل ایڈریس درج کریں۔",
   "contact.status.invalid-message": "براہ کرم پیغام لکھیں (زیادہ سے زیادہ 5000 حروف)۔",
   "contact.status.invalid-topic": "براہ کرم ایک موضوع منتخب کریں۔",

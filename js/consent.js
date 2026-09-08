@@ -133,6 +133,14 @@
       var detail = (ev && ev.detail) ? ev.detail : {};
       logEventSafe('language_switch', { from: detail.from, to: detail.to });
     });
+    /* Token-failure event bridge (FIRE-08): contact.js dispatches this
+     * document event on an App Check-family failure — the event, not
+     * the module, crosses the fork (no App Check imports/init here).
+     * Consent-gated via logEventSafe; silently no-op on deny. */
+    document.addEventListener('persano:appcheck', function (ev) {
+      var detail = (ev && ev.detail) ? ev.detail : {};
+      logEventSafe('appcheck_token_failure', { code: String(detail.code || 'unknown').slice(0, 40) });
+    });
   }
 
   /* ---- Post-grant loader (research Pattern 2; Pitfalls 3 + 10) ---- */

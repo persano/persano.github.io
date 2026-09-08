@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Full Deferred Scope
-current_phase: 9
+current_phase: 09
 current_phase_name: App Check, Monitor-First
-status: planning
-stopped_at: Phase 08 complete, ready to plan Phase 9
-last_updated: "2026-09-08T00:53:25.495Z"
-last_activity: 2026-09-07
-last_activity_desc: Phase 08 complete, transitioned to Phase 9
-state_head: 853bb3385220aacdf8067c16e8d64cc05b270bd4
+status: executing
+stopped_at: Completed 09-02-PLAN.md (owner runbook + privacy disclosure)
+last_updated: "2026-09-08T17:20:54.790Z"
+last_activity: 2026-09-08
+last_activity_desc: Phase 09 execution started
+state_head: 24e2bb68109e2c18c34248f1dac258f26dff40e0
 progress:
   total_phases: 5
   completed_phases: 3
-  total_plans: 12
-  completed_plans: 12
+  total_plans: 15
+  completed_plans: 14
   percent: 60
 ---
 
@@ -29,14 +29,14 @@ See: .planning/PROJECT.md (updated 2026-09-07)
 
 ## Current Position
 
-Phase: 9 — App Check, Monitor-First
-Plan: Not started
-Status: Ready to plan
+Phase: 09 (App Check, Monitor-First) — EXECUTING
+Plan: 1 of 3
+Status: Executing Phase 09
 Total Plans in Phase: 3
 Plans Executed: 6
-Last activity: 2026-09-07 — Phase 08 complete, transitioned to Phase 9
+Last activity: 2026-09-08 — Phase 09 execution started
 
-Progress: [############] 12/12 plans - v2.0 milestone [##########......] 60% (3/5 phases)
+Progress: [############] 12/12 plans - v2.0 milestone [██████░░░░] 60% (3/5 phases)
 
 ## Performance Metrics
 
@@ -71,6 +71,8 @@ Progress: [############] 12/12 plans - v2.0 milestone [##########......] 60% (3/
 | Phase 08 P01 | 12 min | 3 tasks | 3 files |
 | Phase 08 P02 | 5 min | 2 tasks | 15 files |
 | Phase 08 P03 | 5 min | 2 tasks | 1 files |
+| Phase 09 P01 | 3 min | 2 tasks | 22 files |
+| Phase 09 P02 | 5 min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -103,6 +105,13 @@ Recent decisions affecting current work:
 - [Phase 08]: Phase 08 P02: CI gate needle runtime-assembled ([persano,github,io].join) so gate source stays legacy-host-free (self-scan-safe); hidden-dir walk skip mirrors the ignore-respecting rg acceptance; NUL-byte binary skip for media
 - [Phase 08]: Phase 08 P02: validate:domain chained after validate:html; linkinator skip = plain-string apex (never regex lookahead); 44-ref rewrite via literal equal-length host swap — path-preserved 1:1, apex only, never www
 - [Phase 08]: [Phase 08] 08-02 landed: migration commit c72b3a2 (15 files, gate+44 refs atomic) merged to main 7f0cf4e, CI validate+deploy green incl validate:domain, smoke ALL PASS on apex, curl triple (apex 200 / www 301 / github.io 301 path-preserved). Owner ruled push-now over deferred-ship to close mixed-domain window; smoke-check.sh blob has CRLF (normalized LF in worktree for Git Bash; cosmetic, git-normalized)
+- [Phase 09]: Phase 09 P01: App Check dormant-by-default - recaptchaSiteKey empty string keeps monitoring mode pre-activation; zero user-visible change until owner console activation — D-01/D-02: code attests, console enforces; empty key = legacy path unchanged, real users see zero change pre-activation
+- [Phase 09]: Phase 09 P01: explicit getToken(appCheck, false) gate is the only observable token-failure seam in monitoring mode (SDK swallows failures elsewhere); status UX + Analytics event wired from its rejection — Research Pattern 1/2: without the gate neither contact.status.appcheck nor appcheck_token_failure could ever fire
+- [Phase 09]: Phase 09 P01: appCheckInstance cache-once module-level guard (not same-options idempotence) - resubmit can never re-run initializeAppCheck — Pitfall 2: already-initialized throw on resubmit; cache-once is fragile-proof against config edits
+- [Phase 09]: Phase 09 P01: case-tolerant appcheck-family mapping (/^app-?check\//i + permission-denied) to dedicated status + consent-gated persano:appcheck event; no auto-retry — D-06/D-07 + research Pattern 3: runtime literal is camelCase appCheck/; permission-denied attribution unambiguous under create-only rules; init-time and token-time failures are one family
+- [Phase 09]: [Phase 09] P02: runbook evidence gate = console ready-to-enforce signal + 30-successful-submissions floor; unit = successful form submissions (one submission = 2+ console requests); boundary both directions; never calendar (FIRE-09/D-03)
+- [Phase 09]: [Phase 09] P02: local testing = debug-token flow only (Manage debug tokens safelist); never add localhost to the reCAPTCHA allowlist, never commit/ship token or flag - tree publicly served (T-09-07/T-09-08)
+- [Phase 09]: [Phase 09] P02: Firestore flip = baseline session-token protection; replay protection does NOT exist for Firestore (Firebase AI Logic only); Enforce + rollback both <=15 min; owner-only, FIRE-10 stays post-monitoring (D-05/Pitfall 5)
 
 ### Pending Todos
 
@@ -135,6 +144,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-08T01:00:00.000Z
-Stopped at: Phase 08 verified complete (UAT 5/5, VERIFICATION passed), ready to plan Phase 9
+Last session: 2026-09-08T03:01:57.391Z
+Stopped at: Completed 09-02-PLAN.md (owner runbook + privacy disclosure)
 Resume file: None

@@ -141,6 +141,7 @@
   "contact.status.sending": "भेजा जा रहा है…",
   "contact.status.success": "धन्यवाद — आपका संदेश रास्ते में है।",
   "contact.status.error": "कुछ ग़लत हो गया — santiagopostorivo@gmail.com पर लिखिए।",
+  "contact.status.appcheck": "हम आपका संदेश सत्यापित नहीं कर पाए — santiagopostorivo@gmail.com पर लिखिए।",
   "contact.status.invalid-email": "कृपया एक मान्य ईमेल पता डालिए।",
   "contact.status.invalid-message": "कृपया एक संदेश लिखिए (5000 अक्षरों तक)।",
   "contact.status.invalid-topic": "कृपया एक विषय चुनिए।",

@@ -141,6 +141,7 @@
   "contact.status.sending": "جارٍ الإرسال…",
   "contact.status.success": "شكرًا — رسالتك في طريقها.",
   "contact.status.error": "حدث خطأ ما — اكتب إلى santiagopostorivo@gmail.com.",
+  "contact.status.appcheck": "لم نتمكن من التحقق من رسالتك — اكتب إلى santiagopostorivo@gmail.com.",
   "contact.status.invalid-email": "يُرجى إدخال عنوان بريد إلكتروني صالح.",
   "contact.status.invalid-message": "يُرجى كتابة رسالة (حتى 5000 حرف).",
   "contact.status.invalid-topic": "يُرجى اختيار موضوع.",

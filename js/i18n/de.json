@@ -141,6 +141,7 @@
   "contact.status.sending": "Wird gesendet…",
   "contact.status.success": "Danke — Ihre Nachricht ist unterwegs.",
   "contact.status.error": "Etwas ist schiefgelaufen — schreiben Sie an santiagopostorivo@gmail.com.",
+  "contact.status.appcheck": "Wir konnten Ihre Nachricht nicht überprüfen — schreiben Sie an santiagopostorivo@gmail.com.",
   "contact.status.invalid-email": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
   "contact.status.invalid-message": "Bitte schreiben Sie eine Nachricht (bis zu 5000 Zeichen).",
   "contact.status.invalid-topic": "Bitte wählen Sie ein Thema.",

@@ -137,7 +137,13 @@ Plans:
   4. Enforcement flip is documented as a per-product (Firestore + Auth), reversible owner console step gated on successful-submission count — never calendar-based — with an owner-agreed monitoring threshold; provider decision (reCAPTCHA v3 vs Enterprise) recorded in-phase
   5. Privacy policy mentions reCAPTCHA/App Check and its consent interplay
 
-**Plans**: TBD
+**Plans**: 3 plans (09-01 + 09-02 executed; 09-03 gap closure for G-09-2)
+Plans:
+
+- [x] 09-01-PLAN.md — App Check gate end-to-end: 4th lazy module + getToken seam + catch mapping + consent-gated event; i18n key #171 atomic across 19 dictionaries (FIRE-07, FIRE-08)
+- [x] 09-02-PLAN.md — 09-RUNBOOK.md owner console chain (register → activate → weekly ritual → evidence-gated per-product flip) + privacy.html reCAPTCHA/App Check disclosure (FIRE-09, CMPL-05)
+- [ ] 09-03-PLAN.md — G-09-2 gap closure: Enterprise provider swap + site-key activation + Enterprise docs (COVERAGE/RUNBOOK/privacy) + deploy (FIRE-07, FIRE-08)
+
 **UI hint**: yes
 
 ### Phase 10: Gated Social Proof
@@ -169,7 +175,7 @@ Plans:
 | 6. Changelog Page | v2.0 | 3/3 | Complete    | 2026-09-06 |
 | 7. Localization ×20 + RTL | v2.0 | 6/6 | Complete    | 2026-09-07 |
 | 8. Custom Domain Migration | v2.0 | 3/3 | Complete    | 2026-09-07 |
-| 9. App Check, Monitor-First | v2.0 | 0/? | Not started | - |
+| 9. App Check, Monitor-First | v2.0 | 2/2 | In Progress|  |
 | 10. Gated Social Proof | v2.0 | 0/? | Not started | - |
 
 ---
