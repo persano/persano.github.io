@@ -26,6 +26,26 @@ After completing the migration, run the gap re-verification (formal pass/fail vi
 
 Expected results: post-activation submits pass token verification with zero visible change; the token-failure path is observable and consent-gated.
 
+## Gap Re-verification — G-09-5 + G-09-6 (appended 2026-09-09 by plan 09-04)
+
+Formal pass/fail is recorded via `/gsd-verify-work resume`. No secret keys and no debug tokens belong in this file — the repo tree is publicly served.
+
+### 1. UAT test 5 repeat — bounded, deliver-anyway token failure (G-09-5)
+
+On prod, in an incognito window:
+
+1. DevTools → Network → request blocking: add BOTH `*recaptcha*` AND `*google.com/reload*` (the token POST goes to `www.google.com/reload` — no "recaptcha" in the URL).
+2. Submit the form at https://geohisttrivia.com/geohist/contact.html with valid data, analytics consent granted.
+3. Expect: the "We couldn't verify this message — please email santiagopostorivo@gmail.com" status appears **within ~10 seconds** (never stuck on "sending"); the submit button re-enables; the form stays usable and is **NOT reset** (fields keep their values so they can be copied into the email fallback); no auto-retry — resending is manual.
+4. Firebase console → Firestore → `messages` collection: the submitted message is present — delivered **un-attested** (monitoring mode; the failure no longer aborts delivery).
+5. With consent granted, the `appcheck_token_failure` event fires — Firebase console → Analytics → Events (GA4 custom events can take up to 24 h to appear after the first fire).
+6. Repeat with consent **denied**: same appcheck status, no event, message still lands.
+
+### 2. Favicon check (G-09-6)
+
+1. Open https://geohisttrivia.com/ and https://geohisttrivia.com/geohist/contact.html — the browser tab shows the GeoHist app icon on both.
+2. https://geohisttrivia.com/favicon.ico returns 200 (no 404).
+
 ---
 
 **Once all items complete:** Mark status as "Complete" at top of file.
