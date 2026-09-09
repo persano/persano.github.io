@@ -137,14 +137,14 @@ Plans:
   4. Enforcement flip is documented as a per-product (Firestore + Auth), reversible owner console step gated on successful-submission count — never calendar-based — with an owner-agreed monitoring threshold; provider decision (reCAPTCHA v3 vs Enterprise) recorded in-phase
   5. Privacy policy mentions reCAPTCHA/App Check and its consent interplay
 
-**Plans**: 4/4 plans executed + 1 gap-closure plan created (09-05 for G-09-7)
+**Plans**: 5/5 plans executed + 1 gap-closure plan created (09-05 for G-09-7)
 Plans:
 
 - [x] 09-01-PLAN.md — App Check gate end-to-end: 4th lazy module + getToken seam + catch mapping + consent-gated event; i18n key #171 atomic across 19 dictionaries (FIRE-07, FIRE-08)
 - [x] 09-02-PLAN.md — 09-RUNBOOK.md owner console chain (register → activate → weekly ritual → evidence-gated per-product flip) + privacy.html reCAPTCHA/App Check disclosure (FIRE-09, CMPL-05)
 - [x] 09-03-PLAN.md — G-09-2 gap closure: Enterprise provider swap + site-key activation + Enterprise docs (COVERAGE/RUNBOOK/privacy) + deploy (FIRE-07, FIRE-08)
 - [x] 09-04-PLAN.md — G-09-5 + G-09-6 gap closure: bounded deliver-anyway token-failure path in contact.js + site-wide favicon (icon links + favicon.ico) + deploy + re-verify handoff (FIRE-07, FIRE-08)
-- [ ] 09-05-PLAN.md — G-09-7 gap closure: bounded reCAPTCHA reachability probe + skip-init in contact.js (kills the Auth SDK-internal header-await hang for ad-blocked visitors) + runbook/USER-SETUP wording + deploy + re-verify handoff (FIRE-07, FIRE-08)
+- [x] 09-05-PLAN.md — G-09-7 gap closure: bounded reCAPTCHA reachability probe + skip-init in contact.js (kills the Auth SDK-internal header-await hang for ad-blocked visitors) + runbook/USER-SETUP wording + deploy + re-verify handoff (FIRE-07, FIRE-08)
 
 **UI hint**: yes
 
@@ -177,7 +177,7 @@ Plans:
 | 6. Changelog Page | v2.0 | 3/3 | Complete    | 2026-09-06 |
 | 7. Localization ×20 + RTL | v2.0 | 6/6 | Complete    | 2026-09-07 |
 | 8. Custom Domain Migration | v2.0 | 3/3 | Complete    | 2026-09-07 |
-| 9. App Check, Monitor-First | v2.0 | 4/4 | In Progress|  |
+| 9. App Check, Monitor-First | v2.0 | 5/5 | In Progress|  |
 | 10. Gated Social Proof | v2.0 | 0/? | Not started | - |
 
 ---
