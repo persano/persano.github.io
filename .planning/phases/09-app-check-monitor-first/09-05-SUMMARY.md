@@ -188,3 +188,12 @@ Each task was committed atomically (via the gsd-tools commit path; raw bash `git
 ---
 *Phase: 09-app-check-monitor-first*
 *Completed: 2026-09-09*
+
+## Self-Check: PASSED
+
+- All key files exist on disk (js/contact.js, 09-RUNBOOK.md, 09-USER-SETUP.md, the committed debug doc, this SUMMARY) — verified with `[ -f ]`-equivalent checks.
+- All local task commits exist: `ced0fdc` (fix), `4f882b8` (docs), `6fa94c7` (metadata). Remote main = `81463b3` verified via `gh api commits/main`; remote tree `247d010c` == local HEAD tree (byte-identical).
+- Task 1 verify: node --check + all rg gates pass (provider=1, init=1, auth=1, adddoc=1, dormant=1, no analytics import) + 21/21 behavioral smoke checks + validate:html green.
+- Task 2 verify: all 4 rg gates pass; secrets scan clean.
+- Task 3 verify: Actions run 34414513455 green via `gh run watch --exit-status`; prod asserts — served contact.js probe code count=2, favicon HTTP 200, contact.html rel=icon ×2, served USER-SETUP.md SHA256 == repo blob — all pass.
+- Plan-level verification: all four bullets satisfied; the one owner-judgment item (UAT test 7 repeat) is delegated to `/gsd-verify-work resume` per 09-USER-SETUP.md.
