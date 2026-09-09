@@ -10,6 +10,8 @@
 
 > **Revised 2026-09-09 (G-09-5 / plan 09-04):** the token-failure path is bounded (~10s) and delivers the message un-attested in monitoring mode.
 
+> **Revised 2026-09-09 (G-09-7 / plan 09-05):** when reCAPTCHA is unreachable (ad-blocked visitors), a bounded ~3s reachability probe skips App Check entirely — the message delivers un-attested fast with the appcheck status + event; D-06/D-07 mapping unchanged (the probe eliminates the scenario, it is not a new mapping rule).
+
 ---
 
 ## §0 · Current state (as of the 09-03 Enterprise swap, 2026-09-08)
@@ -151,11 +153,11 @@ App Check attestation fails on `localhost` (it is not on the §1 domain list) �
 
 **What it is:** a consent-gated custom Analytics event measuring client-side token failures — **would-be-blocked** token failures (adblockers, reCAPTCHA outages, hard network failures), the complement of the console Verified split. The console classifies requests that *arrive*; this event captures what *failed before it could arrive*.
 
-**Shipped wiring (09-01; revised 2026-09-09 by 09-04 / G-09-5):** in `contact.js` the `getToken` gate is raced against a ~10s timer, and on token failure (reject OR timeout) the failure code is recorded and the chain still delivers the message un-attested — signInAnonymously + addDoc proceed, then the recorded code is thrown so the existing onSubmit mapping runs: `contact.js` shows the keyed appcheck status and dispatches the `persano:appcheck` document event → the `consent.js` listener routes it through `logEventSafe('appcheck_token_failure', { code })` — sent only when the visitor granted analytics consent, silently no-op otherwise (fork boundary preserved: no analytics code in `contact.js`, no App Check code in `consent.js`; no auto-retry).
+**Shipped wiring (09-01; revised 2026-09-09 by 09-04 / G-09-5 and 09-05 / G-09-7):** in `contact.js` a bounded ~3s reachability probe runs BEFORE any App Check init — when reCAPTCHA is unreachable (probe reject or timeout — ad-blocked visitors) the init call is skipped entirely, so no app-check service is ever registered: the Auth SDK's optional attestation-header lookup short-circuits (no attestation header await), and delivery proceeds un-attested in seconds (no auth-family timeout, no lost message). When reCAPTCHA is reachable, the `getToken` gate is raced against a ~10s timer, and on token failure (reject OR timeout) the failure code is recorded and the chain still delivers the message un-attested — signInAnonymously + addDoc proceed, then the recorded code is thrown so the existing onSubmit mapping runs: `contact.js` shows the keyed appcheck status and dispatches the `persano:appcheck` document event → the `consent.js` listener routes it through `logEventSafe('appcheck_token_failure', { code })` — sent only when the visitor granted analytics consent, silently no-op otherwise (fork boundary preserved: no analytics code in `contact.js`, no App Check code in `consent.js`; no auto-retry).
 
 **Where to read:** Firebase console → **Analytics → Events** → `appcheck_token_failure` (GA4 custom events can take up to 24 h to appear after the first fire).
 
-**Param:** `code` — the App Check error string (`appCheck/…`, e.g. `appCheck/recaptcha-error` for a blocked/failed reCAPTCHA run), truncated to 40 chars. A rising trend with a healthy console Verified rate = visitors blocked *by their own environment*, not by abuse — useful context when reading the §5 gate.
+**Param:** `code` — the App Check error string (`appCheck/…`, e.g. `appCheck/recaptcha-error` for a blocked/failed reCAPTCHA run, or `appCheck/probe-failed` — reachability probe failed, App Check skipped for this environment (ad-blocked visitor)), truncated to 40 chars (all codes ≤40 chars; the probe code is 20). A rising trend with a healthy console Verified rate = visitors blocked *by their own environment*, not by abuse — useful context when reading the §5 gate.
 
 ---
 
