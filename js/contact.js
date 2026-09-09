@@ -11,9 +11,23 @@
  * App Check (FIRE-07/FIRE-08) is the submit-time attestation layer:
  * initialized once per session AFTER the default app and BEFORE
  * auth/firestore, only when the config site key is non-empty (dormant
- * = monitoring mode pre-activation, zero user-visible change). The
- * explicit getToken() gate is the only observable token-failure seam
- * in monitoring mode — the SDK swallows failures elsewhere — and it
+ * = monitoring mode pre-activation, zero user-visible change).
+ *
+ * The pipeline is probe-gated (G-09-7): BEFORE any app-check init a
+ * bounded ~3s reachability probe fetches the exact reCAPTCHA
+ * Enterprise script URL the SDK itself loads. Unreachable (probe
+ * reject or timer — ad-blocked visitors) → the init call is SKIPPED
+ * entirely: with no registered app-check service the Auth SDK's
+ * optional app-check header lookup returns undefined and
+ * short-circuits, so signInAnonymously + addDoc proceed un-attested
+ * fast — there is no SDK-internal await left to hang (the provider's
+ * script tag sets onload with NO onerror in CDN-pinned 12.18.0 code
+ * that cannot be patched; skipping registration is the only lever).
+ * The probe failure is recorded as a synthetic appCheck/probe-failed
+ * code and surfaces through the same post-delivery re-throw.
+ * Reachable → unchanged bounded explicit-gate semantics: the explicit
+ * getToken() gate is the only observable token-failure seam in
+ * monitoring mode — the SDK swallows failures elsewhere — and it
  * is raced against a ~10s timer (TOKEN_TIMEOUT_MS): with reCAPTCHA
  * scripts network-blocked the SDK's promise would otherwise never
  * settle and the submit would hang on "sending" forever (G-09-5A).
@@ -25,9 +39,9 @@
  * metric; runbook §7 monitoring-mode semantics, G-09-5B). After
  * delivery the recorded code is thrown as a synthetic appCheck/*-
  * family error so the onSubmit catch remains the single mapping
- * point. No auto-retry — the visitor resends manually (D-07). The
- * token rides the X-Firebase-AppCheck request header via the SDK and
- * is never written into the addDoc payload.
+ * point (D-06/D-07, unchanged). No auto-retry — the visitor resends
+ * manually (D-07). The token rides the X-Firebase-AppCheck request
+ * header via the SDK and is never written into the addDoc payload.
  *
  * The pipeline is deliberately independent of the banner choice: it
  * neither reads nor writes the banner storage key and never imports
@@ -56,6 +70,20 @@
                                    forever, .finally never runs); ~10s
                                    tolerates slow tokens without trapping
                                    the visitor */
+  var PROBE_TIMEOUT_MS = 3000;  /* G-09-7: bounded reCAPTCHA reachability
+                                   probe — the probe guards the only hang
+                                   entry point (app-check registration), so
+                                   an unbounded probe would reintroduce the
+                                   same deadlock class it removes. DevTools/
+                                   ad-blocker blocks reject the fetch near-
+                                   instantly (blocked scenario pays ~0ms);
+                                   a healthy connection pays one no-cors
+                                   fetch once per session (cache-once). */
+  var ENTERPRISE_JS_URL = 'https://www.google.com/recaptcha/enterprise.js?render=explicit';
+  /* ^ G-09-7 probe target: the exact script URL the pinned 12.18.0 SDK
+   * loads for the Enterprise provider (host + render=explicit — verified
+   * in the gstatic 12.18.0 bundle). Exact-pinning makes the URL stable;
+   * a deliberate version bump must re-verify it against the new bundle. */
 
   var form = null;
   var submitButton = null;
@@ -166,6 +194,64 @@
     });
   }
 
+  /* ---- Bounded reCAPTCHA reachability probe + skip-init (G-09-7):
+   * why this kills the SDK-internal hang. The Auth SDK independently
+   * awaits an App Check token for the X-Firebase-AppCheck header
+   * BEFORE every auth request (AuthImpl._getAdditionalHeaders →
+   * app-check-internal getToken, an optional-chain lookup on the
+   * registered service). With reCAPTCHA scripts network-blocked, the
+   * Enterprise provider's script tag — onload only, NO onerror, in
+   * CDN-pinned 12.18.0 code that cannot be patched — hangs forever,
+   * so that internal await is bounded only by the Auth SDK's own
+   * 30/60s NetworkTimeout → the submit dies as an auth-family error
+   * ~1 minute in with no delivery and no event (the G-09-5B recovery
+   * bounds only OUR explicit gate, not the SDK's internal one). Fix
+   * shape: never register the app-check service while reCAPTCHA is
+   * unreachable. With NO registered service the Auth SDK's optional
+   * lookup returns undefined and the optional-chain short-circuits —
+   * there is no token await left to hang, so the signUp fetch goes out
+   * immediately and addDoc follows (un-attested, seconds). The probe
+   * fetches the exact script URL the SDK itself loads (no-cors,
+   * no-store) raced against PROBE_TIMEOUT_MS: a rejected or hung probe
+   * settles within ~3s and routes to the skip path — the probe itself
+   * can never stall the submit. Success (opaque response) runs the
+   * same init as shipped since 09-01 (cache-once guard into
+   * appCheckInstance; Enterprise provider with the config site key;
+   * token auto-refresh off). Accepted residual edge: a visitor who
+   * completes one attested submit (instance cached) and THEN enables
+   * a reCAPTCHA blocker mid-session re-enters the SDK-internal hang —
+   * 12.18.0 offers no un-registration, so it stays bounded only by
+   * the Auth NetworkTimeout as today; fresh environments (the UAT
+   * test-7 scenario, the dominant ad-blocker case) are fully covered.
+   * Accepted, not engineered around. ---- */
+
+  function prepareAppCheck(mods, app, config) {
+    if (appCheckInstance) return Promise.resolve(appCheckInstance);
+    return new Promise(function (resolveProbe) {
+      var timer = setTimeout(function () {
+        resolveProbe(false);         /* hung probe → skip path */
+      }, PROBE_TIMEOUT_MS);
+      var probe;
+      try {
+        probe = fetch(ENTERPRISE_JS_URL, { mode: 'no-cors', cache: 'no-store' });
+      } catch (syncFailure) {
+        probe = Promise.reject(syncFailure);
+      }
+      probe.then(
+        function () { clearTimeout(timer); resolveProbe(true); },
+        function () { clearTimeout(timer); resolveProbe(false); }
+      );
+    }).then(function (reachable) {
+      if (!reachable) return null;   /* init is NEVER called — no
+                                        app-check service registered */
+      appCheckInstance = mods.appCheck.initializeAppCheck(app, {
+        provider: new mods.appCheck.ReCaptchaEnterpriseProvider(config.recaptchaSiteKey),
+        isTokenAutoRefreshEnabled: false
+      });
+      return appCheckInstance;
+    });
+  }
+
   function send(values) {
     return loadModules().then(function (mods) {
       var config = window.persanoFirebaseConfig;
@@ -179,12 +265,18 @@
         app = mods.app.initializeApp(config);
       }
       /* App Check block (FIRE-07): submit-time attestation layer, init
-       * order app → appCheck → getToken → auth → firestore (docs
-       * requirement). Dormant while recaptchaSiteKey is empty — the
-       * legacy chain runs unchanged: no appcheck init, no race, no
-       * recorded failure (byte-identical to pre-G-09-5). When active:
-       * initialize once per session (cache-once guard) and gate the
-       * chain on the explicit getToken call — monitoring mode swallows
+       * order app → appCheck (probe-gated, G-09-7) → getToken → auth →
+       * firestore (docs requirement). Dormant while recaptchaSiteKey is
+       * empty — the legacy chain runs unchanged: no probe, no appcheck
+       * init, no race, no recorded failure (byte-identical to
+       * pre-G-09-5). When active: prepare FIRST (G-09-7) — the helper
+       * resolves the cached-or-new instance, or null when reCAPTCHA is
+       * unreachable (probe reject or ~3s timer) so the init call is
+       * skipped entirely and no app-check service is registered (the
+       * Auth SDK's optional header lookup then short-circuits — no
+       * SDK-internal await left to hang; the probe failure code is
+       * recorded and surfaces after delivery). With an instance: the
+       * explicit getToken call is gated — monitoring mode swallows
        * token failures elsewhere, so this is the only observable
        * failure seam (research Pattern 1/2). The call is raced against
        * ~10s (G-09-5A) and a failure — reject OR timeout — is recorded,
@@ -196,25 +288,30 @@
        * X-Firebase-AppCheck header; it is NEVER added to the addDoc
        * payload. */
       var attested;
-      var tokenFailureCode = ''; /* non-empty ⇒ getToken failed; the
-                                    code surfaces through the unchanged
-                                    onSubmit mapping after addDoc */
+      var tokenFailureCode = ''; /* non-empty ⇒ a bounded failure was
+                                    recorded (reachability probe OR token
+                                    race); the code surfaces through the
+                                    unchanged onSubmit mapping after
+                                    addDoc */
       if (typeof config.recaptchaSiteKey === 'string' && config.recaptchaSiteKey !== '') {
-        if (!appCheckInstance) {
-          appCheckInstance = mods.appCheck.initializeAppCheck(app, {
-            provider: new mods.appCheck.ReCaptchaEnterpriseProvider(config.recaptchaSiteKey),
-            isTokenAutoRefreshEnabled: false
-          });
-        }
-        /* Record-and-swallow (G-09-5B): a bounded-race token failure
-         * neither hangs the submit nor aborts auth/addDoc — the catch
-         * records the appcheck-family code (err.code when present, the
-         * synthetic timeout code otherwise) and returns normally so
-         * delivery proceeds un-attested. */
-        attested = raceToken(mods.appCheck.getToken(appCheckInstance, false))
-          .catch(function (err) {
-            tokenFailureCode = (err && err.code) ? String(err.code) : 'appCheck/token-timeout';
-          });
+        attested = prepareAppCheck(mods, app, config).then(function (instance) {
+          if (!instance) {
+            /* G-09-7 skip path: no instance to call the explicit gate
+             * with — record the probe failure and proceed directly to
+             * auth + addDoc (un-attested fast). */
+            tokenFailureCode = 'appCheck/probe-failed';
+            return;
+          }
+          /* Record-and-swallow (G-09-5B): a bounded-race token failure
+           * neither hangs the submit nor aborts auth/addDoc — the catch
+           * records the appcheck-family code (err.code when present, the
+           * synthetic timeout code otherwise) and returns normally so
+           * delivery proceeds un-attested. */
+          return raceToken(mods.appCheck.getToken(instance, false))
+            .catch(function (err) {
+              tokenFailureCode = (err && err.code) ? String(err.code) : 'appCheck/token-timeout';
+            });
+        });
       } else {
         attested = Promise.resolve();
       }
@@ -239,8 +336,9 @@
           );
         });
       }).then(function (delivered) {
-        /* Post-delivery surface (G-09-5B): the recorded token-failure
-         * code is thrown only AFTER the message landed, so the
+        /* Post-delivery surface (G-09-5B/G-09-7): the recorded failure
+         * code (token race OR reachability probe) is thrown only AFTER
+         * the message landed, so the
          * EXISTING onSubmit catch maps it — appcheck status + event
          * fire, form stays usable (not reset) for the email fallback,
          * no auto-retry. send() adds no mapping logic of its own. */
@@ -285,10 +383,11 @@
          * only ruleset attribution is unambiguous, and it still maps
          * here even when the write was attempted un-attested). Init-
          * time and token-time appCheck/* failures are one family, one
-         * status — codes arriving may be genuine FirebaseErrors OR the
-         * synthetic post-delivery re-throw from send() (a recorded
-         * getToken failure or the appCheck/token-timeout race reject):
-         * same family, same keyed status, same event. The appcheck
+          * status — codes arriving may be genuine FirebaseErrors OR the
+          * synthetic post-delivery re-throw from send() (a recorded
+          * reachability-probe failure, a recorded getToken failure, or
+          * the appCheck/token-timeout race reject):
+          * same family, same keyed status, same event. The appcheck
          * path does NOT reset the form — fields stay so the visitor
          * can copy them into the email fallback. No auto-retry — the
          * visitor resends manually. */
