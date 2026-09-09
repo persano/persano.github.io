@@ -1,9 +1,9 @@
 ---
-status: complete
+status: diagnosed
 phase: 09-app-check-monitor-first
 source: [09-VERIFICATION.md]
 started: 2026-09-08T03:10:00Z
-updated: 2026-09-09T22:23:57Z
+updated: 2026-09-09T22:31:46Z
 ---
 
 ## Current Test
@@ -143,8 +143,18 @@ result: pass
   reason: "User reported: still the same, but now it kinda 'worked', just took like a minute. Ended in generic error 'Algo salió mal' with console 'Contact form submit failed: auth/network-request-failed' (contact.js:308); nothing in Firestore (no new doc since Sep 8 19:22)."
   severity: major
   test: 7
-  artifacts: []  # Filled by diagnosis
-  missing: []    # Filled by diagnosis
+  root_cause: "Uncovered join point: the 09-04 fix bounds only the explicit getToken gate (10s raceToken, js/contact.js:149-167). Firebase Auth independently awaits an App Check token BEFORE sending signUp — AuthImpl._getAdditionalHeaders() → _getAppCheckToken() → app-check-internal getToken() — to build the X-Firebase-AppCheck header. With reCAPTCHA scripts blocked, the Enterprise provider hangs forever (script tag has onload only, NO onerror → initialized Deferred never settles), so the internal header await hangs until Auth SDK's own NetworkTimeout (Delay(30s,60s): desktop 30s / mobile-UA 60s) rejects with auth/network-request-failed. signUp is never sent → addDoc never runs → no Firestore doc. Timeline math confirms: 10s race + 30/60s = ~40–70s ≈ observed 'like a minute' (also proves identitytoolkit was NOT blocked — an instant block would fail ~10s via the fetch-TypeError path). contact.js:295 mapping correct by design: auth/* → generic status ('Algo salió mal'); console.error :308 is that else-branch. Net effect: §8 ad-blocker metric is blind to the very visitors (ad-blockers) it targets — blocked-reCAPTCHA environments produce an auth-family error, so appcheck status + un-attested delivery + appcheck_token_failure are all unreachable in exactly that scenario."
+  artifacts:
+    - path: "js/contact.js"
+      issue: "Lines 149-167: raceToken bounds ONLY the explicit getToken gate (shipped correct per 09-04); Auth's internal header await is outside it"
+    - path: "js/contact.js"
+      issue: "Lines 295-311: mapping correct by design (auth/* → generic) — but that design leaves the blocked-reCAPTCHA scenario with generic status, no delivery, no event"
+    - path: "firebase-auth.js / firebase-app-check.js 12.18.0 (CDN-pinned)"
+      issue: "Hang mechanism lives in the SDK: _getAppCheckToken unbounded await + NetworkTimeout Delay(30s,60s) → auth/network-request-failed; Enterprise script tag onload-only (no onerror) → initialized promise hangs forever when script is blocked"
+  missing:
+    - "Probe reCAPTCHA reachability BEFORE initializeAppCheck; on probe failure skip App Check init entirely — getImmediate({optional:true}) then returns undefined → no X-Firebase-AppCheck header await → auth+addDoc proceed fast un-attested (~10s bound restored), appcheck status + consent-gated appcheck_token_failure dispatched per G-09-5B semantics"
+    - "Design decision deferred to plan phase: whether D-06/D-07 mapping spec needs extending for this scenario (probe approach eliminates it instead)"
+  debug_session: ".planning/debug/token-failure-auth-network-failed.md"
 
 - gap_id: G-09-4
   truth: "Normal submit passes App Check token verification silently after Migrate keys (zero visible change, monitoring mode)"
