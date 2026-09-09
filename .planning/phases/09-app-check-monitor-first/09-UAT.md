@@ -3,7 +3,7 @@ status: complete
 phase: 09-app-check-monitor-first
 source: [09-VERIFICATION.md]
 started: 2026-09-08T03:10:00Z
-updated: 2026-09-08T19:05:00Z
+updated: 2026-09-09T22:23:57Z
 ---
 
 ## Current Test
@@ -52,9 +52,9 @@ severity: cosmetic
 
 ## Summary
 
-total: 6
-passed: 3
-issues: 3
+total: 8
+passed: 4
+issues: 4
 pending: 0
 skipped: 0
 blocked: 0
@@ -89,7 +89,9 @@ blocked: 0
 
 - gap_id: G-09-5
   truth: "Token-failure path is bounded and graceful: appcheck status shows within seconds, form stays usable for manual resend, message still lands in Firestore (monitoring mode), consent-gated appcheck_token_failure event fires"
-  status: failed
+  status: resolved
+  resolved_by: "09-04-PLAN (gap closure): bounded ~10s TOKEN_TIMEOUT_MS race + record-and-swallow + post-delivery synthetic re-throw in js/contact.js; deployed (bridge 55dba3d), Actions 34408285918 green, prod smoke green. Formal closure = UAT test 7 re-verify (owner, pending)"
+  resolved_at: 2026-09-09
   reason: "User reported: incognito with *recaptcha* + *google.com/reload* blocked, form stuck on 'sending' forever — no appcheck status, no timeout, message never lands. GA4 event not owner-observable (pihole)."
   severity: major
   test: 5
@@ -108,9 +110,23 @@ blocked: 0
 
 - gap_id: G-09-6
   truth: "Site serves a favicon on all pages (icon file + link tags)"
-  status: failed
+  status: resolved
+  resolved_by: "09-04-PLAN (gap closure): favicon.ico (59,370 B ICO + PNG magic verified) + icon/apple-touch-icon links in all 7 page heads; validate:html + validate:links green; prod /favicon.ico HTTP 200 (re-verified by 09-VERIFICATION.md). Formal closure = UAT test 8 tab check (owner, pending)"
+  resolved_at: 2026-09-09
   reason: "User reported: favicon missing from browser tab. Verified: no <link rel='icon'> in any page head, no favicon file in repo, https://geohisttrivia.com/favicon.ico returns 404 site-wide."
-  severity: cosmetic
+severity: cosmetic
+
+### 7. Token-failure path re-verify (G-09-5 closure)
+expected: |
+  Per 09-USER-SETUP.md checklist: prod incognito, DevTools block BOTH *recaptcha* AND *google.com/reload*, submit with analytics consent granted → contact.status.appcheck (email fallback wording) within ~10s, button re-enabled, form NOT reset, message lands in Firestore messages collection un-attested, appcheck_token_failure event in GA4 (lag up to 24h). Repeat with consent denied → same status, no event, message still lands.
+result: issue
+reported: "still the same, but now it kinda 'worked', just took like a minute. Status ended as generic error 'Algo salió mal. Escribe a santiagopostorivo@gmail.com.' with console error 'Contact form submit failed: auth/network-request-failed' (contact.js:308). But nothing in Firestore — the only new-ish doc visible is from Sep 8 19:22 (yesterday's test 4), no doc from this submit. GA4 event not checked (pihole blocks analytics)."
+severity: major
+
+### 8. Favicon re-verify (G-09-6 closure)
+expected: |
+  Browser tab shows the GeoHist icon on https://geohisttrivia.com/ and /geohist/contact.html; https://geohisttrivia.com/favicon.ico returns 200.
+result: pass
   test: 6
   root_cause: "No favicon was ever authored in the project (root hub or /geohist pages); browsers fall back to /favicon.ico which 404s on Pages."
   artifacts:
@@ -120,6 +136,15 @@ blocked: 0
     - "Author favicon asset(s) (reuse app icon art from GeoHist-Trivia)"
     - "Add <link rel='icon'> (+ apple-touch-icon) to all page heads"
   debug_session: "diagnosed inline during UAT — evidence: remote head inspection + HEAD /favicon.ico → 404"
+
+- gap_id: G-09-7
+  truth: "With reCAPTCHA requests network-blocked, a submit leaves 'sending' within ~10s showing the appcheck status (email fallback wording); the message lands in Firestore un-attested; appcheck_token_failure fires (consent-gated)"
+  status: failed
+  reason: "User reported: still the same, but now it kinda 'worked', just took like a minute. Ended in generic error 'Algo salió mal' with console 'Contact form submit failed: auth/network-request-failed' (contact.js:308); nothing in Firestore (no new doc since Sep 8 19:22)."
+  severity: major
+  test: 7
+  artifacts: []  # Filled by diagnosis
+  missing: []    # Filled by diagnosis
 
 - gap_id: G-09-4
   truth: "Normal submit passes App Check token verification silently after Migrate keys (zero visible change, monitoring mode)"
