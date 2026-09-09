@@ -8,6 +8,8 @@
 
 > **Revised 2026-09-08 (G-09-2 / plan 09-03):** Firebase deprecated the classic reCAPTCHA provider for new App Check registrations; the owner registered web-geohist as reCAPTCHA Enterprise. D-01 (classic v3, Enterprise then rejected) is revised accordingly; the code now ships the Enterprise provider.
 
+> **Revised 2026-09-09 (G-09-5 / plan 09-04):** the token-failure path is bounded (~10s) and delivers the message un-attested in monitoring mode.
+
 ---
 
 ## §0 · Current state (as of the 09-03 Enterprise swap, 2026-09-08)
@@ -141,7 +143,7 @@ App Check attestation fails on `localhost` (it is not on the §1 domain list) �
 - ❌ **Never add `localhost` (or any non-production host) to the reCAPTCHA domain allowlist** — the docs are explicit: it would allow anyone to run your app from their local machines. Not even "temporarily."
 - ❌ **Never commit the debug token, and never ship the debug flag** — this repo's entire tree is publicly served. To be explicit: never commit the debug token anywhere, and never ship the debug flag in the production bundle; a committed debug token is a standing backdoor into your App Check metrics, and a shipped flag does the same from prod.
 
-**Useful side effect:** in monitoring mode, `localhost` submissions **succeed anyway** — the token fetch fails, the request goes un-attested, and the backend accepts it. Expect the local failure path ("We couldn't verify this message…" status + an `appcheck_token_failure` event where consent was granted) *while the message still lands in Firestore*. That is exactly how to exercise the failure path locally without touching prod.
+**Useful side effect:** in monitoring mode, `localhost` submissions **succeed anyway** — the token fetch fails (bounded to ~10s, G-09-5), the request goes un-attested, and the backend accepts it. Expect the local failure path ("We couldn't verify this message…" status + an `appcheck_token_failure` event where consent was granted, with the form left usable for a manual resend) *while the message still lands in Firestore* — the shipped `contact.js` records the token failure and delivers the message un-attested before surfacing the failure status. That is exactly how to exercise the failure path locally without touching prod.
 
 ---
 
@@ -149,7 +151,7 @@ App Check attestation fails on `localhost` (it is not on the §1 domain list) �
 
 **What it is:** a consent-gated custom Analytics event measuring client-side token failures — **would-be-blocked** token failures (adblockers, reCAPTCHA outages, hard network failures), the complement of the console Verified split. The console classifies requests that *arrive*; this event captures what *failed before it could arrive*.
 
-**Shipped wiring (09-01):** the `getToken` gate in `contact.js` rejects on token failure → `contact.js` dispatches the `persano:appcheck` document event → the `consent.js` listener routes it through `logEventSafe('appcheck_token_failure', { code })` — sent only when the visitor granted analytics consent, silently no-op otherwise (fork boundary preserved: no analytics code in `contact.js`, no App Check code in `consent.js`).
+**Shipped wiring (09-01; revised 2026-09-09 by 09-04 / G-09-5):** in `contact.js` the `getToken` gate is raced against a ~10s timer, and on token failure (reject OR timeout) the failure code is recorded and the chain still delivers the message un-attested — signInAnonymously + addDoc proceed, then the recorded code is thrown so the existing onSubmit mapping runs: `contact.js` shows the keyed appcheck status and dispatches the `persano:appcheck` document event → the `consent.js` listener routes it through `logEventSafe('appcheck_token_failure', { code })` — sent only when the visitor granted analytics consent, silently no-op otherwise (fork boundary preserved: no analytics code in `contact.js`, no App Check code in `consent.js`; no auto-retry).
 
 **Where to read:** Firebase console → **Analytics → Events** → `appcheck_token_failure` (GA4 custom events can take up to 24 h to appear after the first fire).
 

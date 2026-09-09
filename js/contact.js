@@ -13,13 +13,21 @@
  * auth/firestore, only when the config site key is non-empty (dormant
  * = monitoring mode pre-activation, zero user-visible change). The
  * explicit getToken() gate is the only observable token-failure seam
- * in monitoring mode — the SDK swallows failures elsewhere. A token
- * failure surfaces the keyed appcheck status and dispatches the
- * persano:appcheck document event (consent.js routes it to the
- * consent-gated appcheck_token_failure Analytics metric). No
- * auto-retry — the visitor resends manually. The token rides the
- * X-Firebase-AppCheck request header via the SDK and is never written
- * into the addDoc payload.
+ * in monitoring mode — the SDK swallows failures elsewhere — and it
+ * is raced against a ~10s timer (TOKEN_TIMEOUT_MS): with reCAPTCHA
+ * scripts network-blocked the SDK's promise would otherwise never
+ * settle and the submit would hang on "sending" forever (G-09-5A).
+ * On token failure (reject OR timeout) the failure code is recorded
+ * and the chain STILL delivers the message un-attested —
+ * signInAnonymously + addDoc proceed while the keyed appcheck status
+ * shows and the persano:appcheck document event dispatches (consent.js
+ * routes it to the consent-gated appcheck_token_failure Analytics
+ * metric; runbook §7 monitoring-mode semantics, G-09-5B). After
+ * delivery the recorded code is thrown as a synthetic appCheck/*-
+ * family error so the onSubmit catch remains the single mapping
+ * point. No auto-retry — the visitor resends manually (D-07). The
+ * token rides the X-Firebase-AppCheck request header via the SDK and
+ * is never written into the addDoc payload.
  *
  * The pipeline is deliberately independent of the banner choice: it
  * neither reads nor writes the banner storage key and never imports
@@ -42,6 +50,12 @@
   var MESSAGE_MIN = 1;
   var MESSAGE_MAX = 5000;
   var NAME_MAX = 100;
+  var TOKEN_TIMEOUT_MS = 10000; /* G-09-5A: bounded getToken race — an
+                                   unbounded await on a network-blocked
+                                   reCAPTCHA deadlocks the form ("sending"
+                                   forever, .finally never runs); ~10s
+                                   tolerates slow tokens without trapping
+                                   the visitor */
 
   var form = null;
   var submitButton = null;
@@ -121,6 +135,37 @@
     return importing;
   }
 
+  /* ---- Bounded token race (G-09-5A): the explicit getToken call is
+   * the only observable failure seam, so an unbounded await on a
+   * network-blocked reCAPTCHA leaves the submit stuck on "sending"
+   * forever. Race the token promise against a timer: on settle, clear
+   * the timer and pass through; on timeout, reject with a synthetic
+   * Error carrying code appCheck/token-timeout (the case-tolerant
+   * appcheck-family regex in the onSubmit catch matches it). A
+   * late-settling getToken after the race is harmless — the returned
+   * token object is never read (the SDK auto-attaches via the
+   * X-Firebase-AppCheck header). ---- */
+
+  function raceToken(tokenPromise) {
+    return new Promise(function (resolve, reject) {
+      var timer = setTimeout(function () {
+        var err = new Error('App Check token fetch timed out');
+        err.code = 'appCheck/token-timeout';
+        reject(err);
+      }, TOKEN_TIMEOUT_MS);
+      tokenPromise.then(
+        function (token) {
+          clearTimeout(timer);
+          resolve(token);
+        },
+        function (reason) {
+          clearTimeout(timer);
+          reject(reason);
+        }
+      );
+    });
+  }
+
   function send(values) {
     return loadModules().then(function (mods) {
       var config = window.persanoFirebaseConfig;
@@ -136,15 +181,24 @@
       /* App Check block (FIRE-07): submit-time attestation layer, init
        * order app → appCheck → getToken → auth → firestore (docs
        * requirement). Dormant while recaptchaSiteKey is empty — the
-       * legacy chain runs unchanged and users see zero change
-       * pre-activation. When active: initialize once per session
-       * (cache-once guard) and gate the chain on the explicit getToken
-       * call — monitoring mode swallows token failures elsewhere, so
-       * this rejection is the only observable failure seam (research
-       * Pattern 1/2). The token auto-attaches to the auth/firestore
-       * requests via the X-Firebase-AppCheck header; it is NEVER added
-       * to the addDoc payload. */
+       * legacy chain runs unchanged: no appcheck init, no race, no
+       * recorded failure (byte-identical to pre-G-09-5). When active:
+       * initialize once per session (cache-once guard) and gate the
+       * chain on the explicit getToken call — monitoring mode swallows
+       * token failures elsewhere, so this is the only observable
+       * failure seam (research Pattern 1/2). The call is raced against
+       * ~10s (G-09-5A) and a failure — reject OR timeout — is recorded,
+       * not fatal: the message still reaches Firestore un-attested
+       * (G-09-5B, runbook §7 monitoring-mode semantics) and the
+       * recorded code is thrown after delivery so the onSubmit catch
+       * maps it (single mapping point, no duplicated logic). The token
+       * auto-attaches to the auth/firestore requests via the
+       * X-Firebase-AppCheck header; it is NEVER added to the addDoc
+       * payload. */
       var attested;
+      var tokenFailureCode = ''; /* non-empty ⇒ getToken failed; the
+                                    code surfaces through the unchanged
+                                    onSubmit mapping after addDoc */
       if (typeof config.recaptchaSiteKey === 'string' && config.recaptchaSiteKey !== '') {
         if (!appCheckInstance) {
           appCheckInstance = mods.appCheck.initializeAppCheck(app, {
@@ -152,7 +206,15 @@
             isTokenAutoRefreshEnabled: false
           });
         }
-        attested = mods.appCheck.getToken(appCheckInstance, false);
+        /* Record-and-swallow (G-09-5B): a bounded-race token failure
+         * neither hangs the submit nor aborts auth/addDoc — the catch
+         * records the appcheck-family code (err.code when present, the
+         * synthetic timeout code otherwise) and returns normally so
+         * delivery proceeds un-attested. */
+        attested = raceToken(mods.appCheck.getToken(appCheckInstance, false))
+          .catch(function (err) {
+            tokenFailureCode = (err && err.code) ? String(err.code) : 'appCheck/token-timeout';
+          });
       } else {
         attested = Promise.resolve();
       }
@@ -176,6 +238,18 @@
             payload
           );
         });
+      }).then(function (delivered) {
+        /* Post-delivery surface (G-09-5B): the recorded token-failure
+         * code is thrown only AFTER the message landed, so the
+         * EXISTING onSubmit catch maps it — appcheck status + event
+         * fire, form stays usable (not reset) for the email fallback,
+         * no auto-retry. send() adds no mapping logic of its own. */
+        if (tokenFailureCode) {
+          var late = new Error('App Check token failure (message delivered un-attested)');
+          late.code = tokenFailureCode;
+          throw late;
+        }
+        return delivered;
       });
     });
   }
@@ -208,9 +282,16 @@
          * the runtime literal is camelCase appCheck/, the hyphenated
          * form never appears (research Pattern 3) — plus permission-
          * denied (post-enforcement Firestore wall; under the create-
-         * only ruleset attribution is unambiguous). Init-time and
-         * token-time appCheck/* failures are one family, one status.
-         * No auto-retry — the visitor resends manually. */
+         * only ruleset attribution is unambiguous, and it still maps
+         * here even when the write was attempted un-attested). Init-
+         * time and token-time appCheck/* failures are one family, one
+         * status — codes arriving may be genuine FirebaseErrors OR the
+         * synthetic post-delivery re-throw from send() (a recorded
+         * getToken failure or the appCheck/token-timeout race reject):
+         * same family, same keyed status, same event. The appcheck
+         * path does NOT reset the form — fields stay so the visitor
+         * can copy them into the email fallback. No auto-retry — the
+         * visitor resends manually. */
         var isAppCheck = /^app-?check\//i.test(code) || code === 'permission-denied';
         if (isAppCheck) {
           showStatus('appcheck');

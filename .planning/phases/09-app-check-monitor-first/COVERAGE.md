@@ -13,7 +13,7 @@
 | onTokenChanged listener | OPT-OUT | Not needed — token is fetched once per submit via the explicit gate; no token-lifecycle UI exists |
 | setTokenAutoRefreshEnabled (runtime toggle) | OPT-OUT | Superseded by the init option; no runtime surface toggles refresh |
 | getLimitedUseToken | OPT-OUT | For non-Firebase backends / replay protection; Firestore replay protection is unavailable (docs 2026-09-02) |
-| ReCaptchaEnterpriseProvider | INTEGRATE | Firebase deprecated the classic reCAPTCHA provider for new App Check registrations (console banner, ES); owner registered web-geohist as reCAPTCHA Enterprise 2026-09-08 — tokens from the classic provider cannot verify against an Enterprise registration. D-01 revised 2026-09-08 |
+| ReCaptchaEnterpriseProvider | INTEGRATE | Firebase deprecated the classic reCAPTCHA provider for new App Check registrations; classic tokens cannot verify against the owner's Enterprise registration (2026-09-08). D-01 revised 2026-09-08 |
 | CustomProvider (self-hosted attestation) | OPT-OUT | No custom attestation backend exists in this zero-build project |
 | Debug provider shipped in code (FIREBASE_APPCHECK_DEBUG_TOKEN flag) | OPT-OUT | Docs forbid shipping/committing debug tokens (repo tree is publicly served); flow documented owner-side in 09-RUNBOOK §local-testing |
 | Console enforcement flip execution (Firestore + Authentication) | OPT-OUT | Documented in 09-RUNBOOK (D-05), never executed by the agent — execution is FIRE-10, post-monitoring |
