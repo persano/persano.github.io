@@ -4,17 +4,17 @@ milestone: v2.0
 milestone_name: Full Deferred Scope
 current_phase: 10
 current_phase_name: Gated Social Proof
-status: executing
-stopped_at: Completed 10-01-PLAN.md (deferred-commit; awaiting 10-02 + /gsd-ship)
-last_updated: "2026-09-10T02:22:46.942Z"
+status: verifying
+stopped_at: Completed 10-02-PLAN.md (deferred-commit; phase 10 shipped green; awaiting /gsd-ship)
+last_updated: "2026-09-10T03:12:23.227Z"
 last_activity: 2026-09-09
 last_activity_desc: Phase 10 execution started
-state_head: d289feaa6743c677c40057c58d8e4b5ff39ea89c
+state_head: 275046b51dc91dea6785cbe6774fb4cd0fafdca9
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 19
-  completed_plans: 18
+  completed_plans: 19
   percent: 80
 ---
 
@@ -31,7 +31,7 @@ See: .planning/PROJECT.md (updated 2026-09-09)
 
 Phase: 10 (Gated Social Proof) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Total Plans in Phase: 2
 Plans Executed: 17 (milestone lifetime)
 Last activity: 2026-09-09 — Phase 10 execution started
@@ -72,6 +72,7 @@ Progress: [############] 17/17 plans - v2.0 milestone [████████�
 | Phase 09 P04 | 9 min | 3 tasks | 11 files |
 | Phase 09-05 P09-05 | 15 min | 3 tasks | 4 files |
 | Phase 10 P10-01 | 8 min | 2 tasks | 21 files |
+| Phase 10 P02 | 16 min | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -121,6 +122,8 @@ Recent decisions affecting current work:
 - [Phase 09]: Deploy via GitHub Git Data API bridge chain (strict fast-forwards, no force): 55dba3d -> df3cc63 (broken: git show --output wrote empty blobs for all 10 files) -> 53e1511 (blob fix, sha-asserted) -> 81463b3 (6 HTML CRLF->LF normalize from 09-04 bridge); remote tree 247d010c now byte-identical to local HEAD ced0fdc; Actions 34414513455 green — raw git push is harness-blocked (09-03/09-04 precedent); blob-sha assertions (git rev-parse HEAD:path == created blob) are now mandatory in every future bridge after the empty-blob incident; ~2min prod window served empty contact.js (broken run deployed before fix)
 - [Phase 10]: Phase 10 P01: facts strip (4 keyed stat pills, aria-labeled, no visible h2, zero links) + Tier-1 rating row shipped OFF (hidden attributed link, 0.0 self-flagging unkeyed span) — 7 keys ×19 dicts atomically, key surface 171→178, red gate proven both directions, .proof-row[hidden] insurance restated
 - [Phase 10]: Phase 10 P01: pill joins localized naturally (ar و / ja ＋ / bn ও) keeping P-10-1 semantic agreement; tier1 fragments position-free + star-free + digit-free, Google Play brand Latin in all 19; red-gate restore via byte-exact backup (git checkout unusable in deferred-commit mode)
+- [Phase 10]: Phase 10 P02: Tier-2 aggregateRating permanently OFF via inert HTML comment outside the JSON-LD script (verbatim review-snippet citation + on-site-source precondition) mirrored in 10-RUNBOOK.md section 6; served schema byte-identical, rating literal confined to the comment (D-06/D-07)
+- [Phase 10]: Phase 10 P02 shipped via Git Data API bridge (strict FF 81463b3 -> a24fd4e -> 3eaf9d9, tree 0556bf2, 22 blobs sha-asserted + round-trip verified; LF-normalized per 09-04 precedent) - Actions 34431471810 green, prod smoke green (strip + OFF row + byte-identical JSON-LD + smoke-check ALL PASS); D-09 owner ruling approved all 5 glyphs pre-ship; remote main 3eaf9d9 ahead of local HEAD 275046b - /gsd-ship must fetch/rebase (content identical)
 
 ### Pending Todos
 
@@ -154,6 +157,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-10T02:22:46.460Z
-Stopped at: Completed 10-01-PLAN.md (deferred-commit; awaiting 10-02 + /gsd-ship)
-Resume file: .planning/phases/10-gated-social-proof/10-02-PLAN.md
+Last session: 2026-09-10T03:12:22.711Z
+Stopped at: Completed 10-02-PLAN.md (deferred-commit; phase 10 shipped green; awaiting /gsd-ship)
+Resume file: None

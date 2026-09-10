@@ -39,7 +39,7 @@ Continues requirement numbering from v1 (archived at `.planning/milestones/v1-RE
 
 - [x] **SEO-05**: Facts-based social proof strip on landing page (20 localizations, offline-capable, game modes) — verifiable facts only, no fabricated ratings
 - [x] **SEO-06**: Tier-1 gated proof row ("Rated X.X ★ on Google Play" visible text + attributed link) — template ships off; owner flips when Play listing is live with real ratings
-- [ ] **SEO-07**: aggregateRating JSON-LD (Tier-2) stays permanently off unless an on-site review source exists — Google review-snippet policy bars aggregating ratings from other websites; documented precondition
+- [x] **SEO-07**: aggregateRating JSON-LD (Tier-2) stays permanently off unless an on-site review source exists — Google review-snippet policy bars aggregating ratings from other websites; documented precondition
 
 ## Future Requirements
 
@@ -83,7 +83,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CMPL-05 | Phase 9 | Complete |
 | SEO-05 | Phase 10 | Complete |
 | SEO-06 | Phase 10 | Complete |
-| SEO-07 | Phase 10 | Pending |
+| SEO-07 | Phase 10 | Complete |
 
 **Coverage:**
 

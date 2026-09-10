@@ -160,7 +160,7 @@ Plans:
   3. aggregateRating JSON-LD (Tier-2) stays permanently OFF with documented precondition (an on-site review source must exist) — never mirrors Play ratings
   4. Live structured data passes Google review-snippet policy — no fabricated ratings or placeholder reviews anywhere
 
-**Plans**: 1/2 plans executed (wave 1 → wave 2)
+**Plans**: 2/2 plans executed (wave 1 → wave 2)
 
 Plans:
 **Wave 1**
@@ -169,7 +169,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 10-02-PLAN.md — Owner pre-ship icon veto checkpoint + Tier-2 permanent-OFF comment + 10-RUNBOOK.md + deploy + prod smoke (SEO-07)
+- [x] 10-02-PLAN.md — Owner pre-ship icon veto checkpoint + Tier-2 permanent-OFF comment + 10-RUNBOOK.md + deploy + prod smoke (SEO-07)
 
 **UI hint**: yes
 
@@ -188,7 +188,7 @@ Plans:
 | 7. Localization ×20 + RTL | v2.0 | 6/6 | Complete    | 2026-09-07 |
 | 8. Custom Domain Migration | v2.0 | 3/3 | Complete    | 2026-09-07 |
 | 9. App Check, Monitor-First | v2.0 | 5/5 | Complete    | 2026-09-09 |
-| 10. Gated Social Proof | v2.0 | 1/2 | In Progress|  |
+| 10. Gated Social Proof | v2.0 | 2/2 | In Progress|  |
 
 ---
 *Roadmap created: 2026-09-05 (milestone v2.0 — continues numbering from v1's Phase 5)*
