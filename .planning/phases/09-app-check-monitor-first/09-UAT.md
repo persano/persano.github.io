@@ -4,6 +4,8 @@ phase: 09-app-check-monitor-first
 source: [09-VERIFICATION.md]
 started: 2026-09-08T03:10:00Z
 updated: 2026-09-09T21:05:18Z
+
+> Final state: all 9 tests pass. Tests 2/5/6/7 initially failed; each failure was diagnosed (G-09-2/5/6/7), fixed by a gap-closure plan (09-03/09-04/09-05), and re-verified pass by its superseding test (4/8/9). Verbatim failure reports live in the Gaps section below.
 ---
 
 ## Current Test
@@ -20,9 +22,8 @@ result: pass
 ### 2. Token-failure path — appcheck status + consent-gated event (SC2/SC3)
 expected: |
   Runbook §7 debug-token flow on localhost without safelisting a debug token: submit with analytics consent granted → observe status; submit with consent denied → check GA4 DebugView (no event). "We couldn't verify this message — please email santiagopostorivo@gmail.com." status replaces "sending"; form stays usable (manual resend, no auto-retry); appcheck_token_failure event with a code param fires in GA4 only when consent granted; message still lands in Firestore (monitoring mode).
-result: issue
-reported: "Shipped contact.js uses classic ReCaptchaV3Provider, but Firebase App Check console now marks the classic reCAPTCHA provider obsolete for new registrations (screenshot: 'reCAPTCHA está obsoleto. Usa reCAPTCHA Enterprise en su lugar') — owner was forced to register web-geohist as reCAPTCHA Enterprise. With an Enterprise registration, every post-activation submit fails token verification; the dormant failure path also cannot be exercised (no reCAPTCHA script loads while recaptchaSiteKey: ''). Localhost testing additionally blocked by API-key referrer restriction (API_KEY_HTTP_REFERRER_BLOCKED on identitytoolkit)."
-severity: major
+result: pass
+note: "Initially FAILED (see gap G-09-2 for verbatim report): shipped ReCaptchaV3Provider incompatible with forced reCAPTCHA Enterprise registration; dormant state left failure path unexercisable. Fixed by 09-03-PLAN; final behavior re-verified pass — happy path by test 4, failure path by test 9."
 
 ### 3. Visual check of new surfaces
 expected: |
@@ -38,24 +39,20 @@ note: "Initially failed with 403 App attestation failed (see gap G-09-4): Fireba
 ### 5. Test 2 repeat — blocked-token failure path (gap G-09-2 re-verify)
 expected: |
   On prod, DevTools-block `*recaptcha*` AND `*google.com/reload*` (token POST goes to www.google.com/reload — no "recaptcha" in URL), submit with analytics consent granted → `contact.status.appcheck` shows, form stays usable, `appcheck_token_failure` appears in GA4 Realtime, message still lands in Firestore. Repeat with consent denied → same status, no event, message still lands.
-result: issue
-reported: "Incognito with both patterns blocked: form stuck on 'sending' forever — no appcheck status, no timeout, button stays disabled, message never lands. GA4 event check not observable by owner (pihole blocks analytics)."
-severity: major
-note: "Diagnosed inline (code inspection): (A) js/contact.js:155 getToken has no timeout — with reCAPTCHA scripts blocked the SDK hangs awaiting grecaptcha, promise never settles, finally never runs; (B) js/contact.js:159 attested.then(...) aborts the auth+addDoc chain on token rejection — message does NOT land, contradicting runbook §7 line 144 ('the message still lands in Firestore' in monitoring mode) and test expectation. Also observed in test 4's initial 403 state."
+result: pass
+note: "Initially FAILED (see gap G-09-5 for verbatim report + inline diagnosis): unbounded getToken hang + aborted auth+addDoc chain on token rejection. Fixed by 09-04-PLAN (bounded ~10s race + record-and-swallow + deliver-anyway); residual Auth-header hang diagnosed as G-09-7, fixed by 09-05-PLAN (probe-gated init), re-verified pass by test 9."
 
 ### 6. Favicon present (user-raised, site-wide)
 expected: |
   Browser tab shows the site favicon on all pages; /favicon.ico resolves (no 404); pages declare <link rel="icon">.
-result: issue
-reported: "User asked to check favicon — tab shows generic/missing icon. Verified: no <link rel='icon'> in any page head, no favicon file in repo, https://geohisttrivia.com/favicon.ico returns 404."
-severity: cosmetic
+result: pass
+note: "Initially FAILED (see gap G-09-6 for verbatim report): no favicon file, no link tags, /favicon.ico 404. Fixed by 09-04-PLAN; re-verified pass by test 8."
 
 ### 7. Token-failure path re-verify (G-09-5 closure)
 expected: |
   Per 09-USER-SETUP.md checklist: prod incognito, DevTools block BOTH *recaptcha* AND *google.com/reload*, submit with analytics consent granted → contact.status.appcheck (email fallback wording) within ~10s, button re-enabled, form NOT reset, message lands in Firestore messages collection un-attested, appcheck_token_failure event in GA4 (lag up to 24h). Repeat with consent denied → same status, no event, message still lands.
-result: issue
-reported: "still the same, but now it kinda 'worked', just took like a minute. Status ended as generic error 'Algo salió mal. Escribe a santiagopostorivo@gmail.com.' with console error 'Contact form submit failed: auth/network-request-failed' (contact.js:308). But nothing in Firestore — the only new-ish doc visible is from Sep 8 19:22 (yesterday's test 4), no doc from this submit. GA4 event not checked (pihole blocks analytics)."
-severity: major
+result: pass
+note: "Initially FAILED (see gap G-09-7 for verbatim report + root cause): 09-04 bounded only the explicit getToken gate; Auth's internal X-Firebase-AppCheck header await hung → auth/network-request-failed after ~1 min, no Firestore delivery. Fixed by 09-05-PLAN (bounded ~3s reachability probe skips App Check init); re-verified pass by test 9."
 
 ### 8. Favicon re-verify (G-09-6 closure)
 expected: |
@@ -72,8 +69,8 @@ note: "G-09-7 formal closure PASSED by owner 2026-09-09: appcheck status within 
 ## Summary
 
 total: 9
-passed: 5
-issues: 4
+passed: 9
+issues: 0
 pending: 0
 skipped: 0
 blocked: 0
