@@ -1,9 +1,9 @@
 ---
-status: diagnosed
+status: complete
 phase: 09-app-check-monitor-first
 source: [09-VERIFICATION.md]
 started: 2026-09-08T03:10:00Z
-updated: 2026-09-09T22:31:46Z
+updated: 2026-09-09T21:05:18Z
 ---
 
 ## Current Test
@@ -14,7 +14,7 @@ updated: 2026-09-09T22:31:46Z
 
 ### 1. Dormant happy path — zero user-visible change (SC1)
 expected: |
-  Submit the live form at https://geohisttrivia.com/geohist/contact.html with valid data (shipped dormant state: recaptchaSiteKey '').   Success status shows, form resets, message lands in Firestore messages collection; appearance identical to pre-Phase-9 form. Repeat after runbook §1–§3 activation (§3 step 3) with the same zero-change result.
+  Submit the live form at https://geohisttrivia.com/geohist/contact.html with valid data (shipped dormant state: recaptchaSiteKey ''). Success status shows, form resets, message lands in Firestore messages collection; appearance identical to pre-Phase-9 form. Repeat after runbook §1–§3 activation (§3 step 3) with the same zero-change result.
 result: pass
 
 ### 2. Token-failure path — appcheck status + consent-gated event (SC2/SC3)
@@ -50,10 +50,29 @@ result: issue
 reported: "User asked to check favicon — tab shows generic/missing icon. Verified: no <link rel='icon'> in any page head, no favicon file in repo, https://geohisttrivia.com/favicon.ico returns 404."
 severity: cosmetic
 
+### 7. Token-failure path re-verify (G-09-5 closure)
+expected: |
+  Per 09-USER-SETUP.md checklist: prod incognito, DevTools block BOTH *recaptcha* AND *google.com/reload*, submit with analytics consent granted → contact.status.appcheck (email fallback wording) within ~10s, button re-enabled, form NOT reset, message lands in Firestore messages collection un-attested, appcheck_token_failure event in GA4 (lag up to 24h). Repeat with consent denied → same status, no event, message still lands.
+result: issue
+reported: "still the same, but now it kinda 'worked', just took like a minute. Status ended as generic error 'Algo salió mal. Escribe a santiagopostorivo@gmail.com.' with console error 'Contact form submit failed: auth/network-request-failed' (contact.js:308). But nothing in Firestore — the only new-ish doc visible is from Sep 8 19:22 (yesterday's test 4), no doc from this submit. GA4 event not checked (pihole blocks analytics)."
+severity: major
+
+### 8. Favicon re-verify (G-09-6 closure)
+expected: |
+  Browser tab shows the GeoHist icon on https://geohisttrivia.com/ and /geohist/contact.html; https://geohisttrivia.com/favicon.ico returns 200.
+result: pass
+note: "Formal favicon closure verified by owner (tab icon + /favicon.ico 200); remote head/link checks re-verified in 09-VERIFICATION.md."
+
+### 9. UAT test 7 repeat — blocked-reCAPTCHA submit delivers un-attested fast (G-09-7 closure)
+expected: |
+  Per 09-USER-SETUP.md G-09-7 checklist: prod incognito (fresh session), DevTools block BOTH *recaptcha* AND *google.com/reload*, submit with analytics consent granted → appcheck status ("We couldn't verify this message — please email santiagopostorivo@gmail.com") within ~10s TOTAL (never ~1 minute, never "Algo salió mal"), button re-enables, form NOT reset, message lands in Firestore messages collection un-attested, appcheck_token_failure event in GA4 (lag up to 24h). Repeat with consent denied → same status, no event, message still lands. Console must NOT show auth-family error (e.g. auth/network-request-failed) — only the recorded appcheck-family code.
+result: pass
+note: "G-09-7 formal closure PASSED by owner 2026-09-09: appcheck status within ~10s, delivered un-attested in Firestore, no auth-family console error. 09-05 probe fix verified end-to-end."
+
 ## Summary
 
-total: 8
-passed: 4
+total: 9
+passed: 5
 issues: 4
 pending: 0
 skipped: 0
@@ -111,22 +130,10 @@ blocked: 0
 - gap_id: G-09-6
   truth: "Site serves a favicon on all pages (icon file + link tags)"
   status: resolved
-  resolved_by: "09-04-PLAN (gap closure): favicon.ico (59,370 B ICO + PNG magic verified) + icon/apple-touch-icon links in all 7 page heads; validate:html + validate:links green; prod /favicon.ico HTTP 200 (re-verified by 09-VERIFICATION.md). Formal closure = UAT test 8 tab check (owner, pending)"
+  resolved_by: "09-04-PLAN (gap closure): favicon.ico (59,370 B ICO + PNG magic verified) + icon/apple-touch-icon links in all 7 page heads; validate:html + validate:links green; prod /favicon.ico HTTP 200 (re-verified by 09-VERIFICATION.md). Formal closure = UAT test 8 tab check — PASSED by owner 2026-09-09."
   resolved_at: 2026-09-09
   reason: "User reported: favicon missing from browser tab. Verified: no <link rel='icon'> in any page head, no favicon file in repo, https://geohisttrivia.com/favicon.ico returns 404 site-wide."
-severity: cosmetic
-
-### 7. Token-failure path re-verify (G-09-5 closure)
-expected: |
-  Per 09-USER-SETUP.md checklist: prod incognito, DevTools block BOTH *recaptcha* AND *google.com/reload*, submit with analytics consent granted → contact.status.appcheck (email fallback wording) within ~10s, button re-enabled, form NOT reset, message lands in Firestore messages collection un-attested, appcheck_token_failure event in GA4 (lag up to 24h). Repeat with consent denied → same status, no event, message still lands.
-result: issue
-reported: "still the same, but now it kinda 'worked', just took like a minute. Status ended as generic error 'Algo salió mal. Escribe a santiagopostorivo@gmail.com.' with console error 'Contact form submit failed: auth/network-request-failed' (contact.js:308). But nothing in Firestore — the only new-ish doc visible is from Sep 8 19:22 (yesterday's test 4), no doc from this submit. GA4 event not checked (pihole blocks analytics)."
-severity: major
-
-### 8. Favicon re-verify (G-09-6 closure)
-expected: |
-  Browser tab shows the GeoHist icon on https://geohisttrivia.com/ and /geohist/contact.html; https://geohisttrivia.com/favicon.ico returns 200.
-result: pass
+  severity: cosmetic
   test: 6
   root_cause: "No favicon was ever authored in the project (root hub or /geohist pages); browsers fall back to /favicon.ico which 404s on Pages."
   artifacts:
@@ -139,7 +146,9 @@ result: pass
 
 - gap_id: G-09-7
   truth: "With reCAPTCHA requests network-blocked, a submit leaves 'sending' within ~10s showing the appcheck status (email fallback wording); the message lands in Firestore un-attested; appcheck_token_failure fires (consent-gated)"
-  status: failed
+  status: resolved
+  resolved_by: "09-05-PLAN (gap closure): bounded ~3s reCAPTCHA reachability probe BEFORE App Check init — probe failure skips init entirely (Auth SDK's optional header lookup short-circuits), blocked-reCAPTCHA submits deliver un-attested in seconds; deployed main 81463b3, Actions 34414513455 green, prod smoke green. Formal closure = UAT test 9 re-verify — PASSED by owner 2026-09-09."
+  resolved_at: 2026-09-09
   reason: "User reported: still the same, but now it kinda 'worked', just took like a minute. Ended in generic error 'Algo salió mal' with console 'Contact form submit failed: auth/network-request-failed' (contact.js:308); nothing in Firestore (no new doc since Sep 8 19:22)."
   severity: major
   test: 7
