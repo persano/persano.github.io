@@ -22,10 +22,10 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-09-07)
+See: .planning/PROJECT.md (updated 2026-09-09)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel — before the app goes live on Google Play.
-**Current focus:** Phase 09 — App Check, Monitor-First
+**Current focus:** Phase 10 — Gated Social Proof
 
 ## Current Position
 
@@ -36,7 +36,7 @@ Total Plans in Phase: 5
 Plans Executed: 17 (milestone lifetime)
 Last activity: 2026-09-09 — Phase 09 complete, transitioned to Phase 10
 
-Progress: [############] 17/17 plans - v2.0 milestone [██████░░░░] 60% (3/5 phases)
+Progress: [############] 17/17 plans - v2.0 milestone [████████░░] 80% (4/5 phases)
 
 ## Performance Metrics
 
@@ -116,6 +116,7 @@ Recent decisions affecting current work:
 - [Phase 09]: G-09-6 asset shape: single-entry ICO (22-byte header + verbatim 192x192 icon.png bytes) via node builtins only - no image library, no build step; throwaway builder script stays in temp dir
 - [Phase 09]: Deploy bridge 55dba3d (GitHub Git Data API, strict fast-forward of main 1b13373) shipped the full 16-file delta so main is byte-identical to local HEAD 7beb089; Actions run selected by commit bridge-sha
 - [Phase 09]: G-09-7 fix shape: bounded ~3s reachability probe BEFORE any App Check init — probe failure (reject/hang) skips registration entirely so the Auth SDK's optional X-Firebase-AppCheck lookup short-circuits (no SDK-internal hang); message delivers un-attested in seconds with appCheck/probe-failed surfaced through the unchanged post-delivery mapping; D-06/D-07 untouched; dormant gate byte-identical — The hang lives in gstatic CDN-pinned 12.18.0 SDK code (script tag onload-only, no onerror; Auth NetworkTimeout 30/60s) and cannot be patched — never registering the app-check service is the only lever; verified by 21-check behavioral smoke of the shipped chain + prod smoke
+- [Phase 09]: UAT final-state recording: failing tests stay in the file with supersession notes when a later re-verify test passes (result flipped to pass + note pointing at gap + re-verify test) — uat-passed predicate is mechanical (any result: issue = blocker, no gap-awareness); verbatim failure reports live in the Gaps section
 - [Phase 09]: Deploy via GitHub Git Data API bridge chain (strict fast-forwards, no force): 55dba3d -> df3cc63 (broken: git show --output wrote empty blobs for all 10 files) -> 53e1511 (blob fix, sha-asserted) -> 81463b3 (6 HTML CRLF->LF normalize from 09-04 bridge); remote tree 247d010c now byte-identical to local HEAD ced0fdc; Actions 34414513455 green — raw git push is harness-blocked (09-03/09-04 precedent); blob-sha assertions (git rev-parse HEAD:path == created blob) are now mandatory in every future bridge after the empty-blob incident; ~2min prod window served empty contact.js (broken run deployed before fix)
 
 ### Pending Todos
@@ -127,10 +128,11 @@ None yet.
 - ~~reCAPTCHA provider (v3 vs Enterprise) hinges on Cloud Billing willingness — owner decision, first task of Phase 9~~ resolved 2026-09-08 (plan 09-03 / G-09-2): Firebase deprecated the classic provider for new App Check registrations; owner registered web-geohist as reCAPTCHA Enterprise; code swapped + site key activated; remaining console step = reCAPTCHA Migrate-keys (09-USER-SETUP.md)
 - ~~Per-language register table needs a one-time owner pass before dictionary drafting (e.g., de du vs Sie)~~ resolved Phase 7 (Sie-implied neutral de, UAT test 2 pass)
 - zh variant confirmation (Simplified-only?) — check app repo `strings.xml` (`values-zh-rCN`?) before locking
-- App Check enforcement threshold (N successful submissions + token-failure %) to be agreed with owner in Phase 9
+- ~~App Check enforcement threshold (N successful submissions + token-failure %) to be agreed with owner in Phase 9~~ resolved Phase 9: 30-successful-submissions floor + console ready-to-enforce signal, both-directions unit boundary (runbook §1; never calendar-based)
 - Play Console privacy-URL field still owner-pending before Play submission (v1 carryover); Play listing live date gates SEO-06 flip
 - Urdu Nastaliq rendering quality needs real-device visual verification (documented degradation acceptable, silent discovery is not)
 - Selector-page removal + GeoHist-as-home requested by owner during 08-03 gate — new product decision, route to /gsd-plan-phase (post-phase-8 backlog, not phase 8 scope)
+- Owner's pihole blocks GA4 → analytics verification limited to Firebase console Events with up to 24h lag (no DebugView from owner devices) — plan GA4-observability checks accordingly in later phases
 - ⚠️ [Phase 8] GSC Change-of-Area 180-day signal window active until ~2027-03 — old property retained for D-08 index-decay monitoring; don't delete
 
 ## Deferred Items
@@ -149,6 +151,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-09T22:56:59.739Z
-Stopped at: Phase 09 complete, ready to plan Phase 10
+Last session: 2026-09-10T00:09:39Z
+Stopped at: Phase 09 complete (UAT 9/9 final state, all gaps resolved, verification passed) — ready to plan Phase 10
 Resume file: None
