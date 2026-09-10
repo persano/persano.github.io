@@ -169,5 +169,12 @@
   "changelog.footer.back": "العودة إلى الصفحة الرئيسية",
   "changelog.footer.consent": "الموافقة",
   "changelog.footer.copyright": "© Santiago David Postorivo",
-  "changelog.entries.notice": "تُعرَض الإدخالات أدناه بالإنجليزية."
+  "changelog.entries.notice": "تُعرَض الإدخالات أدناه بالإنجليزية.",
+  "geohist.proof.aria": "معلومات جغرافية وتاريخية بنظرة سريعة",
+  "geohist.proof.pill-languages": "20 لغة",
+  "geohist.proof.pill-offline": "العب دون اتصال",
+  "geohist.proof.pill-modes": "التاريخ والجغرافيا",
+  "geohist.proof.pill-android": "Android 7.0+",
+  "geohist.tier1.prefix": "بتقييم",
+  "geohist.tier1.suffix": "على Google Play"
 }

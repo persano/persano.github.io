@@ -169,5 +169,12 @@
   "hub.intro.1": "这里是 Santiago David Postorivo 的个人应用中心 — 一位开发者，偏爱古老的地图、更古老的故事，以及足以陪伴整段旅程的小应用。",
   "hub.intro.2": "第一站：地史知识问答 — 历史与地理在一问一答间相遇。",
   "hub.meta.desc": "Santiago David Postorivo 的个人应用中心 — 地史知识问答之家，一款面向 Android 的离线历史地理问答游戏。",
-  "hub.meta.title": "Santiago David Postorivo — 个人应用中心"
+  "hub.meta.title": "Santiago David Postorivo — 个人应用中心",
+  "geohist.proof.aria": "地史知识问答概览",
+  "geohist.proof.pill-languages": "20 种语言",
+  "geohist.proof.pill-offline": "支持离线",
+  "geohist.proof.pill-modes": "历史 + 地理",
+  "geohist.proof.pill-android": "Android 7.0+",
+  "geohist.tier1.prefix": "Google Play 上评分",
+  "geohist.tier1.suffix": "分"
 }

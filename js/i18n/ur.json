@@ -169,5 +169,12 @@
   "changelog.footer.back": "ہب پر واپس جائیں",
   "changelog.footer.consent": "رضایت",
   "changelog.footer.copyright": "© Santiago David Postorivo",
-  "changelog.entries.notice": "نیچے دی گئی انٹریاں انگریزی میں دکھائی جاتی ہیں۔"
+  "changelog.entries.notice": "نیچے دی گئی انٹریاں انگریزی میں دکھائی جاتی ہیں۔",
+  "geohist.proof.aria": "GeoHist ایک نظر میں",
+  "geohist.proof.pill-languages": "20 زبانیں",
+  "geohist.proof.pill-offline": "آف لائن کھیلیں",
+  "geohist.proof.pill-modes": "تاریخ + جغرافیہ",
+  "geohist.proof.pill-android": "Android 7.0+",
+  "geohist.tier1.prefix": "ریٹنگ",
+  "geohist.tier1.suffix": "Google Play پر"
 }

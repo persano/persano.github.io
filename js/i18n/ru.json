@@ -169,5 +169,12 @@
   "changelog.footer.back": "Назад к хабу",
   "changelog.footer.consent": "Согласие",
   "changelog.footer.copyright": "© Santiago David Postorivo",
-  "changelog.entries.notice": "Записи ниже показаны на английском языке."
+  "changelog.entries.notice": "Записи ниже показаны на английском языке.",
+  "geohist.proof.aria": "ГеоИст Викторина в двух словах",
+  "geohist.proof.pill-languages": "20 языков",
+  "geohist.proof.pill-offline": "Играйте офлайн",
+  "geohist.proof.pill-modes": "История + География",
+  "geohist.proof.pill-android": "Android 7.0+",
+  "geohist.tier1.prefix": "Оценка",
+  "geohist.tier1.suffix": "в Google Play"
 }

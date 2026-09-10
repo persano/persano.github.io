@@ -169,5 +169,12 @@
   "changelog.footer.back": "Volver al inicio",
   "changelog.footer.consent": "Consentimiento",
   "changelog.footer.copyright": "© Santiago David Postorivo",
-  "changelog.entries.notice": "Las entradas de abajo se muestran en inglés."
+  "changelog.entries.notice": "Las entradas de abajo se muestran en inglés.",
+  "geohist.proof.aria": "GeoHist de un vistazo",
+  "geohist.proof.pill-languages": "20 idiomas",
+  "geohist.proof.pill-offline": "Juega sin conexión",
+  "geohist.proof.pill-modes": "Historia + Geografía",
+  "geohist.proof.pill-android": "Android 7.0+",
+  "geohist.tier1.prefix": "Valoración de",
+  "geohist.tier1.suffix": "en Google Play"
 }

@@ -169,5 +169,12 @@
   "hub.intro.1": "এটি Santiago David Postorivo-র ব্যক্তিগত অ্যাপ হাব — একজন ডেভেলপার, যার পুরোনো মানচিত্র, আরও পুরোনো গল্প এবং গোটা পথ ধরে টিকে থাকা ছোট অ্যাপের প্রতি বিশেষ টান আছে।",
   "hub.intro.2": "প্রথম স্টপ: GeoHist Trivia, যেখানে ইতিহাসের দেখা হয় ভূগোলের সঙ্গে, একবারে একটি প্রশ্নে।",
   "hub.meta.desc": "Santiago David Postorivo-র ব্যক্তিগত অ্যাপ হাব — GeoHist Trivia-র ঘর, Android-এর জন্য এক অফলাইন ইতিহাস ও ভূগোল ট্রিভিয়া খেলা।",
-  "hub.meta.title": "Santiago David Postorivo — ব্যক্তিগত অ্যাপ হাব"
+  "hub.meta.title": "Santiago David Postorivo — ব্যক্তিগত অ্যাপ হাব",
+  "geohist.proof.aria": "GeoHist এক নজরে",
+  "geohist.proof.pill-languages": "20টি ভাষা",
+  "geohist.proof.pill-offline": "অফলাইনে খেলুন",
+  "geohist.proof.pill-modes": "ইতিহাস ও ভূগোল",
+  "geohist.proof.pill-android": "Android 7.0+",
+  "geohist.tier1.prefix": "রেটিং",
+  "geohist.tier1.suffix": "Google Play-এ"
 }
