@@ -27,7 +27,7 @@ Full details: [.planning/milestones/v1-ROADMAP.md](milestones/v1-ROADMAP.md)
 - [x] **Phase 6: Changelog Page** - `/geohist/changelog.html` with keyed chrome, atomic dictionary keys, CI red-gate proof (completed 2026-09-06)
 - [x] **Phase 7: Localization ×20 + RTL** - 17 new dictionaries at exact key parity plus engine/detection/switcher/RTL layout work (completed 2026-09-07)
 - [x] **Phase 8: Custom Domain Migration** - Owner domain live on Pages: cert-first, console-allowlists-before-rewrite, zero mixed-domain refs (completed 2026-09-07)
-- [ ] **Phase 9: App Check, Monitor-First** - Invisible bot protection on the contact form; enforcement as evidence-gated owner console step
+- [x] **Phase 9: App Check, Monitor-First** - Invisible bot protection on the contact form; enforcement as evidence-gated owner console step (completed 2026-09-09)
 - [ ] **Phase 10: Gated Social Proof** - Facts-only proof strip now; Tier-1/Tier-2 rating templates shipped OFF, gated on real Play data
 
 ## Phase Details
@@ -177,7 +177,7 @@ Plans:
 | 6. Changelog Page | v2.0 | 3/3 | Complete    | 2026-09-06 |
 | 7. Localization ×20 + RTL | v2.0 | 6/6 | Complete    | 2026-09-07 |
 | 8. Custom Domain Migration | v2.0 | 3/3 | Complete    | 2026-09-07 |
-| 9. App Check, Monitor-First | v2.0 | 5/5 | In Progress|  |
+| 9. App Check, Monitor-First | v2.0 | 5/5 | Complete    | 2026-09-09 |
 | 10. Gated Social Proof | v2.0 | 0/? | Not started | - |
 
 ---
