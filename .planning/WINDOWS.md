@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 12
+open_count: 13
 waived_count: 0
 fixed_count: 1
-total_count: 13
-last_updated: 2026-09-07T22:07:42.844Z
+total_count: 14
+last_updated: 2026-09-10T02:22:56.603Z
 ---
 
 # Broken Windows Ledger
@@ -28,6 +28,7 @@ last_updated: 2026-09-07T22:07:42.844Z
 | 11 | 08 | unmet-truth | geohisttrivia.com (live edge) |  | http://geohisttrivia.com/ serves 200 (no 301 to https) after https_enforced PUT; API state true; docs 24h propagation window; re-check runbook 08-RUNBOOK.md §0 row 12 | fixed |  | 2026-09-07T21:19:43.919Z | 2026-09-07T21:21:40.983Z |
 | 12 | 08 | deviation | .planning/phases/08-custom-domain-migration/08-RUNBOOK.md |  | Owner option-B divergence ruling: GitHub verification TXT NXDOMAIN between sessions; absorbed as runbook §1b/§2 re-add flow; Task 3 gate expanded to six items | open |  | 2026-09-07T21:19:44.491Z |  |
 | 13 | 08 | deviation | scripts/check-no-old-domain.mjs |  | gate walk skips hidden dirs (tooling state) so fs-walk semantics mirror the ignore-respecting rg acceptance; ALLOW set unchanged | open |  | 2026-09-07T22:07:42.844Z |  |
+| 14 | 10 | stub | geohist/index.html | 82 | Intentional 0.0 placeholder in unkeyed .proof-row-score span (D-04 self-flagging OFF gate) — resolved at owner flip per 10-RUNBOOK.md (plan 10-02) | open |  | 2026-09-10T02:22:56.603Z |  |
 
 ````json
 [
@@ -185,6 +186,18 @@ last_updated: 2026-09-07T22:07:42.844Z
     "status": "open",
     "reason": "",
     "recorded_at": "2026-09-07T22:07:42.844Z",
+    "resolved_at": null
+  },
+  {
+    "id": 14,
+    "kind": "stub",
+    "phase": "10",
+    "file": "geohist/index.html",
+    "line": 76,
+    "description": "Intentional 0.0 placeholder in unkeyed .proof-row-score span (D-04 self-flagging OFF gate) — resolved at owner flip per 10-RUNBOOK.md (plan 10-02)",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-10T02:22:56.603Z",
     "resolved_at": null
   }
 ]
