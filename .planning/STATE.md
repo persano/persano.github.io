@@ -1,20 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.0
-milestone_name: Full Deferred Scope
-status: Awaiting next milestone
-stopped_at: Phase 11 complete — all phases complete
-last_updated: "2026-09-11T17:14:46.313Z"
+milestone: v2.1
+milestone_name: Play Launch + Home Migration
+status: planning
+last_updated: "2026-09-11T21:02:23.938Z"
 last_activity: 2026-09-11
-last_activity_desc: Milestone v2.0 completed and archived
-state_head: 4fa214313c9ff096436c23cd32faa0ae87f1d7a4
 progress:
-  total_phases: 6
-  completed_phases: 6
-  total_plans: 22
-  completed_plans: 22
-  percent: 100
-current_phase: 11
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -28,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-09-11)
 
 ## Current Position
 
-Phase: Milestone v2.0 complete
+Phase: Not started (defining requirements)
 Plan: —
-Status: Awaiting next milestone
-Last activity: 2026-09-11 — Milestone v2.0 completed and archived
+Status: Defining requirements
+Last activity: 2026-09-11 — Milestone v2.1 started
 
 ## Performance Metrics
 

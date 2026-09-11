@@ -22,9 +22,17 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 
 **Deferred by design (owner console, not code debt):** FIRE-10 App Check enforcement flip (evidence-gated per 09-RUNBOOK.md §5-§6); Tier-1 rating row flip (Play listing live); GSC 180-day CoA window monitoring.
 
-## Next Milestone Goals
+## Current Milestone: v2.1 Play Launch + Home Migration
 
-Not yet defined — run `/gsd-new-milestone` (questioning → research → requirements → roadmap). Fresh REQUIREMENTS.md will be created there.
+**Goal:** Site swap-ready for Play launch day; GeoHist landing serves as site home with `/apps/` hub; small debts closed.
+
+**Target features:**
+- Home migration — root = GeoHist landing, portfolio hub → `/apps/` (future-app subdirs ready), redirects + sitemap/canonical/GSC updates, i18n key moves atomic, old-domain gate intact
+- Launch kit — owner launch runbook (flip order: privacy-URL field → Play link swap → rating row) + swap-ready site (JSON-LD offers refresh check, placeholder link inventory)
+- App Check evidence helper — console-UI-only doc: counting submissions toward 30-floor + weekly ritual
+- Cleanup phase — `npm ci` restore, zh variant check, Urdu Nastaliq device check, future-apps structure check
+
+**Key context:** all flips stay owner-gated; GSC 180-day window untouched; zero-build + 19-dictionary atomic key moves enforced by CI.
 
 ## Business Context
 
@@ -66,15 +74,14 @@ Not yet defined — run `/gsd-new-milestone` (questioning → research → requi
 
 ### Active
 
-- [ ] Restore `npm ci` + `cache: npm` in validate job — package-lock.json exists (Phase 5), restore is unblocked
-- [ ] Play Console privacy-URL field → `/geohist/privacy.html` before Play submission (owner console step)
-- [ ] Play Store link as placeholder until listing is live, then real link
-- [ ] Structure anticipates future apps as new subdirs without visible placeholders
-- [ ] Owner request (post-phase-8): remove root selector/hub page and serve the GeoHist landing as site home — needs product decision + planning
-- [ ] FIRE-10: App Check enforcement flip execution — owner console, gated on 30-successful-submissions floor + clean console signal (09-RUNBOOK.md §5-§6); owner-only, post-monitoring
-- [ ] Tier-1 rating row flip — owner 2-edit flip per 10-RUNBOOK.md, gated on real visible Play data
-- [ ] Urdu Nastaliq rendering quality — real-device visual verification (silent degradation unacceptable)
-- [ ] GSC Change-of-Area 180-day window monitoring until ~2027-03 — old property retained for D-08 index-decay watch; don't delete
+- [ ] Root = GeoHist landing; portfolio hub → `/apps/` with future-app subdirs, no visible placeholders — v2.1 home migration
+- [ ] Owner launch runbook: flip order + console steps (privacy-URL field → Play Store link swap → Tier-1 rating row flip)
+- [ ] Swap-ready site: JSON-LD offers refresh check + placeholder Play-link inventory
+- [ ] App Check evidence helper doc (console-UI only): counting successful submissions toward 30-floor + weekly ritual
+- [ ] Cleanup batch: restore `npm ci` + `cache: npm` in validate job, zh variant confirmation, Urdu Nastaliq real-device check
+- [ ] (owner console) FIRE-10 App Check enforcement flip — evidence-gated per 09-RUNBOOK.md §5-§6
+- [ ] (owner console) Play Console privacy-URL field → `/geohist/privacy.html`
+- [ ] GSC Change-of-Address 180-day window monitoring until ~2027-03 — watch only, old property retained
 
 
 ### Out of Scope
@@ -159,4 +166,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-11 after v2.0 milestone*
+*Last updated: 2026-09-11 after v2.1 milestone start*
