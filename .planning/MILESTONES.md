@@ -1,5 +1,28 @@
 # Milestones
 
+## v2.0 Full Deferred Scope (Shipped: 2026-09-11)
+
+**Phases completed:** 6 phases, 22 plans, 39 tasks
+
+**Key accomplishments:**
+
+- `/geohist/changelog.html` shipped end-to-end: keyed chrome + git-verified 0.88 entry, key surface grown 146→169 atomically under the gate, full reachability wired, red gate proven both directions — plus repaired a vacuous validate:links gate.
+- Full curated 0.x arc shipped onto the changelog page: 6 git-verified milestone entries (0.88 → 0.2, 2026-09-04 → 2026-08-24) replacing the provisional single entry, with zero key-surface drift — plus an owner-review draft with a git-provenance appendix.
+- One keyed translated notice on the changelog (170-key atomic surface move) + a static EN—ES—PT notice line on the scriptless privacy page — closing UAT test 9 with zero scripts added.
+- HTTPS enforcement flipped on geohisttrivia.com via one minimal gh PUT (cert pre-verified approved, GET-after-PUT proof) and a 9-section owner runbook authored with the divergence-ruled TXT re-add flow — owner gate (6 items) now open.
+- One-pass apex migration authored and locally proven: 44 refs rewritten across 14 files (39 functional + 5 prose, path-preserved 1:1), permanent zero-dep CI gate proven RED→GREEN in both directions, validate chain green end-to-end — commit, push, CI watch, and live smoke deferred to orchestrator Task 3.
+- Sitemap resubmitted + Change of Address filed old→new in the new GSC Domain property after a 12-row probe battery went green — live form test at geohisttrivia.com closes HOST-03.
+- Firebase App Check wired as the 4th lazy submit-time CDN module in contact.js (monitoring mode, dormant pre-activation) with the getToken failure seam, contact.status.appcheck email-fallback status (i18n key #171 across 19 dictionaries, atomic), and the consent-gated appcheck_token_failure Analytics event.
+- Owner App Check runbook (register → activate → weekly ritual → evidence-gated per-product flip with rollback, zero secrets) plus the privacy-policy reCAPTCHA/App Check disclosure with its consent-interplay sentence — zero code changes.
+- Firebase deprecated the classic reCAPTCHA provider, so the shipped App Check code was swapped to ReCaptchaEnterpriseProvider, the site key was activated, docs were revised to Enterprise reality (D-01 revised 2026-09-08), and the phase-9 tree went live on prod with smoke green.
+- Contact-form token failures are now bounded (~10s) and deliver-anyway — the message lands un-attested while the keyed appcheck status and consent-gated event fire — and the site ships a favicon.ico with icon links on all 7 pages, deployed green with prod smoke passing.
+- A bounded ~3s reCAPTCHA reachability probe now skips App Check entirely when reCAPTCHA is unreachable — blocked-reCAPTCHA (ad-blocker) submits deliver un-attested in ~10s with the keyed appcheck status and the consent-gated event, instead of the ~60s auth-family generic error with no delivery — deployed green with prod smoke passing.
+- 4-pill facts strip + OFF-gated "Rated X.X on Google Play" row on geohist/index.html — 7 keyed i18n entries live in all 19 dictionaries (171 → 178), validate chain green, red gate proven both directions
+- Tier-2 aggregateRating permanently OFF via inert in-file comment + owner runbook (10-RUNBOOK.md), and Phase 10 shipped: prod serves the 4-pill strip, the hidden OFF rating row, and a byte-identical JSON-LD schema with zero rating literals
+- AGENTS.md hand-rewritten to shipped v2.0 reality (F-1) and the old-domain gate flipped from allowlisting the doc to enforcing it — enforcement proven by a mutation probe (probe line → exit 1 naming AGENTS.md:166 → byte-identical restore → exit 0); full validate battery green.
+
+---
+
 ## v1 MVP (Shipped: 2026-09-05)
 
 **Phases completed:** 5 phases, 12 plans, 30 tasks
