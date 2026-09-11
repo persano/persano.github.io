@@ -169,5 +169,12 @@
   "changelog.footer.back": "हब पर वापस",
   "changelog.footer.consent": "सहमति",
   "changelog.footer.copyright": "© Santiago David Postorivo",
-  "changelog.entries.notice": "नीचे की प्रविष्टियाँ अंग्रेज़ी में दिखाई जाती हैं।"
+  "changelog.entries.notice": "नीचे की प्रविष्टियाँ अंग्रेज़ी में दिखाई जाती हैं।",
+  "geohist.proof.aria": "भू-इतिहास सामान्य ज्ञान एक नज़र में",
+  "geohist.proof.pill-languages": "20 भाषाएँ",
+  "geohist.proof.pill-offline": "ऑफ़लाइन खेलें",
+  "geohist.proof.pill-modes": "इतिहास + भूगोल",
+  "geohist.proof.pill-android": "Android 7.0+",
+  "geohist.tier1.prefix": "रेटिंग",
+  "geohist.tier1.suffix": "Google Play पर"
 }

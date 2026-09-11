@@ -169,5 +169,12 @@
   "changelog.footer.back": "ハブに戻る",
   "changelog.footer.consent": "同意",
   "changelog.footer.copyright": "© Santiago David Postorivo",
-  "changelog.entries.notice": "以下の記録は英語で表示されます。"
+  "changelog.entries.notice": "以下の記録は英語で表示されます。",
+  "geohist.proof.aria": "GeoHistの概要",
+  "geohist.proof.pill-languages": "20言語",
+  "geohist.proof.pill-offline": "オフラインでプレイ",
+  "geohist.proof.pill-modes": "歴史＋地理",
+  "geohist.proof.pill-android": "Android 7.0+",
+  "geohist.tier1.prefix": "Google Playで",
+  "geohist.tier1.suffix": "の評価"
 }

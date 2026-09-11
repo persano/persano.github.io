@@ -169,5 +169,12 @@
   "changelog.footer.changelog": "Wijzigingen",
   "changelog.footer.back": "Terug naar de hub",
   "changelog.footer.consent": "Toestemming",
-  "changelog.footer.copyright": "© Santiago David Postorivo"
+  "changelog.footer.copyright": "© Santiago David Postorivo",
+  "geohist.proof.aria": "GeoHist in één oogopslag",
+  "geohist.proof.pill-languages": "20 talen",
+  "geohist.proof.pill-offline": "Speel offline",
+  "geohist.proof.pill-modes": "Geschiedenis + Aardrijkskunde",
+  "geohist.proof.pill-android": "Android 7.0+",
+  "geohist.tier1.prefix": "Waardering",
+  "geohist.tier1.suffix": "op Google Play"
 }

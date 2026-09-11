@@ -169,5 +169,12 @@
   "changelog.footer.back": "Kembali ke pusat",
   "changelog.footer.consent": "Persetujuan",
   "changelog.footer.copyright": "© Santiago David Postorivo",
-  "changelog.entries.notice": "Entri di bawah ditampilkan dalam bahasa Inggris."
+  "changelog.entries.notice": "Entri di bawah ditampilkan dalam bahasa Inggris.",
+  "geohist.proof.aria": "GeoHist secara sekilas",
+  "geohist.proof.pill-languages": "20 bahasa",
+  "geohist.proof.pill-offline": "Main offline",
+  "geohist.proof.pill-modes": "Sejarah + Geografi",
+  "geohist.proof.pill-android": "Android 7.0+",
+  "geohist.tier1.prefix": "Peringkat",
+  "geohist.tier1.suffix": "di Google Play"
 }

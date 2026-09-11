@@ -169,5 +169,12 @@
   "changelog.footer.back": "Πίσω στον κόμβο",
   "changelog.footer.consent": "Συναίνεση",
   "changelog.footer.copyright": "© Santiago David Postorivo",
-  "changelog.entries.notice": "Οι παρακάτω καταχωρήσεις εμφανίζονται στα αγγλικά."
+  "changelog.entries.notice": "Οι παρακάτω καταχωρήσεις εμφανίζονται στα αγγλικά.",
+  "geohist.proof.aria": "GeoHist με μια ματιά",
+  "geohist.proof.pill-languages": "20 γλώσσες",
+  "geohist.proof.pill-offline": "Παίξτε offline",
+  "geohist.proof.pill-modes": "Ιστορία + Γεωγραφία",
+  "geohist.proof.pill-android": "Android 7.0+",
+  "geohist.tier1.prefix": "Βαθμολογία",
+  "geohist.tier1.suffix": "στο Google Play"
 }

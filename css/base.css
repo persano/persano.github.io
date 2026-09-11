@@ -159,6 +159,72 @@ a:hover {
   min-height: 44px; /* tap target */
 }
 
+/* ---- Proof strip (SEO-05: four stat pills, trust band) ----
+   Static band between hero and features: no links, no visible h2 (the
+   keyed aria-label names the section, D-03). Flex + wrap mirrors for
+   free under [dir="rtl"] — no directional declarations in this block.
+   Solid background only: texture never sits behind this copy. */
+
+.proof-strip {
+  margin-top: 1.5rem;
+}
+
+.proof-strip ul {
+  list-style: none;
+  display: flex; /* flex row order flips automatically with dir=rtl */
+  flex-wrap: wrap;
+  gap: 0.6rem 1.25rem;
+  justify-content: center;
+  margin: 0;
+}
+
+.proof-strip li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--color-muted); /* 9.38:1 on bg — verified pair */
+  font-size: 0.95rem;
+}
+
+.proof-strip svg {
+  color: var(--color-accent-2); /* teal secondary, 9.30:1 */
+  flex-shrink: 0;
+}
+
+/* Tier-1 gated proof row (SEO-06): ships OFF via the hidden attribute;
+   the 0.0 placeholder self-flags if the attribute is ever lost. */
+
+.proof-row {
+  margin-top: 0.25rem;
+  text-align: center;
+}
+
+/* author display beats [hidden] UA style — must restate the rule */
+.proof-row[hidden] {
+  display: none;
+}
+
+.proof-row a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--color-accent); /* 8.46:1 on bg — verified pair */
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.proof-row a:hover {
+  text-decoration: underline;
+}
+
+.proof-row-star {
+  flex-shrink: 0;
+}
+
+.proof-row-score {
+  font-weight: 600;
+}
+
 /* ---- Features (LNDG-02: four categorized groups) ---- */
 
 .features {

@@ -169,5 +169,12 @@
   "changelog.footer.back": "Merkeze dön",
   "changelog.footer.consent": "Onay",
   "changelog.footer.copyright": "© Santiago David Postorivo",
-  "changelog.entries.notice": "Aşağıdaki kayıtlar İngilizce gösterilir."
+  "changelog.entries.notice": "Aşağıdaki kayıtlar İngilizce gösterilir.",
+  "geohist.proof.aria": "GeoHist bir bakışta",
+  "geohist.proof.pill-languages": "20 dil",
+  "geohist.proof.pill-offline": "Çevrimdışı oyna",
+  "geohist.proof.pill-modes": "Tarih + Coğrafya",
+  "geohist.proof.pill-android": "Android 7.0+",
+  "geohist.tier1.prefix": "Google Play'de",
+  "geohist.tier1.suffix": "puan"
 }

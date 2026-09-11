@@ -169,5 +169,12 @@
   "changelog.footer.back": "허브로 돌아가기",
   "changelog.footer.consent": "동의",
   "changelog.footer.copyright": "© Santiago David Postorivo",
-  "changelog.entries.notice": "아래 항목은 영어로 표시돼요."
+  "changelog.entries.notice": "아래 항목은 영어로 표시돼요.",
+  "geohist.proof.aria": "GeoHist 한눈에 보기",
+  "geohist.proof.pill-languages": "20개 언어",
+  "geohist.proof.pill-offline": "오프라인으로 플레이",
+  "geohist.proof.pill-modes": "역사 + 지리",
+  "geohist.proof.pill-android": "Android 7.0+",
+  "geohist.tier1.prefix": "Google Play에서",
+  "geohist.tier1.suffix": "점"
 }
