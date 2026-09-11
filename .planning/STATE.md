@@ -10,10 +10,10 @@ last_activity_desc: Milestone v2.0 completed and archived
 state_head: 4fa214313c9ff096436c23cd32faa0ae87f1d7a4
 progress:
   total_phases: 6
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 22
   completed_plans: 22
-  percent: 83
+  percent: 100
 current_phase: 11
 ---
 
@@ -21,10 +21,10 @@ current_phase: 11
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-09-10)
+See: .planning/PROJECT.md (updated 2026-09-11)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel — before the app goes live on Google Play.
-**Current focus:** Phase 11 — Close v2.0 audit debt: F-1 AGENTS.md rewrite + doc-hygiene batch + UAT records
+**Current focus:** Milestone v2.0 shipped and archived — next milestone not yet defined; run /gsd-new-milestone
 
 ## Current Position
 
@@ -158,6 +158,9 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 | Category | Item | Status | Deferred At | Milestone |
 |----------|------|--------|-------------|-----------|
+| debug_sessions | token-failure-auth-network-failed | diagnosed | 2026-09-11 | v2.0 |
+| debug_sessions | changelog-not-translating | diagnosed | 2026-09-11 | v2.0 |
+| uat_gaps | 07/07-UAT.md | diagnosed (0 pending scenarios) | 2026-09-11 | v2.0 |
 | I18N-10 | Per-language static HTML subdirs + hreflang | Future requirement | 2026-09-05 | post-v2 |
 | FIRE-10 | App Check enforcement flip execution (owner console) | Future requirement (post-monitoring) | 2026-09-05 | post-v2 |
 | I18N-05 | 17 new localizations | Promoted — Phase 7 | 2026-09-01 | v2 |

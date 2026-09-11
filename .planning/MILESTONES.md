@@ -21,6 +21,9 @@
 - Tier-2 aggregateRating permanently OFF via inert in-file comment + owner runbook (10-RUNBOOK.md), and Phase 10 shipped: prod serves the 4-pill strip, the hidden OFF rating row, and a byte-identical JSON-LD schema with zero rating literals
 - AGENTS.md hand-rewritten to shipped v2.0 reality (F-1) and the old-domain gate flipped from allowlisting the doc to enforcing it — enforcement proven by a mutation probe (probe line → exit 1 naming AGENTS.md:166 → byte-identical restore → exit 0); full validate battery green.
 
+**Stats:** 2026-09-05 → 2026-09-11 (6 days) · 17/17 v2 requirements validated · milestone audit `tech_debt` verdict closed in-phase by Phase 11 (F-1..F-5, HV-06, HV-09a, HV-09b, P-10-3)
+**Closeout:** override_closeout — Phase 11 verification stale (verifier disabled in config; 3/3 plans executed, STATE-confirmed shipped). Artifact audit: 3 items acknowledged at close (2 diagnosed debug sessions + 1 diagnosed UAT gap, 0 pending scenarios), 0 carried forward from a prior close.
+
 ---
 
 ## v1 MVP (Shipped: 2026-09-05)
