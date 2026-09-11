@@ -207,9 +207,16 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
+**Wave 1**
 
 - [ ] 11-01-PLAN.md — F-1 AGENTS.md rewrite + PROJECT.md line-5 URL fix + old-domain-gate allowlist drop (D-01..D-04)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 11-02-PLAN.md — F-2/F-3/F-4 hygiene batch + HV-06/HV-09a/HV-09b owner UAT records + F-5 header flip (D-05..D-09)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 11-03-PLAN.md — P-10-3 star-uniqueness fail-closed keycheck gate + red-gate proof (D-10)
 
 ---
