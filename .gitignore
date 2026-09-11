@@ -2,5 +2,6 @@
 .planning/research/.cache/
 .planning/milestone.lock
 node_modules/
-reports/opencode.json
+reports/
+opencode.json
 .gsd/
