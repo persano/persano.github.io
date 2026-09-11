@@ -23,6 +23,16 @@
  *       \d.\d occurrences are stripped first, then any remaining "."
  *       fails. Red-gate proven in both directions (Phase 6 precedent).
  *
+ * 3. Star-uniqueness (Phase 11, P-10-3 / ADR-550 D4): the Tier-1 row's
+ *    star is exactly ONE inline SVG (class "proof-row-star" in
+ *    geohist/index.html); the star character (U+2605) never appears as
+ *    text — not in any dictionary value, not in the markup. Missing or
+ *    duplicated = red (fail-closed). U+2605 is NOT in the CJK_PUNCT
+ *    regex, so this rule adds real coverage rather than duplicating
+ *    the punct gate. Flip-compat: the owner's Tier-1 flip (remove
+ *    hidden, edit the 0.0 score span per 10-RUNBOOK.md section 2)
+ *    never touches the SVG, so the flip cannot red this gate.
+ *
  * The gate covers whatever dictionaries exist: adding a new .json file
  * extends coverage with no edits to this script.
  *
@@ -48,6 +58,18 @@ const PERIOD_BETWEEN_DIGITS = /\d\.\d/g;
 function hasLoosePeriod(value) {
   return value.replace(PERIOD_BETWEEN_DIGITS, '').includes('.');
 }
+
+// Star-uniqueness scope (Phase 11, P-10-3 / ADR-550 D4 — header rule 3):
+// the Tier-1 rating row's namespace (documents the invariant's origin;
+// used for FAIL-message context) and the star code point, which is
+// always spelled in escape form — NEVER a raw star character in this
+// script's source.
+const TIER1_NS = 'geohist.tier1.';
+const STAR = '\u2605';
+// The star-SVG count regex carries a negative lookahead for word chars /
+// hyphen: a plain substring count would also match a renamed probe class
+// like "proof-row-star-probe" and let a missing-star mutation pass
+// falsely. Inlined at the single markup-check use site below.
 
 /**
  * Extract the key set from one page's HTML.
@@ -134,6 +156,14 @@ function run() {
         console.error(`i18n-keycheck: FAIL — ${file}: "${key}" contains half-width punctuation (${value.slice(0, 40)}…)`);
         failed = true;
       }
+      // Star-uniqueness sweep (P-10-3): scope pinned to ALL values
+      // (research OQ2 Option B — a future surface wanting a text star
+      // must route through a visible gate decision, not slip through).
+      if (value.includes(STAR)) {
+        const tier1Ctx = key.startsWith(TIER1_NS) ? ' [geohist.tier1.* — the Tier-1 rating row]' : '';
+        console.error(`i18n-keycheck: FAIL — ${file}: "${key}" contains a literal star (U+2605) — the Tier-1 star is the row's single inline SVG${tier1Ctx}`);
+        failed = true;
+      }
     }
     const dictKeys = new Set(Object.keys(dict));
     const missing = [...surface].filter((k) => !dictKeys.has(k)).sort();
@@ -146,6 +176,17 @@ function run() {
       if (missing.length) console.error(`  missing keys (${missing.length}): ${missing.join(', ')}`);
       if (extra.length) console.error(`  extra keys   (${extra.length}): ${extra.join(', ')}`);
     }
+  }
+
+  // Star-uniqueness markup check (P-10-3 — header rule 3): exactly ONE
+  // star-SVG class token (negative lookahead per the constants block) and
+  // ZERO raw star characters in the landing page markup.
+  const landing = readFileSync(join(repoRoot, 'geohist', 'index.html'), 'utf8');
+  const starSvgs = (landing.match(/proof-row-star(?![\w-])/g) || []).length;
+  const starLiterals = landing.split(STAR).length - 1;
+  if (starSvgs !== 1 || starLiterals !== 0) {
+    console.error(`i18n-keycheck: FAIL — star uniqueness: ${starSvgs} proof-row-star SVG(s) (expected exactly 1), ${starLiterals} star literal(s) in markup (expected 0)`);
+    failed = true;
   }
 
   if (failed) {
