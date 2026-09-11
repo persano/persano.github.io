@@ -2,22 +2,29 @@
 
 ## What This Is
 
-A static GitHub Pages website at https://persano.github.io serving as Santiago David Postorivo's personal brand hub ("Persano"). The root page is a minimal portfolio hub introducing the developer and linking to per-app sites. The first and primary app site is `/geohist/` — a complete landing page for **GeoHist Trivia**, an Android trivia game (history + geography, Jetpack Compose, Google Play Games Services, IAP, AdMob, offline-capable, 20 localizations) currently in Google Play review. The site lets players learn about the game, view screenshots, read the FAQ and game guide, access the privacy policy, and contact the developer via a Firebase-powered contact form.
+A static GitHub Pages website at https://geohisttrivia.com serving as Santiago David Postorivo's personal brand hub ("Persano"). The root page is a minimal portfolio hub introducing the developer and linking to per-app sites. The first and primary app site is `/geohist/` — a complete landing page for **GeoHist Trivia**, an Android trivia game (history + geography, Jetpack Compose, Google Play Games Services, IAP, AdMob, offline-capable, 20 localizations) currently in Google Play review. The site lets players learn about the game, view screenshots, read the FAQ and game guide, access the privacy policy, and contact the developer via a Firebase-powered contact form.
 
 ## Core Value
 
 GeoHist Trivia players and Google Play reviewers can reach an authoritative, accessible web page for the app — featuring it, explaining it, hosting its privacy policy, and offering a working contact channel — before the app goes live.
 
-## Current Milestone: v2.0 Full Deferred Scope
+## Current State (v2.0 shipped 2026-09-11)
 
-**Goal:** Ship every v2-deferred item — 17 new localizations (incl. RTL), gated social proof, App Check, changelog page, custom domain.
+**Shipped:** v2.0 "Full Deferred Scope" — Phases 6-11, 22 plans, all 17 v2 requirements validated.
 
-**Target features:**
-- I18N-05: 17 new localizations (hi, zh, fr, vi, nl, ur, el, ko, tr, de, ja, ru, id, pl, it, bn, ar) with key-parity gate × 20 and RTL dir-switching for ar/ur
-- CONT-06: `/geohist/changelog.html`, keyed for i18n (build before locale expansion so all 20 dictionaries include its keys)
-- HOST-01: custom domain (owner registers; name decided during phase) — Pages config, CNAME, DNS, rewrite all absolute URLs
-- FIRE-07: App Check via reCAPTCHA Enterprise (classic v3 provider deprecated by Firebase for new registrations), monitoring mode first, enforcement flip after metrics clean
-- SEO-05: aggregateRating + social-proof wiring, gated on real Play ratings
+- Site canonical at https://geohisttrivia.com (HTTPS enforced, `protected_domain_state: verified`); legacy `persano.github.io` host 301s path-preserved
+- 20-locale single-URL keyed i18n (EN markup baseline + 19 JSON dictionaries, 178-key exact surface, CI-gated incl. CJK punctuation + star-uniqueness fail-closed gates); RTL ar/ur mirrored
+- `/geohist/changelog.html` live (KaC format, 6 curated git-mined entries, keyed chrome, EN-entries exception documented)
+- App Check via reCAPTCHA Enterprise, monitoring mode live: dormant-by-default gate, ~3s reachability probe + bounded ~10s token race, deliver-anyway, consent-gated failure event
+- Social proof: facts-only 4-pill strip live; Tier-1 rating row shipped OFF (owner flip per 10-RUNBOOK.md gated on real Play data); Tier-2 aggregateRating permanently OFF (policy)
+- GSC: sitemap Success on new Domain property, Change of Address filed (180-day window active), old property retained for index-decay monitoring
+- AGENTS.md describes shipped reality; old-domain CI gate enforces it; owner UAT records complete (HV-06, HV-09a, HV-09b)
+
+**Deferred by design (owner console, not code debt):** FIRE-10 App Check enforcement flip (evidence-gated per 09-RUNBOOK.md §5-§6); Tier-1 rating row flip (Play listing live); GSC 180-day CoA window monitoring.
+
+## Next Milestone Goals
+
+Not yet defined — run `/gsd-new-milestone` (questioning → research → requirements → roadmap). Fresh REQUIREMENTS.md will be created there.
 
 ## Business Context
 
@@ -59,31 +66,39 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 
 ### Active
 
-- [ ] Restore `npm ci` + `cache: npm` in validate job — package-lock.json now exists (Phase 5), restore is unblocked
+- [ ] Restore `npm ci` + `cache: npm` in validate job — package-lock.json exists (Phase 5), restore is unblocked
 - [ ] Play Console privacy-URL field → `/geohist/privacy.html` before Play submission (owner console step)
 - [ ] Play Store link as placeholder until listing is live, then real link
 - [ ] Structure anticipates future apps as new subdirs without visible placeholders
-- [ ] Owner request (post-phase-8): remove root selector/hub page and serve the GeoHist landing as site home — needs product decision + planning before Phase 9 work
-- [ ] FIRE-09: App Check enforcement flip — owner console, gated on 30-successful-submissions floor + clean console signal (runbook §1); owner-only, post-monitoring
+- [ ] Owner request (post-phase-8): remove root selector/hub page and serve the GeoHist landing as site home — needs product decision + planning
+- [ ] FIRE-10: App Check enforcement flip execution — owner console, gated on 30-successful-submissions floor + clean console signal (09-RUNBOOK.md §5-§6); owner-only, post-monitoring
+- [ ] Tier-1 rating row flip — owner 2-edit flip per 10-RUNBOOK.md, gated on real visible Play data
+- [ ] Urdu Nastaliq rendering quality — real-device visual verification (silent degradation unacceptable)
+- [ ] GSC Change-of-Area 180-day window monitoring until ~2027-03 — old property retained for D-08 index-decay watch; don't delete
 
 
 ### Out of Scope
 
 - Native Android App Links (deep links into the game) — informational site only; Play Store links suffice
 - Privacy policy translations — English is the legally authoritative version
-- Remaining 17 localizations — staged later if traffic justifies
+- Translated changelog entries (×20) — human-curated EN entries; ×20 content translation unmaintainable (documented i18n exception)
+- Geo-IP language redirects — detect via `navigator.languages` only; no server-side sniffing on Pages
+- Auto-translate widgets — unacceptable quality/privacy tradeoff
+- aggregateRating mirroring Google Play ratings — review-snippet policy violation regardless of data being real — permanent exclusion unless on-site review source appears
+- Fabricated star ratings / placeholder reviews — structured-data spam risk; manual actions
 - Real-time chat, comments, user accounts — not core to landing value
 - Jekyll/static-site generators — plain HTML/CSS chosen deliberately (zero build complexity)
 
 ## Context
 
-- **Shipped v1 (2026-09-05)**: site fully live at https://persano.github.io — 5 phases, 12 plans, 27/27 v1 requirements validated; see `.planning/MILESTONES.md` and `.planning/milestones/v1-ROADMAP.md`
-- **v2.0 complete (all phases 6-10 executed)**: site canonical at https://geohisttrivia.com (persano.github.io 301s); 20-locale site; App Check Enterprise-attested in monitoring mode (deliver-anyway on token failure); facts-only proof strip live, rating row OFF pending real Play data (flip per 10-RUNBOOK.md); GSC Domain property + CoA active
-- Current stack reality: plain HTML/CSS/vanilla JS, zero-build; one JS surface set (i18n.js, consent.js, contact.js via Firebase CDN dynamic imports — contact.js now carries probe-gated App Check + bounded token race); 4 real WebP screenshots; OG image composite; favicon.ico; sitemap + robots + SoftwareApplication JSON-LD
+- **v2.0 shipped (2026-09-11)**: all v2-deferred items live — 20-locale site, custom domain, changelog, App Check monitoring, gated social proof; 17/17 v2 requirements validated; 6 phases / 22 plans (2026-09-05 → 2026-09-11); see `.planning/MILESTONES.md` and `.planning/milestones/v2.0-ROADMAP.md`
+- **Shipped v1 (2026-09-05)**: site fully live — 5 phases, 12 plans, 27/27 v1 requirements validated; see `.planning/milestones/v1-ROADMAP.md`
+- Current stack reality: plain HTML/CSS/vanilla JS, zero-build; one JS surface set (i18n.js, consent.js, contact.js via Firebase 12.18.0 gstatic ESM CDN dynamic imports — contact.js carries probe-gated App Check Enterprise + bounded token race); 19 JSON dictionaries at 178-key exact surface; 4 real WebP screenshots; OG image composite; favicon.ico; sitemap + robots + SoftwareApplication JSON-LD
+- CI gates: old-domain literal ban (enforces AGENTS.md too), i18n keycheck (set-equality + CJK punct + star-uniqueness fail-closed), all chained in `npm run validate`
 - Owner-pending before Play submission: Play Console privacy-URL field → `/geohist/privacy.html`; Play Store link swap once listing is live
 - App published/review context: GeoHist Trivia is in Google Play review ("soon"); Play Store link stays placeholder until approval
 - App has 20 localizations; site covers all 20 (EN + 19, incl. RTL ar/ur) since Phase 7
-- Firebase: reuse of app's project (analytics + anonymous auth + Firestore `messages`, create-only rules); API-key hardening console-side
+- Firebase: reuse of app's project (analytics + anonymous auth + Firestore `messages`, create-only rules); API-key hardening console-side; App Check reCAPTCHA Enterprise registration `web-geohist`
 - Site maintenance model: agent-maintained — content updates happen via chat sessions, not raw HTML editing by the owner
 - Visual style: dark antique aesthetic (map textures, aged-map teal accent), consistent between hub and app site
 
@@ -123,6 +138,8 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 | Remote deploys via GitHub Git Data API bridge (strict fast-forward; per-blob sha assertions mandatory) | raw git push harness-blocked in executor sessions; blob-sha assertion is the standing regression guard after the empty-blob incident | ✓ Phase 9 — bridge chain to 81463b3, remote tree byte-identical to local HEAD |
 | Single-entry favicon.ico (22-byte ICO header + verbatim app icon bytes) via node builtins | No image library, no build step; reuses app icon art | ✓ Phase 9 — G-09-6, /favicon.ico 200 site-wide |
 | Rating surfaces (Tier-1 row / Tier-2 JSON-LD) shipped OFF: hidden row + inert comment citing Google review-snippet policy verbatim; flip = 2-edit owner runbook gated on real visible Play data (no minimum floor) | Mirroring Play ratings into markup is barred by policy; honest zero (0.0) over fake rating; documented-OFF pair (in-file comment + runbook) blocks future-agent rationalization | ✓ Phase 10 — prod smoke: row hidden, zero rating literals in served schema |
+| Star-uniqueness fail-closed CI gate in i18n-keycheck (P-10-3): exactly 1 proof-row-star SVG, zero U+2605 text stars in any dictionary value or markup; red-gate proven both directions | Verified-but-unenforced invariants rot; gate rides existing validate chain, zero deps (D-10) | ✓ Phase 11 — red-gate-proof.md, 3 red cycles + flip-compat green |
+| AGENTS.md describes shipped v2.0 reality + old-domain gate enforces it (allowlist entry dropped, mutation-probe proven) | Doc rot on a self-referential file misleads every future agent; enforcement closes the loop (F-1/D-04) | ✓ Phase 11 — full battery green, enforcement both directions |
 
 ## Evolution
 
@@ -142,4 +159,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-10 after Phase 10*
+*Last updated: 2026-09-11 after v2.0 milestone*

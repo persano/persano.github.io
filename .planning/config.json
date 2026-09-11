@@ -12,7 +12,7 @@
   "workflow": {
     "auto_approve": true,
     "fast_execution": true,
-    "_auto_chain_active": false,
+    "_auto_chain_active": true,
     "auto_advance": false,
     "skip_discuss": true,
     "research": true,

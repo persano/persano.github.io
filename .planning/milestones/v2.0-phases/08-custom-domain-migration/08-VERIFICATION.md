@@ -30,7 +30,7 @@ uat: 5 passed, 0 issues (08-UAT.md)
 - Old URL-prefix property retained for D-08 index-decay monitoring (UAT test 5 pass)
 
 ## Regression Gate
-`npm run validate` (validate:html && validate:domain && validate:links && validate:i18n-detect && validate:i18n) → exit 0; 20/20 dictionaries exactly cover the 170-key live surface. No cross-phase regressions.
+`npm run validate` (validate:html && validate:domain && validate:links && validate:i18n-detect && validate:i18n) → exit 0; 20/20 dictionaries exactly cover the 170-key live surface. [corrected Phase 11: 19 JSON dictionaries — no en.json; EN is the markup baseline, so the "20" counted locales, not files] No cross-phase regressions.
 
 ## Human Verification
 08-UAT.md: 5/5 passed (form test, redirects, sitemap, CoA, old property).

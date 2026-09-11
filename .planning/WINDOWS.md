@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 14
+open_count: 16
 waived_count: 0
 fixed_count: 1
-total_count: 15
-last_updated: 2026-09-10T03:10:18.559Z
+total_count: 17
+last_updated: 2026-09-11T03:25:05.365Z
 ---
 
 # Broken Windows Ledger
@@ -30,6 +30,8 @@ last_updated: 2026-09-10T03:10:18.559Z
 | 13 | 08 | deviation | scripts/check-no-old-domain.mjs |  | gate walk skips hidden dirs (tooling state) so fs-walk semantics mirror the ignore-respecting rg acceptance; ALLOW set unchanged | open |  | 2026-09-07T22:07:42.844Z |  |
 | 14 | 10 | stub | geohist/index.html | 76 | Intentional 0.0 placeholder in unkeyed .proof-row-score span (D-04 self-flagging OFF gate) — resolved at owner flip per 10-RUNBOOK.md (plan 10-02) | open |  | 2026-09-10T02:22:56.603Z |  |
 | 15 | 10 | deviation | git-remote-main |  | Remote main 3eaf9d9 (bridge fast-forwards a24fd4e+3eaf9d9, tree 0556bf2) carries the Phase 10 delta while local HEAD 275046b does not - /gsd-ship must fetch/rebase before pushing its deferred commits (content identical) | open |  | 2026-09-10T03:10:18.559Z |  |
+| 16 | 11 | stub | AGENTS.md | 159 | Developer Profile block placeholder text - generator-managed, intentional (research A1); resolved by /gsd-profile-user | open |  | 2026-09-11T03:25:04.897Z |  |
+| 17 | 11 | deviation | AGENTS.md |  | What-NOT-to-Use anti-pattern row names language-alternate link tags WITHOUT hreflang literal - plan-internal conflict resolved in favor of forbidden-content rule (11-01-SUMMARY Deviations) | open |  | 2026-09-11T03:25:05.365Z |  |
 
 ````json
 [
@@ -211,6 +213,30 @@ last_updated: 2026-09-10T03:10:18.559Z
     "status": "open",
     "reason": "",
     "recorded_at": "2026-09-10T03:10:18.559Z",
+    "resolved_at": null
+  },
+  {
+    "id": 16,
+    "kind": "stub",
+    "phase": "11",
+    "file": "AGENTS.md",
+    "line": 159,
+    "description": "Developer Profile block placeholder text - generator-managed, intentional (research A1); resolved by /gsd-profile-user",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-11T03:25:04.897Z",
+    "resolved_at": null
+  },
+  {
+    "id": 17,
+    "kind": "deviation",
+    "phase": "11",
+    "file": "AGENTS.md",
+    "line": null,
+    "description": "What-NOT-to-Use anti-pattern row names language-alternate link tags WITHOUT hreflang literal - plan-internal conflict resolved in favor of forbidden-content rule (11-01-SUMMARY Deviations)",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-11T03:25:05.365Z",
     "resolved_at": null
   }
 ]
