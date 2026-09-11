@@ -3,9 +3,10 @@ status: complete
 phase: 09-app-check-monitor-first
 source: [09-VERIFICATION.md]
 started: 2026-09-08T03:10:00Z
-updated: 2026-09-09T21:05:18Z
+updated: 2026-09-11T00:00:00Z
 
 > Final state: all 9 tests pass. Tests 2/5/6/7 initially failed; each failure was diagnosed (G-09-2/5/6/7), fixed by a gap-closure plan (09-03/09-04/09-05), and re-verified pass by its superseding test (4/8/9). Verbatim failure reports live in the Gaps section below.
+> [updated Phase 11, 2026-09-11: tests 10–11 appended (HV-09a G-09-5 formal closure + HV-09b favicon glance) — all 11 tests pass; test 10's GA4 event clause is an owner-console sub-item pending per D-09 (≤24h Events window)]
 ---
 
 ## Current Test
@@ -66,10 +67,22 @@ expected: |
 result: pass
 note: "G-09-7 formal closure PASSED by owner 2026-09-09: appcheck status within ~10s, delivered un-attested in Firestore, no auth-family console error. 09-05 probe fix verified end-to-end."
 
+### 10. UAT test 5 repeat — G-09-5 formal closure per 09-USER-SETUP checklist (Phase 11 HV-09a)
+expected: |
+  Per 09-USER-SETUP.md §G-09-5: prod incognito, DevTools → Network → request blocking BOTH *recaptcha* AND *google.com/reload*, submit at https://geohisttrivia.com/geohist/contact.html with valid data, analytics consent GRANTED → contact.status.appcheck ("We couldn't verify this message — please email santiagopostorivo@gmail.com") within ~10s, submit button re-enables, form NOT reset, Firebase console → Firestore → messages shows the submitted doc (un-attested). Repeat with consent DENIED → same status, no event, message still lands.
+  [GA4 appcheck_token_failure clause → owner-console sub-item per D-09: Firebase console → Analytics → Events within ≤24h — NOT part of today's pass/fail (owner pihole blocks GA4/DebugView); confirmed later in Firebase Events]
+result: pass
+note: "Owner-executed in-session 2026-09-11 (Phase 11 HV-09a) on prod geohisttrivia.com incognito, walking 09-USER-SETUP.md §G-09-5: BOTH blocking patterns added (*recaptcha* + *google.com/reload*); consent GRANTED submit → contact.status.appcheck (email-fallback wording) within ~10s, submit button re-enabled, form NOT reset, Firestore messages collection shows the submitted doc un-attested; consent DENIED repeat → same status, no event, message still lands. GA4 appcheck_token_failure confirmation pending as owner-console sub-item per D-09 (Firebase console → Analytics → Events, ≤24h window; owner pihole blocks GA4/DebugView) — NOT part of today's pass/fail; live checks passed, the full record closes when the owner confirms the event. Formal G-09-5 closure superseding the test 5/7/9 fix-chain records."
+
+### 11. Favicon visual glance (Phase 11 HV-09b)
+expected: Browser tabs show the GeoHist app icon on https://geohisttrivia.com/ and /geohist/contact.html; /favicon.ico 200 already machine-verified (prior record test 8, 2026-09-09).
+result: pass
+note: "Owner-executed in-session 2026-09-11 (Phase 11 HV-09b): GeoHist app icon visible in browser tabs on https://geohisttrivia.com/ and /geohist/contact.html; /favicon.ico HTTP 200 machine-verified pre-session (earlier same day). Prior record = test 8 (2026-09-09)."
+
 ## Summary
 
-total: 9
-passed: 9
+total: 11
+passed: 11
 issues: 0
 pending: 0
 skipped: 0

@@ -2,7 +2,8 @@
 
 **Generated:** 2026-09-08
 **Phase:** 09-app-check-monitor-first
-**Status:** Incomplete
+**Status:** Complete
+*Completed 2026-09-11 (Phase 11): HV-09a live checks passed — 09-UAT.md test 10 (G-09-5 formal closure, D-09 split: GA4 event = owner-console sub-item, ≤24h window); HV-09b favicon glance passed — test 11.*
 
 Complete these items for the App Check Enterprise integration to function end-to-end. The agent automated everything possible (provider swap, site-key activation, deploy, prod smoke — all green); this item requires human access to the reCAPTCHA Admin console.
 

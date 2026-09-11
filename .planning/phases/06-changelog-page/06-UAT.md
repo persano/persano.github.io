@@ -3,7 +3,7 @@ status: complete
 phase: 06-changelog-page
 source: 06-01-SUMMARY.md, 06-02-SUMMARY.md, 06-03-SUMMARY.md, 06-VERIFICATION.md
 started: 2026-09-05T18:05:00Z
-updated: 2026-09-06T00:00:00Z
+updated: 2026-09-11T00:00:00Z
 ---
 
 ## Current Test
@@ -90,10 +90,15 @@ result: pass
 expected: Owner confirms UAT re-run passes; /gsd-ship lands the 5-file atomic set (changelog.html, privacy.html, base.css, es.json, pt-BR.json) before push — 06-03 code changes are deferred-commit (uncommitted in working tree, ledger in 06-03-SUMMARY.md)
 result: pass
 
+### 14. UAT test 9 re-run — shipped v2.0 reality (Phase 11 HV-06)
+expected: Switch site language to Español on https://geohisttrivia.com/geohist/changelog.html (apex domain, shipped ×20 engine) — nav/footer/title/intro read in Spanish; the notice 'Las entradas de abajo se muestran en inglés.' is visible above the entries; the 6 entry articles remain in English (by design). Optionally repeat with Português ('As entradas abaixo são mostradas em inglês.').
+result: pass
+note: "Owner-executed in-session 2026-09-11 (Phase 11 HV-06) on production geohisttrivia.com, incognito — re-run under shipped v2.0 reality (post Phase 7 ×20 engine + Phase 8 apex domain), superseding the 2026-09-06 test 11 record for the current architecture. Verified by owner (Santiago): nav/footer/title/intro in Spanish; notice 'Las entradas de abajo se muestran en inglés.' visible above the 6 English entries (entries stay EN by design). Português repeat optional per plan — not required, not run (es/pt-BR notice wording is keycheck-gated at 178-key parity)."
+
 ## Summary
 
-total: 13
-passed: 13
+total: 14
+passed: 14
 issues: 0
 pending: 0
 skipped: 0
