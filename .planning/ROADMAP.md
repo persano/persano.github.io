@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1 MVP** — Phases 1-5 (shipped 2026-09-05)
-- 🚧 **v2.0 Full Deferred Scope** — Phases 6-10 (in progress)
+- 🚧 **v2.0 Full Deferred Scope** — Phases 6-11 (in progress)
 
 ## Phases
 
@@ -20,7 +20,7 @@ Full details: [.planning/milestones/v1-ROADMAP.md](milestones/v1-ROADMAP.md)
 
 </details>
 
-### 🚧 v2.0 Full Deferred Scope (Phases 6-10)
+### 🚧 v2.0 Full Deferred Scope (Phases 6-11)
 
 **Milestone Goal:** Ship every v2-deferred item — 17 new localizations (incl. RTL), gated social proof, App Check, changelog page, custom domain.
 
@@ -175,7 +175,7 @@ Plans:
 
 ## Progress
 
-**Execution Order:** Phases execute in numeric order: 6 → 7 → 8 → 9 → 10
+**Execution Order:** Phases execute in numeric order: 6 → 7 → 8 → 9 → 10 → 11 (Phase 11 starts only after `/gsd-ship` reconciles remote main — 11-CONTEXT D-11)
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -189,17 +189,28 @@ Plans:
 | 8. Custom Domain Migration | v2.0 | 3/3 | Complete    | 2026-09-07 |
 | 9. App Check, Monitor-First | v2.0 | 5/5 | Complete    | 2026-09-09 |
 | 10. Gated Social Proof | v2.0 | 2/2 | Complete    | 2026-09-10 |
+| 11. Close v2.0 audit debt | v2.0 | 0/3 | Planned | — |
 
 ### Phase 11: Close v2.0 audit debt: F-1 AGENTS.md rewrite + doc-hygiene batch + UAT records
 
-**Goal:** [To be planned]
-**Requirements**: TBD
-**Depends on:** Phase 10
-**Plans:** 0 plans
+**Goal:** Future agents and the owner can trust the repo's docs and records — AGENTS.md describes shipped v2.0 reality instead of the pre-pivot design, planning records carry supersession-noted corrections, the three owner-pending verifications are recorded in their own phase UAT files, and the last audit nit (Tier-1 star-uniqueness) is permanently CI-enforced
+**Requirements**: None from REQUIREMENTS.md — doc/process-debt closure driven by v2.0-MILESTONE-AUDIT.md items F-1, F-2, F-3, F-4, F-5, HV-06, HV-09a, HV-09b, P-10-3 (binding decisions: 11-CONTEXT.md D-01..D-11)
+**Depends on:** Phase 10 + `/gsd-ship` reconciliation of remote main 3eaf9d9 into HEAD (D-11 hard ordering)
+**Success Criteria** (what must be TRUE):
+
+  1. AGENTS.md is a full rewrite describing shipped v2.0 reality (apex domain, single-URL keyed-engine i18n with 19 JSON dictionaries / 178-key surface, fork-shaped Firebase split, App Check Enterprise monitoring-mode, social-proof tiers, Firebase 12.18.0 pinned CDN) — zero legacy-host literals, zero source-wired GSD injection markers, CONVENTIONS/ARCHITECTURE populated with real patterns; the old-domain CI gate enforces AGENTS.md (allowlist entry dropped, enforcement red-gate proven)
+  2. F-2 "20 dictionaries" fixes recorded in-place with bracketed supersession notes (19 JSON dictionaries — no en.json; EN lives in markup); F-3 privacy date = September 8, 2026; F-4 08-RUNBOOK §5 rows flipped to ✅ with pass date 2026-09-07
+  3. HV-06 / HV-09a / HV-09b run in-phase with the owner live and recorded in 06-UAT.md / 09-UAT.md with dated supersession framing (D-07/D-08); GA4 event clause tracked as owner-console sub-item (D-09); 09-USER-SETUP.md status flips to Complete on the same commit (F-5)
+  4. `scripts/i18n-keycheck.mjs` fails closed on star-uniqueness violations (★ exactly once as the single proof-row SVG; zero ★ text in any dictionary value or markup), red-gate proven in both directions, riding the existing validate chain (D-10)
+  5. Full `npm run validate` battery green after all edits; D-06 commit shape respected (4 atomic commits: F-1 rewrite / hygiene batch / UAT records + F-5 / P-10-3 gate)
+
+**Plans:** 3 plans
 
 Plans:
 
-- [ ] TBD (run /gsd-plan-phase 11 to break down)
+- [ ] 11-01-PLAN.md — F-1 AGENTS.md rewrite + PROJECT.md line-5 URL fix + old-domain-gate allowlist drop (D-01..D-04)
+- [ ] 11-02-PLAN.md — F-2/F-3/F-4 hygiene batch + HV-06/HV-09a/HV-09b owner UAT records + F-5 header flip (D-05..D-09)
+- [ ] 11-03-PLAN.md — P-10-3 star-uniqueness fail-closed keycheck gate + red-gate proof (D-10)
 
 ---
 *Roadmap created: 2026-09-05 (milestone v2.0 — continues numbering from v1's Phase 5)*
