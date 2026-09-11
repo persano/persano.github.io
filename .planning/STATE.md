@@ -4,16 +4,16 @@ milestone: v2.0
 milestone_name: Full Deferred Scope
 current_phase: 10
 status: completed
-stopped_at: Phase 10 complete — all phases complete
-last_updated: "2026-09-11T01:43:57.584Z"
+stopped_at: Phase 11 context gathered
+last_updated: "2026-09-11T02:27:05.888Z"
 last_activity: 2026-09-10
-state_head: 8a9ab4b74d5744000b3efbdb5aac132a3e192340
+state_head: 5d89c06f0558d4303e3718b0587f0f8949cf1bc4
 progress:
-  total_phases: 5
+  total_phases: 6
   completed_phases: 5
   total_plans: 19
   completed_plans: 19
-  percent: 100
+  percent: 83
 ---
 
 # Project State
@@ -140,6 +140,10 @@ None yet.
 - Owner's pihole blocks GA4 → analytics verification limited to Firebase console Events with up to 24h lag (no DebugView from owner devices) — plan GA4-observability checks accordingly in later phases
 - ⚠️ [Phase 8] GSC Change-of-Area 180-day signal window active until ~2027-03 — old property retained for D-08 index-decay monitoring; don't delete
 
+### Roadmap Evolution
+
+- Phase 11 added: Close v2.0 audit debt: F-1 AGENTS.md rewrite + doc-hygiene batch + UAT records
+
 ## Deferred Items
 
 Items acknowledged and deferred at milestone close, most recent first:
@@ -156,6 +160,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-10
-Stopped at: v2.0 milestone 100% complete — /gsd-ship (deferred-commit reconciliation) then /gsd-complete-milestone v2.0
-Resume file: None
+Last session: 2026-09-11T02:27:05.339Z
+Stopped at: Phase 11 context gathered
+Resume file: .planning/phases/11-close-v2-0-audit-debt-f-1-agents-md-rewrite-doc-hygiene-batc/11-CONTEXT.md
