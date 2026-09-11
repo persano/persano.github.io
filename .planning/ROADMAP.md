@@ -190,5 +190,16 @@ Plans:
 | 9. App Check, Monitor-First | v2.0 | 5/5 | Complete    | 2026-09-09 |
 | 10. Gated Social Proof | v2.0 | 2/2 | Complete    | 2026-09-10 |
 
+### Phase 11: Close v2.0 audit debt: F-1 AGENTS.md rewrite + doc-hygiene batch + UAT records
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 10
+**Plans:** 0 plans
+
+Plans:
+
+- [ ] TBD (run /gsd-plan-phase 11 to break down)
+
 ---
 *Roadmap created: 2026-09-05 (milestone v2.0 — continues numbering from v1's Phase 5)*
