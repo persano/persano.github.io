@@ -4,17 +4,17 @@ milestone: v2.0
 milestone_name: Full Deferred Scope
 current_phase: 11
 current_phase_name: "Close v2.0 audit debt: F-1 AGENTS.md rewrite + doc-hygiene batch + UAT records"
-status: "Phase 10 shipped — PR #5 updated (phase-11 context + tooling hygiene); PR #4 closed superseded"
-stopped_at: Phase 11 context gathered
-last_updated: "2026-09-11T03:06:04.307Z"
+status: executing
+stopped_at: Completed 11-01-PLAN.md
+last_updated: "2026-09-11T03:24:47.375Z"
 last_activity: 2026-09-11
-last_activity_desc: Phase 11 planning complete
-state_head: 934ae05f0738b66c4344418252ee554ddb79debc
+last_activity_desc: Phase 11 execution started
+state_head: 6cba4ddfaf6a903b9b842bc587271b34e9ec6bb5
 progress:
   total_phases: 6
   completed_phases: 5
   total_plans: 22
-  completed_plans: 19
+  completed_plans: 20
   percent: 83
 ---
 
@@ -25,18 +25,18 @@ progress:
 See: .planning/PROJECT.md (updated 2026-09-10)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel — before the app goes live on Google Play.
-**Current focus:** v2.0 milestone 100% complete — next: /gsd-ship (reconcile deferred commits) then /gsd-complete-milestone v2.0
+**Current focus:** Phase 11 — Close v2.0 audit debt: F-1 AGENTS.md rewrite + doc-hygiene batch + UAT records
 
 ## Current Position
 
-Phase: 11 (Close v2.0 audit debt: F-1 AGENTS.md rewrite + doc-hygiene batch + UAT records) — READY TO EXECUTE
-Plan: Not started
-Status: Phase 10 shipped — PR #5 updated (phase-11 context + tooling hygiene); PR #4 closed superseded
+Phase: 11 (Close v2.0 audit debt: F-1 AGENTS.md rewrite + doc-hygiene batch + UAT records) — EXECUTING
+Plan: 2 of 3
+Status: Ready to execute
 Total Plans in Phase: 3
 Plans Executed: 17 (milestone lifetime)
-Last activity: 2026-09-11 — Phase 11 planning complete
+Last activity: 2026-09-11 — Phase 11 execution started
 
-Progress: [████████████████████] 19/19 plans (100%)
+Progress: [████████████████████] 19/19 plans ([████████░░] 83%)
 
 ## Performance Metrics
 
@@ -73,6 +73,7 @@ Progress: [████████████████████] 19/19 p
 | Phase 09-05 P09-05 | 15 min | 3 tasks | 4 files |
 | Phase 10 P10-01 | 8 min | 2 tasks | 21 files |
 | Phase 10 P02 | 16 min | 3 tasks | 2 files |
+| Phase 11 P01 | 5 min | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -125,6 +126,9 @@ Recent decisions affecting current work:
 - [Phase 10]: Phase 10 P02: Tier-2 aggregateRating permanently OFF via inert HTML comment outside the JSON-LD script (verbatim review-snippet citation + on-site-source precondition) mirrored in 10-RUNBOOK.md section 6; served schema byte-identical, rating literal confined to the comment (D-06/D-07)
 - [Phase 10]: Phase 10 P02 shipped via Git Data API bridge (strict FF 81463b3 -> a24fd4e -> 3eaf9d9, tree 0556bf2, 22 blobs sha-asserted + round-trip verified; LF-normalized per 09-04 precedent) - Actions 34431471810 green, prod smoke green (strip + OFF row + byte-identical JSON-LD + smoke-check ALL PASS); D-09 owner ruling approved all 5 glyphs pre-ship; remote main 3eaf9d9 ahead of local HEAD 275046b - /gsd-ship must fetch/rebase (content identical)
 - [Phase 10]: UAT 3/3 pass (prod visual strip check; OFF-row invisibility EN/ES/PT-BR/ar; Rich Results Test) — Phase 10 marked complete, v2.0 at 5/5 phases / 19/19 plans; COVERAGE.md declaration overrode the api-coverage verify:pre gate (deploy-bridge prose false positive, no external API integrated); next workflow step = /gsd-ship (fetch/rebase remote main 3eaf9d9, commit deferred 10-01/10-02) then /gsd-complete-milestone v2.0
+- [Phase 11]: Phase 11 P01: AGENTS.md hand-rewritten to shipped v2.0 reality (F-1) - apex domain, keyed-engine i18n 19 dicts/178 keys, fork-shaped Firebase split, App Check Enterprise monitoring, populated Conventions/Architecture; only profile-start marker retained (D-01/D-02/D-03) — audit WARNING item closed per 11-CONTEXT D-01..D-03
+- [Phase 11]: Phase 11 P01: domain gate now ENFORCES AGENTS.md (ALLOW entry dropped per D-04) - mutation probe proven: probe line -> exit 1 naming AGENTS.md:166 -> byte-identical SHA256 restore -> exit 0; full npm run validate green incl. the enforcing gate — doc can never silently rot again; probe evidence in 11-01-SUMMARY
+- [Phase 11]: Phase 11 P01: D-06 commit 1 DEFERRED to /gsd-ship (deferred-commit mode + raw git commit permission-deny) - pinned subject 'docs(11): rewrite AGENTS.md to shipped v2.0 reality (F-1)' with files AGENTS.md, .planning/PROJECT.md, scripts/check-no-old-domain.mjs recorded in 11-01-SUMMARY Deferred Commits — session mode overrides plan-local commit; /gsd-ship lands it
 
 ### Pending Todos
 
@@ -162,6 +166,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-11T02:27:05.339Z
-Stopped at: Phase 11 context gathered
-Resume file: .planning/phases/11-close-v2-0-audit-debt-f-1-agents-md-rewrite-doc-hygiene-batc/11-CONTEXT.md
+Last session: 2026-09-11T03:24:46.810Z
+Stopped at: Completed 11-01-PLAN.md
+Resume file: None
