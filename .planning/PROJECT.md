@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A static GitHub Pages website at https://persano.github.io serving as Santiago David Postorivo's personal brand hub ("Persano"). The root page is a minimal portfolio hub introducing the developer and linking to per-app sites. The first and primary app site is `/geohist/` — a complete landing page for **GeoHist Trivia**, an Android trivia game (history + geography, Jetpack Compose, Google Play Games Services, IAP, AdMob, offline-capable, 20 localizations) currently in Google Play review. The site lets players learn about the game, view screenshots, read the FAQ and game guide, access the privacy policy, and contact the developer via a Firebase-powered contact form.
+A static GitHub Pages website at https://geohisttrivia.com serving as Santiago David Postorivo's personal brand hub ("Persano"). The root page is a minimal portfolio hub introducing the developer and linking to per-app sites. The first and primary app site is `/geohist/` — a complete landing page for **GeoHist Trivia**, an Android trivia game (history + geography, Jetpack Compose, Google Play Games Services, IAP, AdMob, offline-capable, 20 localizations) currently in Google Play review. The site lets players learn about the game, view screenshots, read the FAQ and game guide, access the privacy policy, and contact the developer via a Firebase-powered contact form.
 
 ## Core Value
 

@@ -15,9 +15,11 @@
  * factual-identifier surfaces):
  *   .planning    historical planning docs (publicly served, out of scope)
  *   README.md    repo-name heading is a factual identifier
- *   AGENTS.md    hosting documentation
  *   .git         repository metadata
  *   node_modules npm tooling
+ *   (AGENTS.md was allowlisted pre-Phase 11 as "hosting documentation";
+ *    dropped at the F-1 rewrite — the doc is now legacy-host-free and
+ *    gate-ENFORCED like every other tracked file.)
  *
  * Hidden directories (any entry starting with ".") are additionally
  * skipped wholesale: they are tooling state (.git, .planning, .serena
@@ -36,7 +38,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join, dirname, sep } from 'node:path';
 
 const LEGACY_HOST = ['persano', 'github', 'io'].join('.');
-const ALLOW = new Set(['.planning', 'README.md', 'AGENTS.md', '.git', 'node_modules']);
+const ALLOW = new Set(['.planning', 'README.md', '.git', 'node_modules']);
 
 // Repo root = parent of scripts/ (process.argv[1] is the executed
 // script's resolved path) — cwd-independent, no node:url import needed.
