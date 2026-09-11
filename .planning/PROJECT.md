@@ -55,6 +55,7 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 - ✓ Custom domain live at https://geohisttrivia.com — apex + HTTPS enforced + `protected_domain_state: verified`, 44-URL rewrite in one commit, permanent CI old-domain gate — Phase 8 (HOST-01, HOST-02; UAT 5/5)
 - ✓ GSC migration complete — sitemap Success on new Domain property, Change of Address old→new (180-day window), old property retained for index-decay monitoring — Phase 8 (HOST-03)
 - ✓ App Check via reCAPTCHA Enterprise, monitoring mode live on prod — dormant-by-default gate, bounded ~10s token-failure race with deliver-anyway, ~3s probe-gated init (blocked-reCAPTCHA submits deliver un-attested in seconds), consent-gated appcheck_token_failure event, favicon site-wide — Phase 9 (FIRE-07, FIRE-08; UAT 9/9 final state, gaps G-09-2/4/5/6/7 all resolved)
+- ✓ Facts-only social proof: 4-pill keyed strip (aria-labeled, no visible h2, zero links) between hero and features + Tier-1 "Rated X.X" row shipped OFF (hidden, 0.0 self-flagging span, two-edit owner flip per 10-RUNBOOK.md gated on real Play data, no minimum floor) + Tier-2 aggregateRating permanently OFF via inert policy-citing comment; served JSON-LD byte-identical — Phase 10 (SEO-05, SEO-06, SEO-07; UAT 3/3)
 
 ### Active
 
@@ -64,7 +65,7 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 - [ ] Structure anticipates future apps as new subdirs without visible placeholders
 - [ ] Owner request (post-phase-8): remove root selector/hub page and serve the GeoHist landing as site home — needs product decision + planning before Phase 9 work
 - [ ] FIRE-09: App Check enforcement flip — owner console, gated on 30-successful-submissions floor + clean console signal (runbook §1); owner-only, post-monitoring
-- [ ] SEO-05: aggregateRating + social-proof wiring, gated on real Play ratings (owner flips gate when listing live)
+
 
 ### Out of Scope
 
@@ -77,11 +78,11 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 ## Context
 
 - **Shipped v1 (2026-09-05)**: site fully live at https://persano.github.io — 5 phases, 12 plans, 27/27 v1 requirements validated; see `.planning/MILESTONES.md` and `.planning/milestones/v1-ROADMAP.md`
-- **v2.0 in progress**: site now canonical at https://geohisttrivia.com (persano.github.io 301s); Firebase contact form live on the new domain, App Check Enterprise-attested in monitoring mode (deliver-anyway on token failure); GSC Domain property + CoA active
+- **v2.0 complete (all phases 6-10 executed)**: site canonical at https://geohisttrivia.com (persano.github.io 301s); 20-locale site; App Check Enterprise-attested in monitoring mode (deliver-anyway on token failure); facts-only proof strip live, rating row OFF pending real Play data (flip per 10-RUNBOOK.md); GSC Domain property + CoA active
 - Current stack reality: plain HTML/CSS/vanilla JS, zero-build; one JS surface set (i18n.js, consent.js, contact.js via Firebase CDN dynamic imports — contact.js now carries probe-gated App Check + bounded token race); 4 real WebP screenshots; OG image composite; favicon.ico; sitemap + robots + SoftwareApplication JSON-LD
 - Owner-pending before Play submission: Play Console privacy-URL field → `/geohist/privacy.html`; Play Store link swap once listing is live
 - App published/review context: GeoHist Trivia is in Google Play review ("soon"); Play Store link stays placeholder until approval
-- App has 20 localizations; site v1 covers EN + ES + PT-BR as core (17 deferred to v2)
+- App has 20 localizations; site covers all 20 (EN + 19, incl. RTL ar/ur) since Phase 7
 - Firebase: reuse of app's project (analytics + anonymous auth + Firestore `messages`, create-only rules); API-key hardening console-side
 - Site maintenance model: agent-maintained — content updates happen via chat sessions, not raw HTML editing by the owner
 - Visual style: dark antique aesthetic (map textures, aged-map teal accent), consistent between hub and app site
@@ -121,6 +122,7 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 | Token-failure semantics: bounded ~10s race + record-and-swallow + deliver-anyway (monitoring mode); ~3s reachability probe skips App Check init when reCAPTCHA is blocked | Failure paths bounded & graceful; blocked-reCAPTCHA visitors (ad-blockers) still deliver — the SDK's unbounded Auth header await (30/60s NetworkTimeout, onload-only script tag) is unpatchable at CDN pin | ✓ Phase 9 — G-09-5/G-09-7 fixes, UAT test 9 pass |
 | Remote deploys via GitHub Git Data API bridge (strict fast-forward; per-blob sha assertions mandatory) | raw git push harness-blocked in executor sessions; blob-sha assertion is the standing regression guard after the empty-blob incident | ✓ Phase 9 — bridge chain to 81463b3, remote tree byte-identical to local HEAD |
 | Single-entry favicon.ico (22-byte ICO header + verbatim app icon bytes) via node builtins | No image library, no build step; reuses app icon art | ✓ Phase 9 — G-09-6, /favicon.ico 200 site-wide |
+| Rating surfaces (Tier-1 row / Tier-2 JSON-LD) shipped OFF: hidden row + inert comment citing Google review-snippet policy verbatim; flip = 2-edit owner runbook gated on real visible Play data (no minimum floor) | Mirroring Play ratings into markup is barred by policy; honest zero (0.0) over fake rating; documented-OFF pair (in-file comment + runbook) blocks future-agent rationalization | ✓ Phase 10 — prod smoke: row hidden, zero rating literals in served schema |
 
 ## Evolution
 
@@ -140,4 +142,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-09 after Phase 9*
+*Last updated: 2026-09-10 after Phase 10*
