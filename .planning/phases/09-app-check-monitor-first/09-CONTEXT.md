@@ -6,7 +6,7 @@
 <domain>
 ## Phase Boundary
 
-Deliver invisible bot protection on the contact form: Firebase App Check with the **reCAPTCHA v3** provider, initialized as the 4th lazy CDN module in `contact.js`'s submit path (`initializeAppCheck` before auth/firestore access; zero reCAPTCHA bytes in served HTML — submit-time load only). Monitoring mode only in code: submissions succeed with zero user-visible change while the console accrues Verified/Uncertain metrics. Token-failure path gets a dedicated `contact.status.appcheck` keyed status node with email fallback (key #171 lands in all 20 dictionaries atomically) plus a consent-gated Analytics token-failure event. Enforcement flip is documented as a reversible, per-product (Firestore + Authentication) owner console step gated on evidence — never calendar — with the owner-agreed threshold; the reCAPTCHA v3 site key is registered against `geohisttrivia.com` (owner console step, runbook). Privacy policy gains a reCAPTCHA/App Check line with the consent-interplay nuance (CMPL-05). NOT in this phase: the enforcement flip execution itself (FIRE-10, post-monitoring future requirement), App Check on the Android app, any Analytics-module change (fork split locked), captcha UI of any kind.
+Deliver invisible bot protection on the contact form: Firebase App Check with the **reCAPTCHA v3** provider, initialized as the 4th lazy CDN module in `contact.js`'s submit path (`initializeAppCheck` before auth/firestore access; zero reCAPTCHA bytes in served HTML — submit-time load only). Monitoring mode only in code: submissions succeed with zero user-visible change while the console accrues Verified/Uncertain metrics. Token-failure path gets a dedicated `contact.status.appcheck` keyed status node with email fallback (key #171 lands in all 20 dictionaries atomically) [corrected Phase 11: 19 JSON dictionaries — no en.json; EN is the markup baseline, so the "20" counted locales, not files] plus a consent-gated Analytics token-failure event. Enforcement flip is documented as a reversible, per-product (Firestore + Authentication) owner console step gated on evidence — never calendar — with the owner-agreed threshold; the reCAPTCHA v3 site key is registered against `geohisttrivia.com` (owner console step, runbook). Privacy policy gains a reCAPTCHA/App Check line with the consent-interplay nuance (CMPL-05). NOT in this phase: the enforcement flip execution itself (FIRE-10, post-monitoring future requirement), App Check on the Android app, any Analytics-module change (fork split locked), captcha UI of any kind.
 
 </domain>
 
@@ -25,7 +25,7 @@ Deliver invisible bot protection on the contact form: Firebase App Check with th
 ### Token-failure UX
 - **D-06:** `contact.status.appcheck` wording is **neutral verify framing** with email fallback — e.g. "We couldn't verify this message — please email santiagopostorivo@gmail.com." No bot/captcha jargon, no reveal of the anti-abuse mechanism; same tone as the generic error status. Plain-text keyed node (no child markup; email as text, matching `contact.status.error`).
 - **D-07:** **No auto-retry** — a token-fetch failure shows the appcheck status immediately; the visitor resends manually. Catch-path mapping: App Check-family errors (`app-check/*`, and post-enforcement `permission-denied` where attribution is clear) → appcheck status; everything else → generic error. Exact error-code attribution is the agent's discretion.
-- **D-08:** The new key is **key #171 in all 20 dictionaries atomically** — the keycheck exact set-equality gate forces every dictionary to gain `contact.status.appcheck` in the same commit as the node. Agent drafts the 19 translations with per-language glossaries + two-pass drafting (Phase 7 D-07/D-08 pattern); per-wave owner spot-check precedent applies.
+- **D-08:** The new key is **key #171 in all 20 dictionaries atomically** [corrected Phase 11: 19 JSON dictionaries — no en.json; EN is the markup baseline, so the "20" counted locales, not files] — the keycheck exact set-equality gate forces every dictionary to gain `contact.status.appcheck` in the same commit as the node. Agent drafts the 19 translations with per-language glossaries + two-pass drafting (Phase 7 D-07/D-08 pattern); per-wave owner spot-check precedent applies.
 
 ### Privacy (CMPL-05)
 - **D-09:** `privacy.html` section 3 SDK inventory gains **one reCAPTCHA/App Check line** ("website only" phrasing like the Firestore entry) plus **one consent-interplay sentence**: App Check is anti-abuse transport (honeypot category), loads only when the form is submitted, and runs regardless of the analytics cookie choice. Static EN page (documented i18n exception); agent drafts, owner reviews before ship.
@@ -66,7 +66,7 @@ Deliver invisible bot protection on the contact form: Firebase App Check with th
 - `geohist/contact.html` — gains the `contact.status.appcheck` pre-authored hidden status node (Pattern 5, lines 68–73 shape)
 - `geohist/privacy.html` — section 3 SDK inventory (line 45–51) gains the reCAPTCHA/App Check line + note
 - `firebase/firestore.rules` — UNTOUCHED (token rides request headers via the SDK; rules stay create-only schema-locked)
-- `js/i18n/*.json` (20 dictionaries, 170 keys) + `scripts/i18n-keycheck.mjs` — surface moves 170→171 atomically; gate covers all 20 automatically once the key exists in one
+- `js/i18n/*.json` (20 dictionaries, 170 keys) [corrected Phase 11: 19 JSON dictionaries — no en.json; EN is the markup baseline, so the "20" counted locales, not files] + `scripts/i18n-keycheck.mjs` — surface moves 170→171 atomically; gate covers all 20 automatically once the key exists in one
 - `.github/workflows/deploy.yml` — existing validate chain (html, i18n keycheck, domain gate); no new workflow needed
 - `scripts/smoke-check.sh` — post-deploy smoke gate; researcher checks whether App Check changes its coverage
 - `.planning/phases/08-custom-domain-migration/08-RUNBOOK.md` — structural pattern for the new enforcement runbook section
@@ -86,7 +86,7 @@ Deliver invisible bot protection on the contact form: Firebase App Check with th
 - `contact.js` `getApp()` try/catch reuse — handles "analytics initialized the default app first"; `initializeAppCheck` rides the same reused app instance, no new coordination
 - `showStatus()`/`statusEls` Pattern-5 map — the appcheck variant is one new pre-authored node + one `data-status` key, no engine change
 - `consent.js` `logEventSafe()` + document-event precedent — fork-preserving Analytics event bridge for the token-failure signal exists as a working pattern (`persano:langchange`)
-- 20 dictionaries + keycheck gate — adding the key to one dictionary extends CI coverage to all 20 with zero script edits
+- 20 dictionaries [corrected Phase 11: 19 JSON dictionaries — no en.json; EN is the markup baseline, so the "20" counted locales, not files] + keycheck gate — adding the key to one dictionary extends CI coverage to all 20 with zero script edits
 
 ### Established Patterns
 - Keyed node = plain-text-only (no child markup) — appcheck message carries the email as text

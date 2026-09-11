@@ -170,8 +170,8 @@ Cross-reference so you know what is already automated — none of this needs you
 | Pages domain set (`cname: geohisttrivia.com`) via gh API | no | ✅ done |
 | HTTPS cert issue + verification | no | ✅ `approved` (apex + www) |
 | HTTPS enforce flip (`PUT … -F https_enforced=true`) | no | ✅ done 2026-09-07 (edge propagation ≤24 h — §0 note) |
-| URL rewrite (44 old-domain refs + 5 prose headers, one atomic commit) + CI old-domain gate | no | ⏳ plan 08-02 — **starts only after your §1–§4 gate items pass** |
-| Post-deploy smoke-check against `https://geohisttrivia.com` | no | ⏳ plan 08-02/08-03 |
+| URL rewrite (44 old-domain refs + 5 prose headers, one atomic commit) + CI old-domain gate | no | ✅ done 2026-09-07 (migration commit c72b3a2, CI validate+deploy green) |
+| Post-deploy smoke-check against `https://geohisttrivia.com` | no | ✅ done 2026-09-07 (smoke ALL PASS on apex; curl triple apex 200 / www 301 / github.io 301 path-preserved) |
 | GSC sitemap resubmit + Change of Address | **you** | §6 |
 
 ---
