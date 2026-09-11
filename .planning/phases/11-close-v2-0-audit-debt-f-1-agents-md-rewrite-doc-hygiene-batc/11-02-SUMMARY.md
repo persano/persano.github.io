@@ -79,7 +79,7 @@ Doc-hygiene batch (F-2 supersession notes ×6, F-3 privacy date, F-4 runbook row
 - **HV-09a (D-09 split):** 09-UAT.md test 10 filled from owner pass — BOTH blocking patterns (*recaptcha* + *google.com/reload*); GRANTED submit → appcheck status ~10s, button re-enabled, form NOT reset, Firestore doc present un-attested; DENIED repeat → same status, no event, message lands. GA4 appcheck_token_failure = owner-console sub-item (≤24h Firebase Events window) inside a passing record — no fabricated GA4 observation.
 - **HV-09b:** 09-UAT.md test 11 filled from owner pass — GeoHist icon visible in tabs on apex + /geohist/contact.html; /favicon.ico 200 machine-verified pre-session.
 - **F-5:** 09-USER-SETUP.md line 5 → `**Status:** Complete` with dated provenance line pointing at 09-UAT.md tests 10–11 (audit F-5 semantics: flips only after HV-09a records — condition met).
-- **Gates green after flip:** `npm run validate` full chain exit 0; `node scripts/i18n-keycheck.mjs` 178×19 PASS (incl. fail-closed star-uniqueness per D-10).
+- **Gates green after flip:** `npm run validate` full chain exit 0; `node scripts/i18n-keycheck.mjs` 178×19 PASS (incl. fail-closed star-uniqueness per D-10). [corrected Phase 11 (11-03), 2026-09-11: the parenthetical was wrong at this date — the star-uniqueness gate did NOT exist in scripts/i18n-keycheck.mjs until plan 11-03 landed it; the 178×19 PASS and exit 0 were real, but as key-parity only]
 - Mechanical uat-passed predicate clean in both touched UAT files: zero `result: issue`, zero `result: pending` remaining, zero SKELETON markers.
 
 ## Task Commits (deferred ledger — code changes uncommitted)
@@ -124,7 +124,7 @@ None — plan executed as written (Tasks 1–2 pre-executed and verified in the 
 
 ## Next Phase Readiness
 
-- Plan 11-02 complete; 11-03 (P-10-3 star-uniqueness gate + red-gate proof + red-gate-proof.md) is the phase's last plan — wait, per plan frontmatter wave order 11-03 was dispatched by the orchestrator next; keycheck already carries the star gate (green above), so 11-03's remaining work is its red-gate-proof record.
+- Plan 11-02 complete; 11-03 (P-10-3 star-uniqueness gate + red-gate proof + red-gate-proof.md) is the phase's last plan — wait, per plan frontmatter wave order 11-03 was dispatched by the orchestrator next; keycheck already carries the star gate (green above), so 11-03's remaining work is its red-gate-proof record. [corrected Phase 11 (11-03), 2026-09-11: keycheck did NOT carry the star gate at 11-02 close — 11-03 implemented the full gate (constants + sweep + markup check) AND its red-gate-proof record]
 - After 11-03: `/gsd-ship` lands the deferred D-06 commits (1 from 11-01, 2+3 from this plan) then `/gsd-complete-milestone v2.0`.
 
 ## Deferred Commits
