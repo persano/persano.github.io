@@ -189,7 +189,7 @@ Plans:
 | 8. Custom Domain Migration | v2.0 | 3/3 | Complete    | 2026-09-07 |
 | 9. App Check, Monitor-First | v2.0 | 5/5 | Complete    | 2026-09-09 |
 | 10. Gated Social Proof | v2.0 | 2/2 | Complete    | 2026-09-10 |
-| 11. Close v2.0 audit debt | v2.0 | 3/3 | In Progress|  |
+| 11. Close v2.0 audit debt | v2.0 | 3/3 | Complete    | 2026-09-11 |
 
 ### Phase 11: Close v2.0 audit debt: F-1 AGENTS.md rewrite + doc-hygiene batch + UAT records
 
@@ -204,7 +204,7 @@ Plans:
   4. `scripts/i18n-keycheck.mjs` fails closed on star-uniqueness violations (★ exactly once as the single proof-row SVG; zero ★ text in any dictionary value or markup), red-gate proven in both directions, riding the existing validate chain (D-10)
   5. Full `npm run validate` battery green after all edits; D-06 commit shape respected (4 atomic commits: F-1 rewrite / hygiene batch / UAT records + F-5 / P-10-3 gate)
 
-**Plans:** 3/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 **Wave 1**
