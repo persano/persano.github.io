@@ -5,17 +5,17 @@ milestone_name: Full Deferred Scope
 current_phase: 11
 current_phase_name: "Close v2.0 audit debt: F-1 AGENTS.md rewrite + doc-hygiene batch + UAT records"
 status: executing
-stopped_at: Completed 11-01-PLAN.md
-last_updated: "2026-09-11T03:24:47.375Z"
+stopped_at: Completed 11-02-PLAN.md
+last_updated: "2026-09-11T14:52:11.903Z"
 last_activity: 2026-09-11
 last_activity_desc: Phase 11 execution started
-state_head: 6cba4ddfaf6a903b9b842bc587271b34e9ec6bb5
+state_head: c85ec38e4a6652deb95c48e4a5bfd4ceb5dedbc2
 progress:
   total_phases: 6
-  completed_phases: 5
+  completed_phases: 4
   total_plans: 22
-  completed_plans: 20
-  percent: 83
+  completed_plans: 21
+  percent: 67
 ---
 
 # Project State
@@ -30,13 +30,13 @@ See: .planning/PROJECT.md (updated 2026-09-10)
 ## Current Position
 
 Phase: 11 (Close v2.0 audit debt: F-1 AGENTS.md rewrite + doc-hygiene batch + UAT records) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Total Plans in Phase: 3
 Plans Executed: 17 (milestone lifetime)
 Last activity: 2026-09-11 — Phase 11 execution started
 
-Progress: [████████████████████] 19/19 plans ([████████░░] 83%)
+Progress: [████████████████████] 19/19 plans ([███████░░░] 67%)
 
 ## Performance Metrics
 
@@ -74,6 +74,7 @@ Progress: [████████████████████] 19/19 p
 | Phase 10 P10-01 | 8 min | 2 tasks | 21 files |
 | Phase 10 P02 | 16 min | 3 tasks | 2 files |
 | Phase 11 P01 | 5 min | 3 tasks | 3 files |
+| Phase 11 P02 | 15 min | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -129,6 +130,8 @@ Recent decisions affecting current work:
 - [Phase 11]: Phase 11 P01: AGENTS.md hand-rewritten to shipped v2.0 reality (F-1) - apex domain, keyed-engine i18n 19 dicts/178 keys, fork-shaped Firebase split, App Check Enterprise monitoring, populated Conventions/Architecture; only profile-start marker retained (D-01/D-02/D-03) — audit WARNING item closed per 11-CONTEXT D-01..D-03
 - [Phase 11]: Phase 11 P01: domain gate now ENFORCES AGENTS.md (ALLOW entry dropped per D-04) - mutation probe proven: probe line -> exit 1 naming AGENTS.md:166 -> byte-identical SHA256 restore -> exit 0; full npm run validate green incl. the enforcing gate — doc can never silently rot again; probe evidence in 11-01-SUMMARY
 - [Phase 11]: Phase 11 P01: D-06 commit 1 DEFERRED to /gsd-ship (deferred-commit mode + raw git commit permission-deny) - pinned subject 'docs(11): rewrite AGENTS.md to shipped v2.0 reality (F-1)' with files AGENTS.md, .planning/PROJECT.md, scripts/check-no-old-domain.mjs recorded in 11-01-SUMMARY Deferred Commits — session mode overrides plan-local commit; /gsd-ship lands it
+- [Phase 11]: Phase 11 P02: owner UAT records filled from blanket pass (2026-09-11) - 06-UAT test 14 (HV-06), 09-UAT tests 10/11 (HV-09a D-09 split + HV-09b); counters 14/14 + 11/11; predicate clean; GA4 event = owner-console sub-item (24h window, non-blocking)
+- [Phase 11]: Phase 11 P02: F-5 executed as plan/audit define it - 09-USER-SETUP status flip Complete (D-06 commit 3); dispatch prompt's '10-RUNBOOK tier-1 rating row ON' wording rejected as conflation - Tier-1 row stays deferred-by-design (11-CONTEXT Phase Boundary; 10-RUNBOOK section-1 gate unmet, no owner-reported Play rating; fabrication forbidden)
 
 ### Pending Todos
 
@@ -166,6 +169,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-11T03:24:46.810Z
-Stopped at: Completed 11-01-PLAN.md
+Last session: 2026-09-11T14:52:11.371Z
+Stopped at: Completed 11-02-PLAN.md
 Resume file: None
