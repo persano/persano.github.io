@@ -4,17 +4,17 @@ milestone: v2.0
 milestone_name: Full Deferred Scope
 current_phase: 11
 current_phase_name: "Close v2.0 audit debt: F-1 AGENTS.md rewrite + doc-hygiene batch + UAT records"
-status: executing
-stopped_at: Completed 11-02-PLAN.md
-last_updated: "2026-09-11T14:52:11.903Z"
+status: verifying
+stopped_at: Completed 11-03-PLAN.md
+last_updated: "2026-09-11T15:07:29.559Z"
 last_activity: 2026-09-11
 last_activity_desc: Phase 11 execution started
-state_head: c85ec38e4a6652deb95c48e4a5bfd4ceb5dedbc2
+state_head: 2531ea5cebe1468542dc900fdaef7397e8c3eaa1
 progress:
   total_phases: 6
   completed_phases: 4
   total_plans: 22
-  completed_plans: 21
+  completed_plans: 22
   percent: 67
 ---
 
@@ -31,7 +31,7 @@ See: .planning/PROJECT.md (updated 2026-09-10)
 
 Phase: 11 (Close v2.0 audit debt: F-1 AGENTS.md rewrite + doc-hygiene batch + UAT records) — EXECUTING
 Plan: 3 of 3
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Total Plans in Phase: 3
 Plans Executed: 17 (milestone lifetime)
 Last activity: 2026-09-11 — Phase 11 execution started
@@ -75,6 +75,7 @@ Progress: [████████████████████] 19/19 p
 | Phase 10 P02 | 16 min | 3 tasks | 2 files |
 | Phase 11 P01 | 5 min | 3 tasks | 3 files |
 | Phase 11 P02 | 15 min | 3 tasks | 8 files |
+| Phase 11 PP03 | 12 min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -132,6 +133,8 @@ Recent decisions affecting current work:
 - [Phase 11]: Phase 11 P01: D-06 commit 1 DEFERRED to /gsd-ship (deferred-commit mode + raw git commit permission-deny) - pinned subject 'docs(11): rewrite AGENTS.md to shipped v2.0 reality (F-1)' with files AGENTS.md, .planning/PROJECT.md, scripts/check-no-old-domain.mjs recorded in 11-01-SUMMARY Deferred Commits — session mode overrides plan-local commit; /gsd-ship lands it
 - [Phase 11]: Phase 11 P02: owner UAT records filled from blanket pass (2026-09-11) - 06-UAT test 14 (HV-06), 09-UAT tests 10/11 (HV-09a D-09 split + HV-09b); counters 14/14 + 11/11; predicate clean; GA4 event = owner-console sub-item (24h window, non-blocking)
 - [Phase 11]: Phase 11 P02: F-5 executed as plan/audit define it - 09-USER-SETUP status flip Complete (D-06 commit 3); dispatch prompt's '10-RUNBOOK tier-1 rating row ON' wording rejected as conflation - Tier-1 row stays deferred-by-design (11-CONTEXT Phase Boundary; 10-RUNBOOK section-1 gate unmet, no owner-reported Play rating; fabrication forbidden)
+- [Phase 11]: Phase 11 P03: star-uniqueness gate fail-closed in i18n-keycheck (P-10-3/D-10) — exactly 1 proof-row-star SVG (negative-lookahead count), 0 U+2605 text stars in any dictionary value or markup, missing/duplicated = exit 1; scope pinned Option B (all values), TIER1_NS for FAIL context; red-gate proven 3 cycles + flip-compat green; sha256 snapshot restores; rides validate chain, zero deps
+- [Phase 11]: Phase 11 P03: 11-02-SUMMARY star-gate claim corrected via dated supersession notes (originals verbatim) — gate did NOT exist at 11-02 close; 11-03 implemented it and recorded red-gate-proof.md; D-06 commit 4 deferred to /gsd-ship with pinned subject feat(11): star-uniqueness fail-closed gate in i18n-keycheck (P-10-3)
 
 ### Pending Todos
 
@@ -169,6 +172,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-11T14:52:11.371Z
-Stopped at: Completed 11-02-PLAN.md
+Last session: 2026-09-11T15:07:29.008Z
+Stopped at: Completed 11-03-PLAN.md
 Resume file: None
