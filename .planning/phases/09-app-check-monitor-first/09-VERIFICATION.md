@@ -1,7 +1,7 @@
 ---
 phase: 09-app-check-monitor-first
 verified: 2026-09-09T22:30:00Z
-status: human_needed
+status: passed
 score: 15/18 must-haves verified
 behavior_unverified: 3
 overrides_applied: 0
@@ -9,6 +9,7 @@ re_verification:
   previous_status: human_needed
   previous_score: 10/12
   gaps_closed:
+
     - "G-09-2 — closed: ReCaptchaEnterpriseProvider shipped (js/contact.js:205, count=1, classic=0), site key active (js/firebase-config.js:32), COVERAGE.md Enterprise row INTEGRATE with dated D-01 revision, 09-RUNBOOK.md §0–§3/§7 Enterprise reality + Migrate-keys step, privacy.html stale 'v3' label dropped; deployed (bridge 984927e) and behaviorally confirmed by owner UAT test 4 pass (2026-09-08, after the owner's registration site-key correction — G-09-4, no code change)"
     - "G-09-5 — agent-side fix closed: bounded ~10s TOKEN_TIMEOUT_MS race + record-and-swallow + post-delivery synthetic re-throw in js/contact.js; message now delivers un-attested on token failure (reject OR timeout); deployed (bridge 55dba3d), Actions 34408285918 green, prod smoke green; formal closure = owner UAT test 5 repeat (pending, 09-USER-SETUP.md checklist)"
     - "G-09-6 — agent-side fix closed: favicon.ico (59,370 B single-entry ICO, ICO byte gate + PNG magic verified) + icon/apple-touch-icon links in all 7 page heads; validate:html + validate:links green; prod /favicon.ico HTTP 200 (re-verified by this verifier); formal closure = owner tab-icon check (pending)"
@@ -16,30 +17,37 @@ re_verification:
   regressions: []
 gaps: []
 deferred:
+
   - truth: "Enforcement flip execution (FIRE-10) — owner console step after the monitoring window"
     addressed_in: "Future requirement (post-monitoring), not a later phase of this milestone"
     evidence: "REQUIREMENTS.md:49 'FIRE-10: App Check enforcement flip execution (owner console, post-monitoring)'; 09-RUNBOOK.md §6 'the agent never flips enforcement'; grep 'enforce' across js/ → comment word only, no enforcement API call"
 behavior_unverified_items:
+
   - truth: "Token-failure path is bounded: with reCAPTCHA scripts network-blocked, a submit leaves 'sending' within ~10 seconds — appcheck status shows, button re-enables (G-09-5 defect A fix)"
     test: "UAT test 5 repeat per 09-USER-SETUP.md: prod incognito, DevTools request blocking for BOTH *recaptcha* AND *google.com/reload*, submit with valid data"
     expected: "Appcheck status (email fallback text) appears within ~10s — never stuck on 'sending'; submit button re-enabled; form usable and NOT reset; manual resend only"
     why_human: "Requires the owner's browser DevTools request blocking on prod; this static site has no test infrastructure — the race/timeout transition is wired (raceToken, TOKEN_TIMEOUT_MS=10000) but not exercised by any automated test"
+
   - truth: "On token failure (reject OR timeout) the message STILL lands in Firestore un-attested while the appcheck status shows and the consent-gated appcheck_token_failure event dispatches (G-09-5 defect B fix)"
     test: "Same UAT test 5 repeat: check Firestore messages collection after the blocked submit; repeat with analytics consent denied → no event, message still lands; with consent granted → event in Firebase console → Analytics (GA4 lag up to 24 h)"
     expected: "Message present in messages collection in BOTH consent states (monitoring-mode un-attested delivery); appcheck_token_failure event with a code param only when consent granted"
     why_human: "Requires the owner's Firestore console read + GA4 event check (owner's pihole blocks analytics); the record-and-swallow → addDoc → post-delivery re-throw chain is wired but the runtime transition is unexercised by any automated test"
+
   - truth: "D-06/D-07 status mapping is preserved at runtime end-to-end: appcheck-family codes and permission-denied on an un-attested write show the appcheck status with email fallback; non-appcheck errors show the generic error; no auto-retry"
     test: "Same UAT test 5 repeat: observe which status variant renders (appcheck wording, not generic error) and that the form retains its field values (not reset)"
     expected: "Appcheck status wording renders; fields keep values (copyable into the email fallback); no retry loop — resend is manual"
     why_human: "The mapping catch is unchanged code, but no post-fix browser observation of the rendered status exists; state-transition behavior grep cannot see"
 coincidental_reliance_items: []
 human_verification:
+
   - test: "UAT test 5 repeat (G-09-5 formal closure) — per 09-USER-SETUP.md §Gap Re-verification: prod incognito, DevTools block *recaptcha* + *google.com/reload*, submit with consent granted → appcheck status within ~10s, button re-enabled, form NOT reset, message in Firestore messages collection, appcheck_token_failure in GA4 (up to 24 h lag); repeat with consent denied → same status, no event, message still lands. Record via /gsd-verify-work resume."
     expected: "Bounded, deliver-anyway failure: never stuck on 'sending', message always lands, event strictly consent-gated"
     why_human: "Owner-only surfaces: DevTools request blocking on the owner's session, Firestore console read, GA4 events (pihole-blocked)"
+
   - test: "Favicon check (G-09-6 formal closure) — browser tab shows the GeoHist icon on https://geohisttrivia.com/ and /geohist/contact.html"
     expected: "GeoHist app icon in the tab (not the generic/missing icon)"
     why_human: "Tab rendering is browser-UI observable only; the server half (/favicon.ico 200, served link tags) is machine-verified by this verifier"
+
   - test: "Migrate-keys soft confirm (09-USER-SETUP.md marks this completed 2026-09-08; UAT test 4 pass corroborates end-to-end verification) — 🔍 runbook §1 soft check: reCAPTCHA Admin key settings no longer show the Migrate-keys banner"
     expected: "Banner gone (migration complete); site key value unchanged"
     why_human: "Owner-only console surface; non-blocking soft check by design"

@@ -3,3 +3,5 @@
 .planning/milestone.lock
 node_modules/
 reports/
+opencode.json
+.gsd/

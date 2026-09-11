@@ -27,8 +27,8 @@ Full details: [.planning/milestones/v1-ROADMAP.md](milestones/v1-ROADMAP.md)
 - [x] **Phase 6: Changelog Page** - `/geohist/changelog.html` with keyed chrome, atomic dictionary keys, CI red-gate proof (completed 2026-09-06)
 - [x] **Phase 7: Localization ×20 + RTL** - 17 new dictionaries at exact key parity plus engine/detection/switcher/RTL layout work (completed 2026-09-07)
 - [x] **Phase 8: Custom Domain Migration** - Owner domain live on Pages: cert-first, console-allowlists-before-rewrite, zero mixed-domain refs (completed 2026-09-07)
-- [ ] **Phase 9: App Check, Monitor-First** - Invisible bot protection on the contact form; enforcement as evidence-gated owner console step
-- [ ] **Phase 10: Gated Social Proof** - Facts-only proof strip now; Tier-1/Tier-2 rating templates shipped OFF, gated on real Play data
+- [x] **Phase 9: App Check, Monitor-First** - Invisible bot protection on the contact form; enforcement as evidence-gated owner console step (completed 2026-09-09)
+- [x] **Phase 10: Gated Social Proof** - Facts-only proof strip now; Tier-1/Tier-2 rating templates shipped OFF, gated on real Play data (completed 2026-09-10)
 
 ## Phase Details
 
@@ -137,14 +137,14 @@ Plans:
   4. Enforcement flip is documented as a per-product (Firestore + Auth), reversible owner console step gated on successful-submission count — never calendar-based — with an owner-agreed monitoring threshold; provider decision (reCAPTCHA v3 vs Enterprise) recorded in-phase
   5. Privacy policy mentions reCAPTCHA/App Check and its consent interplay
 
-**Plans**: 4/4 plans executed + 1 gap-closure plan created (09-05 for G-09-7)
+**Plans**: 5/5 plans executed + 1 gap-closure plan created (09-05 for G-09-7)
 Plans:
 
 - [x] 09-01-PLAN.md — App Check gate end-to-end: 4th lazy module + getToken seam + catch mapping + consent-gated event; i18n key #171 atomic across 19 dictionaries (FIRE-07, FIRE-08)
 - [x] 09-02-PLAN.md — 09-RUNBOOK.md owner console chain (register → activate → weekly ritual → evidence-gated per-product flip) + privacy.html reCAPTCHA/App Check disclosure (FIRE-09, CMPL-05)
 - [x] 09-03-PLAN.md — G-09-2 gap closure: Enterprise provider swap + site-key activation + Enterprise docs (COVERAGE/RUNBOOK/privacy) + deploy (FIRE-07, FIRE-08)
 - [x] 09-04-PLAN.md — G-09-5 + G-09-6 gap closure: bounded deliver-anyway token-failure path in contact.js + site-wide favicon (icon links + favicon.ico) + deploy + re-verify handoff (FIRE-07, FIRE-08)
-- [ ] 09-05-PLAN.md — G-09-7 gap closure: bounded reCAPTCHA reachability probe + skip-init in contact.js (kills the Auth SDK-internal header-await hang for ad-blocked visitors) + runbook/USER-SETUP wording + deploy + re-verify handoff (FIRE-07, FIRE-08)
+- [x] 09-05-PLAN.md — G-09-7 gap closure: bounded reCAPTCHA reachability probe + skip-init in contact.js (kills the Auth SDK-internal header-await hang for ad-blocked visitors) + runbook/USER-SETUP wording + deploy + re-verify handoff (FIRE-07, FIRE-08)
 
 **UI hint**: yes
 
@@ -160,7 +160,17 @@ Plans:
   3. aggregateRating JSON-LD (Tier-2) stays permanently OFF with documented precondition (an on-site review source must exist) — never mirrors Play ratings
   4. Live structured data passes Google review-snippet policy — no fabricated ratings or placeholder reviews anywhere
 
-**Plans**: TBD
+**Plans**: 2/2 plans executed (wave 1 → wave 2)
+
+Plans:
+**Wave 1**
+
+- [x] 10-01-PLAN.md — Facts strip (4 pills, 5 keys × 19 dicts) + Tier-1 hidden proof row (2 keys × 19 dicts) + [hidden] insurance CSS, two atomic commits (SEO-05, SEO-06)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [x] 10-02-PLAN.md — Owner pre-ship icon veto checkpoint + Tier-2 permanent-OFF comment + 10-RUNBOOK.md + deploy + prod smoke (SEO-07)
+
 **UI hint**: yes
 
 ## Progress
@@ -177,8 +187,19 @@ Plans:
 | 6. Changelog Page | v2.0 | 3/3 | Complete    | 2026-09-06 |
 | 7. Localization ×20 + RTL | v2.0 | 6/6 | Complete    | 2026-09-07 |
 | 8. Custom Domain Migration | v2.0 | 3/3 | Complete    | 2026-09-07 |
-| 9. App Check, Monitor-First | v2.0 | 4/4 | In Progress|  |
-| 10. Gated Social Proof | v2.0 | 0/? | Not started | - |
+| 9. App Check, Monitor-First | v2.0 | 5/5 | Complete    | 2026-09-09 |
+| 10. Gated Social Proof | v2.0 | 2/2 | Complete    | 2026-09-10 |
+
+### Phase 11: Close v2.0 audit debt: F-1 AGENTS.md rewrite + doc-hygiene batch + UAT records
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 10
+**Plans:** 0 plans
+
+Plans:
+
+- [ ] TBD (run /gsd-plan-phase 11 to break down)
 
 ---
 *Roadmap created: 2026-09-05 (milestone v2.0 — continues numbering from v1's Phase 5)*

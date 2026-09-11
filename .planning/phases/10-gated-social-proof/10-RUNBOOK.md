@@ -16,7 +16,7 @@
 | 2 | Tier-1 "Rated ★ on Google Play" row | Ships **OFF** — `<div class="proof-row" hidden>` sits directly under the hero Play badge CTA, invisible in every language; its number span (`proof-row-score`) holds the placeholder `0.0`, which self-flags as obviously wrong if `hidden` were ever lost | ✅ correct today | **§2 — flip only when the §1 gate passes** |
 | 3 | Tier-2 `aggregateRating` JSON-LD | **Permanently OFF** — the served schema carries no rating markup of any kind and must NEVER gain Play-sourced numbers (see §6; the in-file comment next to the JSON-LD block says the same) | ✅ correct today | none — see §6 |
 
-**Ship record (Phase 10):** deploy sha ⬜ (appended at ship time) · Actions run ⬜ (appended at ship time)
+**Ship record (Phase 10):** deploy sha `3eaf9d9` (Git Data API bridge fast-forwards `81463b3 → a24fd4e → 3eaf9d9`, tree `0556bf2`, 2026-09-09) · Actions run `34431471810` green (validate + deploy) · prod smoke green: strip served (aria key + 4 pill keys), OFF row served hidden, served JSON-LD byte-identical with zero rating literals, scripts/smoke-check.sh ALL PASS.
 
 > Tier-1 vs Tier-2 in one line: the **visible row** (Tier-1) flips when real Play ratings exist — that is the sanctioned path. The **JSON-LD schema** (Tier-2) is a different surface with a different, stricter gate (an on-site review source) and is documented permanently OFF.
 
