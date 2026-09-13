@@ -68,13 +68,31 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (pending roadmap) | — | Pending |
+| CLEAN-01 | Phase 12 | Pending |
+| CLEAN-02 | Phase 12 | Pending |
+| CLEAN-03 | Phase 12 | Pending |
+| CLEAN-04 | Phase 12 | Pending |
+| MIG-01 | Phase 13 | Pending |
+| MIG-02 | Phase 13 | Pending |
+| MIG-03 | Phase 13 | Pending |
+| MIG-04 | Phase 13 | Pending |
+| MIG-05 | Phase 13 | Pending |
+| MIG-06 | Phase 13 | Pending |
+| MIG-07 | Phase 13 | Pending |
+| MIG-08 | Phase 13 | Pending |
+| MIG-09 | Phase 13 | Pending |
+| LKIT-01 | Phase 14 | Pending |
+| LKIT-02 | Phase 14 | Pending |
+| LKIT-03 | Phase 14 | Pending |
+| LKIT-04 | Phase 14 | Pending |
+| EVID-01 | Phase 15 | Pending |
+| EVID-02 | Phase 15 | Pending |
 
 **Coverage:**
 - v2.1 requirements: 19 total
-- Mapped to phases: 0
-- Unmapped: 19 ⚠️
+- Mapped to phases: 19
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-09-11*
-*Last updated: 2026-09-11 after initial definition*
+*Last updated: 2026-09-13 after v2.1 roadmap creation (traceability mapped to Phases 12-15)*
