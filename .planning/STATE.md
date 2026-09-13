@@ -1,10 +1,19 @@
 ---
-gsd_state_version: '1.0'  # placeholder; syncStateFrontmatter overwrites on first state.* call
-status: planning
+gsd_state_version: 1.0
+milestone: v2.1
+milestone_name: Play Launch + Home Migration
+current_phase: 12
+current_phase_name: Cleanup Batch
+status: executing
+stopped_at: v2.1 ROADMAP.md + STATE.md created; REQUIREMENTS.md traceability updated
+last_updated: "2026-09-13T22:32:27.961Z"
+last_activity: 2026-09-13
+last_activity_desc: v2.1 roadmap created (Phases 12-15; 19/19 requirements mapped)
+state_head: f270f4c8874601a97f90192fe8aaff607a325378
 progress:
   total_phases: 4
   completed_phases: 0
-  total_plans: 0
+  total_plans: 2
   completed_plans: 0
   percent: 0
 ---
@@ -25,9 +34,9 @@ Goal: site swap-ready for Play launch day; GeoHist landing serves as site home w
 
 ## Current Position
 
-Phase: 12 of 15 (Cleanup Batch — 1 of 4 v2.1 phases)
+Phase: 12 (Cleanup Batch) — READY TO EXECUTE
 Plan: 0 of 0 in current phase (not yet planned)
-Status: Ready to plan
+Status: Ready to execute
 Last activity: 2026-09-13 — v2.1 roadmap created (Phases 12-15; 19/19 requirements mapped)
 
 Progress: [░░░░░░░░░░] 0%
@@ -35,6 +44,7 @@ Progress: [░░░░░░░░░░] 0%
 ## Performance Metrics
 
 **Velocity:**
+
 - Total plans completed: 0 (this milestone)
 - Average duration: —
 - Total execution time: —

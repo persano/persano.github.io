@@ -49,47 +49,68 @@ Full details: [.planning/milestones/v2.0-ROADMAP.md](milestones/v2.0-ROADMAP.md)
 ## Phase Details
 
 ### Phase 12: Cleanup Batch
+
 **Goal**: CI runs reproducibly and fast (`npm ci` + cached deps restored), and both locale edge-cases (zh variant, Urdu rendering) are verified against the real app/dictionary state
 **Depends on**: Nothing (first v2.1 phase; runs before the gate-heavy migration so every later validate cycle benefits)
 **Requirements**: CLEAN-01, CLEAN-02, CLEAN-03, CLEAN-04
 **Success Criteria** (what must be TRUE):
+
   1. `deploy.yml` validate job runs `npm ci` + `cache: npm` and the full CI pipeline completes green
   2. Lockfile consistency re-verified at plan time with the result recorded — research discrepancy closed (stale "no lockfile" NOTE comment in `deploy.yml` removed if confirmed stale)
   3. zh variant (Simplified-only) confirmed against the app's `strings.xml` and documented — a visitor selecting zh gets Simplified Chinese; no zh-TW dictionary added unprompted
   4. Urdu Nastaliq check recorded from the owner's real device: `ur` page renders RTL (`dir="rtl"`) with its line-height override and readable text
-**Plans**: TBD
+
+**Plans**: 2 plans
+
+Plans:
+**Wave 1**
+
+- [ ] 12-01-PLAN.md — CI reproducibility tracer: lockfile re-verification record + `npm ci`/`cache: npm` in deploy.yml + stale-comment removal (CLEAN-01, CLEAN-04)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 12-02-PLAN.md — zh Simplified-only confirmation record + Urdu Nastaliq owner device check (12-UAT.md, blocking owner checkpoint) (CLEAN-02, CLEAN-03)
 
 ### Phase 13: Home Migration
+
 **Goal**: Site root serves the GeoHist landing; the portfolio hub lives at `/apps/` — visitors, Play reviewers, and Google all see the new layout with zero broken paths and zero dictionary drift
 **Depends on**: Phase 12
 **Requirements**: MIG-01, MIG-02, MIG-03, MIG-04, MIG-05, MIG-06, MIG-07, MIG-08, MIG-09
 **Success Criteria** (what must be TRUE):
+
   1. Visitor hitting `/` sees the full GeoHist landing (hero, proof strip, features, gallery, FAQ, CTA) with all 20 locales working; visitor browsing `/apps/` sees the portfolio hub (former root content, keyed chrome) with zero future-app placeholders
   2. Visitor hitting `/geohist/` (incl. via the legacy-host path-preserved chain) reaches the root landing via the meta-refresh-0 stub, while `/geohist/privacy.html` stays path-stable (Play Console compliance surface frozen)
   3. All sitemap URLs resolve on apex with coherent canonical + og:url + JSON-LD `url` per page; 404 page and all nav/footer links point at the new layout; i18n key surface stays exactly 178 × 19
   4. All five hardcoded gate page-lists (i18n-keycheck, i18n-surface, a11y-audit, smoke-check, validate:html glob) cover the new layout — red-gate proven both directions — and AGENTS.md reflects the new layout in the same commit (old-domain gate enforces it)
   5. Post-deploy: GSC sitemap resubmit + URL inspection done (owner console step, runbook section); no Change-of-Address refile (180-day window untouched)
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 14: Launch Kit
+
 **Goal**: Owner can execute Play launch day from one runbook — every Play-launch surface verified, every flip done in pinned order, nothing improvised on launch day
 **Depends on**: Phase 13 (file paths land in root `index.html` after migration)
 **Requirements**: LKIT-01, LKIT-02, LKIT-03, LKIT-04
 **Success Criteria** (what must be TRUE):
+
   1. Owner launch runbook with pinned flip order — privacy-URL field → Play-link 200 verify → website field → Tier-1 rating flip — console-UI only, zero secrets
   2. Swap-ready inventory table: every Play-launch surface with file:line + exact flip action
   3. CI gate green: every `play.google.com` URL in tracked files carries `details?id=com.persano.geohisttrivia` — red-gate proven both directions
   4. Runbook addenda present: GA4 page-dimension note, 10-RUNBOOK supersession note (paths now root), JSON-LD offers refresh-check step
+
 **Plans**: TBD
 
 ### Phase 15: App Check Evidence Helper
+
 **Goal**: Owner can track App Check evidence toward the 30-submission floor from the Firebase console UI alone — doc-only, zero code changes, zero secrets
 **Depends on**: Nothing (independent doc work; sequenced last by numbering only)
 **Requirements**: EVID-01, EVID-02
 **Success Criteria** (what must be TRUE):
+
   1. Owner can count successful submissions toward the 30-floor following the doc — unit = successful submissions, never console request rows
   2. Weekly ritual template + category-split reading guide usable from the console UI alone (24h lag, pihole caveat, token-failure trend reading)
+
 **Plans**: TBD
 
 ## Watch Items (gated events — NOT phases)
