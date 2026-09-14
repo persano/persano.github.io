@@ -58,7 +58,7 @@ if (!fs.existsSync(LH_CLI)) {
 
 const PAGES = [
   { url: '/', slug: 'root' },
-  { url: '/geohist/', slug: 'geohist' },
+  { url: '/apps/', slug: 'apps' },
   { url: '/geohist/guide.html', slug: 'geohist-guide' },
   { url: '/geohist/contact.html', slug: 'geohist-contact' },
   { url: '/geohist/privacy.html', slug: 'geohist-privacy' },

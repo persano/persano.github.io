@@ -18,12 +18,12 @@ expect_status() {
   fi
 }
 
-# 200 checks: hub, new contact form URL, Play-critical privacy URL,
-# pre-existing root files (OPS-03 regression)
-# Phase 05 wave-2 additions: geohist section root, guide, sitemap,
-# robots.txt, and the og-image URL cited by every page's OG/Twitter tags
+# 200 checks: root GeoHist landing, /apps/ hub, /geohist/ stub (meta-refresh-0),
+# contact form URL, Play-critical privacy URL, pre-existing root files (OPS-03)
+# Phase 13 additions: /apps/ hub URL + stub-content assertion below
 for u in \
   "$BASE/" \
+  "$BASE/apps/" \
   "$BASE/geohist/contact.html" \
   "$BASE/geohist/privacy.html" \
   "$BASE/app-ads.txt" \
@@ -48,6 +48,12 @@ if [ "$CODE" != "404" ]; then
 fi
 if ! curl -s "$URL" | grep -qi "back to the hub"; then
   printf 'FAIL: 404 body missing hub-link text\n'
+  FAIL=1
+fi
+
+# Meta-refresh-0 stub: /geohist/ must serve the redirect stub, never a copy
+if ! curl -s "$BASE/geohist/" | grep -qi "has moved"; then
+  printf 'FAIL: /geohist/ stub missing "has moved" content\n'
   FAIL=1
 fi
 

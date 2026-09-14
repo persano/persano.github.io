@@ -3,20 +3,57 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="The personal apps hub of Santiago David Postorivo — home of GeoHist Trivia, an offline history and geography trivia game for Android." data-i18n-attr="content:hub.meta.desc" data-i18n-attr-only>
-  <title data-i18n="hub.meta.title">Santiago David Postorivo — Personal Apps Hub</title>
+  <meta name="description" content="GeoHist Trivia is a playful history and geography trivia game for Android — guess your way around the world and travel through time. Get it on Google Play." data-i18n-attr="content:geohist.meta.desc" data-i18n-attr-only>
+  <title data-i18n="geohist.meta.title">GeoHist Trivia — history and geography trivia for Android</title>
   <link rel="canonical" href="https://geohisttrivia.com/">
-  <meta property="og:title" content="Santiago David Postorivo — Personal Apps Hub">
-  <meta property="og:description" content="The personal apps hub of Santiago David Postorivo — home of GeoHist Trivia, an offline history and geography trivia game for Android.">
+  <meta property="og:title" content="GeoHist Trivia — history and geography trivia for Android">
+  <meta property="og:description" content="GeoHist Trivia is a playful history and geography trivia game for Android — guess your way around the world and travel through time. Get it on Google Play.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://geohisttrivia.com/">
   <meta property="og:image" content="https://geohisttrivia.com/geohist/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Santiago David Postorivo — Personal Apps Hub">
-  <meta name="twitter:description" content="The personal apps hub of Santiago David Postorivo — home of GeoHist Trivia, an offline history and geography trivia game for Android.">
+  <meta name="twitter:title" content="GeoHist Trivia — history and geography trivia for Android">
+  <meta name="twitter:description" content="GeoHist Trivia is a playful history and geography trivia game for Android — guess your way around the world and travel through time. Get it on Google Play.">
   <meta name="twitter:image" content="https://geohisttrivia.com/geohist/og-image.png">
+  <!-- aggregateRating: PERMANENTLY OFF (SEO-07). Plan 10-02 (D-06/D-07), 2026-09-09.
+       Google review-snippet policy, fetched 2026-09-09 (developers.google.com/search/docs/appearance/structured-data/review-snippet), verbatim:
+       "Don't aggregate reviews or ratings from other websites."
+       Google Play ratings live on play.google.com and may NEVER be copied into this
+       page's structured data, even when real. The ONLY precondition to ever adding the
+       aggregateRating key here: a review or rating source collected on this site itself
+       must exist (none exists today). Visible attributed display is the sanctioned path
+       (the hidden Tier-1 row in the hero; flip steps in
+       .planning/phases/10-gated-social-proof/10-RUNBOOK.md).
+       Template shape, valid ONLY after that precondition holds:
+         "aggregateRating": {
+           "@type": "AggregateRating",
+           "ratingValue": 4.4,
+           "ratingCount": 12
+         }
+       ratingValue uses decimal dot format (4.4, never 4,4). -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["SoftwareApplication", "MobileApplication"],
+    "name": "GeoHist Trivia",
+    "operatingSystem": "ANDROID",
+    "applicationCategory": "GameApplication",
+    "description": "GeoHist Trivia is a playful history and geography trivia game for Android — guess your way around the world and travel through time. Get it on Google Play.",
+    "url": "https://geohisttrivia.com/",
+    "image": "https://geohisttrivia.com/geohist/icon.png",
+    "screenshot": [
+      "https://geohisttrivia.com/geohist/screenshots/screenshot.menu.webp",
+      "https://geohisttrivia.com/geohist/screenshots/screenshot.map.webp",
+      "https://geohisttrivia.com/geohist/screenshots/screenshot.flags.webp",
+      "https://geohisttrivia.com/geohist/screenshots/screenshot.timeline.webp"
+    ],
+    "author": { "@type": "Person", "name": "Santiago David Postorivo" },
+    "sameAs": "https://play.google.com/store/apps/details?id=com.persano.geohisttrivia",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
   <link rel="icon" href="/geohist/icon.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="/geohist/icon.png">
   <link rel="icon" href="/favicon.ico" sizes="192x192">
@@ -26,26 +63,176 @@
   <script defer src="/js/consent.js"></script>
 </head>
 <body>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="GeoHist site navigation" data-i18n-attr="aria-label:geohist.nav.aria" data-i18n-attr-only>
+      <a href="/" data-i18n="geohist.nav.game">Game</a>
+      <a href="/geohist/guide.html" data-i18n="geohist.nav.guide">Guide</a>
+      <a href="/#faq" data-i18n="geohist.nav.faq">FAQ</a>
+      <a href="/geohist/changelog.html" data-i18n="geohist.nav.changelog">Changelog</a>
+      <a href="/geohist/privacy.html" data-i18n="geohist.nav.privacy">Privacy</a>
+    </nav>
+  </header>
   <main>
-    <h1 data-i18n="hub.brand">Santiago David Postorivo</h1>
-    <p data-i18n="hub.intro.1">This is the personal apps hub of Santiago David Postorivo — one developer with a soft spot for old maps, older stories, and small apps built to last the whole trip.</p>
-    <p data-i18n="hub.intro.2">First stop: GeoHist Trivia, where history meets geography one question at a time.</p>
+    <section class="hero" aria-labelledby="hero-title">
+      <img class="hero-icon" src="/geohist/icon.png" alt="GeoHist Trivia app icon" width="112" height="112" data-i18n-attr="alt:geohist.hero.icon.alt" data-i18n-attr-only>
+      <div class="hero-copy">
+        <h1 id="hero-title" data-i18n="geohist.hero.title">GeoHist Trivia</h1>
+        <p data-i18n="geohist.hero.tagline">Pack your bags — we're traveling through time.</p>
+        <p data-i18n="geohist.hero.desc">A fast, friendly quiz game where history meets geography: guess countries from their flags, place cities on the map, and date the events that shaped the world. How far back can you go?</p>
+      </div>
+      <a class="badge-cta" href="https://play.google.com/store/apps/details?id=com.persano.geohisttrivia" rel="noopener">
+        <img src="/geohist/google-play-badge.png" alt="Get GeoHist Trivia on Google Play" width="194" height="75" data-i18n-attr="alt:geohist.cta.badge-alt" data-i18n-attr-only>
+      </a>
+      <div class="proof-row" hidden>
+        <a href="https://play.google.com/store/apps/details?id=com.persano.geohisttrivia" rel="noopener">
+          <svg class="proof-row-star" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M12 2.5l2.95 6.32 6.92.63-5.22 4.59 1.54 6.78L12 17.2l-6.19 3.62 1.54-6.78-5.22-4.59 6.92-.63z"/>
+          </svg>
+          <span data-i18n="geohist.tier1.prefix">Rated</span>
+          <span class="proof-row-score">0.0</span>
+          <span data-i18n="geohist.tier1.suffix">on Google Play</span>
+        </a>
+      </div>
+    </section>
 
-    <ul class="app-grid">
-      <li class="app-card"><img class="app-card-icon" src="/geohist/icon.png" alt="GeoHist Trivia app icon" width="72" height="72" data-i18n-attr="alt:hub.card.icon-alt" data-i18n-attr-only>
-        <h2 data-i18n="hub.card.name">GeoHist Trivia</h2>
-        <p data-i18n="hub.card.desc">Offline history-and-geography trivia for Android — flags, capitals, maps, and the events that shaped the world.</p>
-        <a href="/geohist/" data-i18n="hub.card.cta">Learn more</a>
-      </li>
-    </ul>
+    <section class="proof-strip" aria-label="GeoHist at a glance" data-i18n-attr="aria-label:geohist.proof.aria" data-i18n-attr-only>
+      <ul>
+        <li>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-icon="globe">
+            <circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/>
+          </svg>
+          <span data-i18n="geohist.proof.pill-languages">20 languages</span>
+        </li>
+        <li>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-icon="offline">
+            <path d="M12 3v10"/><path d="M8 9l4 4 4-4"/><path d="M4 17a4 4 0 0 1 1-7.9A5.5 5.5 0 0 1 15.5 8 4.5 4.5 0 0 1 20 17"/>
+          </svg>
+          <span data-i18n="geohist.proof.pill-offline">Play offline</span>
+        </li>
+        <li>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-icon="modes">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          <span data-i18n="geohist.proof.pill-modes">History + Geography</span>
+        </li>
+        <li>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-icon="android">
+            <rect x="7" y="4" width="10" height="16" rx="2"/><path d="M11 17.5h2"/>
+          </svg>
+          <span data-i18n="geohist.proof.pill-android">Android 7.0+</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="features" aria-labelledby="features-title">
+      <h2 id="features-title" data-i18n="geohist.features.title">What's packed inside</h2>
+      <div class="feature-group">
+        <h2 data-i18n="geohist.features.trivia.title">Trivia</h2>
+        <ul>
+          <li data-i18n="geohist.features.trivia.1">Multiple game modes based on History and Geography — flags, capitals, maps, events and more.</li>
+          <li data-i18n="geohist.features.trivia.2">An interactive UI built entirely with Jetpack Compose for a modern, fluid experience.</li>
+          <li data-i18n="geohist.features.trivia.3">Integrated background music with a perceptual volume curve and interactive sound effects.</li>
+        </ul>
+      </div>
+      <div class="feature-group">
+        <h2 data-i18n="geohist.features.playgames.title">Google Play Games</h2>
+        <ul>
+          <li data-i18n="geohist.features.playgames.1">Seamless sign-in, cloud saves, achievements, and leaderboards.</li>
+        </ul>
+      </div>
+      <div class="feature-group">
+        <h2 data-i18n="geohist.features.offline.title">Offline</h2>
+        <ul>
+          <li data-i18n="geohist.features.offline.1">The core game requires no internet connection.</li>
+          <li data-i18n="geohist.features.offline.2">Achievements are queued and synced once a connection is established.</li>
+        </ul>
+      </div>
+      <div class="feature-group">
+        <h2 data-i18n="geohist.features.iap.title">In-App Purchases</h2>
+        <ul>
+          <li data-i18n="geohist.features.iap.1">Unlock premium content or support development — try the Remove Ads option.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="gallery" aria-labelledby="gallery-title">
+      <h2 id="gallery-title" data-i18n="geohist.gallery.title">See the world, answer the past</h2>
+      <ul class="gallery-grid">
+        <li class="gallery-tile">
+          <img src="/geohist/screenshots/screenshot.menu.webp" alt="Main menu screen of GeoHist Trivia" width="720" height="1600" loading="lazy" data-i18n-attr="alt:geohist.gallery.alt.menu" data-i18n-attr-only>
+          <p class="tile-caption" data-i18n="geohist.gallery.caption.menu">Main menu</p>
+        </li>
+        <li class="gallery-tile">
+          <img src="/geohist/screenshots/screenshot.map.webp" alt="Map mode screen — placing a city on the world map" width="720" height="1600" loading="lazy" data-i18n-attr="alt:geohist.gallery.alt.map" data-i18n-attr-only>
+          <p class="tile-caption" data-i18n="geohist.gallery.caption.map">Map mode</p>
+        </li>
+        <li class="gallery-tile">
+          <img src="/geohist/screenshots/screenshot.flags.webp" alt="Flags mode screen — guessing the country from its flag" width="720" height="1600" loading="lazy" data-i18n-attr="alt:geohist.gallery.alt.flags" data-i18n-attr-only>
+          <p class="tile-caption" data-i18n="geohist.gallery.caption.flags">Flags mode</p>
+        </li>
+        <li class="gallery-tile">
+          <img src="/geohist/screenshots/screenshot.timeline.webp" alt="Timeline mode screen — dating a historical event" width="720" height="1600" loading="lazy" data-i18n-attr="alt:geohist.gallery.alt.timeline" data-i18n-attr-only>
+          <p class="tile-caption" data-i18n="geohist.gallery.caption.timeline">Timeline mode</p>
+        </li>
+      </ul>
+    </section>
+
+    <section id="faq" aria-labelledby="faq-title">
+      <h2 id="faq-title" data-i18n="geohist.faq.title">Frequently asked questions</h2>
+      <details class="faq-item" name="geohist-faq">
+        <summary data-i18n="geohist.faq.data.q">Does GeoHist Trivia collect my data?</summary>
+        <p data-i18n="geohist.faq.data.a">The App works mostly locally (offline-first) and does not collect or store personal identifying information on its own servers. All game progress, levels, medals, and settings are saved locally on your device. The App and this website use third-party services provided by Google: AdMob (Google Mobile Ads), Google Play Games Services, Google Play Billing, Firebase Analytics (website only), and Firestore via the contact form (website only). Messages are deleted after they are handled.</p>
+      </details>
+      <details class="faq-item" name="geohist-faq">
+        <summary data-i18n="geohist.faq.offline.q">Can I play offline?</summary>
+        <p data-i18n="geohist.faq.offline.a">Yes — the App works mostly locally (offline-first), so you can play wherever your travels take you. All game progress, levels, medals, and settings are saved locally on your device.</p>
+      </details>
+      <details class="faq-item" name="geohist-faq">
+        <summary data-i18n="geohist.faq.devices.q">What devices does it run on?</summary>
+        <p data-i18n="geohist.faq.devices.a">GeoHist Trivia runs on Android 7.0 (API 24) or newer — no flagship phone required.</p>
+      </details>
+      <details class="faq-item" name="geohist-faq">
+        <summary data-i18n="geohist.faq.iap.q">Are there in-app purchases?</summary>
+        <p data-i18n="geohist.faq.iap.a">Yes — optional purchases let you unlock premium content or support development. Google Play Billing handles secure in-app purchase processing (for example, the Remove Ads option). Payment data is handled entirely by Google; we never access your financial data or credit cards.</p>
+      </details>
+      <details class="faq-item" name="geohist-faq">
+        <summary data-i18n="geohist.faq.languages.q">What languages is the game available in?</summary>
+        <p data-i18n="geohist.faq.languages.a">English, Spanish, Portuguese and 17 more languages.</p>
+      </details>
+      <details class="faq-item" name="geohist-faq">
+        <summary data-i18n="geohist.faq.progress.q">Where is my progress saved?</summary>
+        <p data-i18n="geohist.faq.progress.a">Right where you left it. All game progress, levels, medals, and settings are saved locally on your device.</p>
+      </details>
+      <details class="faq-item" name="geohist-faq">
+        <summary data-i18n="geohist.faq.report.q">How do I report a problem?</summary>
+        <p data-i18n="geohist.faq.report.a">Use the contact form and we'll take a look:</p>
+        <p><a href="/geohist/contact.html" data-i18n="geohist.faq.report.email">Contact form</a></p>
+      </details>
+      <details class="faq-item" name="geohist-faq">
+        <summary data-i18n="geohist.faq.deletion.q">How do I request deletion of my data?</summary>
+        <p data-i18n="geohist.faq.deletion.a">Send your request through the contact form using the "Request data deletion" topic, or write to santiagopostorivo@gmail.com. Every request is handled manually: the messages are deleted and you get a confirmation by email. Messages are deleted after they are handled.</p>
+      </details>
+      <details class="faq-item" name="geohist-faq">
+        <summary data-i18n="geohist.faq.aboutgame.q">What is the game about?</summary>
+        <p data-i18n="geohist.faq.aboutgame.a">A fast, friendly trivia adventure across history and geography — flags, capitals, maps, famous figures, and the events that shaped the world. Think of it as a museum you can argue with.</p>
+      </details>
+    </section>
+
+    <section class="about-dev" aria-labelledby="about-title">
+      <h2 id="about-title" data-i18n="geohist.about.title">Who makes GeoHist Trivia?</h2>
+      <p data-i18n="geohist.about.body">GeoHist Trivia is published by Santiago David Postorivo — a one-person studio with a soft spot for old maps and older stories.</p>
+      <p><a href="mailto:santiagopostorivo@gmail.com" data-i18n="geohist.about.email">santiagopostorivo@gmail.com</a></p>
+    </section>
   </main>
   <footer>
     <ul class="footer-links">
-      <li><a href="/geohist/privacy.html" data-i18n="hub.footer.privacy">Privacy policy</a></li>
-      <li><a href="/geohist/contact.html" data-i18n="hub.footer.contact">Contact</a></li>
-      <li><a href="#" class="consent-reopen" data-i18n="hub.footer.consent">Consent</a></li>
+      <li><a href="/geohist/privacy.html" data-i18n="geohist.footer.privacy">Privacy policy</a></li>
+      <li><a href="/geohist/contact.html" data-i18n="geohist.footer.contact">Contact</a></li>
+      <li><a href="/geohist/changelog.html" data-i18n="geohist.footer.changelog">Changelog</a></li>
+      <li><a href="/apps/" data-i18n="geohist.footer.back">Back to hub</a></li>
+      <li><a href="#" class="consent-reopen" data-i18n="geohist.footer.consent">Consent</a></li>
     </ul>
-    <p data-i18n="hub.footer.copyright">© Santiago David Postorivo</p>
+    <p data-i18n="geohist.footer.copyright">© Santiago David Postorivo</p>
     <span id="lang-switcher-slot" hidden></span>
   </footer>
 
