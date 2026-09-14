@@ -41,7 +41,7 @@ Full details: [.planning/milestones/v2.0-ROADMAP.md](milestones/v2.0-ROADMAP.md)
 
 **Milestone Goal:** Site swap-ready for Play launch day; GeoHist landing serves as site home with `/apps/` hub; small debts closed. All flips stay owner-gated; GSC 180-day window untouched; zero-build + 19-dictionary atomic key moves enforced by CI.
 
-- [ ] **Phase 12: Cleanup Batch** - CI hygiene (`npm ci` + `cache: npm` restore) + zh variant confirmation + Urdu Nastaliq device check
+- [x] **Phase 12: Cleanup Batch** - CI hygiene (`npm ci` + `cache: npm` restore) + zh variant confirmation + Urdu Nastaliq device check (completed 2026-09-13)
 - [ ] **Phase 13: Home Migration** - Root = GeoHist landing, hub → `/apps/`, `/geohist/` meta-refresh stub, all 5 gate page-lists repointed — ONE atomic commit + post-deploy GSC resubmit
 - [ ] **Phase 14: Launch Kit** - Owner launch runbook (pinned flip order) + swap-ready inventory + package-id CI gate
 - [ ] **Phase 15: App Check Evidence Helper** - Console-UI-only doc: 30-floor submission counting + weekly ritual
@@ -137,7 +137,7 @@ Plans:
 | 9. App Check Monitor-First | v2.0 | 5/5 | Complete | 2026-09-09 |
 | 10. Gated Social Proof | v2.0 | 2/2 | Complete | 2026-09-10 |
 | 11. Close v2.0 Audit Debt | v2.0 | 3/3 | Complete | 2026-09-11 |
-| 12. Cleanup Batch | v2.1 | 2/2 | In Progress|  |
+| 12. Cleanup Batch | v2.1 | 2/2 | Complete    | 2026-09-13 |
 | 13. Home Migration | v2.1 | 0/? | Not started | - |
 | 14. Launch Kit | v2.1 | 0/? | Not started | - |
 | 15. App Check Evidence Helper | v2.1 | 0/? | Not started | - |

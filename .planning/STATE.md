@@ -2,20 +2,20 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Play Launch + Home Migration
-current_phase: 12
-current_phase_name: Cleanup Batch
-status: verifying
-stopped_at: Completed 12-02-PLAN.md
-last_updated: "2026-09-14T00:51:07.888Z"
+current_phase: 13
+current_phase_name: Home Migration
+status: planning
+stopped_at: Phase 12 complete, ready to plan Phase 13
+last_updated: "2026-09-14T01:04:49.886Z"
 last_activity: 2026-09-13
-last_activity_desc: Phase 12 execution started
-state_head: 635cbf3b53416dc429f553529745b1b5bd84770d
+last_activity_desc: Phase 12 complete, transitioned to Phase 13
+state_head: 65948871b00d64cffc84c4c1b92a99d7c09ff822
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
   completed_plans: 2
-  percent: 0
+  percent: 25
 ---
 
 # Project State
@@ -34,10 +34,10 @@ Goal: site swap-ready for Play launch day; GeoHist landing serves as site home w
 
 ## Current Position
 
-Phase: 12 (Cleanup Batch) — EXECUTING
-Plan: 2 of 2
-Status: Phase complete — ready for verification
-Last activity: 2026-09-13 — Phase 12 execution started
+Phase: 13 — Home Migration
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-09-13 — Phase 12 complete, transitioned to Phase 13
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -45,7 +45,7 @@ Progress: [░░░░░░░░░░] 0%
 
 **Velocity:**
 
-- Total plans completed: 0 (this milestone)
+- Total plans completed: 2 (this milestone)
 - Average duration: —
 - Total execution time: —
 
@@ -53,7 +53,7 @@ Progress: [░░░░░░░░░░] 0%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 12 | 2 | - | - |
 
 *Updated after each plan completion*
 **Per-Plan Metrics:**
@@ -96,5 +96,5 @@ See `.planning/todos/pending/` — none yet.
 ## Session Continuity
 
 Last session: 2026-09-14T00:51:07.236Z
-Stopped at: Completed 12-02-PLAN.md
+Stopped at: Phase 12 complete, ready to plan Phase 13
 Resume file: None
