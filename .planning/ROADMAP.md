@@ -84,8 +84,16 @@ Plans:
   4. All five hardcoded gate page-lists (i18n-keycheck, i18n-surface, a11y-audit, smoke-check, validate:html glob) cover the new layout — red-gate proven both directions — and AGENTS.md reflects the new layout in the same commit (old-domain gate enforces it)
   5. Post-deploy: GSC sitemap resubmit + URL inspection done (owner console step, runbook section); no Change-of-Address refile (180-day window untouched)
 
-**Plans**: TBD
-**UI hint**: yes
+**Plans**: 2 plans
+
+Plans:
+**Wave 1**
+
+- [ ] 13-01-PLAN.md — runway clear (Phase 12 deferred commits + origin/main reconcile) + THE atomic migration edit set (landing→root, hub→/apps/, stub, all 5 gate lists + star path, sitemap, 404, AGENTS.md same-commit) + red-gate proofs both directions (MIG-01..07, MIG-09)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 13-02-PLAN.md — 13-RUNBOOK.md (GSC sitemap resubmit + URL inspection + explicit no-CoA) + 13-UAT.md scaffold (MIG-08; live owner steps post-deploy)
 
 ### Phase 14: Launch Kit
 
