@@ -4,17 +4,17 @@ milestone: v2.1
 milestone_name: Play Launch + Home Migration
 current_phase: 12
 current_phase_name: Cleanup Batch
-status: executing
-stopped_at: v2.1 ROADMAP.md + STATE.md created; REQUIREMENTS.md traceability updated
-last_updated: "2026-09-13T22:32:27.961Z"
+status: verifying
+stopped_at: Completed 12-02-PLAN.md
+last_updated: "2026-09-14T00:51:07.888Z"
 last_activity: 2026-09-13
-last_activity_desc: v2.1 roadmap created (Phases 12-15; 19/19 requirements mapped)
-state_head: f270f4c8874601a97f90192fe8aaff607a325378
+last_activity_desc: Phase 12 execution started
+state_head: 635cbf3b53416dc429f553529745b1b5bd84770d
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 2
-  completed_plans: 0
+  completed_plans: 2
   percent: 0
 ---
 
@@ -25,7 +25,7 @@ progress:
 See: .planning/PROJECT.md (updated 2026-09-11)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel.
-**Current focus:** Phase 12 — Cleanup Batch (first phase of v2.1)
+**Current focus:** Phase 12 — Cleanup Batch
 
 ## Current Milestone
 
@@ -34,10 +34,10 @@ Goal: site swap-ready for Play launch day; GeoHist landing serves as site home w
 
 ## Current Position
 
-Phase: 12 (Cleanup Batch) — READY TO EXECUTE
-Plan: 0 of 0 in current phase (not yet planned)
-Status: Ready to execute
-Last activity: 2026-09-13 — v2.1 roadmap created (Phases 12-15; 19/19 requirements mapped)
+Phase: 12 (Cleanup Batch) — EXECUTING
+Plan: 2 of 2
+Status: Phase complete — ready for verification
+Last activity: 2026-09-13 — Phase 12 execution started
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -56,6 +56,12 @@ Progress: [░░░░░░░░░░] 0%
 | - | - | - | - |
 
 *Updated after each plan completion*
+**Per-Plan Metrics:**
+
+| Plan | Duration | Tasks | Files |
+|------|----------|-------|-------|
+| Phase 12 P01 | 12min | 2 tasks | 5 files |
+| Phase 12 P02 | 88min (incl. owner wait) | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -68,6 +74,7 @@ Recent decisions affecting current work:
 - v2.1: `/geohist/privacy.html` is FROZEN — Play Console compliance surface, invisible to repo gates; never move it
 - v2.1: no GSC Change-of-Address refile — same-domain path moves are doc-excluded; 180-day window until ~2027-03 stays untouched
 - v2.1: gated events are watch items, not phases — Tier-1 rating flip, FIRE-10 flip, App #2 subdir (v3+)
+- [Phase 12]: Explicit setup-node cache: npm input (no packageManager field); npm ci lockfile-frozen install in CI; chromedriver allowScripts warning warn-only; blocker closure via dated supersession note
 
 ### Pending Todos
 
@@ -75,9 +82,9 @@ See `.planning/todos/pending/` — none yet.
 
 ### Blockers/Concerns
 
-- Phase 12 planning must re-verify lockfile consistency (`git ls-files package-lock.json` + consistency check) — researchers disagreed; CLEAN-04 resolves it
+- Phase 12 planning must re-verify lockfile consistency (`git ls-files package-lock.json` + consistency check) — researchers disagreed; CLEAN-04 resolves it [superseded 2026-09-13, Phase 12: lockfile tracked since f0f56ca, npm ci --dry-run exit 0 — see 12-RECORDS.md §1]
 - Play Console privacy-URL field flow was bot-blocked during research — verify in console when writing Phase 14 runbook
-- Urdu Nastaliq real-device rendering unverified — CLEAN-03 owner device check closes it
+- Urdu Nastaliq real-device rendering unverified — CLEAN-03 owner device check closes it [superseded 2026-09-13, Phase 12: owner device check pass — see 12-UAT.md]
 
 ## Watch Items (owner-gated events, not phases)
 
@@ -88,6 +95,6 @@ See `.planning/todos/pending/` — none yet.
 
 ## Session Continuity
 
-Last session: 2026-09-13
-Stopped at: v2.1 ROADMAP.md + STATE.md created; REQUIREMENTS.md traceability updated
+Last session: 2026-09-14T00:51:07.236Z
+Stopped at: Completed 12-02-PLAN.md
 Resume file: None

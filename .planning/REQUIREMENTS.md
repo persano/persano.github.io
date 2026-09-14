@@ -34,10 +34,10 @@ Requirements for this milestone. Each maps to roadmap phases (see Traceability).
 
 ### Cleanup (CLEAN)
 
-- [ ] **CLEAN-01**: `deploy.yml` validate job runs `npm ci` + `cache: npm` — CI green
-- [ ] **CLEAN-02**: zh variant confirmed vs app `strings.xml` (Simplified-only documented)
-- [ ] **CLEAN-03**: Urdu Nastaliq owner device check recorded (`dir="rtl"` + line-height on `ur`)
-- [ ] **CLEAN-04**: Lockfile consistency re-verified at plan time (closes research discrepancy)
+- [x] **CLEAN-01**: `deploy.yml` validate job runs `npm ci` + `cache: npm` — CI green
+- [x] **CLEAN-02**: zh variant confirmed vs app `strings.xml` (Simplified-only documented)
+- [x] **CLEAN-03**: Urdu Nastaliq owner device check recorded (`dir="rtl"` + line-height on `ur`)
+- [x] **CLEAN-04**: Lockfile consistency re-verified at plan time (closes research discrepancy)
 
 ## v3+ Requirements
 
@@ -68,10 +68,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CLEAN-01 | Phase 12 | Pending |
-| CLEAN-02 | Phase 12 | Pending |
-| CLEAN-03 | Phase 12 | Pending |
-| CLEAN-04 | Phase 12 | Pending |
+| CLEAN-01 | Phase 12 | Complete |
+| CLEAN-02 | Phase 12 | Complete |
+| CLEAN-03 | Phase 12 | Complete |
+| CLEAN-04 | Phase 12 | Complete |
 | MIG-01 | Phase 13 | Pending |
 | MIG-02 | Phase 13 | Pending |
 | MIG-03 | Phase 13 | Pending |
@@ -89,6 +89,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EVID-02 | Phase 15 | Pending |
 
 **Coverage:**
+
 - v2.1 requirements: 19 total
 - Mapped to phases: 19
 - Unmapped: 0 ✓

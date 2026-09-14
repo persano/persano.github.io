@@ -60,16 +60,16 @@ Full details: [.planning/milestones/v2.0-ROADMAP.md](milestones/v2.0-ROADMAP.md)
   3. zh variant (Simplified-only) confirmed against the app's `strings.xml` and documented — a visitor selecting zh gets Simplified Chinese; no zh-TW dictionary added unprompted
   4. Urdu Nastaliq check recorded from the owner's real device: `ur` page renders RTL (`dir="rtl"`) with its line-height override and readable text
 
-**Plans**: 2 plans
+**Plans**: 2/2 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 12-01-PLAN.md — CI reproducibility tracer: lockfile re-verification record + `npm ci`/`cache: npm` in deploy.yml + stale-comment removal (CLEAN-01, CLEAN-04)
+- [x] 12-01-PLAN.md — CI reproducibility tracer: lockfile re-verification record + `npm ci`/`cache: npm` in deploy.yml + stale-comment removal (CLEAN-01, CLEAN-04)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 12-02-PLAN.md — zh Simplified-only confirmation record + Urdu Nastaliq owner device check (12-UAT.md, blocking owner checkpoint) (CLEAN-02, CLEAN-03)
+- [x] 12-02-PLAN.md — zh Simplified-only confirmation record + Urdu Nastaliq owner device check (12-UAT.md, blocking owner checkpoint) (CLEAN-02, CLEAN-03)
 
 ### Phase 13: Home Migration
 
@@ -137,7 +137,7 @@ Plans:
 | 9. App Check Monitor-First | v2.0 | 5/5 | Complete | 2026-09-09 |
 | 10. Gated Social Proof | v2.0 | 2/2 | Complete | 2026-09-10 |
 | 11. Close v2.0 Audit Debt | v2.0 | 3/3 | Complete | 2026-09-11 |
-| 12. Cleanup Batch | v2.1 | 0/? | Not started | - |
+| 12. Cleanup Batch | v2.1 | 2/2 | In Progress|  |
 | 13. Home Migration | v2.1 | 0/? | Not started | - |
 | 14. Launch Kit | v2.1 | 0/? | Not started | - |
 | 15. App Check Evidence Helper | v2.1 | 0/? | Not started | - |
