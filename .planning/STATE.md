@@ -5,17 +5,17 @@ milestone_name: Play Launch + Home Migration
 current_phase: 13
 current_phase_name: Home Migration
 status: executing
-stopped_at: Phase 12 complete, ready to plan Phase 13
-last_updated: "2026-09-14T17:48:10.101Z"
+stopped_at: Completed 13-01-PLAN.md (tasks 2-3; migration uncommitted, awaiting /gsd-ship)
+last_updated: "2026-09-14T18:45:02.108Z"
 last_activity: 2026-09-14
 last_activity_desc: Phase 13 execution started
-state_head: 7a340574997618f430e235b492eaafb9f5f364b9
+state_head: aa17a6f041ddd709e7dd8011c708e48937613ab4
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 0
   total_plans: 4
-  completed_plans: 2
-  percent: 25
+  completed_plans: 3
+  percent: 0
 ---
 
 # Project State
@@ -35,8 +35,8 @@ Goal: site swap-ready for Play launch day; GeoHist landing serves as site home w
 ## Current Position
 
 Phase: 13 (Home Migration) — EXECUTING
-Plan: 1 of 2
-Status: Executing Phase 13
+Plan: 2 of 2
+Status: Ready to execute
 Last activity: 2026-09-14 — Phase 13 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -62,6 +62,7 @@ Progress: [░░░░░░░░░░] 0%
 |------|----------|-------|-------|
 | Phase 12 P01 | 12min | 2 tasks | 5 files |
 | Phase 12 P02 | 88min (incl. owner wait) | 3 tasks | 5 files |
+| Phase 13 P01 | 45min | 3 tasks | 16 files |
 
 ## Accumulated Context
 
@@ -75,6 +76,9 @@ Recent decisions affecting current work:
 - v2.1: no GSC Change-of-Address refile — same-domain path moves are doc-excluded; 180-day window until ~2027-03 stays untouched
 - v2.1: gated events are watch items, not phases — Tier-1 rating flip, FIRE-10 flip, App #2 subdir (v3+)
 - [Phase 12]: Explicit setup-node cache: npm input (no packageManager field); npm ci lockfile-frozen install in CI; chromedriver allowScripts warning warn-only; blocker closure via dated supersession note
+- [Phase 13]: v2.1/13-01: stub dropped from keycheck/surface pages[] (keyed-pages semantics; star-path repoint carries landing-moved fact)
+- [Phase 13]: v2.1/13-01: red-gate snapshots must use per-file distinct names (Copy-Item multi-source flattens same-named files)
+- [Phase 13]: v2.1/13-01: a11y red-gate tripper is critical-impact (unlabeled input); duplicate h2 alone is below the shipped AA gate
 
 ### Pending Todos
 
@@ -96,6 +100,6 @@ See `.planning/todos/pending/` — none yet.
 
 ## Session Continuity
 
-Last session: 2026-09-14T00:51:07.236Z
-Stopped at: Phase 12 transition complete (PROJECT.md evolved, commit 704a0a8); Phase 13 ready to plan
+Last session: 2026-09-14T18:44:34.129Z
+Stopped at: Completed 13-01-PLAN.md (tasks 2-3; migration uncommitted, awaiting /gsd-ship)
 Resume file: None

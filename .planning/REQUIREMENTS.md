@@ -10,15 +10,15 @@ Requirements for this milestone. Each maps to roadmap phases (see Traceability).
 
 ### Home Migration (MIG)
 
-- [ ] **MIG-01**: Visitor hitting site root `/` sees the GeoHist landing (hero, proof strip, features, gallery, FAQ, CTA) with all 20 locales working
-- [ ] **MIG-02**: Visitor hitting `/geohist/` (incl. via legacy host) reaches the root landing via a meta-refresh-0 stub
-- [ ] **MIG-03**: Visitor browsing `/apps/` sees the portfolio hub (former root content, keyed chrome) with zero future-app placeholders
-- [ ] **MIG-04**: All sitemap URLs resolve on apex with coherent canonical + og:url + JSON-LD url per page
-- [ ] **MIG-05**: All five hardcoded gate page-lists (i18n-keycheck, i18n-surface, a11y-audit, smoke-check, validate:html glob) cover the new layout — red-gate proven both directions
-- [ ] **MIG-06**: AGENTS.md reflects the new layout in the same commit (old-domain gate enforces it)
-- [ ] **MIG-07**: `/geohist/privacy.html` stays path-stable — Play Console compliance surface frozen
+- [x] **MIG-01**: Visitor hitting site root `/` sees the GeoHist landing (hero, proof strip, features, gallery, FAQ, CTA) with all 20 locales working
+- [x] **MIG-02**: Visitor hitting `/geohist/` (incl. via legacy host) reaches the root landing via a meta-refresh-0 stub
+- [x] **MIG-03**: Visitor browsing `/apps/` sees the portfolio hub (former root content, keyed chrome) with zero future-app placeholders
+- [x] **MIG-04**: All sitemap URLs resolve on apex with coherent canonical + og:url + JSON-LD url per page
+- [x] **MIG-05**: All five hardcoded gate page-lists (i18n-keycheck, i18n-surface, a11y-audit, smoke-check, validate:html glob) cover the new layout — red-gate proven both directions
+- [x] **MIG-06**: AGENTS.md reflects the new layout in the same commit (old-domain gate enforces it)
+- [x] **MIG-07**: `/geohist/privacy.html` stays path-stable — Play Console compliance surface frozen
 - [ ] **MIG-08**: GSC sitemap resubmit + URL inspection done post-deploy (owner console step, runbook section)
-- [ ] **MIG-09**: 404 page + all nav/footer links point at the new layout (no dead hub links; key surface stays exactly 178 × 19)
+- [x] **MIG-09**: 404 page + all nav/footer links point at the new layout (no dead hub links; key surface stays exactly 178 × 19)
 
 ### Launch Kit (LKIT)
 
@@ -72,15 +72,15 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CLEAN-02 | Phase 12 | Complete |
 | CLEAN-03 | Phase 12 | Complete |
 | CLEAN-04 | Phase 12 | Complete |
-| MIG-01 | Phase 13 | Pending |
-| MIG-02 | Phase 13 | Pending |
-| MIG-03 | Phase 13 | Pending |
-| MIG-04 | Phase 13 | Pending |
-| MIG-05 | Phase 13 | Pending |
-| MIG-06 | Phase 13 | Pending |
-| MIG-07 | Phase 13 | Pending |
+| MIG-01 | Phase 13 | Complete |
+| MIG-02 | Phase 13 | Complete |
+| MIG-03 | Phase 13 | Complete |
+| MIG-04 | Phase 13 | Complete |
+| MIG-05 | Phase 13 | Complete |
+| MIG-06 | Phase 13 | Complete |
+| MIG-07 | Phase 13 | Complete |
 | MIG-08 | Phase 13 | Pending |
-| MIG-09 | Phase 13 | Pending |
+| MIG-09 | Phase 13 | Complete |
 | LKIT-01 | Phase 14 | Pending |
 | LKIT-02 | Phase 14 | Pending |
 | LKIT-03 | Phase 14 | Pending |

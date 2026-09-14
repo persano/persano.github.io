@@ -84,12 +84,12 @@ Plans:
   4. All five hardcoded gate page-lists (i18n-keycheck, i18n-surface, a11y-audit, smoke-check, validate:html glob) cover the new layout — red-gate proven both directions — and AGENTS.md reflects the new layout in the same commit (old-domain gate enforces it)
   5. Post-deploy: GSC sitemap resubmit + URL inspection done (owner console step, runbook section); no Change-of-Address refile (180-day window untouched)
 
-**Plans**: 2 plans
+**Plans**: 1/2 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 13-01-PLAN.md — runway clear (Phase 12 deferred commits + origin/main reconcile) + THE atomic migration edit set (landing→root, hub→/apps/, stub, all 5 gate lists + star path, sitemap, 404, AGENTS.md same-commit) + red-gate proofs both directions (MIG-01..07, MIG-09)
+- [x] 13-01-PLAN.md — runway clear (Phase 12 deferred commits + origin/main reconcile) + THE atomic migration edit set (landing→root, hub→/apps/, stub, all 5 gate lists + star path, sitemap, 404, AGENTS.md same-commit) + red-gate proofs both directions (MIG-01..07, MIG-09)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -146,7 +146,7 @@ Plans:
 | 10. Gated Social Proof | v2.0 | 2/2 | Complete | 2026-09-10 |
 | 11. Close v2.0 Audit Debt | v2.0 | 3/3 | Complete | 2026-09-11 |
 | 12. Cleanup Batch | v2.1 | 2/2 | Complete    | 2026-09-13 |
-| 13. Home Migration | v2.1 | 0/? | Not started | - |
+| 13. Home Migration | v2.1 | 1/2 | In Progress|  |
 | 14. Launch Kit | v2.1 | 0/? | Not started | - |
 | 15. App Check Evidence Helper | v2.1 | 0/? | Not started | - |
 
