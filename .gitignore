@@ -1,6 +1,7 @@
 .serena/
 .planning/research/.cache/
 .planning/milestone.lock
+.planning/.gsd-allow-shrink*
 node_modules/
 reports/
 opencode.json

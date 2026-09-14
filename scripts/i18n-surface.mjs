@@ -3,7 +3,7 @@
  * i18n surface dump (zero-dependency — node built-ins only).
  *
  * Prints the key → EN-text map of the LIVE markup surface across the five
- * keyed pages (hub /index.html, /geohist/index.html, /geohist/guide.html,
+ * keyed pages (landing /index.html, /apps/index.html, /geohist/guide.html,
  * /geohist/contact.html, /geohist/changelog.html) as a sorted JSON object
  * on stdout. There is no en.json — EN strings live in the markup, so this
  * dump IS the EN baseline used to draft every js/i18n/*.json dictionary.
@@ -29,7 +29,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
-const pages = ['index.html', join('geohist', 'index.html'), join('geohist', 'guide.html'), join('geohist', 'contact.html'), join('geohist', 'changelog.html')];
+const pages = ['index.html', join('apps', 'index.html'), join('geohist', 'guide.html'), join('geohist', 'contact.html'), join('geohist', 'changelog.html')];
 
 /* Named entities that appear in this site's copy; numeric forms handled
    generically below. Unknown names are left verbatim (safe — visible). */

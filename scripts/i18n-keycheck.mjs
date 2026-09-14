@@ -3,7 +3,7 @@
  * i18n key-coverage + value-quality gate (zero-dependency — node built-ins only).
  *
  * 1. Key parity: extracts the live data-i18n / data-i18n-attr key surface
- *    from the five keyed pages (hub /index.html, /geohist/index.html,
+ *    from the five keyed pages (landing /index.html, /apps/index.html,
  *    /geohist/guide.html, /geohist/contact.html, /geohist/changelog.html),
  *    then asserts that EVERY js/i18n/*.json dictionary's key set EQUALS
  *    that surface exactly — zero missing keys, zero extra keys (Pitfall 8
@@ -24,8 +24,9 @@
  *       fails. Red-gate proven in both directions (Phase 6 precedent).
  *
  * 3. Star-uniqueness (Phase 11, P-10-3 / ADR-550 D4): the Tier-1 row's
- *    star is exactly ONE inline SVG (class "proof-row-star" in
- *    geohist/index.html); the star character (U+2605) never appears as
+ *    star is exactly ONE inline SVG (class "proof-row-star" in the
+ *    landing page /index.html, root — Phase 13 home migration); the star
+ *    character (U+2605) never appears as
  *    text — not in any dictionary value, not in the markup. Missing or
  *    duplicated = red (fail-closed). U+2605 is NOT in the CJK_PUNCT
  *    regex, so this rule adds real coverage rather than duplicating
@@ -45,7 +46,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
-const pages = ['index.html', join('geohist', 'index.html'), join('geohist', 'guide.html'), join('geohist', 'contact.html'), join('geohist', 'changelog.html')];
+const pages = ['index.html', join('apps', 'index.html'), join('geohist', 'guide.html'), join('geohist', 'contact.html'), join('geohist', 'changelog.html')];
 const dictDir = join(repoRoot, 'js', 'i18n');
 
 // CJK half-width punctuation scope (see header): ja + zh only; ko exempt.
@@ -181,7 +182,7 @@ function run() {
   // Star-uniqueness markup check (P-10-3 — header rule 3): exactly ONE
   // star-SVG class token (negative lookahead per the constants block) and
   // ZERO raw star characters in the landing page markup.
-  const landing = readFileSync(join(repoRoot, 'geohist', 'index.html'), 'utf8');
+  const landing = readFileSync(join(repoRoot, 'index.html'), 'utf8');
   const starSvgs = (landing.match(/proof-row-star(?![\w-])/g) || []).length;
   const starLiterals = landing.split(STAR).length - 1;
   if (starSvgs !== 1 || starLiterals !== 0) {

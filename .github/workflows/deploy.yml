@@ -21,10 +21,8 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 24
-      # NOTE: `npm install` + no cache input — no package-lock.json exists yet (local npm
-      # CLI is proxy-broken; research "Environment Availability"). Restore `npm ci` +
-      # `cache: npm` once a lockfile is committed.
-      - run: npm install
+          cache: npm
+      - run: npm ci
       - run: npm run validate
 
   deploy:

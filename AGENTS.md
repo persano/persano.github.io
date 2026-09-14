@@ -6,7 +6,7 @@ Agent-facing project instructions, hand-written from shipped v2.0 reality (Phase
 
 **Persano — Personal Apps Hub + GeoHist Trivia Site**
 
-A static GitHub Pages site served at the apex **https://geohisttrivia.com** (HTTPS enforced; `www` canonicalized to the apex; `protected_domain_state: verified`). It is Santiago David Postorivo's personal brand hub ("Persano"): the root page is a minimal portfolio hub introducing the developer and linking to per-app sites. The first and primary app site lives in `/geohist/` — a complete landing site for **GeoHist Trivia**, an Android trivia game (history + geography, Jetpack Compose, Google Play Games Services, IAP, AdMob, offline-capable, 20 localizations) currently in Google Play review (package `com.persano.geohisttrivia`; app source of truth `C:\Users\Familia\antigravity\GeoHist-Trivia`).
+A static GitHub Pages site served at the apex **https://geohisttrivia.com** (HTTPS enforced; `www` canonicalized to the apex; `protected_domain_state: verified`). It is Santiago David Postorivo's personal brand hub ("Persano"). The root page is the complete landing site for **GeoHist Trivia**, an Android trivia game (history + geography, Jetpack Compose, Google Play Games Services, IAP, AdMob, offline-capable, 20 localizations) currently in Google Play review (package `com.persano.geohisttrivia`; app source of truth `C:\Users\Familia\antigravity\GeoHist-Trivia`); the minimal portfolio hub introducing the developer and linking to per-app sites lives at `/apps/` (relocated from root in Phase 13), and `/geohist/` is a meta-refresh-0 stub that sends visitors to the root landing.
 
 The repo's legacy `*.github.io` Pages host still dual-serves the same content and 301-redirects path-preserved to the apex. That redirect is a live hosting fact — but the apex is the only canonical URL, and the legacy host literal must NEVER appear in any tracked file: `scripts/check-no-old-domain.mjs` is the permanent CI gate enforcing this repo-wide, AGENTS.md included. Phrase the dual-hosts fact exactly as this paragraph does ("legacy `*.github.io` Pages host") if you ever need to restate it.
 
@@ -17,7 +17,7 @@ The repo's legacy `*.github.io` Pages host still dual-serves the same content an
 ### Constraints
 
 - **Tech stack**: plain HTML5/CSS3/vanilla ES2020+ JS — zero build step, no SSG, no framework; GitHub Pages native
-- **Hosting**: GitHub Pages behind the apex custom domain `geohisttrivia.com` (HTTPS enforced); GeoHist site in `/geohist/` subdir; legacy host 301s path-preserved
+- **Hosting**: GitHub Pages behind the apex custom domain `geohisttrivia.com` (HTTPS enforced); GeoHist landing at root `/`, portfolio hub at `/apps/`, `/geohist/` is a meta-refresh-0 stub to `/`; legacy host 301s path-preserved
 - **Deployment**: push → GitHub Actions CI (`validate` job) → Pages deploy (`deploy` job)
 - **Dependencies**: Firebase JS SDK via gstatic ESM CDN only; no other runtime dependencies; `package.json` exists solely for dev tooling
 - **Content source**: screenshots and app facts from the app repo (`C:\Users\Familia\antigravity\GeoHist-Trivia`)
@@ -35,7 +35,7 @@ The repo's legacy `*.github.io` Pages host still dual-serves the same content an
 | i18n | Single-URL keyed-engine dictionary swap — 20 supported languages, 19 JSON dictionaries, 178-key exact surface (details below) |
 | SEO | Hand-rolled `sitemap.xml` (6 apex `<loc>` entries, no lastmod) + `robots.txt` (apex Sitemap line) + SoftwareApplication + MobileApplication JSON-LD + Open Graph (OG image 1200×630) + `favicon.ico` (single-entry ICO built via node built-ins) + `app-ads.txt` + GSC verification file |
 | CI validate chain | `npm run validate` = `validate:html && validate:domain && validate:links && validate:i18n-detect && validate:i18n` |
-| CI deploy chain | `actions/checkout@v7` → `actions/configure-pages@v6` → `actions/upload-pages-artifact@v5` → `actions/deploy-pages@v5` (`.github/workflows/deploy.yml`; Node 24; `npm install` until a lockfile is committed) |
+| CI deploy chain | `actions/checkout@v7` → `actions/configure-pages@v6` → `actions/upload-pages-artifact@v5` → `actions/deploy-pages@v5` (`.github/workflows/deploy.yml`; Node 24; `npm ci` with setup-node `cache: npm`; lockfile committed since Phase 5) |
 | Dev deps | html-validate 11.12.0 · linkinator 8.1.0 · @axe-core/cli 4.13.0 · lighthouse 13.4.1 · sharp 0.35.4 |
 
 ## Architecture-Critical Invariants (do not re-architect)
@@ -76,7 +76,7 @@ These are LOCKED decisions with shipped code behind them. Changing any of them i
 ### Social proof (Phase 10)
 
 - Facts strip: 4 keyed stat pills, aria-labeled, static, zero links, between hero and features.
-- Tier-1 rating row is shipped **OFF**: `<div class="proof-row" hidden>` with an unkeyed `0.0` self-flagging score span, a single star inline SVG (`proof-row-star`), and one attributed `rel="noopener"` Play link. Owner flip = 2 edits per `.planning/phases/10-gated-social-proof/10-RUNBOOK.md`, gated on real visible Play data (no minimum floor). The star SVG is exactly ONE — `scripts/i18n-keycheck.mjs` enforces star uniqueness fail-closed (★ U+2605 must never appear as text in any dictionary value or in markup).
+- Tier-1 rating row is shipped **OFF**: `<div class="proof-row" hidden>` with an unkeyed `0.0` self-flagging score span, a single star inline SVG (`proof-row-star`), and one attributed `rel="noopener"` Play link. Owner flip = 2 edits per `.planning/milestones/v2.0-phases/10-gated-social-proof/10-RUNBOOK.md`, gated on real visible Play data (no minimum floor). The star SVG is exactly ONE — `scripts/i18n-keycheck.mjs` enforces star uniqueness fail-closed (★ U+2605 must never appear as text in any dictionary value or in markup).
 - Tier-2 `aggregateRating` JSON-LD is permanently OFF via an inert HTML comment outside the script tag: Google's review-snippet policy bars mirroring Play ratings absent an on-site review source.
 
 ## What NOT to Use
@@ -113,12 +113,13 @@ Patterns established across Phases 1–10; follow them for all new work:
 
 ## Architecture
 
-Live file map (shipped v2.0):
+Live file map (shipped v2.1 home migration):
 
 ```
-index.html                    # root portfolio hub (keyed)
-404.html                      # self-contained 404, links back to hub
-geohist/index.html            # landing: hero, proof strip, OFF rating row, features, gallery, FAQ, CTA
+index.html                    # GeoHist landing at root (keyed): hero, proof strip, OFF rating row, features, gallery, FAQ, CTA
+404.html                      # self-contained 404, links back to the hub (/apps/)
+apps/index.html               # portfolio hub (keyed; moved from root in Phase 13)
+geohist/index.html            # meta-refresh-0 stub → / (noindex,follow + canonical / + <a> fallback; zero scripts/keys)
 geohist/guide.html            # how to play + game modes
 geohist/contact.html          # Firebase contact form + consent surface
 geohist/changelog.html        # keyed chrome + EN entries (documented i18n exception)

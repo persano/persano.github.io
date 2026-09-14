@@ -1,239 +1,194 @@
-# Pitfalls Research — v2.0 Milestone Features (Added to Existing System)
+# Pitfalls Research — v2.1 "Play Launch + Home Migration"
 
-**Domain:** Static GitHub Pages app-landing site — adding 17 localizations (RTL), App Check, custom domain, changelog page, gated social proof
-**Researched:** 2026-09-05
-**Confidence basis:** Claims verified against official sources this session: Firebase App Check docs (reCAPTCHA v3 + reCAPTCHA Enterprise provider pages), Google Search Central review-snippet guidelines, GitHub Pages custom-domain docs. Repo-grounded facts verified against the actual code (`js/i18n.js`, `scripts/i18n-keycheck.mjs`, `package.json`, `.github/workflows/deploy.yml`, `scripts/smoke-check.sh`, `geohist/contact.html`). Items not independently verified are marked **MEDIUM** or **LOW**.
+**Domain:** Adding features to a shipped, CI-gated, CI-enforced static GitHub Pages site (locked architecture: zero-build, single-URL keyed i18n, 178-key × 19 dictionaries, owner-gated flips, active GSC CoA window)
+**Researched:** 2026-09-11
+**Confidence:** HIGH for mechanics backed by first-party official docs (verbatim-fetched this session from Google Search Central, GitHub Docs, npm Docs, actions/setup-node — see Sources); MEDIUM for empirical GitHub Pages/Play Store behaviors; LOW where flagged for phase-time re-verification.
 
-**Context for every pitfall below:** this site is agent-maintained (content changes via chat sessions, not owner HTML edits), zero-build, and the owner does not read most of the 17 new languages. That changes the classic failure modes: review gates that assume a human editor who knows the language do not exist, so prevention must be mechanical (CI gates, structural constraints, staged waves) or it will not happen.
+> Confidence note: the classify-confidence seam returns LOW for the `webfetch` provider class because it is URL-blind. Every HIGH-confidence claim below was verified by quoting official first-party documentation live this session, with the URL and doc-date cited. This is the strongest provenance available and is tagged accordingly; community/empirical claims are tagged MEDIUM and assumptions LOW.
 
 ---
 
 ## Critical Pitfalls
 
-### Pitfall 1: Agent-drafted translations shipped without a register decision, terminology source, or native review — "owner-reviewed" is a rubber stamp
+### Pitfall 1: Moving `privacy.html` while the Play listing is in review — the privacy-URL coupling
 
 **What goes wrong:**
-17 languages × ~146 existing keys + changelog keys ≈ 2,700+ new strings drafted by an agent, "reviewed" by an owner who cannot read most of them. Classic agent-translation failures land live: wrong formality register (German *du* vs *Sie*, Japanese plain *である* vs polite *です/ます*, Hindi *तुम* vs *आप*), inconsistent game terminology across keys in the same language ("level" translated three different ways), and calque-style translations that are grammatically fine but unnatural.
+Home migration relocates pages, someone "helpfully" moves `geohist/privacy.html` to `/privacy.html` (or to the new landing root) as part of the move. The Play Console privacy-URL field — set (or about to be set) to `https://geohisttrivia.com/geohist/privacy.html` — now points at a 404 or a redirect. Google Play reviewers hitting a dead privacy policy is a classic rejection/delay cause, and the field update is an *owner console step* that can be forgotten for weeks.
 
 **Why it happens:**
-- Register choice is invisible in the drafting prompt unless made explicit per language; agents default inconsistently.
-- The site's most important shared vocabulary (game modes, question types, "localization count") should match the **app's own localization** in `C:\Users\Familia\antigravity\GeoHist-Trivia` (the app ships 20 localizations) — but nothing forces the site dictionaries to use those terms, so the site can disagree with the game UI players actually see.
-- Owner review is the only human gate, and it cannot function for languages the owner doesn't read. Planning that says "owner-reviewed" gives false assurance.
+The migration looks like a pure URL-plumbing exercise; the Play Console field is a cross-system dependency living outside the repo, invisible to every gate in this project. The 180-day GSC window also creates a false sense that "URLs are in flux anyway."
 
 **How to avoid:**
-1. **Register decision table before drafting.** One row per language, decided up front: de→*Sie* (or *du* if matching the app's Play listing — check it), fr→*vous*, ja→*です/ます*, ko→*해요체*, ru→lowercase *вы*, hi→*आप*, bn→*আপনি*, tr→*siz* (safe default), el→*εσείς*, pl→"Ty" (modern app convention), it→*tu* acceptable for a game, nl→*je*, vi→avoid pronouns where possible, id→*Anda* for formal copy, ar→MSA (فصحى, never a dialect), pt-BR/es→already shipped. Write the table into the phase plan; it becomes the drafting prompt and the review rubric.
-2. **Terminology glossary extracted from the app repo.** Pull the app's `strings.xml` per locale for the shared game terms and put a 10–20-term glossary (EN → each language) at the top of every drafting session. The app's translations are already user-accepted; reusing them costs nothing.
-3. **Two-pass drafting:** pass 1 drafts; pass 2 is a *fresh* agent session that only critiques (register check, punctuation check, glossary-conformance check, EN-echo check) — no shared context with the drafter. Cheap on a static site and catches most mechanical errors.
-4. **Stagger waves of 3–4 languages per plan**, gate-checked per wave — not 17 dictionaries in one shot. A systemic error (bad register, wrong punctuation width) in one wave costs a redo of 3 dictionaries, not 17.
+- **Do not move `geohist/privacy.html` in v2.1.** It is the compliance surface for the app in active review. Declare its URL frozen this milestone; run the root migration around it.
+- If a future move is ever approved: runbook order is (1) ship new URL + 301-equivalent stub at old URL, (2) owner updates the Play Console field, (3) only after field verified, old stub may remain permanently (never delete it — Play Console links have no expiry).
+- The launch-kit runbook's flip order (privacy-URL field → Play link swap → rating row) already implies the field edit comes first; the pitfall is doing the *migration* first and breaking the target the field points at.
 
-**Warning signs:** mixed register in sample strings; game terms differing from the app; a wave where all languages share one visibly machine-literal sentence structure; owner approving 17 dictionaries in under 5 minutes.
-**Phase to address:** I18N-05 (register table + glossary in the phase plan itself; two-pass + waves in plan tasks).
+**Warning signs:**
+`curl -I` on the privacy URL returning 301/404 after a deploy; Play Console review status going "In review" longer than usual; any diff touching `geohist/privacy.html`'s path in the migration commit.
+
+**Phase to address:** Home migration phase — freeze rule stated in plan; launch-kit phase — verification step in runbook.
 
 ---
 
-### Pitfall 2: `zh` variant, punctuation width, and legacy language-code traps in the detection layer
+### Pitfall 2: Dropping old `/geohist/*` paths to 404 — breaking the legacy-host 301 chain
 
 **What goes wrong:**
-Three concrete failure modes when expanding `js/i18n.js` from 3 to 20 languages:
-- **`zh` is not one language.** One `zh` dictionary silently decides Simplified-only. A `zh-TW`/`zh-Hant` visitor gets Simplified characters — visibly wrong to Traditional-script readers, who read them as a different writing system, not a dialect variant. (Check which variant the app itself localizes — app repo decides; if the app ships only `values-zh-rCN`, Simplified-only is defensible *and documented*.)
-- **Half-width punctuation in CJK strings.** English commas/periods/quotes (`,` `.` `"...") in zh/ja copy look broken. zh needs full-width （，。！？「」）; ja needs 、。「」 and no spaces; ko needs correct 띄어쓰기 spacing rules. Agent drafters produce half-width punctuation constantly.
-- **Legacy Indonesian code.** Indonesian's deprecated BCP-47 code is `in` (modern: `id`). Some older/embedded browsers and OS stacks still emit `in-ID`. A naive `tag.indexOf('id') === 0` check misses them. No other new code has this trap, but `zh-*` region handling (`zh-tw`/`zh-hk`/`zh-hant` vs `zh-cn`/`zh-hans`) and plain `zh` all need explicit handling in `detect()`.
+The migration deletes `geohist/index.html` (and optionally the whole dir) and puts the landing at root. GitHub Pages then serves `404.html` with HTTP 404 for every old path. But the legacy `*.github.io` Pages host **301s path-preserved** to the apex: any indexed legacy URL now resolves `legacy-host/geohist/` → 301 → `geohisttrivia.com/geohist/` → **404**. Redirect chains that terminate in 404 transfer nothing; Google drops those URLs without passing signals, and any bookmark, screenshot, or Play-listing link pointing at the old path dies. Per official Google site-move guidance, old URLs must redirect, not vanish ("not updating sitemaps / broken redirects" are listed migration mistakes).
 
 **Why it happens:**
-`detect()` today (`js/i18n.js:90-107`) is a flat prefix-scan with two hardcoded mappings. Scaling it is mechanical — exactly the kind of edit where region/script nuance and deprecated codes get dropped. Punctuation width is a per-string property, so no CI gate catches it without a rule.
+"Moving to root" is mentally coded as "old location is gone." On a server host you'd add a 301 rewrite; GitHub Pages has **no server config** (no `.htaccess`, no `nginx.conf`), and `.nojekyll` rules out the Jekyll redirect template. The official redirect ladder (Google "Redirects and Google Search", upd. 2026-08): server 301/308 → **instant meta refresh (0s) = treated as a permanent redirect** → JS redirect = last resort only. GitHub serves exactly one root `404.html` for all missing paths (official GitHub Docs; no per-directory 404s), so a dynamic 404-based JS redirector is the *weakest*-tier mechanism available.
 
 **How to avoid:**
-- Decide and document: one `zh` dictionary = `zh-Hans`, `zh-*` browsers (all regions) map to it, note the limitation in the phase plan. Map the app's actual zh localization to the same decision.
-- Extend `detect()` with an explicit per-language table, not a growing if-chain: exact-tag matches first (`pt-BR`), then prefix fold for each language, then `zh-tw|zh-hk|zh-hant` handling, then `in-*` → `id`.
-- Add a mechanical punctuation check to the i18n gate for zh/ja: flag keys whose values contain ASCII `,` `.` `!` `?` `"` adjacent to CJK characters (regex heuristic; a small allowlist for URLs and numbers).
-- Unit-test `detect()` with a table of input tags → expected language, including `in-ID`, `zh-TW`, `pt`, bare `zh`.
+- **Static instant meta-refresh stubs at the old paths.** Recreate `/geohist/index.html` (and any other moved path) as a ~15-line stub: `<meta http-equiv="refresh" content="0; url=/">` plus a real link, `<meta name="robots" content="noindex">`, and a `<link rel="canonical">` to the NEW URL. Google officially interprets instant (0s) meta refresh as a permanent redirect — the only first-party-sanctioned substitute for 301 on this host.
+- Old paths that move must exist as stubs; old paths that *stay* (privacy.html per Pitfall 1) need nothing.
+- The 404.html JS redirector (`location.pathname` mapping) is acceptable as a **safety net** for unknown legacy paths, never as the primary mechanism (Google: JS redirects are last-resort; the 404 page is served with HTTP 404 status, so it is treated as a soft-404, not a redirect, for ranking).
+- Keep stub count minimal and enumerable: the old `/geohist/` section root is the main indexed URL (plus the 5 sitemap URLs).
 
-**Warning signs:** `zh.json` containing `","`; any browser sending `in-ID` showing EN; screenshots of zh pages with visually cramped punctuation.
-**Phase to address:** I18N-05 (detection-table task + punctuation gate rule; zh decision documented in phase plan).
+**Warning signs:**
+GSC old-property URL inspection showing "Submitted URL not found (404)" after the migration deploy; legacy-host URLs in GSC URL inspection; link-checker reports on `/geohist/` going red; site:somequery showing old URLs.
+
+**Phase to address:** Home migration phase — stub files are a plan deliverable, not an afterthought; GSC monitoring task in the same phase verifies decay, not 404 spikes.
 
 ---
 
-### Pitfall 3: RTL breaks the existing layout — `i18n.js` switches `lang` but has zero `dir` capability, and the stylesheet is all physical properties
+### Pitfall 3: Double indexation — copying the landing to root while keeping `/geohist/` serving full content
 
 **What goes wrong:**
-Enabling `ar`/`ur` does three distinct things badly by default:
-- **The engine doesn't switch direction.** `applyLanguage()` (`js/i18n.js:58-72`) sets `document.documentElement.lang` only. Without setting `dir="rtl"`, Arabic/Urdu render left-aligned with RTL text runs inside an LTR frame — punctuation lands on the wrong side, and layout is unreadable.
-- **The existing CSS uses physical properties.** The Phase-2 stylesheet (dark antique theme, utility layer) was authored LTR with physical `margin-left`/`padding-left`/`text-align:left`-style declarations. `dir="rtl"` auto-flips text alignment defaults but flips *nothing else*: explicit left/right values, icon slots padded on one side, absolutely positioned decorations, and any `transform` directionality stay LTR. Result: mirrored text with unmoved chrome.
-- **Bidi runs and glyphs.** The brand names ("GeoHist", "Persano") and any email/URL embedded in translated strings are LTR islands inside RTL text; without `dir="ltr"` isolation (or `unicode-bidi: isolate`) they scramble. Urdu needs Nastaliq-friendly line height; Arabic diacritics clip in tight line-heights; both need more leading than Latin. Urdu rendered with an Arabic Naskh fallback font reads as "wrong letterforms" to Urdu readers (Urdu-specific letters ے ں ٹ ڈ — acceptable degradation if documented, not if discovered later).
+To "keep old URLs working," the landing is **duplicated**: full content at root AND full content at `/geohist/`, both self-canonicalized. Now two URLs serve identical content with competing canonicals. Google picks one arbitrarily; the sitemap (which currently lists both `/` and `/geohist/`) actively tells the crawler both are real; og:url drift follows; link equity splits; and Analytics `play_badge_click` etc. fragment across two page paths.
 
 **Why it happens:**
-RTL is invisible during development on an English machine; the 17-dictionary wave treats `ar`/`ur` as "two more dictionaries" when they are actually a **layout project plus two dictionaries**.
+Confusion between "keep working" (redirect) and "keep serving" (duplicate). Canonical-to-root in the copy would be defensible, but the shipped pages self-canonicalize (`/geohist/` canonical on line 8 of `geohist/index.html`), so a careless copy is self-canonical duplicate.
 
 **How to avoid:**
-1. Extend `applyLanguage()` to set `document.documentElement.dir` from a per-language map (`ar`/`ur` → `rtl`, everything else → `ltr`) in the same pass — one-place change, snapshot pattern stays intact.
-2. Audit the stylesheet and convert direction-sensitive declarations to CSS logical properties (`margin-inline-start`, `padding-inline`, `text-align: start`), *scoped to the direction-sensitive rules only* — do not blind-replace everything; decoration textures (`background-position`) are fine either way, and over-mirroring decoration is its own mistake.
-3. Mirror check list for `ar`/`ur` verification: nav order, form fields and their labels, footer switcher, `::before`/`::after` arrows (flip directional icons, keep neutral icons), screenshots gallery (game images are NOT mirrored — they are the game's own rendering), og-image (unchanged, EN).
-4. Wrap brand names and embedded Latin (emails, URLs) in `<span dir="ltr">`-style isolation, or set `unicode-bidi: isolate` on the brand classes.
-5. Bump line-height for `[lang="ar"]`/`[lang="ur"]` scoped rules; verify no button/label text clips in the fixed-height UI elements.
-6. The language switcher itself: 20 endonym entries ("English · Español · … العربية … हिन्दी") in the reserved footer slot will wrap into a multi-line strip; each RTL endonym inside the LTR footer needs `dir="auto"` on its element (the switcher already sets `lang` per entry — add `dir`). Plan the switcher redesign (a `<details>` disclosure or `<select>`) as part of I18N-05, not as a surprise discovered at 20 entries.
+- **One canonical URL per page: root.** Old paths become meta-refresh stubs (Pitfall 2), never full copies.
+- Sitemap lists **only final URLs**: `/`, `/geohist/guide.html` (if kept), `privacy.html`, `contact.html`, `changelog.html`, `/apps/`. Never list redirect stubs. Remove `/geohist/` from the sitemap in the same commit as the move (single atomic commit, per the repo's one-commit-migration precedent from Phase 8).
+- Resubmit the sitemap in GSC after deploy; expect old-URL sitemap "redirecting" warnings — official docs say these are normal during a move.
 
-**Warning signs:** `dir` absent from `documentElement` when `ar` selected; any `left`/`right` physical property surviving the audit in direction-sensitive rules; Arabic screenshots showing left-aligned chrome; footer switcher wrapping to 3+ lines.
-**Phase to address:** I18N-05 (RTL must be its own plan/wave inside the localization work — engine change + CSS audit + per-page screenshot verification — not bundled with dictionary drafting).
+**Warning signs:**
+Two URLs with HTTP 200 + identical `data-i18n` surfaces; Coverage report showing both "Duplicate, Google chose different canonical" and "Alternate page with proper canonical tag"; sitemap containing a URL that emits `content="0; url=..."`.
+
+**Phase to address:** Home migration phase — sitemap rewrite + stub-not-copy rule in the plan's verification checklist.
 
 ---
 
-### Pitfall 4: Building App Check on classic reCAPTCHA v3 — the officially deprecated-for-new-work provider
+### Pitfall 4: URL-annotation drift — canonical/og:url/JSON-LD/og-image/favicon/sitemap/404 links all hardcode absolute URLs
 
 **What goes wrong:**
-FIRE-07 plans "reCAPTCHA v3". Firebase's current official docs state: *"You should use reCAPTCHA Enterprise for new integrations, and we strongly recommend that developers of apps using reCAPTCHA v3 upgrade when possible."* Building the new integration on v3 means (a) adopting the provider Google is steering away from, (b) losing the richer fraud signals, and (c) a likely forced migration later on a live form.
+Every page hardcodes absolute URLs in at least seven places: `<link rel="canonical">`, `og:url`, JSON-LD (`url`, `image`, `screenshot`), `og:image`, favicon links, footer links, and `sitemap.xml`. The repo migrated 44 URLs in one commit for the *domain* change; the *path* change has the same surface, plus new failure modes: root landing's `og:image` still pointing at `/geohist/og-image.png` (fine if assets stay), JSON-LD `"url": "https://geohisttrivia.com/geohist/"` stale (it must become `/`), JSON-LD `screenshot` paths, the 404 page's links, and `robots.txt` Sitemap line. Drift means: social previews resolving wrong, structured data describing a URL that now redirects, and the Rich-Results-eligible `SoftwareApplication` losing coherence.
 
 **Why it happens:**
-"reCAPTCHA v3" is the name everyone knows; milestone text was drafted with it; the Enterprise page looks like it needs billing.
+The pages were *written* with absolute URLs (deliberately — it makes pages location-independent for serving, which is why the CSS/JS `href="/css/base.css"` / `DICT_URL_PREFIX = '/js/i18n/'` will NOT break in the move; the trap is believing "relative paths will break" applies here — it doesn't — and missing that the annotation *layer* is the real work).
 
 **How to avoid:**
-- Re-decide the provider *in* the FIRE-07 phase, not before. Verified facts for the decision: reCAPTCHA Enterprise includes **up to 10,000 free assessments/month** (more than enough for a contact form); it supports a configurable **app risk threshold** (default 0.5, per-app, in Firebase console → Security → App Check). Tradeoff: Enterprise requires the Firebase project to have billing enabled (no charge at this volume) — an owner console step.
-- If the owner declines billing, v3 classic still works and both provider pages are live current docs — but record the decision and the known deprecation direction in the phase plan.
+- Inventory-first: enumerate every absolute-URL literal per file (`rg -n 'https://geohisttrivia.com' *.html geohist/*.html scripts/ sitemap.xml robots.txt`) before editing; the migration commit touches each in one atomic pass (Phase-8 precedent: one commit = one revert = rollback).
+- After deploy: smoke-check the served HTML (not just status codes) — assert canonical == serving URL for each page, JSON-LD parses and `url` == new canonical, og:image 200s.
+- `app-ads.txt` and `favicon.ico` are path-independent at root — verify but don't churn.
 
-**Warning signs:** milestone text hardcoding "v3" without a decision note; App Check registration attempted with a v3 secret key on the Enterprise flow.
-**Phase to address:** FIRE-07 (first task of the phase: provider decision with the billing caveat; do not pre-commit in roadmap).
+**Warning signs:**
+Rich Results Test on the root page reporting the structured data item is "on a page that is not the item URL"; og:url ≠ canonical; linkinator passes while canonical text is stale (linkinator only checks link liveness, not canonical correctness).
+
+**Phase to address:** Home migration phase — annotation inventory as an explicit plan task with per-file assertions in smoke-check.
 
 ---
 
-### Pitfall 5: Enforcement flip blocking real humans — privacy-browser users are indistinguishable from bots in the metrics, and this site's volume can't disprove a false block
+### Pitfall 5: The five hardcoded page-path lists — gates either go red or silently skip the new layout
 
 **What goes wrong:**
-App Check monitoring mode shows request metrics (valid / invalid verdicts). The classic misread: assume "invalid requests are bots, therefore flip to enforcement." On this site, a large share of *real* contact-form users run adblock/privacy browsers (Brave, uBlock, Firefox ETP) that **block reCAPTCHA** — those users produce exactly the same "no valid token" signal as bots. Worse, this site's form volume is tiny (single-digit submissions/day at best), so "a clean week of metrics" may mean five data points. Flipping enforcement then silently hard-blocks real users: `signInAnonymously` and the Firestore `create` both start demanding a valid App Check token, the form shows a generic error, and there is no way for the blocked user to self-recover except the fallback email — which exists in the error copy but is easy to miss.
+`validate:html` glob (`index.html 404.html geohist/*.html`), `scripts/i18n-keycheck.mjs` `pages` array (line 48, plus the star-gate's direct `readFileSync(join(repoRoot, 'geohist', 'index.html'), ...)`, line 184), `scripts/i18n-surface.mjs` `pages` array (line 32), `scripts/a11y-audit.mjs` URL table (`/geohist/`, `/geohist/guide.html`, ...), and `scripts/smoke-check.sh` URL list all **hardcode the v2.0 layout**. After a move: `readFileSync` on a vanished path throws → CI red (fail-closed, but confusing); worse, a *new* page (e.g. `/apps/index.html` carrying keyed hub chrome) added without updating the keycheck page list is **silently outside the set-equality surface** — its keys aren't checked, its drift isn't caught, and the "178-key exact surface" invariant quietly stops being true.
 
 **Why it happens:**
-- Monitoring dashboards cannot distinguish "token missing because bot" from "token missing because reCAPTCHA script was blocked by the user's privacy tooling."
-- The docs' monitoring→enforcement guidance assumes request volume sufficient to establish a baseline.
-- Enforcement is per-product; people enable it for "everything" without realizing Auth + Firestore are the two products this form actually uses, and each has its own flip.
+Zero-build repo with node-builtin scripts — no config file centralizes the page list; each script embeds its own. Five separate lists is five chances to miss one.
 
 **How to avoid:**
-1. **Size the monitoring window by submission count, not duration:** e.g., collect metrics until N *successful* real submissions have occurred with tokens present (Analytics `form_submit` success event already exists from Phase 4 — use it), not "1 week".
-2. **Explicit UX for token failure:** a dedicated error status node (the site's pre-rendered keyed-node pattern handles this perfectly — add `contact.status.appcheck`) that names the actual cause and the fallback email. Never reuse the generic "Something went wrong" for this.
-3. **Flip per-product, form first:** enable enforcement for Firestore and Identity Platform (the two products the form uses) — not for anything else — and treat the Auth flip and the Firestore flip as separate, reversible steps.
-4. **Fail-open canary:** before flipping, keep enforcement off but add an Analytics event on App Check token-fetch failure; if >5–10% of *real* submit attempts fail token fetch, don't flip.
-5. **Debug provider for local/CI:** registered App Check apps will reject local dev and CI environments — use the App Check debug provider (`debug` token in Firebase console) there, or validation work gets misread as App Check breakage. Document the debug token as a console-side artifact in the phase plan.
-6. Know the fallback: enforcement can be turned back off per product; the form's email fallback address in the error copy is the human safety net — keep it.
+- The migration plan must enumerate all five touchpoints as one task: update `pages` arrays + `validate:html` glob + a11y audit URLs + smoke-check URLs **in the same commit** as the file moves, then red-gate prove (mutate a key → gate FAIL → restore → PASS), per repo convention.
+- Consider a tiny shared `scripts/pages.mjs` exporting the canonical page list, imported by both keycheck and surface (node built-ins only, zero deps) — one list to update forever after. Not required, but it kills this pitfall class.
+- Key namespaces stay **logical, not path-derived**: `hub.*` keys keep their names even though the hub page moves to `/apps/`. Renaming `hub.*` → `apps.*` means an atomic rewrite of keys across 19 dictionaries + markup + keycheck expectations for **zero user-visible benefit**. Keys are IDs, not URLs.
 
-**Warning signs:** Firebase console App Check metrics showing "requests without valid token" where the count exceeds plausible bot traffic on a near-zero-traffic site; Brave/uBlock test submissions failing during monitoring; flip done the same week as registration.
-**Phase to address:** FIRE-07 (monitoring window definition + token-failure UX + per-product flip order are plan tasks; the flip itself is gated on submission-count evidence, owner-approved).
+**Warning signs:**
+CI red with ENOENT on a script that "worked yesterday"; keycount in the keycheck summary changing (178 → other) without an intentional key change; a11y audit covering fewer pages than exist.
+
+**Phase to address:** Home migration phase — one dedicated plan task "update all gate page lists + red-gate proof."
 
 ---
 
-### Pitfall 6: App Check's reCAPTCHA script vs the site's own consent architecture — the third-party-bytes principle gets broken
+### Pitfall 6: GSC Change-of-Address misapplication during a same-domain path move
 
 **What goes wrong:**
-The site's v1 consent design (FIRE-01..03) is load-gating with a hard rule: **zero third-party bytes pre-consent** — no `firebasejs` references anywhere in HTML; imports happen only when needed. App Check with reCAPTCHA adds a new third-party script stream (`google.com/recaptcha/api.js` or the Enterprise equivalent) that sets its own cookies. If it's loaded on page load of `/geohist/contact.html`, the site ships third-party cookie-bearing bytes to EU visitors before any consent — violating its own architecture and, functionally, the same reasoning the GDPR banner exists for.
+Two failure directions. (a) Assuming the active CoA (old host → geohisttrivia.com, 180-day window until ~2027-03) somehow "covers" the path move and doing nothing — correct *partially*: CoA is domain-scoped only (official docs: "You only need this tool when moving from one domain or subdomain to another... You don't need it for HTTP to HTTPS moves, switching between www and non-www, or **moving paths within the same domain**"), so the path move needs its OWN mechanics: redirects + updated sitemap + resubmission (Pitfalls 2/3). (b) The worse error: **filing a second CoA** for the path change — GSC's CoA is domain→domain; a same-domain re-file is at best rejected, at worst replaces/confuses the active window, and the repo deliberately monitors index decay on the retained old property through ~2027-03.
 
 **Why it happens:**
-App Check docs show `initializeAppCheck()` at app init; nobody maps that against the consent model. reCAPTCHA is arguably "functional" (anti-abuse for a service the user explicitly requested) rather than "analytics" — but the *cookie-setting script load* is the thing the consent gate architecture was designed to control.
+"Migration" + "GSC" + "Change of Address" pattern-match to each other. The v2.0 Phase-8 CoA is fresh in memory and becomes the wrong template.
 
 **How to avoid:**
-- Follow the existing fork-shaped pattern: initialize App Check **inside `contact.js`, at form-submit time** (the same trigger as `signInAnonymously`), never at page load, never in `consent.js`. The reCAPTCHA bytes then load only when the user has explicitly chosen to use the form — the same functional-essential justification already used for auth.
-- Keep the strict separation: `consent.js` imports analytics only; `contact.js` imports auth + firestore + **app-check**. Zero new script references in HTML.
-- Document the reasoning (functional/essential classification for the anti-abuse token) in the phase plan so the decision is auditable; flag for the owner's privacy review alongside the privacy policy (which should mention reCAPTCHA once App Check ships — the policy is EN-only by decision, so it's a one-page edit, but it must not be forgotten).
+- Runbook states it verbatim: **path moves within geohisttrivia.com use redirects + sitemap only. Do NOT open the Change of Address tool. Do NOT touch the active 180-day window.**
+- GSC actions for the path move: submit updated sitemap on the Domain property; monitor the retained old property for decay (unchanged practice); optionally use URL Inspection on migrated URLs.
+- Keep the old-property retention monitoring task alive; it is now ALSO the early-warning surface for stub mistakes (404 spikes instead of decay).
 
-**Warning signs:** any `recaptcha` string in served HTML `<head>`; App Check initialization outside `contact.js`; privacy policy unchanged after FIRE-07 ships.
-**Phase to address:** FIRE-07 (submit-time initialization is a plan task; privacy-policy note is a verification item).
+**Warning signs:**
+Any plan or doc step saying "file CoA" outside the domain-move context; GSC CoA panel showing a replaced/canceled request; Coverage 404 spike on the *new* property for `/geohist/*` URLs.
+
+**Phase to address:** Home migration phase — explicit "do not file CoA" guard-rail in the runbook; GSC monitoring carried as watch-only task.
 
 ---
 
-### Pitfall 7: Domain migration — the repo-wide absolute-URL rewrite is planned, but the Firebase/console side and the "no 301" reality are not
+### Pitfall 7: The launch-day "rationalization flip" — adding `aggregateRating` because "Software App is a supported review-snippet type"
 
 **What goes wrong:**
-HOST-01 correctly plans rewriting canonical/og/sitemap/robots/JSON-LD (the repo surface is real: `persano.github.io` appears in ~17 files including `sitemap.xml`, `robots.txt`, all four app pages, `js/consent.js`, `js/contact.js`, `js/firebase-config.js`, `scripts/smoke-check.sh`). Three adjacent failure modes are outside the repo:
-1. **Firebase rejects the new domain.** Anonymous auth from the new domain fails with `auth/unauthorized-domain` unless the domain is added to Firebase console → Authentication → Settings → Authorized domains. The v1 API-key hardening added an **HTTP-referrer restriction to `persano.github.io`** — the same restriction now blocks Firestore/Auth calls from the new domain. App Check's reCAPTCHA registration is domain-scoped too — register the new domain before enforcement, or the form dies exactly when App Check goes live.
-2. **No 301 exists.** GitHub Pages serves the same content at both hostnames; there is no redirect from `persano.github.io` to the custom domain. Google's Change-of-Address tool formally requires 301s, so it can't be used. Canonicals carry the migration — which makes *every* canonical/og:url/sitemap/hreflang/JSON-LD rewrite load-bearing, not cosmetic.
-3. **Tooling hardcoded to the old domain.** `scripts/smoke-check.sh` (`BASE=`), the `linkinator` skip regex in `package.json`, and Search Console's existing property all assume `persano.github.io`. A partial migration passes CI while serving a mixed-domain site.
+Play goes live, real ratings appear, and an agent (or the owner) sees that Google's review-snippet docs **do list "Software App" as a supported type** and adds `"aggregateRating": {"ratingValue": 4.x, "ratingCount": n}` with Play numbers to the JSON-LD. That is a **structured-data policy violation even with real data**: the official policy (doc updated 2026-09-08) says *"Don't aggregate reviews or ratings from other websites"* — Play ratings are another website's ratings sourced on this site, and there is no on-site review source. Consequence class: structured-data manual actions / rich-result ineligibility, exactly the spam signal the repo's Tier-2 decision was built to avoid. The shipped state is a locked decision: Tier-2 `aggregateRating` is **permanently OFF** via an inert comment; only a genuine on-site review source can ever unlock it.
 
 **Why it happens:**
-The repo rewrite is visible and plannable; the console-side allowlists are scattered across three Firebase console surfaces and a Cloud Console credentials page, and they all worked fine for months.
+The docs' support for Software App review snippets is *half*-true and reads like permission. The inert in-file comment exists precisely to stop future-agent rationalization — an edit to `geohist/index.html` during the JSON-LD refresh task is the moment it can be overridden.
 
 **How to avoid:**
-- **Order of operations (encode in the phase plan):** register domain owner-side → add domain in repo Settings → set DNS → wait for cert → **console-side: Firebase Auth authorized domains + API-key referrer restriction + App Check domain list + Search Console new property** → *then* the repo URL rewrite in one commit → sitemap resubmit → smoke-check updated and re-run.
-- Rewrite must include: canonical links, `og:url`/`og:image`/`twitter:image`, `sitemap.xml` URLs, `robots.txt` sitemap line, both JSON-LD blocks, `scripts/smoke-check.sh` BASE, `package.json` linkinator skip regex, and the Search Console verification file stays at root (works on the new domain; the *new* Search Console property needs its own verification).
-- Rely on canonicals for re-indexing: same content, same paths, new domain is the *easy* site-move case — no per-URL redirect map needed, but expect a re-crawl window of days-to-weeks; keep the old Search Console property alive to watch the old URLs' indexing decay.
-- **The HOST-01 "CNAME file" plan item is wrong for this deploy setup:** GitHub docs are explicit that with a custom Actions workflow, a CNAME file in the repo is ignored — the domain must be set in the repository's Pages settings. Correct the plan so nobody "fixes" the missing CNAME file and wonders why it does nothing.
-- Choose **www vs apex deliberately**: GitHub recommends www as the more stable choice (apex A-records pin four GitHub IPs that can change; www CNAME doesn't). Configure *both* apex and www DNS records either way — Pages redirects between them automatically once configured.
+- Launch-kit runbook: the JSON-LD "refresh check" is verification ONLY (offers block present, `price: "0"` string, priceCurrency USD, Rich Results Test clean). The aggregateRating block stays commented-out-inert. Copy the policy citation into the runbook.
+- The star-uniqueness CI gate already fails closed if ★ appears in any dictionary or markup — do not weaken it.
+- Tier-1 visible rating row flip is the sanctioned surface: 2-edit flip per `10-RUNBOOK.md` (remove `hidden`, replace the self-flagging `0.0` span with the real score), gated on real visible Play data (no minimum floor). Include in the runbook: decimal **dot** format (4.4, never 4,4), keep exactly ONE `proof-row-star` SVG, keep the attributed `rel="noopener"` Play link.
 
-**Warning signs:** `auth/unauthorized-domain` in contact form console after migration; mixed-domain grep hits (`rg "persano.github.io"` returning >0 outside planning/) post-merge; HTTPS toggle gray in repo settings; "DNS check unsuccessful" when adding the domain before DNS propagates.
-**Phase to address:** HOST-01 (ordered operations checklist as the plan backbone; console-side allowlist items as explicit owner tasks with verification).
+**Warning signs:**
+Any diff introducing `aggregateRating` into markup or a runbook; a translated dictionary value or HTML containing U+2605; Rich Results Test suddenly reporting a review-snippet candidate.
+
+**Phase to address:** Launch-kit phase — runbook hard-cites the policy; code-review of the flip task checks for the anti-pattern.
 
 ---
 
-### Pitfall 8: HTTPS certificate + enforcement window treated as instant
+### Pitfall 8: The Play link swap is invisible to CI — linkinator skips `play.google.com`
 
 **What goes wrong:**
-After adding the custom domain: the **Enforce HTTPS** toggle is disabled until GitHub finishes provisioning the Let's Encrypt cert; docs say up to an hour, community reports run longer when DNS was partially propagated. During the gap the site is HTTP-only on the new domain (mixed-content failures for the Firebase CDN scripts if any page references force-https assets — currently none, but the smoke check will show non-200 on `https://`). Related verified traps: **CAA records** — if the DNS provider has any CAA record, it must include `letsencrypt.org` or the cert never issues; the fix for a stuck cert is often "remove and re-add the custom domain" to re-trigger provisioning.
+Placeholder Play links exist in at least three places (hero badge CTA, features-section link, JSON-LD `sameAs`) — all pointing at `https://play.google.com/store/apps/details?id=com.persano.geohisttrivia`, which 404s (or shows "not found") until the listing is live. On launch day the swap happens — and because `validate:links` **skips play.google.com** (deliberately, so the placeholder passes CI), a swapped URL with a typo'd package id, wrong domain (`play.google.com/store/apps/details?id=...&hl=` experiments), or an http:// scheme ships green and uncaught. First-day users click the badge into a 404 — the exact day the site gets its traffic peak.
 
 **Why it happens:**
-DNS looks fine in `dig`, the domain shows as configured, and the wait is opaque.
+The skip rule exists for a good pre-launch reason and is forgotten at the moment it matters. No gate asserts link *correctness*, only liveness of the rest of the site.
 
 **How to avoid:**
-- Sequence in the plan: DNS fully propagated → domain in settings → *verify cert issued* (https:// works) → then enforce HTTPS → only then flip the repo URL rewrite. Never rewrite URLs to `https://newdomain` while the cert is still provisioning — that combination produces a temporarily broken live site.
-- Check CAA records during DNS setup; add `letsencrypt.org` if any exist.
-- Add the new domain URLs to `smoke-check.sh`'s expect-200 list as part of HOST-01; run it post-cert, not post-push.
+- Add a package-id assertion to the old-domain gate script (or a new tiny check): every `play.google.com` URL in tracked files must contain `details?id=com.persano.geohisttrivia` (and https scheme). That check passes BOTH before and after launch (URL shape is identical; only liveness changes) — zero-maintenance permanent gate.
+- Runbook launch-day step: after the owner confirms listing live, verify the URL in a real browser, then swap; smoke-check script gains an optional post-launch target check.
+- The flip order in the runbook (privacy field → link swap → rating row) exists because each flip depends on the previous being verifiable; keep that order intact.
 
-**Warning signs:** Enforce HTTPS disabled >2h after DNS is correct; "Enforce HTTPS" clicked then cert errors; smoke check 200s on github.io but failures on new domain.
-**Phase to address:** HOST-01 (cert gate between DNS step and URL-rewrite commit; smoke-check extension).
+**Warning signs:**
+`rg 'play\.google\.com' geohist/ index.html` returning URLs with query params or missing the full package id; CI staying green while the badge 404s (expected pre-launch, alarming post-launch).
+
+**Phase to address:** Launch-kit phase — assertion gate + runbook verification step; swap itself is owner-gated.
 
 ---
 
-### Pitfall 9: aggregateRating gating is necessary but *not sufficient* — real Play ratings still can't be published as site markup
+### Pitfall 9: Restoring `npm ci` + `cache: npm` — lockfile generation is blocked locally and the cache input has preconditions
 
 **What goes wrong:**
-SEO-05 is planned as "gate aggregateRating on real Play ratings." The gate alone doesn't make the markup legal. Google's review-snippet guidelines (verified this session, with manual-action warning attached) state: **"Don't aggregate reviews or ratings from other websites"** and ratings must be **"sourced directly from users"**. Play Store ratings live on `play.google.com` — copying them into the site's JSON-LD once the listing goes live violates the "other websites" rule even though the ratings are real. Two more traps on the same feature: (a) **invented testimonial quotes** ("Great game!" — anonymous) are fake reviews under the same guidelines; (b) the self-serving-reviews ban technically scopes to `LocalBusiness`/`Organization` markup, but a developer's own app page sourcing no user ratings is the same shape of problem.
+Three stacked traps. (a) **Lockfile can't be generated locally**: the local npm CLI is proxy-broken (documented in `deploy.yml`'s own comment), so `npm install --package-lock-only` on the dev machine may fail or produce a partial lock. (b) **cache: npm hard-requires a committed lockfile**: setup-node's `cache: 'npm'` hashes `package-lock.json` at repo root — with no lockfile the workflow errors at the setup step (official README; the action searches for the lockfile and fails without it). Note also setup-node v5+ auto-enables npm caching only when `package.json` has a `packageManager`/`devEngines.packageManager` field — absent here — so the explicit `cache: 'npm'` input is required. (c) **Version drift**: lockfile generated under one npm version carries a lockfileVersion (v3 for npm 11 / Node 24); `npm ci` **exits with error on any package.json ↔ lockfile mismatch** (official npm docs — fail-closed, never silently updates). A lockfile committed from Node 18 (npm 9, v3 but different structure edge cases) or generated with `--legacy-peer-deps` will red every subsequent CI run with confusing EUSAGE errors.
 
 **Why it happens:**
-"Real ratings" and "ratings we're allowed to mark up" are different requirements; the milestone text conflates them.
+The cleanup reads as two-line diff (`npm install`→`npm ci`, add cache input) but is actually a dependency-tree freeze: 5 exact-pinned devDeps hide hundreds of **unpinned transitives** — which is precisely the current supply-chain hole: today's `npm install` (no lockfile) re-resolves the full tree from registry metadata on *every* CI run; a compromised transitive version publishes and the next deploy validates through it.
 
 **How to avoid:**
-- **Split SEO-05 into two gates:**
-  1. *Now:* social proof from verifiable facts only — 20 localizations, feature list, version history (the changelog itself becomes honest social proof). Visible, truthful, zero markup risk.
-  2. *Later, conditional:* aggregateRating markup only ever if ratings are **collected on the site itself** (which is a whole feature — probably never for this site) — i.e., treat the markup as *permanently off* unless that source materializes. Play-rating copy-paste is rejected by policy regardless of the gate.
-- If visible non-marked-up star display is ever wanted, it must link to Play and attribute Play, without `aggregateRating` markup — that's a judgment call to make explicitly, not silently.
-- The gate flip should stay owner-controlled as planned, but the flip's precondition should be reworded from "real Play ratings exist" to "on-site rating source exists" — otherwise the owner flips a gate that then creates a manual-action risk.
+- Generate the lockfile in CI itself (one-off run of `npm install --package-lock-only` as a workflow_dispatch step, or locally on a network that can reach the registry), verify it's `lockfileVersion: 3`, commit it, THEN flip to `npm ci` + `cache: 'npm'` in a separate commit — so a red CI is attributable.
+- `sharp` uses platform-specific optional deps (`@img/sharp-*`) — the lockfile records all platforms; verify CI (linux) installs cleanly before trusting it.
+- Going forward, any `npm install <pkg>` locally must be followed by committing the updated lockfile in the same atomic commit — otherwise the very next `npm ci` fails (this is the designed protective friction).
+- npm 11 offers `allow-scripts` / `strict-allow-scripts` — optional hardening, not required for this validate-only dependency set; exact pins + lockfile are the substantive fix.
 
-**Warning signs:** JSON-LD containing `aggregateRating` with `ratingCount` from Play; testimonial block with no verifiable origin; Search Console manual action notification (too late — that's the detection failure).
-**Phase to address:** SEO-05 (redefine the gate's precondition in the phase plan; ship the facts-based social proof path).
+**Warning signs:**
+CI log "npm ci can only install with an existing package-lock.json"; setup-node step erroring "Dependencies lock file is not found"; lockfile diff noise on every dependency-touching commit; `cache: npm` silently doing nothing (check the post-run cache step exists).
 
----
-
-### Pitfall 10: Key-parity gate scales to 19 dictionaries — but has two structural blind spots that CI-green hides
-
-**What goes wrong:**
-`scripts/i18n-keycheck.mjs` is a good gate: it extracts the live `data-i18n`/`data-i18n-attr` key surface from markup and asserts every dictionary's key set **equals** it exactly (zero missing, zero extra; 146 keys per dict today). Scaling 2→19 dictionaries keeps it O(1)-cheap (node built-ins, milliseconds). The blind spots:
-1. **New unkeyed copy passes silently.** The gate only checks keyed nodes. If a session adds new content to a page *without* `data-i18n` attributes, no dictionary needs updating and no gate fails — 19 languages silently show that new block in EN while the rest of the page is translated. This is the most likely *content* drift on an agent-maintained site.
-2. **The pages array is hardcoded** (`index.html`, `geohist/index.html`, `geohist/guide.html`, `geohist/contact.html`). CONT-06 adds `geohist/changelog.html` — if nobody edits the script, the changelog's keys are invisible to the gate: a changelog built before I18N-05 produces dictionaries missing its keys, and the gate reports a *false pass* (dictionaries with extra keys fail… actually the changelog keys never enter the surface, so dictionaries simply won't have them and no failure occurs).
-3. **Value quality is out of scope:** empty-string values (`"key": ""`), EN echoes, and HTML entities in values (`&mdash;` renders literally because the engine does `textContent` assignment only — `js/i18n.js:63`) all pass the gate.
-
-**Why it happens:**
-Key-parity is exactly the check that's easy to automate, so it creates an illusion of completeness. The unkeyed-copy and value-quality holes need *different* checks that nobody writes because "we have the i18n gate."
-
-**How to avoid:**
-1. Add `geohist/changelog.html` to the script's `pages` array **in the CONT-06 phase** (make it an explicit task, with a test: temporarily remove a changelog key from a dictionary and confirm CI goes red).
-2. Add a cheap **unkeyed-content canary**: fail the build if any text-heavy new element lacks `data-i18n` — practical approximation: per-page count of `data-i18n` attributes committed as a baseline; a drop in count fails. Imperfect, but catches the "new section with no keys" class.
-3. Add value checks to the gate: non-empty strings; flag `&`-entity patterns (`&\w+;`) in dictionary values (legitimate uses are essentially nil — the engine is textContent-only); flag values identical to the EN snapshot for review (allowlist for brand names/endonyms).
-4. Keep gate-per-wave (Pitfall 1) so a red gate pinpoints one 3–4-language wave.
-
-**Warning signs:** `rg -c 'data-i18n'` per page drifting down between milestones; CI green on a commit that visibly adds English-only content; `&amp;` visible on a translated page.
-**Phase to address:** CONT-06 (pages array + baseline counts), I18N-05 (value checks + per-wave gate), and as a standing convention (agent-maintained model: every content edit adds keys in the same session).
-
----
-
-### Pitfall 11: Changelog page becomes the highest-frequency content × highest-translation-burden page
-
-**What goes wrong:**
-A changelog is the one page whose *content* changes every app release. If release-note entries are i18n-keyed, every app update requires editing 20 dictionaries (N releases × 20 languages = the combinatorial drift problem), the dictionaries bloat, and eventually entries ship EN-only or machine-translated on the fly — or the changelog stops being updated at all (stale changelog actively erodes trust more than no changelog).
-
-**Why it happens:**
-"Keyed for i18n" (the CONT-06 requirement) gets implemented as "every string on the page is a key."
-
-**How to avoid:**
-- **Key the chrome, not the entries:** page title, intro line, column labels ("Version", "Date", "Notes"), and any persistent UI = keyed (the gate covers them). Release-note entries = EN body text, updated in one place per release. This is a deliberate, documented exception to the site's keyed-content convention — record it in the phase plan so later sessions don't "fix" it.
-- **Dates language-neutral:** ISO format (`2026-09-05`) in the date column — no per-locale date keys at all (this also sidesteps the per-language date-convention matrix: ja `yyyy年m月d日`, de `d.m.yyyy`, ar/ur variants, Hijri calendar questions — none of which are worth solving for a changelog).
-- **Agent-maintained update routine:** the changelog's freshness depends on sessions that touch app-version facts anyway (Play link swap, social proof) — add "update changelog if app version changed" to the session conventions rather than hoping it's remembered.
-- Include `changelog.html` in sitemap + the keycheck pages array (Pitfall 10) at build time.
-
-**Warning signs:** changelog last-entry date older than the app's latest release; dictionary key counts growing linearly with releases; untranslated note bodies appearing in non-EN languages *and then disappearing entirely* (the tell that someone stopped adding entries).
-**Phase to address:** CONT-06 (chrome-vs-entries decision + ISO dates are plan-level requirements; update routine becomes a standing convention).
+**Phase to address:** Cleanup phase — two-commit chore with red/green verification of the full validate chain in CI, not locally.
 
 ---
 
@@ -241,110 +196,98 @@ A changelog is the one page whose *content* changes every app release. If releas
 
 | Shortcut | Immediate Benefit | Long-term Cost | When Acceptable |
 |----------|-------------------|----------------|-----------------|
-| Single `zh` dictionary (Simplified) for all zh-* visitors | One dictionary, no variant matrix | Traditional-script users get "wrong" characters | Acceptable **if** documented and matches the app's own zh localization; revisit only if zh-TW traffic appears in Analytics |
-| Detect() if-chain grows instead of a data table | 5-minute edit per language | Ordering bugs, deprecated codes (`in`), region folds get lost; the function that "just works" becomes the scariest file | Never for 17 languages — table + unit tests now |
-| Translating changelog entries per release | "Complete" i18n story | N×20 dictionary edits per release → guaranteed staleness | Never |
-| Register table skipped ("agents write fine German") | Drafting starts immediately | 17 dictionaries rebuilt after register inconsistency is discovered | Never |
-| Physical CSS properties left as-is; RTL handled with ad-hoc `html[dir=rtl]` overrides | No stylesheet refactor | Override pile grows per new RTL page/element; every future element needs its override too | Acceptable only if the override set is small and centralized; logical-property conversion is the durable fix |
-| App Check v3-classic chosen to avoid billing enablement | No console billing step | Officially deprecated-for-new-work provider; migration debt | Acceptable as an explicit, recorded owner decision — not by default |
-| Hardcoded `persano.github.io` left in smoke-check/linkinator after migration | Migration ships faster | Post-deploy verification silently checks the old host; regressions on the new domain go unseen | Never |
+| Rename `hub.*` i18n keys to `apps.*` "for consistency" with the new path | Feels cleaner | Atomic key rewrite across 19 dictionaries + keycheck expectations + markup; pure churn, red CI risk | Never — keys are logical IDs |
+| JS `location.pathname` redirector in 404.html as the ONLY old-path mechanism | One file handles everything | Google treats 404-served JS redirects as last-resort; soft-404 signal; no permanent-redirect equivalence | Only as safety net behind meta-refresh stubs |
+| Leaving `/geohist/` as a full duplicate with root canonical | Zero breakage day one | Split signals, Analytics fragmentation, permanent maintenance duality | Never — stubs instead |
+| Keeping `npm install` in CI "until things settle" | No lockfile to babysit | Unpinned transitives re-resolved every run = open supply-chain hole | Never (post-cleanup-phase) |
+| Moving `privacy.html` while "also touching the Play Console field later" | Tidier URL tree | Review-window 404; owner console step forgotten | Never this milestone |
+| Adding `lastmod` to sitemap during the rewrite | Feels more "SEO complete" | Every edit becomes a sitemap edit; stale lastmod is worse than none | Never (repo convention: no lastmod) |
+| Folding AGENTS.md layout updates into "later" | Faster migration commit | AGENTS.md self-referentially enforced by CI gate describes the OLD layout — doc rot misguiding every future agent | Never — same-milestone doc update |
 
 ## Integration Gotchas
 
 | Integration | Common Mistake | Correct Approach |
 |-------------|----------------|------------------|
-| Firebase Auth (anonymous) + custom domain | Forgetting Authorized domains → `auth/unauthorized-domain` only from the new host | Add custom domain in Firebase console Auth settings *before* the URL rewrite commit |
-| API-key referrer restriction (v1 hardening) | Key restricted to `persano.github.io` blocks the new domain | Update HTTP-referrer allowlist in Cloud Console as part of HOST-01 owner steps |
-| App Check reCAPTCHA registration | Registered only against github.io | reCAPTCHA site registration must include the custom domain before enforcement; both hostnames during transition |
-| App Check + anonymous auth | Enforcement enabled for Auth and Firestore in one move, same day | Per-product flips as separate reversible steps; Auth enforcement means `signInAnonymously` requires a valid token — test the full form path, not just Firestore |
-| reCAPTCHA + GDPR consent | reCAPTCHA script loaded on page load, breaking the zero-third-party-bytes pre-consent architecture | Initialize App Check inside `contact.js` at submit time; zero new script tags in HTML; mention reCAPTCHA in the privacy policy |
-| GitHub Pages + custom Actions workflow | Adding a CNAME file to the repo and expecting it to matter | CNAME file is **ignored** in workflow mode; set the domain in repo Settings; verify the domain to prevent takeover |
-| Search Console | Using the Change-of-Address tool (needs 301s Pages can't provide) | New property + verification file/DNS, sitemap resubmit, canonical-driven migration, keep old property for monitoring |
-| i18n engine + RTL endonyms | Arabic/Urdu endonyms in the LTR footer without `dir` | `dir="auto"` on switcher entries (it already sets `lang`); switcher redesigned for 20 entries |
-| Dictionary values + textContent engine | Translators putting HTML entities or markup in values | Values are plain text only; gate rejects `&entity;` patterns; `&amp;` in EN HTML must become a literal character in dictionaries |
-
-## Performance Traps
-
-| Trap | Symptoms | Prevention | When It Breaks |
-|------|----------|------------|----------------|
-| 19 dictionary fetches if a visitor language-hops | Multiple ~13KB JSON fetches (fine); cache already prevents repeats | Existing per-language memory cache suffices; do not preload all 20 | Only under pathological switching; not a real risk |
-| Detect() table scan on every load | Negligible CPU | None needed — but keep it O(1)-ish with exact-match map before prefix scan | Irrelevant at this scale |
-| reCAPTCHA/Enterprise script weight on contact page | Slower form page, privacy-tool friction | Load at submit-time only (already the plan) — script bytes never paid by browsers that don't submit | Immediately if loaded on page load |
-| 20-entry footer switcher reflow | Layout wrap, CLS-like jump on render | Switcher redesign (details/select) sized for 20 entries before the wave lands | At ~7+ entries; guaranteed at 20 |
+| GSC Change of Address | Filing/re-filing CoA for a same-domain path move; touching the active 180-day window | Path moves = redirects + sitemap resubmit only; CoA untouched until ~2027-03 decay monitoring ends |
+| GSC sitemap | Editing sitemap without resubmitting; leaving `/geohist/` in sitemap while it's a stub | Atomic sitemap rewrite + explicit resubmit step; never list stub/redirect URLs |
+| Google Play Console | Privacy field edited after submission already in flight; website field pointing at the hub during review | Field order in runbook (privacy URL first); root-after-migration serves the landing, which is the intended listing website |
+| Google Play listing URL | Assuming URL works before listing public; adding `hl=`/`gl=` params on a whim | Canonical `https://play.google.com/store/apps/details?id=<package>`; unverified package → not-found page (MEDIUM: empirical behavior); package-id assertion gate in CI |
+| GitHub Pages | Expecting per-directory 404s, .htaccess, or 301-on-path-rename | Single root 404.html (HTTP 404); meta-refresh 0s stubs = sanctioned permanent redirect; GitHub's own 301s (domain redirect, trailing-slash/index normalization) are the only server-side redirects available |
+| GitHub Actions npm cache | `cache: 'npm'` without lockfile; assuming auto-cache (requires packageManager field) | Lockfile committed first; explicit `cache: 'npm'` input; verify cache step in run log |
+| Firebase (unchanged surface) | "Fixing" consent/contact/App Check paths during migration | Fork-shaped loading, submit-path App Check, create-only rules are LOCKED; the migration touches markup URLs only — zero JS-module changes expected |
 
 ## Security Mistakes
 
 | Mistake | Risk | Prevention |
 |---------|------|------------|
-| Enabling App Check enforcement and calling spam "solved" | Token bypass via headless browsers with reCAPTCHA tokens exists; App Check raises the bar, doesn't end spam | Keep the create-only + field-length Firestore rules from v1 as the actual content validator; App Check is layer two |
-| Debug App Check token committed / left enabled | Anyone with the debug token bypasses App Check | Debug tokens are console-side, never in the repo; documented in phase plan only |
-| Loosening Firestore rules to "debug" a post-migration form failure | Open writes return | Migrations fail for *allowlist* reasons (Pitfall 7) — check Authorized domains/API-key referrer/reCAPTCHA domains before touching rules |
-| Trusting agent-drafted dictionaries as content-safe | Translated spam-bait or offensive phrasing damages brand | Two-pass review + register table (Pitfall 1); owner spot-checks the languages they can read; nothing ships from a single unsupervised pass |
-| aggregateRating added "just to see" | Manual action risk documented by Google | Gate is permanent unless an on-site rating source exists (Pitfall 9) |
+| Writing the App Check evidence helper with console screenshots, project keys, or "create-only rules mean anyone can write" phrasing into `.planning/` | `.planning/` ships in the Pages artifact AND is crawlable (robots.txt is `Allow: /`) — secret material becomes permanently public + indexed | Console-UI instructions only (click-paths, not credentials); review diff with "would I publish this?" test; note: consider a `Disallow: /.planning/` line in robots.txt as a deliberate roadmap decision (keeps files served, blocks indexing) |
+| Mentioning the legacy host literal in any new doc (including this caveat) | `check-no-old-domain.mjs` fails the whole validate chain — it scans ALL tracked text files, AGENTS.md included | Phrase as "legacy `*.github.io` Pages host"; the gate is permanent CI law |
+| Treating the Play listing URL as safe to embed with arbitrary params pre-launch | Placeholder URL structure becomes launch-day truth; params leak/referral noise | Fixed canonical URL, assertion-gated |
+| Weakening the star-uniqueness or CJK punctuation gates to make a flip pass | Fail-closed invariants rot; structured-data spam surface reopens | Red-gate proof protocol: mutate → FAIL → restore byte-identical → PASS, recorded |
 
 ## UX Pitfalls
 
 | Pitfall | User Impact | Better Approach |
 |---------|-------------|-----------------|
-| Generic error after App Check blocks a submit | Real user thinks the site is broken; data loss (typed message gone) | Dedicated `contact.status.appcheck` keyed node naming the cause + email fallback; consider preserving the message textarea content on failure |
-| Silent EN fallback on a single dictionary miss | Mixed-language page (per-node fallback by design) — acceptable for one node, jarring for a wave of misses | Gate catches set-level misses; value-quality checks catch the rest (Pitfall 10) |
-| Urdu/Arabic rendered in Arabic-style fallback font | Urdu readers notice wrong letterforms instantly | Acceptable if documented; consider scoped `line-height` at minimum; Nastaliq-capable system fonts where available |
-| Language switcher grows from 3 to 20 inline entries | Footer becomes a wall of text; mobile worst | `<details>` disclosure or `<select>` with endonyms, `dir="auto"` per entry |
-| Changelog dates in per-locale formats | Inconsistent, translation burden | ISO dates everywhere (Pitfall 11) |
+| Launch-day badge → Play 404 (listing live before site swap, or typo) | First-peak traffic bounces off the hero CTA | Runbook verification step + post-swap badge click test; Analytics `play_badge_click` as a canary |
+| `/apps/` hub missing the language switcher slot or `i18n.js` include | 19-language visitors get EN-only hub after being used to localized chrome | Hub page ships with full keyed-chrome parity (switcher slot, consent link, `hub.*` keys kept); a11y audit covers `/apps/` |
+| Urdu Nastaliq rendering untested on real Android device | System fallback renders Naskh-like or clipped diacritics; per-language line-height overrides may not survive the keyless-font environment | Cleanup-phase real-device check (documented owner task); verify `dir="rtl"` flip + line-height on ur, not just ar |
+| zh dictionary assumed to cover Traditional-Chinese readers | zh = one variant (Simplified-flavored generic); app localization set may imply more | Cleanup-phase zh variant confirmation against the app's `strings.xml` locales; document the mapping; do NOT add zh-TW dictionaries unprompted (surface explosion ×19 → ×20) |
+| Landing copy edited at root during migration without dictionary sync | Keyed nodes show stale/mismatched translations; keycheck red | Any EN-baseline copy change = same-commit update to all 19 dictionaries (two-pass draft + length check per repo convention) |
 
 ## "Looks Done But Isn't" Checklist
 
-- [ ] **I18N-05:** dictionaries pass key-parity but new content added in the same milestone has no keys — verify `data-i18n` per-page counts didn't drop
-- [ ] **I18N-05:** `ar`/`ur` dictionaries applied but `documentElement.dir` never set — verify RTL actually activates, per page
-- [ ] **I18N-05:** zh strings contain half-width punctuation — grep gate
-- [ ] **I18N-05:** `detect()` handles `in-ID` (legacy Indonesian), `zh-TW`, and all 17 prefixes — unit-test table
-- [ ] **I18N-05:** switcher shows 20 endonyms with `dir` handling and still fits mobile — screenshot at 360px
-- [ ] **I18N-05:** register table followed in every language — two-pass critique pass output archived
-- [ ] **CONT-06:** changelog keys included in keycheck gate (`pages` array edited) — red-gate test performed
-- [ ] **CONT-06:** release entries deliberately NOT keyed (documented exception, not an omission)
-- [ ] **FIRE-07:** provider decision (Enterprise vs v3) recorded with billing tradeoff
-- [ ] **FIRE-07:** App Check initialized at submit-time only — no `recaptcha` in served HTML
-- [ ] **FIRE-07:** dedicated token-failure status node + Analytics event; enforcement flip gated on real-submission evidence, per product
-- [ ] **FIRE-07:** privacy policy mentions reCAPTCHA/App Check
-- [ ] **HOST-01:** Firebase Authorized domains, API-key referrer allowlist, App Check domain list all include the new domain — *before* the URL-rewrite commit
-- [ ] **HOST-01:** zero `persano.github.io` occurrences outside `.planning/` and smoke-check history — `rg "persano\.github\.io"` is the acceptance check
-- [ ] **HOST-01:** cert issued and HTTPS enforced *before* rewrite goes live; smoke-check extended to new domain
-- [ ] **HOST-01:** domain verified account-wide (takeover prevention); both apex+www DNS records present
-- [ ] **HOST-01:** Search Console new property verified, sitemap resubmitted, old property retained
-- [ ] **SEO-05:** gate precondition reworded to "on-site rating source"; no `aggregateRating` in any served JSON-LD; social proof = verifiable facts only
+- [ ] **Root migration:** Often missing stub files for old paths — verify `/geohist/` returns 200 stub with instant meta refresh + canonical to `/`, and legacy-host chain (old host → apex) never terminates in 404
+- [ ] **Root migration:** Often missing the five gate-list updates — verify keycheck summary still reports the exact key count, validate:html globs the new layout, a11y audit + smoke-check URL tables updated, all in the migration commit
+- [ ] **Root migration:** Often missing JSON-LD `url` + `screenshot` array update — verify Rich Results Test on `/` passes and `url` == served canonical
+- [ ] **Sitemap:** Often missing GSC resubmit — verify Sitemap report shows Success with the new URL set, zero stub URLs listed
+- [ ] **Launch kit:** Often missing the privacy-field-first flip order — verify runbook numbers the flips and each has a verification method
+- [ ] **Launch kit:** Often missing the package-id assertion — verify a gate fails on a mutated Play URL (red-gate proof recorded)
+- [ ] **npm ci restore:** Often missing the lockfile commit BEFORE the workflow change — verify CI log shows `npm ci` + cache hit, and lockfile is v3
+- [ ] **App Check evidence doc:** Often missing the no-secrets review — verify doc contains click-paths only; `npm run validate` green (old-domain gate passes)
+- [ ] **AGENTS.md:** Often missing layout-update parity with the migration — verify AGENTS.md describes root-landing reality the same commit the layout ships
 
 ## Recovery Strategies
 
 | Pitfall | Recovery Cost | Recovery Steps |
 |---------|---------------|----------------|
-| Bad translation wave shipped | LOW (files) / reputational | Revert the wave's dictionaries (fallback is EN per-node, so page stays coherent); redo with two-pass; gate stays |
-| RTL broke a page layout | LOW | Language revert isn't needed (per-node fallback); fix CSS, redeploy; keep `dir` map |
-| Enforcement blocked real users | MEDIUM — trust + lost messages | Turn enforcement off per product immediately (reversible); fix token-failure UX; re-gate on evidence; check Firestore for lost submissions (there will be none from blocked users — messages failed client-side) |
-| Migration shipped before Firebase allowlists | HIGH for users, LOW to fix | Form fails on new domain (`auth/unauthorized-domain`); add domains, redeploy nothing (console fix is live); check for confused users via Analytics |
-| Search indexing decayed post-migration | MEDIUM, slow | Verify canonicals + sitemap all point at new domain; request reindexing of key pages; wait — recovery is time-bound |
-| Manual action from review markup | HIGH | Remove the markup, fix the source, submit reconsideration — weeks of friction; prevention is the entire point (Pitfall 9) |
-| Changelog stale | LOW | It's additive content — update in next session; no user harm, just eroded freshness |
+| Broken privacy URL during review | MEDIUM | Restore path immediately (one-commit revert precedent); owner re-checks Play Console field; monitor review status |
+| Old paths 404 after migration shipped | LOW | Ship meta-refresh stubs in a follow-up commit; resubmit sitemap; GSC Coverage confirms re-crawl |
+| Double indexation already live | MEDIUM | Convert duplicate to stub with canonical-to-root; resubmit; expect weeks-scale consolidation (official doc) |
+| CoA accidentally re-filed | HIGH | No un-do in GSC: re-verify properties, re-request if tool permits; fall back to redirect + sitemap mechanics; document in planning with supersession note |
+| aggregateRating shipped | HIGH | Revert to inert-comment state; check GSC manual-actions/spam report; document incident + policy citation |
+| Bad Play link swapped | LOW | One-line fix + package-id gate prevents recurrence; Analytics confirms badge clicks recover |
+| Lockfile committed wrong / ci red | LOW | Regenerate lockfile (CI step or network-fixed machine); commit; npm ci errors are fail-closed so nothing shipped broken |
+| Secret leaked in .planning/ doc | HIGH | Delete + history rewrite is insufficient for Pages snapshots: rotate the exposed credential console-side; add no-cache/noindex decision note |
 
 ## Pitfall-to-Phase Mapping
 
-| Pitfall | Prevention Phase (feature ref) | Verification |
-|---------|-------------------------------|--------------|
-| Register/terminology/quality of 17 languages | I18N-05 | Register table in plan; two-pass outputs; glossary conformance spot-check |
-| zh variants, punctuation, legacy codes | I18N-05 | `detect()` unit-test table; punctuation grep gate red on planted error |
-| RTL layout + engine `dir` support | I18N-05 (own wave) | Screenshot battery ar/ur × all pages at mobile width; `documentElement.dir` assertion |
-| App Check provider choice | FIRE-07 | Decision note (Enterprise vs v3 + billing) in phase plan |
-| Enforcement blocks real users | FIRE-07 | Monitoring window sized by submission count; token-failure UX node exists; per-product flip order in plan |
-| reCAPTCHA vs consent architecture | FIRE-07 | No `recaptcha` strings in served HTML; init only in `contact.js`; policy updated |
-| Domain migration console-side allowlists | HOST-01 | Ordered checklist executed; form tested on new domain before github.io links retire |
-| Cert/HTTPS sequencing | HOST-01 | Smoke-check green on new domain *before* rewrite commit; HTTPS enforced |
-| aggregateRating policy gate | SEO-05 | No `aggregateRating` in JSON-LD; social proof is facts-based; gate precondition reworded in plan |
-| Key-parity blind spots | CONT-06 + I18N-05 | Changelog in `pages` array with red-gate test; per-page `data-i18n` baseline; value checks in gate |
-| Changelog staleness | CONT-06 | Chrome-vs-entries decision documented; ISO dates; update routine in conventions |
+| Pitfall | Prevention Phase | Verification |
+|---------|------------------|--------------|
+| 1 Privacy-URL coupling | Home migration (freeze rule) + Launch kit (runbook) | `curl -I` privacy URL = 200 post-deploy; runbook flip 1 documented |
+| 2 Old-path 404 / legacy chain | Home migration | Stub 200 + meta refresh verified; GSC old-property shows decay not 404s |
+| 3 Double indexation | Home migration | Sitemap has zero stubs; one canonical per page; Coverage clean |
+| 4 Annotation drift | Home migration | smoke-check asserts canonical/og:url/JSON-LD per page |
+| 5 Hardcoded gate lists | Home migration | Keycheck key-count stable; red-gate proof recorded; validate green |
+| 6 CoA misapplication | Home migration | Runbook "do not file CoA" guard; CoA window untouched in GSC |
+| 7 aggregateRating flip | Launch kit | Inert comment intact; Rich Results Test clean; star gate green |
+| 8 Play link swap | Launch kit | Package-id assertion red-gate proven; post-swap badge test |
+| 9 npm ci restore | Cleanup | CI: `npm ci` + cache hit green; lockfile v3 committed first |
+| Public docs hygiene | All v2.1 phases | Old-domain gate green; no-secrets review on every `.planning/` diff |
+| RTL/zh/Urdu device checks | Cleanup | Owner device checklist with recorded results |
 
 ## Sources
 
-- Firebase official docs, fetched 2026-09-05: App Check with reCAPTCHA v3 (`firebase.google.com/docs/app-check/web/recaptcha-provider`) — Enterprise recommendation quote, 10k free assessments; reCAPTCHA Enterprise page (`.../recaptcha-enterprise-provider`) — risk threshold 0.5 default, per-app console config; monitoring→enforcement flow and debug provider (`.../manage-projects` navigation verified; per-product enforcement confirmed)
-- Google Search Central review-snippet guidelines (`developers.google.com/search/docs/appearance/structured-data/review-snippet`), fetched 2026-09-05 — manual-action warning, "don't aggregate from other websites", "sourced directly from users", self-serving scope, fake-review ban
-- GitHub Pages custom-domain docs (`docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/...`), fetched 2026-09-05 — CNAME-file-ignored-in-workflow-mode, www stability guidance, apex/www auto-redirect, HTTPS "up to an hour" + remove/re-add trigger, CAA `letsencrypt.org` requirement, domain-verification/takeover warning
-- Repo-verified (this session): `js/i18n.js` (snapshot/apply/lang-only, no `dir`; detect() structure; ENDONYMS; textContent-only apply), `scripts/i18n-keycheck.mjs` (hardcoded 4-page array, exact-set equality), `package.json` (validate scripts, linkinator skip regex), `.github/workflows/deploy.yml` (validate→deploy chain), `scripts/smoke-check.sh` (hardcoded BASE), `geohist/contact.html` (keyed status nodes pattern), `js/i18n/es.json`+`pt-BR.json` (146 keys each), absolute-URL spread (`rg persano.github.io` across ~17 files)
-- Training knowledge, marked MEDIUM where used: github.io dual-hosting without 301; community reports of cert provisioning exceeding an hour; per-language register conventions (de/ja/ko/hi/etc.); Urdu Nastaliq/Naskh font reality; legacy `in` code prevalence
+- **Google Search Central — "Redirects and Google Search"** (developers.google.com/search/docs/crawling-indexing/301-redirects; doc upd. 2026-08): meta refresh 0s = permanent-equivalent; delayed = temporary; JS redirect last resort. HIGH (first-party, quoted verbatim this session).
+- **Google Search Central — "Move a site with URL changes"** (developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes; doc upd. 2026-08-20): CoA scope = domain/subdomain only; same-domain path moves excluded; "not updating sitemaps" listed as migration mistake; sitemap-resubmit mechanics. HIGH.
+- **Google Search Central — "Review snippet (Review, AggregateRating) structured data"** (developers.google.com/search/docs/appearance/structured-data/review-snippet; doc upd. 2026-09-08): "Don't aggregate reviews or ratings from other websites"; Software App is a supported type; self-serving/ratings-sourced-directly-from-users rules. HIGH.
+- **GitHub Docs — "Creating a custom 404 page for your GitHub Pages site"** (docs.github.com): single root 404.html serves all missing paths; no per-directory 404s. HIGH.
+- **npm Docs — `npm ci`** (docs.npmjs.com/cli/v11/commands/npm-ci): lockfile required, mismatch = hard error, never writes, npm 11 allow-scripts policy. HIGH.
+- **actions/setup-node README** (github.com/actions/setup-node, main): `cache: 'npm'` requires lockfile; v5+ auto-cache gated on `packageManager` field; caches global data not node_modules. HIGH.
+- **Repo facts** (read this session): sitemap.xml (6 URLs incl. both `/` and `/geohist/`), 404.html (noindex, absolute links), all 6 keyed/EN pages' canonical+og:url lines, JSON-LD block (`url`/`sameAs`/`offers.price:"0"`/screenshot paths), keycheck/surface `pages` arrays (lines 48/32), star-gate `readFileSync('geohist/index.html')` (line 184), a11y-audit + smoke-check URL tables, deploy.yml (`npm install`, no cache, Node 24, proxy-broken local npm comment), package.json (exact pins, no lockfile, no packageManager field), `DICT_URL_PREFIX='/js/i18n/'` (absolute — i18n fetch is move-safe), i18n.js RTL same-pass dir flip, key namespace census (index.* 91, guide.* 82, contact.* 68, geohist.* 61, changelog.* 38, consent.* 15, hub.* 11), robots.txt (`Allow: /` — `.planning/` crawlable), app-ads.txt. HIGH (direct file reads).
+- **MEDIUM (empirical, verify at phase time):** unpublished Play package URL → not-found page; setup-node error wording on missing lockfile; GSC re-filing-CoA cancellation semantics (docs don't specify replacement behavior — treat re-filing as forbidden rather than attempting to learn).
+- **LOW (flagged for phase-time re-verification):** Windows rendering of Urdu Nastaliq fallbacks; zh variant mapping against the app's `strings.xml`; whether Play Console website-field acceptance tolerates a redirecting URL (avoid by not redirecting the listing-linked URL).
+
+---
+*Pitfalls research for: v2.1 Play Launch + Home Migration — adding features to the locked v2.0 Persano/GeoHist static site*
+*Researched: 2026-09-11*

@@ -1,269 +1,190 @@
 # Feature Research
 
-**Domain:** Static app-landing site expansion (v2.0: 20-language i18n incl. RTL, App Check, changelog page, gated social proof)
-**Researched:** 2026-09-05
-**Confidence:** HIGH overall — all policy/behavior claims verified against official Firebase and Google Search Central documentation fetched live this session; UX-norm claims marked MEDIUM where they rest on established practice rather than a fetched spec.
-
-**Confidence legend used below:** claims tagged **[HIGH]** come from official docs fetched this session (Firebase docs, Google Search Central, MDN, keepachangelog.com). Claims tagged **[MEDIUM]** are established community practice, not independently verified by a fetched spec.
-
-## Grounding: Existing Implementation (verified by reading repo code)
-
-Dependencies named in tables below refer to these verified facts:
-
-- `js/i18n.js` — dictionary-swap engine. `SUPPORTED = ['en','es','pt-BR']`; flat JSON dictionaries at `/js/i18n/{lang}.json` (`es.json`, `pt-BR.json` exist); EN is raw HTML restored from a snapshot; swap is `textContent`/`setAttribute` only (keyed nodes carry plain text by Phase-2 contract); `document.documentElement.lang` synced in the apply pass; **no `dir` handling exists anywhere**; detection is prefix-folding hardcoded for `pt-*`/`es-*`; endonym footer switcher built from an `ENDONYMS` map; persists `localStorage.persano.lang`; dispatches `persano:langchange`.
-- `sitemap.xml` — plain `urlset`, **no hreflang/`xhtml:link` entries**, 5 URLs. (The pre-build STACK recommendation of per-language static HTML + hreflang sets was NOT how v1 shipped; v1 is single-URL dictionary swap, and the sitemap correctly reflects that.)
-- `js/contact.js` + `js/firebase-config.js` — contact form imports Firebase auth+firestore modules via CDN dynamic import; anonymous auth → `addDoc` to `messages`.
-- No auto URL redirect exists for language (in-place swap on one URL) — consistent with Google's anti-redirect guidance **[HIGH]**.
-
----
+**Domain:** Brownfield static-site feature research — v2.1 "Play Launch + Home Migration" (home migration, launch kit, App Check evidence helper, cleanup)
+**Researched:** 2026-09-11
+**Confidence:** HIGH overall (official Google/Play Console docs fetched this session + shipped-repo runbook precedent; portfolio-hub structure pattern is MEDIUM — synthesized industry practice, no single authoritative doc)
 
 ## Feature Landscape
 
-### Area A — I18N-05: 17 New Localizations (hi, zh, fr, vi, nl, ur, el, ko, tr, de, ja, ru, id, pl, it, bn, ar) + RTL
+Four feature areas. Each requirement below is classified **Table Stakes** (users/owner expect it; missing = broken), **Differentiator** (valued, not expected), or **Anti-Feature** (looks good, causes harm — build the alternative instead). Complexity is measured against this repo's locked architecture: zero-build HTML/CSS/vanilla JS, single-URL keyed i18n (19 dictionaries, 178-key exact surface, CI keycheck), owner-gated flips, `.planning/` publicly served.
 
-**Expected behavior on a high-quality multilingual site:** every visitor lands on readable content in their language with zero configuration; manual choice is one interaction and sticks; languages read in the correct direction with correctly mirroring layout; crawlers see a consistent language story. Google detects page language algorithmically — **not** from `hreflang` or `lang` **[HIGH]**, so a single-URL dictionary-swap site is a legitimate architecture; what matters is that content, `lang`, and `dir` agree once swapped.
+### A. Home Migration (root = GeoHist landing; hub → `/apps/`)
 
-#### Table Stakes
+**How it typically works.** An app-developer hub that promotes one flagship app serves that app's landing at the site root and demotes the brand/portfolio page to a subpath. Deep links into the old location (`/geohist/`) must keep resolving — Google's site-move guidance (fetched, HIGH): use permanent redirects (301/308), update every `rel="canonical"` to the new self-referencing URL, move the sitemap to the new URLs and resubmit in Search Console. **A path move inside the same domain does NOT need the Search Console Change of Address tool** — that tool is only for domain/subdomain moves. Keep redirects ≥1 year (user-facing: indefinitely); expect a few weeks for the index swap; the existing 180-day CoA window on this site's old→new domain migration is a separate, untouched surface. GitHub Pages cannot emit HTTP 301s for arbitrary paths — Google treats **instant `meta refresh` (0 s)** as a permanent redirect, so a tiny stub page at `/geohist/index.html` is the compliant mechanism.
 
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| 17 new dictionaries with 1:1 key parity vs EN | Missing keys = silent EN fallback (existing D-30 behavior); parity is the quality gate | MEDIUM | Mechanical drafting, owner review per language; add a CI/parity-check script (compare key sets across all 20 `js/i18n/*.json`) — without it, misses are invisible until a user hits one |
-| Engine `SUPPORTED` + `ENDONYMS` extension | Switcher and validation read these two constants; 17 new endonyms (हिन्दी, 中文, Français…) | LOW | ~20-line change; endonym display is the expected UX (each language listed in itself) |
-| Detection prefix-folding for new languages | Existing `detect()` hardcodes `pt-*`→`pt-BR`, `es-*`→`es`; must fold all 20 (e.g. `de-*`→`de`, `ar-*`→`ar`) | LOW | One folding table; decide zh handling (site scope = `zh` ≈ Simplified; `zh-*`→`zh`) |
-| `lang` sync on swap | Already automatic (`applyLanguage` sets `documentElement.lang`) | DONE | Existing behavior carries over |
-| RTL base direction for ar/ur | `dir="rtl"` must be set on `<html>` alongside `lang`; `lang` does not imply direction **[HIGH]** | LOW | Add RTL_LANGS list to engine; set `documentElement.dir` in `applyLanguage`; remove on switch back to LTR |
-| CSS RTL audit (mirrored layout) | Logical order properties (margin-inline-start, text-align:start) mirror automatically; physical `left/right` properties and directional pseudo-element spacing do not **[HIGH]** | MEDIUM-HIGH | The real cost of RTL. Audit every stylesheet for `margin-left/right`, `padding-left/right`, `text-align: left/right`, directional icons/arrows; fix via logical properties or `[dir="rtl"]` overrides. Flexbox/Grid row direction mirror automatically |
-| Bidi-safe inline mixed content | Latin runs ("GeoHist Trivia", version numbers) inside RTL text; neutral punctuation at run boundaries can land on the wrong side **[HIGH]** | MEDIUM | Constraint: keyed nodes are plain-text-only (textContent contract) → cannot insert `<bdi>`. Mitigations: keep mixed content at run-friendly positions, or extend `data-i18n-attr` to carry `dir` on specific nodes; manual check of ar/ur pages against landing copy |
-| Form inputs direction for RTL | `<input>`/`<textarea>` inherit direction; users typing Urdu/Arabic expect RTL field content | LOW | dir inheritance covers it once `<html dir="rtl">`; verify contact form under ar/ur |
-| Switcher UX scales to 20 entries | Footer inline "A · B · C" breaks at 20 languages | MEDIUM | Expected pattern at 20 languages: a labeled `<select>` or footer language menu; must remain keyboard-accessible and keep `lang`/`hreflang` attrs on options; MEDIUM confidence (UX norm, not spec) |
-| Font coverage for new scripts | System font stacks generally cover Arabic, Devanagari, Bengali, CJK, Cyrillic, Greek via OS fallback | LOW | Verify visually on 2–3 pages per script; Nastaliq (ur) fallback quality is the main watch item [MEDIUM] |
+| Feature | Class | Complexity | Notes / Expected Behavior |
+|---------|-------|------------|---------------------------|
+| Root serves GeoHist landing directly at apex | Table Stakes | MEDIUM | One atomic commit: root `index.html` = current landing (hero, proof strip, features, gallery, FAQ, CTA) with `canonical`/`og:url`/JSON-LD `url` → `https://geohisttrivia.com/`; nav "Game" link points to `/` |
+| Redirect stub for old `/geohist/index.html` | Table Stakes | LOW | Instant `meta refresh` (0 s) to `/` — Google-interpreted as permanent; no JS-only redirect (Google may never render it); no redirect chain |
+| Portfolio hub at `/apps/` | Table Stakes | MEDIUM | `apps/index.html`: Persano brand intro + one GeoHist card (icon, one-liner, Play link, site link); future apps = new subdir + new card when shipped |
+| No visible placeholders for future apps | Table Stakes | LOW | Unreleased apps simply have no card, no "coming soon" stub, no sitemap entry; only the structure (subdir convention, card template) is anticipated |
+| i18n atomic key move | Table Stakes | MEDIUM | Hub `hub.*` keys → `apps.*` namespace; landing keys stay `geohist.*`; key surface stays exactly 178 across 19 dictionaries in the SAME commit (keycheck gate enforces set-equality); keycheck/i18n-detect/`validate:html` file lists must register `apps/index.html` |
+| sitemap + canonical coherence | Table Stakes | LOW | Sitemap: apex `/` (unchanged loc, new content), remove `/geohist/` entry, add `/apps/`; every moved page self-canonical; sub-pages (guide/contact/changelog/privacy) stay in `/geohist/` — only the landing moves |
+| 404 page + footer links update | Table Stakes | LOW | 404 "back to hub" target → `/apps/`; nav/footer hub links across pages repointed |
+| GSC sitemap resubmit (no CoA) | Table Stakes | LOW | Same-domain path move: resubmit sitemap on the existing Domain property; optional URL Inspection/Request-indexing on `/`; CoA 180-day monitoring window untouched |
+| Old-domain CI gate stays intact | Table Stakes | LOW | Migration commit must keep `check-no-old-domain.mjs` green (legacy-host literal never appears); gate is unaffected by the subdir→root move itself |
 
-#### Differentiators
+**Anti-features for A:**
 
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| hreflang + sitemap `xhtml:link` sets for per-language URLs | Only meaningful if the site moves to per-language static HTML (distinct URLs per language); enables Google to link the right language version in results **[HIGH]** | HIGH | 5 pages × 20 languages = ~100 URL variants, reciprocal self-referencing sets, x-default → EN. **Architecture decision pending** — see Dependency Notes. Under current single-URL dictionary-swap, hreflang is *not applicable* (nothing to annotate) and correctly stays out of scope |
-| Per-language static HTML (subdirs) | Crawlable per-language content, no JS dependency for translation, cleaner analytics | HIGH | Contradicts zero-build maintenance model at this page count; would multiply page maintenance ~×20. Current STACK.md favors it; v1 shipped dictionary-swap. Roadmap must pick one — complexity swing is large |
-| `changelog.*` dictionary keys included in all 20 dicts from day one | One build order instead of a 21-language catch-up later | LOW | Already planned (CONT-06 before I18N-05) |
+| Anti-Feature | Why Requested | Why Problematic | Alternative |
+|--------------|---------------|-----------------|-------------|
+| Moving ALL app pages (guide/contact/changelog/privacy) to root | "Consistency" | Breaks the Play Console privacy-policy URL already being pointed at `/geohist/privacy.html`; ×5 redirect stubs for zero user value; churn on 20-locale keyed pages | Move only the landing; sub-pages stay in `/geohist/` |
+| Server-side-style HTTP 301 hunt on Pages | "Best practice" | GitHub Pages offers no config for arbitrary-path 301s; `404.html` JS redirects are last-resort | Instant `meta refresh` stub (Google = permanent) |
+| Visible "coming soon" cards for future apps | "Shows ambition" | Phantom links, sitemap noise, maintenance debt; owner explicitly said none | Card appears only when the app ships |
+| JS-only redirect / SPA router for the hub | "Fancy" | Rendering-failure risk for crawlers; violates zero-JS-static-interactive convention | Plain HTML stub + static links |
+| Redundant canonical in the stub pointing at itself | Habit | Canonical must live on the real content (root page), not on a redirect source | Self-referencing canonical on root; stub carries only the refresh |
 
-#### Anti-Features
+### B. Launch Kit (owner runbook + swap-ready site)
 
-| Feature | Why Requested | Why Problematic | Alternative |
-|---------|---------------|-----------------|-------------|
-| Geo-IP / server-side language redirect | "Serve users their language" | Impossible on GitHub Pages (no server); Google explicitly advises against automatic redirects based on guessed language and against IP analysis **[HIGH]** | Client-side detect (already built) + visible switcher; EN always reachable |
-| URL auto-redirect on deep pages | Maximize localized reach | Redirect loops, crawler confusion, users trapped in a language | If per-language URLs ever adopted: entry pages only, persistence flag, never crawlers |
-| Translating the privacy policy | "Full i18n" | English is the legally authoritative version (PROJECT.md out-of-scope) | Keep EN policy; link it from translated pages with translated label |
-| Third-party auto-translate widget | Cheap coverage | Machine-translated HTML = poor quality + no control; Google translates user-side | Owner-reviewed agent-drafted dictionaries (current plan) |
-| Adding languages one-off as JSON without a parity gate | Fast shipping | Silent key misses degrade to EN invisibly | Parity check × 20 in CI before each deploy |
+**How it typically works.** The store listing is a **Play Console** concern (fetched, HIGH): App Details on the Main store listing; **Store settings → Contact Details** takes the required support email and the recommended **website URL**; the privacy-policy URL lives in App content declarations and must be set **before submission/review**; *managed publishing* (optional) lets the developer hold an approved listing until they choose the go-live moment. On the web side, launch day is a sequence of tiny **verifications and gated flips**, not rewrites — this repo's D-22 decision already shipped the real package URL into every Play-link surface, so most "swaps" are confirmations.
 
----
+| Feature | Class | Complexity | Notes / Expected Behavior |
+|---------|-------|------------|---------------------------|
+| Swap-ready placeholder/flag inventory | Table Stakes | LOW | Documented table of every launch-gated surface (below). Each row: file:line, current state, flip action, verification |
+| Owner launch runbook with flip order | Table Stakes | LOW | Console-UI only (public-artifact rule): 1) Play Console App content privacy-URL field → `https://geohisttrivia.com/geohist/privacy.html` (pre-submission); 2) listing live → verify the three package-URL hrefs return 200; 3) Play Console Store settings website URL; 4) Tier-1 rating row flip per 10-RUNBOOK once a real rating is visible; 5) post-flip Rich Results Test + JSON-LD no-aggregateRating parse check |
+| Play link verification (3 surfaces) | Table Stakes | LOW | `geohist/index.html:53` (JSON-LD `sameAs`), `:83` (badge CTA), `:87` (hidden Tier-1 row) all already carry the real package URL — launch day = curl 200 check, zero edits (D-22) |
+| JSON-LD `offers` refresh check | Table Stakes | LOW | Confirm `price "0" / priceCurrency USD` still matches the live listing (IAP exists but app is free — free listing keeps price 0); confirm no `aggregateRating` key ever appears (10-RUNBOOK §3 parse check still passes after flips) |
+| Tier-1 rating row flip support | Table Stakes | LOW | Already fully specified in `10-RUNBOOK.md` §2 (remove `hidden`, replace `0.0`); v2.1 runbook references it, does not re-specify; gate: real visible rating, no floor, fabrication forbidden |
+| Rating-value refresh convention | Differentiator | LOW | 10-RUNBOOK §5 habit rides any app-version-facts session; v2.1 runbook restates it so launch-day and later sessions keep the number honest |
+| Red-gate/smoke ritual per flip | Differentiator | MEDIUM | Owner flip → agent runs `npm run validate` + prod smoke (`smoke-check.sh` ALL PASS) — proven v2.0 pattern, re-listed in runbook |
+| Rollback section per flip | Table Stakes | LOW | Rating row: re-add `hidden` + restore `0.0` self-flagging placeholder; badge/link surfaces need no rollback (they never change) |
 
-### Area B — FIRE-07: Firebase App Check (reCAPTCHA v3) on the Contact Form
+**The concrete swap-ready inventory (from shipped v2.0 code):**
 
-**Expected behavior (verified, official Firebase docs):** after the SDK is integrated, the client sends App Check tokens with Firebase requests, but **products do not reject anything until enforcement is enabled console-side** — that is monitoring mode **[HIGH]**. It is an observability phase, not a protection phase. reCAPTCHA v3 returns a 0.0–1.0 score; App Check compares against a configurable app-risk threshold (default 0.5); scores strictly below the threshold are rejected *once enforcing* **[HIGH]**. v3 is invisible — no checkbox, no user interaction required **[HIGH]**.
+| Surface | File:line | State today | Launch-day action |
+|---------|-----------|-------------|-------------------|
+| Badge CTA Play URL | `geohist/index.html:83` | Real package URL, 404s until listing live | Verify 200; no edit |
+| JSON-LD `sameAs` Play URL | `geohist/index.html:53` | Real package URL | Verify; no edit |
+| Tier-1 row Play URL | `geohist/index.html:87` | Real package URL, row hidden | Verify; no edit |
+| Tier-1 rating number | `geohist/index.html:92` | `0.0` self-flagging span | Replace with real rating when visible (10-RUNBOOK §2) |
+| Tier-1 visibility gate | `geohist/index.html:86` | `<div class="proof-row" hidden>` | Remove `hidden` (same flip) |
+| JSON-LD `offers` | `geohist/index.html:54` | price 0 USD | Refresh-check vs live listing |
+| JSON-LD rating keys | `geohist/index.html:20-35` | Permanently OFF + inert policy comment | Never flip; parse check stays negative |
+| Play Console privacy-URL field | Owner console (App content) | Empty/pending | Set → `/geohist/privacy.html` BEFORE submission |
+| Play Console website field | Owner console (Store settings) | Pending | Set after listing live |
+| App Check enforcement | Firebase console (APIs tab) | Monitoring mode | Flip only on 09-RUNBOOK §5 gate (evidence helper covers counting) |
 
-**What monitoring mode means operationally:** every anonymous-auth sign-in and Firestore `addDoc` from the form already carries a token; the Firebase console (**Security > App Check > APIs tab**) classifies requests as **Verified / Uncertain / likely-outdated / Reused token**; "ready to enforce" = almost all recent requests are Verified **[HIGH]**. Enforcement is a per-product console flip (Firestore **and** Authentication — the form's whole chain) with instant rollback (flip off) **[HIGH]**.
+**Anti-features for B:**
 
-#### Table Stakes
+| Anti-Feature | Why Requested | Why Problematic | Alternative |
+|--------------|---------------|-----------------|-------------|
+| Automated Play-rating fetch (scraping/unsanctioned API) | "Rating updates itself" | No sanctioned public rating API for individual devs; scraping violates ToS; fabrication risk | Owner eyeballs the Play page; §5 refresh habit |
+| `aggregateRating` mirroring Play ratings in JSON-LD | "Rich snippets" | Google review-snippet policy bars aggregating other sites' ratings **even when real**; locked permanently OFF | Visible attributed Tier-1 row only |
+| Calendar-based enforcement/flip dates | "Predictable" | All gates on this repo are evidence-only by locked decision (09-RUNBOOK §5, 10-RUNBOOK §1) | Evidence gates + owner console action |
+| Blocking launch on rating-row flip | "Complete launch" | First ratings appear days after listing; blocking delays nothing useful | Row flips independently, any time after real data exists |
 
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| reCAPTCHA v3 site key registration (reCAPTCHA Admin) | Prerequisite for the provider | LOW | Owner console step; allowlist `persano.github.io` and later the custom domain (HOST-01 interaction — see dependencies) |
-| `initializeAppCheck` in `contact.js` (CDN `firebase-app-check.js`) | Same fork-shaped pattern as auth/firestore; analytics surface untouched | LOW | Fits existing dynamic-import structure; no other JS surface needs App Check |
-| Monitoring mode first (default state) | Docs: verify no legitimate-user disruption before enforcing **[HIGH]** | LOW | Zero code beyond the init; zero UX change |
-| Metrics review ritual | "Almost all recent requests Verified" is the documented green light **[HIGH]** | LOW | Owner/agent check cadence; **small-sample caveat**: a low-traffic contact form needs a pragmatic window (e.g., ≥ 2 weeks and ≥ N verified submissions) before "almost all" means anything [MEDIUM] |
-| Enforcement flip: Firestore + Authentication per-product | Console-side; both products in the form chain must enforce or protection is half-done **[HIGH]** | LOW | Owner console step; document the exact flip path |
-| Pre-enforcement error UX in `contact.js` | Token fetch can fail (offline, provider error); at enforce time a rejected token = failed request | LOW-MEDIUM | Wrap submission: get token → proceed; on failure show the existing i18n'd error message + retry; map App Check/permission-denied errors to a friendly retry message, not a console error |
-| Rollback plan | Unenforce = console flip off, immediate **[HIGH]**; before raising the threshold, temporarily unenforce **[HIGH]** | LOW | Written rollback note in phase plan |
+### C. App Check Evidence Helper (console-UI doc)
 
-#### Differentiators
+**How it typically works.** The enforcement decision (09-RUNBOOK §5-§6) needs two signals read in the Firebase console: the **ready-to-enforce** guideline on the APIs-tab metrics (almost all recent requests Verified) and a **≥30 successful-submissions floor**. The helper doc teaches the owner to produce that evidence by hand. The counting unit is pinned: **successful form submissions** (messages visible in Firestore `messages`, sorted by `createdAt` desc since code-ship date) — never console request rows (one submission = 2+ requests: anonymous auth + Firestore write, so requests overshoot).
 
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| Replay protection on Firestore | Tokens become one-use; strongest config **[HIGH]** | LOW | Optional toggle at enforcement time; sensible for a spam-targeted form |
-| Threshold tuning from reCAPTCHA score distribution | Raise strictness only when score distribution proves it **[HIGH]** | LOW | Score distribution lives in reCAPTCHA Admin console; default 0.5 first |
-| Honeypot (already specced in STACK.md) | Defense-in-depth independent of App Check | LOW | Complements, does not replace; App Check gates abuse of the Firebase backend itself |
+| Feature | Class | Complexity | Notes / Expected Behavior |
+|---------|-------|------------|---------------------------|
+| Submission-counting walkthrough | Table Stakes | LOW | Firestore console: `messages` → sort `createdAt` desc → count since code-ship date; state the unit rule and the both-directions boundary (below 30 = keep monitoring even at 100% Verified) |
+| Category-split reading guide | Table Stakes | LOW | Verified / Outdated client / Unknown origin / Invalid / Reused token semantics table already proven in 09-RUNBOOK §4; helper condenses it to one glance page |
+| Weekly ritual + log template | Differentiator | LOW | One-row "week of X: Verified Y%, submissions Z" log; rides the existing §4 ritual; no automation |
+| `appcheck_token_failure` trend reading | Table Stakes | LOW | Analytics → Events; up to 24h lag; owner's pihole blocks GA4 on owner devices (no DebugView) — documented so a flat trend isn't misread as absence of visitors |
+| Ready-to-enforce + flip pointer | Table Stakes | LOW | Where to read the console guideline; flip itself stays §6 owner-only (FIRE-10); helper links, never re-specifies |
 
-#### Anti-Features
+**Anti-features for C:**
 
-| Feature | Why Requested | Why Problematic | Alternative |
-|---------|---------------|-----------------|-------------|
-| Enforce-on-day-1 on a live form | "Protected immediately" | Legitimate users whose tokens fail get silent form errors; docs' own warning path is monitor-then-enforce **[HIGH]** | Monitoring window, then flip |
-| Threshold raised toward 1.0 | "Zero bots" | Can deny real users; docs explicitly warn and require unenforce-first **[HIGH]** | Keep 0.5; tune only with score-distribution evidence |
-| Building enforcement UI (checkbox/challenge UX) | Perceived rigor | v3 is invisible by design; adding visible challenge UI is a different product (v2) | Stay v3-invisible |
-| Do-it-yourself token checks in `contact.js` beyond SDK | Extra skepticism | Re-implementing the SDK badly; enforcement lives console-side | SDK + rules + replay protection |
+| Anti-Feature | Why Requested | Why Problematic | Alternative |
+|--------------|---------------|-----------------|-------------|
+| CLI/API counting script (service-account credentials) | "Automate the count" | Repo tree is publicly served — credentials would leak; agent shouldn't hold console auth | Console-UI-only walkthrough |
+| Auto-enforcement flip when count hits 30 | "Hands-free" | Flip is owner-only by decision (FIRE-10); 30 is a floor, ready-to-enforce is the second gate | Doc points at §6; owner clicks |
+| Storing submission counts in the repo | "Audit trail" | `.planning/` is publicly served; submission data is user-adjacent | Owner keeps the log privately (or a sanitized count line only) |
 
----
+### D. Cleanup Batch
 
-### Area C — CONT-06: Changelog Page (`/geohist/changelog.html`)
+| Feature | Class | Complexity | Notes / Expected Behavior |
+|---------|-------|------------|---------------------------|
+| Restore `npm ci` + `cache: npm` in validate job | Table Stakes | LOW | CI currently runs `npm install` (no lockfile committed); commit lockfile, restore pinned/cached installs — faster, reproducible validate runs |
+| zh variant confirmation | Table Stakes | LOW | Check app repo `strings.xml` for `values-zh-rCN` → confirm Simplified-only dictionary choice; document in planning record |
+| Urdu Nastaliq real-device check | Table Stakes | MEDIUM | Visual render check of `ur` line-height/RTL on a real device; documented degradation acceptable, silent discovery is not (STATE.md blocker) |
+| Future-apps structure check | Table Stakes | LOW | Post-migration walkthrough: confirm adding app #2 = new subdir + hub card + sitemap entry, no placeholder code to delete; document the convention |
 
-**Expected behavior (Keep a Changelog 1.1.0, fetched live):** changelogs are *for humans* — curated, reverse-chronological, one entry per version, ISO 8601 dates (`2026-09-05`), linkable version headings, changes grouped into **Added / Changed / Deprecated / Removed / Fixed / Security**, latest first, with an `Unreleased` section when useful **[HIGH]**. Players landing on an app changelog expect: newest version on top, plain-language "what's new / what got fixed", dates, and consistency — not commit dumps **[HIGH]**.
-
-#### Table Stakes
-
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| Newest-first version sections with version + date | Universal player expectation; dates ambiguous-region-proof in ISO 8601 **[HIGH]** | LOW | `## [1.0.0] — 2026-09-05` heading pattern; anchor ids per version |
-| Grouped change types per entry | Players scan for "what's fixed" **[HIGH]** | LOW | Trim to the types the app actually uses (likely Added/Changed/Fixed); empty sections omitted (anti-pattern per KAC) |
-| Plain-language, human-curated entries | Git-log dumps are noise **[HIGH]** | LOW | One curated bullet per notable change; agent-maintained model fits perfectly |
-| i18n chrome keys (`changelog.*` namespace) | Page must exist in the 20-language dictionary build | LOW | Translate headings/labels; entries themselves default EN — see differentiator |
-| Nav/footer + sitemap + landing link | Discoverability; sitemap gains the URL | LOW | Fits existing hand-rolled sitemap; also add to 404/backlinks pattern |
-| `Unreleased` section convention | Lets the owner stage notes between releases **[HIGH]** | LOW | Optional but cheap; hide when empty |
-
-#### Differentiators
-
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| Translated changelog entries × 20 | Full localization parity for readers | HIGH (ongoing upkeep) | Every app release = 20 translations. Recommend: chrome translated, entries EN with owner opt-in per release; app in-game "What's new" is already localized, so the web page is the durable archive |
-| Permalinked versions + "latest" anchor | Community/support can link to a version | LOW | Version headings already linkable per KAC principles |
-| Dates in visitors' locale? | Readability | MEDIUM | ISO 8601 is the recommended unambiguous format **[HIGH]** — resist locale-formatting; it stays parseable for everyone |
-
-#### Anti-Features
-
-| Feature | Why Requested | Why Problematic | Alternative |
-|---------|---------------|-----------------|-------------|
-| Commit-log dump / auto-generated notes | "Automate it" | Noise, not for humans **[HIGH]** | Curated per-release entries |
-| `YANKED` mechanics / release-pulled states | Format completeness | Not applicable to an app-store release cadence | Simply remove/never list broken releases |
-| Changelog as JSON consumed by JS | "One source of truth" | Kills no-JS/crawler access; page is static HTML by contract | Static HTML entries (dictionaries only for chrome) |
-| Syncing Play "What's new" verbatim via scraping | Low effort | Fragile + ToS-gray | Hand-copy the notable lines at each release |
-
----
-
-### Area D — SEO-05: Gated aggregateRating + Social Proof
-
-**Expected behavior:** a landing page pre-ratings shows honest, verifiable proof and **no rating markup at all**; the rating story unlocks only when real ratings exist. Verified guideline facts **[HIGH]**: `aggregateRating` requires `ratingValue` plus `ratingCount` or `reviewCount`; the marked-up rating must be *visible on the page* (invisible markup = guideline violation); **do not aggregate reviews or ratings from other websites**; no fake or undisclosed-incentivized reviews; the "self-serving" prohibition applies only to `LocalBusiness`/`Organization` — `SoftwareApplication` is not restricted, so an app's own site *may* carry its own rating markup *when the rating is genuinely sourced on that page's terms*.
-
-**Critical nuance for this project:** Play Store ratings pasted into the site's JSON-LD are "ratings from another website" — the guideline text excludes aggregating them **[HIGH]**. Community practice diverges (many app sites mark up Play numbers) [MEDIUM], but the compliant wiring for this milestone is two-tier (below). No fabricated numbers, ever.
-
-#### Table Stakes
-
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| Gate mechanism: authoring-time, not JS runtime | Static site; markup present-but-invisible violates the visibility guideline **[HIGH]**; JS-gated markup is crawler-visible anyway | LOW | Content (stars row, rating text, ratingCount in JSON-LD) lives as **HTML comments / absent JSON-LD properties** until the owner flips the gate. Commented-out = never served = zero risk. Matches PROJECT.md "owner flips gate" |
-| Honest placeholder social proof while gate is closed | "Coming soon to Google Play" (existing Play badge placeholder already does this); real verifiable facts as proof | LOW | Real facts available now: offline-capable, 20 in-app localizations, history+geography scope, 4 real screenshots, Play Games Services, privacy contact path |
-| Pre-registration / notify-me path while unpublished | Standard indie-app pattern [MEDIUM] | LOW | Play pre-registration link when available; otherwise "Follow releases via changelog" |
-| JSON-LD stays `SoftwareApplication`-without-`aggregateRating` pre-ratings | Adding `aggregateRating: 0` or placeholder numbers = structured-data spam risk | LOW | Current shipped state is already correct; gate = a future property addition, nothing more |
-
-#### Differentiators
-
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| Tier 1 gate flip (Play listing live): visible proof row | "Rated X.X ★ on Google Play →" as **visible text + link with clear attribution** | LOW | Visible content with attribution is standard practice [MEDIUM]; no JSON-LD change required for this tier |
-| Tier 2 gate flip: `aggregateRating` in JSON-LD | Rich-result star potential | LOW (code) — but eligibility-limited | Only if the site ever collects its own reviews (it doesn't today); Play-sourced numbers are excluded by the don't-aggregate rule **[HIGH]**. Honest recommendation: wire the *shape* (commented template), leave activation explicitly conditional on own-site review collection |
-| Social-proof content set (translated) | 20-language parity for the proof row | LOW | Reuses changelog-order i18n key-parity build |
-
-#### Anti-Features
-
-| Feature | Why Requested | Why Problematic | Alternative |
-|---------|---------------|-----------------|-------------|
-| Fabricated stars/counts ("4.9★, 10k players") | Looks launched | Google fake-review guidelines **[HIGH]**; trust destruction if caught; Play policy contamination | Real facts + "coming soon" |
-| Invisible/JS-injected markup pre-ratings | "Ready for later" | Invisible-markup guideline violation **[HIGH]**; JS-gated stars render for nobody yet are crawler-visible = worst of both | Commented template, owner flips |
-| Incentivized review solicitation without disclosure | Seed ratings | Explicitly barred **[HIGH]** | None needed — let organic Play ratings exist at Play |
-| Marking up Play reviews individually (`Review` items) | Richer snippet | Aggregating another site's content **[HIGH]** + author-validation rules | Link out to Play reviews instead |
-
----
+**Anti-features for D:** none — hygiene scope; refuse only scope creep (e.g., don't add new CI gates beyond what migration needs).
 
 ## Feature Dependencies
 
 ```
-[CONT-06 changelog page]
-    └──requires──> [i18n chrome keys present in ALL 20 dictionaries]
-                        └──requires──> [I18N-05 built AFTER changelog keys exist
-                                        (build changelog first — PROJECT.md already orders this)]
+[Home Migration A]
+    └──requires──> [i18n atomic key move (keycheck green)] ──requires──> [apps.* key surface + file-list registration]
+    └──requires──> [sitemap/canonical update] ──requires──> [GSC sitemap resubmit (no CoA)]
+    └──enables──> [Future-app structure check D4]
 
-[I18N-05 dictionaries ×17]
-    └──requires──> [key-parity gate (CI script) — new CI work]
-    └──requires──> [i18n.js engine extension: SUPPORTED, ENDONYMS, folding table, dir switching]
-    └──conflicts──> [text-only keyed-node contract] (bidi isolation needs workarounds — see RTL table)
+[Launch Kit B]
+    └──requires──> [Play listing live (external, owner console)] ──gates──> [link 200-verify, website field, rating row flip]
+    └──requires──> [privacy-URL field set PRE-submission] ──independent of──> [A] (privacy stays at /geohist/privacy.html)
+    └──depends on──> [10-RUNBOOK §1-§5 unchanged] + [09-RUNBOOK §5 gate]
 
-[FIRE-07 App Check]
-    └──requires──> [reCAPTCHA v3 site key (owner, reCAPTCHA Admin)]
-    └──requires──> [contact.js: token init + failure UX]
-    └──requires──> [HOST-01 domain decided BEFORE reCAPTCHA site-key domain allowlist is finalized]
-                        (site-key domain list + Firebase authorized domains must include the final
-                         domain; changing domains after means re-editing both console configs)
+[Evidence Helper C]
+    └──depends on──> [09-RUNBOOK §4 semantics (unit, categories)] ──no code, no A/B dependency
+    └──feeds──> [FIRE-10 enforcement flip (owner, post-v2.1)]
 
-[SEO-05 social proof]
-    └──gated──> [Play listing live (external, owner)] — no code dependency on other v2 features
-    └──enhances──> [landing page] (proof row slots into existing hero/features)
+[Cleanup D]
+    └──D1 lockfile ──should precede──> [any phase needing many validate runs] (faster CI)
+    └──D4 ──requires──> [A shipped]
 
-[HOST-01 custom domain]
-    └──conflicts──> [FIRE-07 enforcement flip] if App Check config is finalized before the domain
-                     (reCAPTCHA allowlist + authorized domains must be re-edited post-flip)
+[Rating row flip] ──conflicts──> [aggregateRating JSON-LD] (Tier-1 visible row is the ONLY sanctioned Play-rating surface — never both)
+[meta-refresh stub] ──conflicts──> [JS-only redirect] (choose stub; Google treats JS redirect as unreliable last resort)
 ```
 
-### Dependency Notes
-
-- **CONT-06 requires the changelog keys before I18N-05:** dictionaries are drafted per-language with a parity gate; retrofitting `changelog.*` into 20 dicts later = a second 20-language pass. Build order already stated in PROJECT.md.
-- **FIRE-07 depends on HOST-01 ordering:** reCAPTCHA v3 site keys are domain-allowlisted; Firebase authorized domains gate auth. Decide/land the custom domain first (or re-edit console configs at flip time). This ordering is a phase-sequencing recommendation.
-- **I18N-05 conflicts with the text-only keyed-node contract for RTL:** bidi isolation normally wants `<bdi>` wrappers; the snapshot/textContent contract forbids markup inside keyed nodes. The engine's `dir` switch + CSS logical audit are the compatible path; hand-check ar/ur pages for punctuation-at-run-boundary glitches.
-- **SEO-05 is the only externally gated feature:** everything else ships at the site's own pace.
-
----
+**Dependency notes:**
+- **A requires the atomic key move:** moving hub content to `/apps/` and landing to root in one commit, with the key surface staying exactly 178 × 19, is the only keycheck-green path (Phase 06/07 precedent).
+- **B's flips never touch A's URLs:** privacy stays at `/geohist/privacy.html` so the Play Console field recorded in the owner's flow never dangles.
+- **C is documentation-only:** zero dependency on migration state; can ship in any phase but pairs naturally with B (same owner-runbook format).
+- **D1 before heavy phases:** lockfile restore speeds every subsequent validate cycle.
 
 ## MVP Definition
 
-### Launch With (v2.0 milestone)
+### Launch With (v2.1 core)
 
-- [ ] 17 dictionaries + parity gate × 20 — the headline commitment; mechanical but review-heavy
-- [ ] Engine extension: SUPPORTED/ENDONYMS/folding/dir switching — small, unblocks everything above
-- [ ] CSS RTL audit for ar/ur on all pages — the only genuinely design-heavy i18n work
-- [ ] Changelog page (EN entries, i18n chrome) — built *before* the locale expansion lands
-- [ ] App Check monitoring mode wired into `contact.js` + owner console steps documented
-- [ ] Social-proof gate: commented Tier-1/Tier-2 templates in place; pre-rating proof = real facts only
+- [ ] Root migration atomic commit (landing at root, hub at `/apps/`, meta-refresh stub, sitemap/canonical/404/nav updates, i18n key move, `validate:html` file list) — the milestone's structural core
+- [ ] Launch runbook with pinned flip order (privacy URL → link verify → website field → rating row) — must exist BEFORE the listing goes live
+- [ ] Swap-ready inventory table (above) baked into the runbook — makes every flip a tiny verified edit
+- [ ] Evidence helper doc (counting unit + weekly ritual) — needed once submissions start accruing toward the 30-floor
 
-### Add After Validation (v1.x of this milestone)
+### Add After Validation (post-migration, pre/at launch)
 
-- [ ] App Check enforcement flip (Firestore + Authentication) — trigger: metrics window shows verified share ≈ 100%
-- [ ] Tier-1 visible proof row — trigger: Play listing live (owner flips)
-- [ ] hreflang/sitemap alternates — trigger: only if roadmap adopts per-language static HTML
+- [ ] Tier-1 rating row flip — trigger: real visible Play rating (gate already defined in 10-RUNBOOK §1)
+- [ ] GSC sitemap resubmit + URL Inspection on `/` — trigger: migration deploy live
+- [ ] FIRE-10 enforcement flip — trigger: 09-RUNBOOK §5 gate (≥30 submissions + ready-to-enforce); owner console, post-v2.1 acceptable
 
-### Future Consideration (v2+)
+### Future Consideration (v3+)
 
-- [ ] Per-language static HTML expansion — revisit only if a crawlability/traffic case emerges
-- [ ] Tier-2 JSON-LD `aggregateRating` — revisit only if the site collects its own reviews
-- [ ] Translated changelog entries per release — revisit if changelog becomes a traffic surface
-
----
+- [ ] App #2 subdir + hub card — trigger: next app actually ships
+- [ ] Per-language static subdirs — locked out without a proven crawlability case (single-URL i18n stands)
 
 ## Feature Prioritization Matrix
 
 | Feature | User Value | Implementation Cost | Priority |
 |---------|------------|---------------------|----------|
-| 17 dictionaries + parity gate | HIGH (core audience reach) | MEDIUM (volume, review) | P1 |
-| RTL dir switching + CSS audit | HIGH (ar/ur unusable without) | MEDIUM-HIGH | P1 |
-| Engine extension (SUPPORTED/ENDONYMS/folding/dir) | HIGH | LOW | P1 |
-| Changelog page (pre-locale build order) | MEDIUM-HIGH | LOW-MEDIUM | P1 |
-| App Check monitoring mode | MEDIUM (invisible, observability) | LOW | P1 |
-| App Check enforcement flip | HIGH (spam-free form) | LOW (console) + UX wiring | P2 (after metrics) |
-| Gated social proof wiring | MEDIUM (pre-ratings) → HIGH (post) | LOW | P2 |
-| hreflang/per-language URLs | MEDIUM (SEO) | HIGH | P3 (architecture decision first) |
+| Root = GeoHist landing + `/apps/` hub | HIGH (Play reviewers + visitors land on the game) | MEDIUM | P1 |
+| `/geohist/` redirect stub + canonical/sitemap updates | HIGH (deep links keep working) | LOW | P1 |
+| Launch runbook (flip order) | HIGH (launch day is owner-operated) | LOW | P1 |
+| Swap-ready inventory | HIGH (every flip = verified tiny edit) | LOW | P1 |
+| Evidence helper doc | MEDIUM (unblocks future FIRE-10) | LOW | P2 |
+| Tier-1 rating row flip | MEDIUM (social proof, owner-gated) | LOW | P2 |
+| Cleanup: lockfile/ci cache | MEDIUM (CI speed/reproducibility) | LOW | P2 |
+| Cleanup: zh + Urdu checks | LOW-MEDIUM (quality assurance) | LOW | P3 |
 
-**Priority key:** P1 = must have in this milestone · P2 = sequenced inside the milestone on a trigger · P3 = deferred pending a decision
+**Priority key:** P1 = must ship in v2.1 · P2 = should ship in v2.1 · P3 = nice to have inside cleanup batch
 
----
+## Requirements Category Groupings (for downstream planning)
 
-## How High-Quality Sites Do It (Analogue Analysis)
-
-| Concern | Large multilingual sites (hreflang-heavy) | App web changelogs (Signal/Telegram-style) | App landing pages w/ ratings | This site's approach |
-|---------|------------------------------------------|--------------------------------------------|------------------------------|----------------------|
-| Language serving | Per-language URLs + reciprocal hreflang + sitemap `xhtml:link` **[HIGH]** | n/a | n/a | Dictionary-swap, one URL — valid because Google detects language algorithmically, not via hreflang **[HIGH]**; upgrade path documented above |
-| Auto-redirect | Entry-page-only, flag-persisted, never crawlers | n/a | n/a | No redirect at all (in-place swap); Google's anti-redirect guidance is satisfied by construction **[HIGH]** |
-| Changelog format | n/a | Newest-first, ISO dates, grouped Added/Changed/Fixed **[HIGH]** | n/a | Keep a Changelog principles, trimmed type set |
-| Rating display | n/a | n/a | Visible rating with on-store attribution + link | Two-tier gate; JSON-LD only for own-site reviews |
-
----
+1. **URL / information-architecture changes** (A) — one atomic commit + one deploy; verification-heavy, edit-light; all CI gates must stay green.
+2. **External-event-gated content flips** (B flips, rating row) — code-ready today; each flip waits on owner console action + Play listing reality; never blocking the site.
+3. **Documentation-only owner rituals** (runbook, evidence helper) — console-UI instructions only (public-artifact rule); zero runtime surface.
+4. **CI/tooling hygiene** (D) — independent, fast, de-risk the rest.
 
 ## Sources
 
-- Firebase docs — App Check reCAPTCHA v3 setup (`firebase.google.com/docs/app-check/web/recaptcha-provider`), monitoring metrics (`/docs/app-check/monitor-metrics`), enforcement (`/docs/app-check/enable-enforcement`) — fetched live 2026-09-05 — **HIGH**
-- Google Search Central — Localized versions / hreflang (`/search/docs/specialty/international/localized-versions`) and Managing multi-regional and multilingual sites — fetched live 2026-09-05 — **HIGH**
-- Google Search Central — Review snippet / AggregateRating structured data (`/search/docs/appearance/structured-data/review-snippet`) — fetched live 2026-09-05 — **HIGH**
-- MDN — `dir` global attribute (`developer.mozilla.org/.../Global_attributes/dir`) — fetched live 2026-09-05 — **HIGH**
-- Keep a Changelog 1.1.0 (`keepachangelog.com/en/1.1.0/`) — fetched live 2026-09-05 — **HIGH**
-- Static-site language-detection UX patterns and indie-app social-proof norms — training knowledge, consistent with the fetched Google guidance — **MEDIUM**
-- Existing implementation facts (`js/i18n.js`, `sitemap.xml`, `js/contact.js`) — read directly from repo — **HIGH**
+- Google Search Central — *Redirects and Google Search* (developers.google.com/search/docs/crawling-indexing/301-redirects), fetched 2026-09-11 — HIGH: 301/308 = permanent signal; instant meta refresh interpreted as permanent; JS redirects last resort; alternate-name behavior.
+- Google Search Central — *Site moves with URL changes* (developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes), fetched 2026-09-11 — HIGH: same-domain path moves need no CoA; update canonicals + sitemap + resubmit; keep redirects ≥1 year; avoid chains and irrelevant homepage redirects (soft-404 risk); small sites move all at once; old-sitemap warnings normal.
+- Play Console Help — *Create and set up your app* (support.google.com/googleplay/android-developer/answer/113469), fetched 2026-09-11 — HIGH: store-listing field limits; Store settings → Contact Details (support email required, website recommended); managed publishing option. App-content privacy-URL field page is bot-blocked — field existence/flow is HIGH-confidence repo precedent (PROJECT.md owner steps, v1 D-70 record).
+- Repo precedent (curated, HIGH — verified in v2.0 records): `.planning/milestones/v2.0-phases/10-gated-social-proof/10-RUNBOOK.md` (Tier-1 flip, gates, refresh habit, §6 schema rule); `09-app-check-monitor-first/09-RUNBOOK.md` §4-§6 (counting unit, category semantics, evidence gate, flip/rollback); Phase 08 records (domain migration, sitemap/GSC flow, curl triple proof); D-22 (real package URL shipped in all three Play-link surfaces).
+- Industry hub pattern (subdir-per-app + `/apps/` index, no placeholder cards) — MEDIUM: synthesized common indie-developer practice; no single authoritative doc.
 
 ---
-*Feature research for: Persano v2.0 milestone (multilingual ×20, App Check, changelog, gated social proof)*
-*Researched: 2026-09-05*
+*Feature research for: Persano v2.1 — Play Launch + Home Migration*
+*Researched: 2026-09-11*
