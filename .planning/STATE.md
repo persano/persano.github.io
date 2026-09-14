@@ -4,12 +4,11 @@ milestone: v2.1
 milestone_name: Play Launch + Home Migration
 current_phase: 13
 current_phase_name: Home Migration
-status: verifying
+status: "Phase 13 shipped - PR #7"
 stopped_at: Completed 13-02-PLAN.md (runbook + UAT scaffold; phase ready for /gsd-verify-work then /gsd-ship)
-last_updated: "2026-09-14T19:04:35.255Z"
+last_updated: "2026-09-14T20:07:19.170Z"
 last_activity: 2026-09-14
-last_activity_desc: Phase 13 execution started
-state_head: 9020628fa778c23ab8118a1ab6dcff787ea9de8a
+state_head: 1458f07106059eb92673dbc8118e13bf4a95aeac
 progress:
   total_phases: 4
   completed_phases: 0
@@ -36,8 +35,8 @@ Goal: site swap-ready for Play launch day; GeoHist landing serves as site home w
 
 Phase: 13 (Home Migration) — EXECUTING
 Plan: 2 of 2
-Status: Phase complete — ready for verification
-Last activity: 2026-09-14 — Phase 13 execution started
+Status: Phase 13 shipped - PR #7
+Last activity: 2026-09-14
 
 Progress: [░░░░░░░░░░] 0%
 
