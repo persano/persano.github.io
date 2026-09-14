@@ -83,6 +83,7 @@ Recent decisions affecting current work:
 - [Phase 13]: 13-02: runbook/UAT predicate phrased without pre-filled literals (plan action text contradicted its own zero-pre-filled verify gate)
 - [Phase 13]: 13-02: runbook URL-inspection table adds grouped 5th row (unchanged sub-pages) to satisfy the 5-URL acceptance criterion truthfully
 - [Phase 13]: 13-02: docs avoid the wildcard legacy-host phrasing — plan verify greps bare github.io, stricter than the repo gate needle
+- [Phase 13]: 13-ship: owner-approved ship-gate reframe — 9 post-deploy UAT rows moved verbatim to 13-RECORDS.md (phase-12 precedent), UAT holds locally-runnable PRE battery 6/6, verification flipped passed on owner consent (2026-09-14); broken-windows ledger closed at ship preflight (12 fixed / 5 waived)
 
 ### Pending Todos
 
