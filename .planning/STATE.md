@@ -4,17 +4,17 @@ milestone: v2.1
 milestone_name: Play Launch + Home Migration
 current_phase: 13
 current_phase_name: Home Migration
-status: executing
-stopped_at: Completed 13-01-PLAN.md (tasks 2-3; migration uncommitted, awaiting /gsd-ship)
-last_updated: "2026-09-14T18:45:02.108Z"
+status: verifying
+stopped_at: Completed 13-02-PLAN.md (runbook + UAT scaffold; phase ready for /gsd-verify-work then /gsd-ship)
+last_updated: "2026-09-14T19:04:35.255Z"
 last_activity: 2026-09-14
 last_activity_desc: Phase 13 execution started
-state_head: aa17a6f041ddd709e7dd8011c708e48937613ab4
+state_head: 9020628fa778c23ab8118a1ab6dcff787ea9de8a
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
   percent: 0
 ---
 
@@ -36,7 +36,7 @@ Goal: site swap-ready for Play launch day; GeoHist landing serves as site home w
 
 Phase: 13 (Home Migration) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-09-14 — Phase 13 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -63,6 +63,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 12 P01 | 12min | 2 tasks | 5 files |
 | Phase 12 P02 | 88min (incl. owner wait) | 3 tasks | 5 files |
 | Phase 13 P01 | 45min | 3 tasks | 16 files |
+| Phase 13 P02 | 9min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -79,6 +80,9 @@ Recent decisions affecting current work:
 - [Phase 13]: v2.1/13-01: stub dropped from keycheck/surface pages[] (keyed-pages semantics; star-path repoint carries landing-moved fact)
 - [Phase 13]: v2.1/13-01: red-gate snapshots must use per-file distinct names (Copy-Item multi-source flattens same-named files)
 - [Phase 13]: v2.1/13-01: a11y red-gate tripper is critical-impact (unlabeled input); duplicate h2 alone is below the shipped AA gate
+- [Phase 13]: 13-02: runbook/UAT predicate phrased without pre-filled literals (plan action text contradicted its own zero-pre-filled verify gate)
+- [Phase 13]: 13-02: runbook URL-inspection table adds grouped 5th row (unchanged sub-pages) to satisfy the 5-URL acceptance criterion truthfully
+- [Phase 13]: 13-02: docs avoid the wildcard legacy-host phrasing — plan verify greps bare github.io, stricter than the repo gate needle
 
 ### Pending Todos
 
@@ -100,6 +104,6 @@ See `.planning/todos/pending/` — none yet.
 
 ## Session Continuity
 
-Last session: 2026-09-14T18:44:34.129Z
-Stopped at: Completed 13-01-PLAN.md (tasks 2-3; migration uncommitted, awaiting /gsd-ship)
+Last session: 2026-09-14T19:04:35.122Z
+Stopped at: Completed 13-02-PLAN.md (runbook + UAT scaffold; phase ready for /gsd-verify-work then /gsd-ship)
 Resume file: None

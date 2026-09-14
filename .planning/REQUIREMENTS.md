@@ -17,7 +17,7 @@ Requirements for this milestone. Each maps to roadmap phases (see Traceability).
 - [x] **MIG-05**: All five hardcoded gate page-lists (i18n-keycheck, i18n-surface, a11y-audit, smoke-check, validate:html glob) cover the new layout — red-gate proven both directions
 - [x] **MIG-06**: AGENTS.md reflects the new layout in the same commit (old-domain gate enforces it)
 - [x] **MIG-07**: `/geohist/privacy.html` stays path-stable — Play Console compliance surface frozen
-- [ ] **MIG-08**: GSC sitemap resubmit + URL inspection done post-deploy (owner console step, runbook section)
+- [x] **MIG-08**: GSC sitemap resubmit + URL inspection done post-deploy (owner console step, runbook section)
 - [x] **MIG-09**: 404 page + all nav/footer links point at the new layout (no dead hub links; key surface stays exactly 178 × 19)
 
 ### Launch Kit (LKIT)
@@ -79,7 +79,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MIG-05 | Phase 13 | Complete |
 | MIG-06 | Phase 13 | Complete |
 | MIG-07 | Phase 13 | Complete |
-| MIG-08 | Phase 13 | Pending |
+| MIG-08 | Phase 13 | Complete |
 | MIG-09 | Phase 13 | Complete |
 | LKIT-01 | Phase 14 | Pending |
 | LKIT-02 | Phase 14 | Pending |
