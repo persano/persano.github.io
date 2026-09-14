@@ -79,6 +79,7 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 - [ ] Swap-ready site: JSON-LD offers refresh check + placeholder Play-link inventory
 - [ ] App Check evidence helper doc (console-UI only): counting successful submissions toward 30-floor + weekly ritual
 - [ ] Cleanup batch: restore `npm ci` + `cache: npm` in validate job, zh variant confirmation, Urdu Nastaliq real-device check
+- ✓ Cleanup batch shipped: validate job = `npm ci` + setup-node `cache: npm` (lockfile committed since Phase 5; stale NOTE removed under recorded CLEAN-04 verdict), zh Simplified-only documented with DETECT_TABLE fold consequence, Urdu Nastaliq device check 5/5 pass recorded (12-UAT.md); post-ship CI watch rides /gsd-ship per 12-RECORDS.md §2 — Phase 12 (CLEAN-01..04)
 - [ ] (owner console) FIRE-10 App Check enforcement flip — evidence-gated per 09-RUNBOOK.md §5-§6
 - [ ] (owner console) Play Console privacy-URL field → `/geohist/privacy.html`
 - [ ] GSC Change-of-Address 180-day window monitoring until ~2027-03 — watch only, old property retained
@@ -147,6 +148,7 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 | Rating surfaces (Tier-1 row / Tier-2 JSON-LD) shipped OFF: hidden row + inert comment citing Google review-snippet policy verbatim; flip = 2-edit owner runbook gated on real visible Play data (no minimum floor) | Mirroring Play ratings into markup is barred by policy; honest zero (0.0) over fake rating; documented-OFF pair (in-file comment + runbook) blocks future-agent rationalization | ✓ Phase 10 — prod smoke: row hidden, zero rating literals in served schema |
 | Star-uniqueness fail-closed CI gate in i18n-keycheck (P-10-3): exactly 1 proof-row-star SVG, zero U+2605 text stars in any dictionary value or markup; red-gate proven both directions | Verified-but-unenforced invariants rot; gate rides existing validate chain, zero deps (D-10) | ✓ Phase 11 — red-gate-proof.md, 3 red cycles + flip-compat green |
 | AGENTS.md describes shipped v2.0 reality + old-domain gate enforces it (allowlist entry dropped, mutation-probe proven) | Doc rot on a self-referential file misleads every future agent; enforcement closes the loop (F-1/D-04) | ✓ Phase 11 — full battery green, enforcement both directions |
+| CI reproducibility = setup-node `cache: npm` + `- run: npm ci` in validate job (frozen installs); lockfile verdict evidence-recorded (12-RECORDS.md §1), not assumption | Lockfile committed since Phase 5; every v2.1 validate cycle reproducible + faster; recorded verdict closes researcher-disagreement blocker before gate-heavy Phase 13 | ✓ Phase 12 — CLEAN-01/CLEAN-04, validate chain exit 0 |
 
 ## Evolution
 
@@ -166,4 +168,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-11 after v2.1 milestone start*
+*Last updated: 2026-09-13 after Phase 12 (cleanup batch) transition*

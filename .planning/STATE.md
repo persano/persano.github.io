@@ -22,10 +22,10 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-09-11)
+See: .planning/PROJECT.md (updated 2026-09-13)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel.
-**Current focus:** Phase 12 — Cleanup Batch
+**Current focus:** Phase 13 — Home Migration
 
 ## Current Milestone
 
@@ -85,6 +85,7 @@ See `.planning/todos/pending/` — none yet.
 - Phase 12 planning must re-verify lockfile consistency (`git ls-files package-lock.json` + consistency check) — researchers disagreed; CLEAN-04 resolves it [superseded 2026-09-13, Phase 12: lockfile tracked since f0f56ca, npm ci --dry-run exit 0 — see 12-RECORDS.md §1]
 - Play Console privacy-URL field flow was bot-blocked during research — verify in console when writing Phase 14 runbook
 - Urdu Nastaliq real-device rendering unverified — CLEAN-03 owner device check closes it [superseded 2026-09-13, Phase 12: owner device check pass — see 12-UAT.md]
+- CLEAN-01 post-ship CI watch: 12-RECORDS.md §2 verdict rows pending until /gsd-ship pushes (run #1 MISS-with-save, run #2 HIT)
 
 ## Watch Items (owner-gated events, not phases)
 
@@ -96,5 +97,5 @@ See `.planning/todos/pending/` — none yet.
 ## Session Continuity
 
 Last session: 2026-09-14T00:51:07.236Z
-Stopped at: Phase 12 complete, ready to plan Phase 13
+Stopped at: Phase 12 transition complete (PROJECT.md evolved, commit 704a0a8); Phase 13 ready to plan
 Resume file: None
