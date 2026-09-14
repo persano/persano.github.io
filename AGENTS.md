@@ -35,7 +35,7 @@ The repo's legacy `*.github.io` Pages host still dual-serves the same content an
 | i18n | Single-URL keyed-engine dictionary swap — 20 supported languages, 19 JSON dictionaries, 178-key exact surface (details below) |
 | SEO | Hand-rolled `sitemap.xml` (6 apex `<loc>` entries, no lastmod) + `robots.txt` (apex Sitemap line) + SoftwareApplication + MobileApplication JSON-LD + Open Graph (OG image 1200×630) + `favicon.ico` (single-entry ICO built via node built-ins) + `app-ads.txt` + GSC verification file |
 | CI validate chain | `npm run validate` = `validate:html && validate:domain && validate:links && validate:i18n-detect && validate:i18n` |
-| CI deploy chain | `actions/checkout@v7` → `actions/configure-pages@v6` → `actions/upload-pages-artifact@v5` → `actions/deploy-pages@v5` (`.github/workflows/deploy.yml`; Node 24; `npm install` until a lockfile is committed) |
+| CI deploy chain | `actions/checkout@v7` → `actions/configure-pages@v6` → `actions/upload-pages-artifact@v5` → `actions/deploy-pages@v5` (`.github/workflows/deploy.yml`; Node 24; `npm ci` with setup-node `cache: npm`; lockfile committed since Phase 5) |
 | Dev deps | html-validate 11.12.0 · linkinator 8.1.0 · @axe-core/cli 4.13.0 · lighthouse 13.4.1 · sharp 0.35.4 |
 
 ## Architecture-Critical Invariants (do not re-architect)
