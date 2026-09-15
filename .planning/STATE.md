@@ -2,29 +2,30 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Play Launch + Home Migration
-current_phase: 13
-current_phase_name: Home Migration
-status: "Phase 13 shipped - PR #7"
-stopped_at: Completed 13-02-PLAN.md (runbook + UAT scaffold; phase ready for /gsd-verify-work then /gsd-ship)
-last_updated: "2026-09-14T20:07:19.170Z"
+current_phase: 14
+current_phase_name: Launch Kit
+status: planning
+stopped_at: Phase 13 complete, ready to plan Phase 14
+last_updated: "2026-09-15T02:32:22.386Z"
 last_activity: 2026-09-14
-state_head: 1458f07106059eb92673dbc8118e13bf4a95aeac
+last_activity_desc: Phase 13 complete, transitioned to Phase 14
+state_head: fddd2902474501964730889307f8ed748bff7164
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 4
   completed_plans: 4
-  percent: 0
+  percent: 25
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-09-13)
+See: .planning/PROJECT.md (updated 2026-09-14)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel.
-**Current focus:** Phase 13 — Home Migration
+**Current focus:** Phase 14 — Launch Kit
 
 ## Current Milestone
 
@@ -33,18 +34,18 @@ Goal: site swap-ready for Play launch day; GeoHist landing serves as site home w
 
 ## Current Position
 
-Phase: 13 (Home Migration) — EXECUTING
-Plan: 2 of 2
-Status: Phase 13 shipped - PR #7
-Last activity: 2026-09-14
+Phase: 14 — Launch Kit
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-09-14 — Phase 13 complete, transitioned to Phase 14
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██░░░░░░░░] 25% (1/4 phases complete)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 2 (this milestone)
+- Total plans completed: 4 (this milestone)
 - Average duration: —
 - Total execution time: —
 
@@ -53,6 +54,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 12 | 2 | - | - |
+| 13 | 2 | - | - |
 
 *Updated after each plan completion*
 **Per-Plan Metrics:**
@@ -93,7 +95,7 @@ See `.planning/todos/pending/` — none yet.
 - Phase 12 planning must re-verify lockfile consistency (`git ls-files package-lock.json` + consistency check) — researchers disagreed; CLEAN-04 resolves it [superseded 2026-09-13, Phase 12: lockfile tracked since f0f56ca, npm ci --dry-run exit 0 — see 12-RECORDS.md §1]
 - Play Console privacy-URL field flow was bot-blocked during research — verify in console when writing Phase 14 runbook
 - Urdu Nastaliq real-device rendering unverified — CLEAN-03 owner device check closes it [superseded 2026-09-13, Phase 12: owner device check pass — see 12-UAT.md]
-- CLEAN-01 post-ship CI watch: 12-RECORDS.md §2 verdict rows pending until /gsd-ship pushes (run #1 MISS-with-save, run #2 HIT)
+- CLEAN-01 post-ship CI watch: 12-RECORDS.md §2 verdict rows pending until /gsd-ship pushes (run #1 MISS-with-save, run #2 HIT) [superseded 2026-09-14, Phase 13: PR #7 merge ran run 34898054029 green — validate 24s with npm ci + cache HIT, deploy 13s; verdict rows now recordable post-ship]
 
 ## Watch Items (owner-gated events, not phases)
 
@@ -104,6 +106,6 @@ See `.planning/todos/pending/` — none yet.
 
 ## Session Continuity
 
-Last session: 2026-09-14T19:04:35.122Z
-Stopped at: Completed 13-02-PLAN.md (runbook + UAT scaffold; phase ready for /gsd-verify-work then /gsd-ship)
+Last session: 2026-09-15T02:35:00Z
+Stopped at: Phase 13 complete, ready to plan Phase 14
 Resume file: None

@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A static GitHub Pages website at https://geohisttrivia.com serving as Santiago David Postorivo's personal brand hub ("Persano"). The root page is a minimal portfolio hub introducing the developer and linking to per-app sites. The first and primary app site is `/geohist/` — a complete landing page for **GeoHist Trivia**, an Android trivia game (history + geography, Jetpack Compose, Google Play Games Services, IAP, AdMob, offline-capable, 20 localizations) currently in Google Play review. The site lets players learn about the game, view screenshots, read the FAQ and game guide, access the privacy policy, and contact the developer via a Firebase-powered contact form.
+A static GitHub Pages website at https://geohisttrivia.com serving as Santiago David Postorivo's personal brand hub ("Persano"). The root page is the complete landing site for **GeoHist Trivia**, an Android trivia game (history + geography, Jetpack Compose, Google Play Games Services, IAP, AdMob, offline-capable, 20 localizations) currently in Google Play review. The minimal portfolio hub introducing the developer and linking to per-app sites lives at `/apps/` (relocated from root in Phase 13), and `/geohist/` is a meta-refresh-0 stub that sends visitors to the root landing. The site lets players learn about the game, view screenshots, read the FAQ and game guide, access the privacy policy, and contact the developer via a Firebase-powered contact form.
 
 ## Core Value
 
@@ -78,8 +78,9 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 - [ ] Owner launch runbook: flip order + console steps (privacy-URL field → Play Store link swap → Tier-1 rating row flip)
 - [ ] Swap-ready site: JSON-LD offers refresh check + placeholder Play-link inventory
 - [ ] App Check evidence helper doc (console-UI only): counting successful submissions toward 30-floor + weekly ritual
-- [ ] Cleanup batch: restore `npm ci` + `cache: npm` in validate job, zh variant confirmation, Urdu Nastaliq real-device check
+- [ ] Cleanup batch: restore `npm ci` + `cache: npm` in validate job, zh variant confirmation, Urdu Nastaliq real-device check [superseded 2026-09-13, Phase 12: shipped — see ✓ line below; stale Active row removed 2026-09-14]
 - ✓ Cleanup batch shipped: validate job = `npm ci` + setup-node `cache: npm` (lockfile committed since Phase 5; stale NOTE removed under recorded CLEAN-04 verdict), zh Simplified-only documented with DETECT_TABLE fold consequence, Urdu Nastaliq device check 5/5 pass recorded (12-UAT.md); post-ship CI watch rides /gsd-ship per 12-RECORDS.md §2 — Phase 12 (CLEAN-01..04)
+- ✓ Home migration shipped: root `/` = GeoHist landing (verbatim move, canonical/og:url/JSON-LD url → `/`, all 20 locales resolve via page-agnostic engine), portfolio hub at `/apps/` (13 `hub.*` keys, one real card, zero placeholders), `/geohist/` = meta-refresh-0 stub (noindex,follow + canonical + `<a>` fallback), all 5 gate page-lists + star path repointed with red-gate proofs both directions, sitemap 6 apex rows, privacy policy path+content frozen (one href-only footer edit), post-deploy battery 9/9 pass incl. live smoke ALL PASS + GSC resubmit (6 discovered URLs, Rich Results good) — Phase 13 (MIG-01..09; 13-UAT PRE 6/6 + 13-RECORDS MIG 9/9)
 - [ ] (owner console) FIRE-10 App Check enforcement flip — evidence-gated per 09-RUNBOOK.md §5-§6
 - [ ] (owner console) Play Console privacy-URL field → `/geohist/privacy.html`
 - [ ] GSC Change-of-Address 180-day window monitoring until ~2027-03 — watch only, old property retained
@@ -113,7 +114,7 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 ## Constraints
 
 - **Tech stack**: Plain HTML/CSS (vanilla JS for interactivity) — zero build step, GitHub Pages native
-- **Hosting**: GitHub Pages behind apex custom domain `geohisttrivia.com` (HTTPS enforced); GeoHist site in `/geohist/` subdir; legacy `persano.github.io` 301s preserved
+- **Hosting**: GitHub Pages behind apex custom domain `geohisttrivia.com` (HTTPS enforced); GeoHist landing at root `/`, portfolio hub at `/apps/`, `/geohist/` is a meta-refresh-0 stub to `/`; legacy `persano.github.io` 301s preserved
 - **Deployment**: Push → GitHub Actions CI (validate) → Pages deploy
 - **Dependencies**: Firebase JS SDK via CDN; no other runtime dependencies
 - **Content source**: Screenshots and app facts from `C:\Users\Familia\antigravity\GeoHist-Trivia`
@@ -123,7 +124,7 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| GeoHist site in `/geohist/` subdir, not root root | Portfolio-ready from day 1; future apps get clean subdirs | ✓ Phase 1 — policy live at `/geohist/privacy.html` |
+| GeoHist site in `/geohist/` subdir, not root root | Portfolio-ready from day 1; future apps get clean subdirs | ✓ Phase 1 — policy live at `/geohist/privacy.html` [corrected Phase 13: landing moved to root, hub → `/apps/`, `/geohist/` now a meta-refresh-0 stub; subdir still hosts guide/changelog/contact/privacy + assets] |
 | Plain HTML/CSS, no SSG | Zero build complexity; GitHub Pages native; agent-maintained content | ✓ Validated Phase 1 |
 | Firebase contact form (anonymous auth + Firestore rules) | Free, no backend, spam-resistant, same project as app | ✓ Phase 4 |
 | GDPR consent banner gating Analytics | EU visitors; AdMob app already privacy-sensitive | ✓ Phase 4 |
@@ -149,6 +150,7 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 | Star-uniqueness fail-closed CI gate in i18n-keycheck (P-10-3): exactly 1 proof-row-star SVG, zero U+2605 text stars in any dictionary value or markup; red-gate proven both directions | Verified-but-unenforced invariants rot; gate rides existing validate chain, zero deps (D-10) | ✓ Phase 11 — red-gate-proof.md, 3 red cycles + flip-compat green |
 | AGENTS.md describes shipped v2.0 reality + old-domain gate enforces it (allowlist entry dropped, mutation-probe proven) | Doc rot on a self-referential file misleads every future agent; enforcement closes the loop (F-1/D-04) | ✓ Phase 11 — full battery green, enforcement both directions |
 | CI reproducibility = setup-node `cache: npm` + `- run: npm ci` in validate job (frozen installs); lockfile verdict evidence-recorded (12-RECORDS.md §1), not assumption | Lockfile committed since Phase 5; every v2.1 validate cycle reproducible + faster; recorded verdict closes researcher-disagreement blocker before gate-heavy Phase 13 | ✓ Phase 12 — CLEAN-01/CLEAN-04, validate chain exit 0 |
+| Home migration = verbatim page move + atomic gate registration (2 pages[] arrays + star path are the ONLY registration points) + meta-refresh-0 stub as the static-host redirect primitive (noindex,follow + canonical + `<a>` fallback) | Verbatim moves keep the 178-key surface; gate repoints red-gate-proven both directions; stub needs zero scripts (no-JS safe); privacy path/content frozen for Play review | ✓ Phase 13 — 15-file atomic commit (PR #7), post-deploy 9/9 pass |
 
 ## Evolution
 
@@ -168,4 +170,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-13 after Phase 12 (cleanup batch) transition*
+*Last updated: 2026-09-14 after Phase 13 (home migration) transition*
