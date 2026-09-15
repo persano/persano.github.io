@@ -1,6 +1,6 @@
 # Phase 10 Owner Runbook — Rating Row Flip (Tier-1) + Permanent Schema Rule (Tier-2)
 
-**Audience:** Santiago (owner). The only code surface you ever touch is `geohist/index.html` (two tiny edits, §2) plus browser tools you already use. Agent-owned steps (validation chain, deploys, prod smoke) are listed for cross-reference only.
+**Audience:** Santiago (owner). The only code surface you ever touch is `geohist/index.html` (two tiny edits, §2) plus browser tools you already use. [corrected Phase 14, 2026-09-15: the landing now lives at root `index.html` (Phase 13 home migration) — same two edits, new file path; see .planning/phases/14-launch-kit/14-RUNBOOK.md §3 step 4] Agent-owned steps (validation chain, deploys, prod smoke) are listed for cross-reference only.
 
 **Public-artifact notice:** this repo deploys the entire tree (`upload-pages-artifact path: '.'`), so this file — like every `.planning` doc — is publicly served. It therefore contains console-UI and local-file instructions only: **no secrets, no tokens, no credentials anywhere in this file.**
 
@@ -35,7 +35,7 @@ While the listing is pending (Play Console privacy-URL field still owner-side), 
 
 ---
 
-## §2 · The flip — exactly two edits in `geohist/index.html`
+## §2 · The flip — exactly two edits in `geohist/index.html` [corrected Phase 14, 2026-09-15: now `index.html` at repo root — same two edits; see .planning/phases/14-launch-kit/14-RUNBOOK.md §3 step 4]
 
 Nothing else changes. Zero dictionary churn in either direction — the row's text is already translated in all 20 languages.
 
@@ -77,12 +77,13 @@ Full gate chain must be green (HTML validity, domain scan, link check, i18n dete
 
 **After the deploy (live):**
 
-1. **Google Rich Results Test** — open `search.google.com/test/rich-results`, test `https://geohisttrivia.com/geohist/`. Expect: valid `SoftwareApplication` result, no new errors or warnings vs the pre-flip run. (Zero-build CI cannot run Google's tool — this is the manual half of the ritual, no new CI dependencies.)
+1. **Google Rich Results Test** — open `search.google.com/test/rich-results`, test `https://geohisttrivia.com/geohist/`. [corrected Phase 14, 2026-09-15: test `https://geohisttrivia.com/` — the landing moved to root in Phase 13; `/geohist/` is the meta-refresh-0 stub] Expect: valid `SoftwareApplication` result, no new errors or warnings vs the pre-flip run. (Zero-build CI cannot run Google's tool — this is the manual half of the ritual, no new CI dependencies.)
 2. **Zero-dependency JSON-LD parse check** — from the repo root:
 
    ```powershell
    node -e "const fs=require('fs');const h=fs.readFileSync('geohist/index.html','utf8');const m=h.match(/<script type=.application\/ld\+json.>[\s\S]*?<\/script>/)[0].replace(/<\/?script[^>]*>/g,'');const j=JSON.parse(m);if(j.aggregateRating){process.exit(2)}console.log('OK: JSON-LD parses; no aggregateRating key; type='+j['@type'])"
    ```
+   [corrected Phase 14, 2026-09-15: the one-liner above now reads `index.html` in its readFileSync path argument — the landing is at root; copy the command with the path `index.html`]
 
    Expect the `OK:` line. After a Tier-1 flip it must STILL report `no aggregateRating key` — the row flip never touches the schema. Exit code 2 at any time means the rating key appeared in the served schema: stop and revert (§4), then check §6.
 
@@ -115,7 +116,7 @@ This rides the established changelog-freshness habit. No automation, no calendar
 
 ## §6 · Tier-2 precondition — the schema rule that never flips
 
-Mirrors the in-file HTML comment next to the JSON-LD block in `geohist/index.html` (same rule, two surfaces, so no future agent can miss it):
+Mirrors the in-file HTML comment next to the JSON-LD block in `geohist/index.html` [corrected Phase 14, 2026-09-15: the comment now lives in root `index.html` (lines 20-35) — same rule, two surfaces] (same rule, two surfaces, so no future agent can miss it):
 
 - The `aggregateRating` key stays **out of the page's structured data permanently** unless a review/rating source **collected on this site itself** exists (it does not today).
 - **Play-derived ratings are barred from the markup even when real.** Google review-snippet policy, verbatim: *"Don't aggregate reviews or ratings from other websites."* Google Play ratings are another website's ratings — visible attributed display (the Tier-1 row, §2) is the sanctioned path; structured-data mirroring is not.

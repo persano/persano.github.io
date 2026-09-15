@@ -147,7 +147,7 @@ SMOKE_EXIT=1
 
 Two FAILs, both expected pre-deploy: (1) `$BASE/apps/` 404 — the new row detects the layout the deploy must create; (2) the stub-content grep fails because live `/geohist/` still serves the landing until the migration deploys. The 404-body grep (`back to the hub`) stayed byte-untouched in the script and the 404 text is unchanged, so that coupling survives.
 
-**Direction 2 (post-deploy ALL PASS):** **PENDING** — owned by the phase UAT gate after `/gsd-ship` deploys; to be recorded in `13-UAT.md` (13-02). Not fabricated here.
+**Direction 2 (post-deploy ALL PASS):** **PENDING** — owned by the phase UAT gate after `/gsd-ship` deploys; to be recorded in `13-UAT.md` (13-02). Not fabricated here. [closed 2026-09-14: post-deploy live smoke run ALL PASS — SMOKE CHECK: ALL PASS, exit 0, /apps/ → 200 + stub "has moved" grep green — recorded as MIG-05 in 13-RECORDS.md (ship-gate reframe vehicle: post-ship rows live in the records file); this PENDING line stays verbatim per repo convention]
 
 ## Cycle 6 — check-no-old-domain: no red-gate required (rationale)
 

@@ -42,8 +42,8 @@ Full details: [.planning/milestones/v2.0-ROADMAP.md](milestones/v2.0-ROADMAP.md)
 **Milestone Goal:** Site swap-ready for Play launch day; GeoHist landing serves as site home with `/apps/` hub; small debts closed. All flips stay owner-gated; GSC 180-day window untouched; zero-build + 19-dictionary atomic key moves enforced by CI.
 
 - [x] **Phase 12: Cleanup Batch** - CI hygiene (`npm ci` + `cache: npm` restore) + zh variant confirmation + Urdu Nastaliq device check (completed 2026-09-13)
-- [ ] **Phase 13: Home Migration** - Root = GeoHist landing, hub → `/apps/`, `/geohist/` meta-refresh stub, all 5 gate page-lists repointed — ONE atomic commit + post-deploy GSC resubmit
-- [ ] **Phase 14: Launch Kit** - Owner launch runbook (pinned flip order) + swap-ready inventory + package-id CI gate
+- [x] **Phase 13: Home Migration** - Root = GeoHist landing, hub → `/apps/`, `/geohist/` meta-refresh stub, all 5 gate page-lists repointed — ONE atomic commit + post-deploy GSC resubmit (completed 2026-09-14)
+- [x] **Phase 14: Launch Kit** - Owner launch runbook (pinned flip order) + swap-ready inventory + package-id CI gate (completed 2026-09-15)
 - [ ] **Phase 15: App Check Evidence Helper** - Console-UI-only doc: 30-floor submission counting + weekly ritual
 
 ## Phase Details
@@ -107,7 +107,16 @@ Plans:
   3. CI gate green: every `play.google.com` URL in tracked files carries `details?id=com.persano.geohisttrivia` — red-gate proven both directions
   4. Runbook addenda present: GA4 page-dimension note, 10-RUNBOOK supersession note (paths now root), JSON-LD offers refresh-check step
 
-**Plans**: TBD
+**Plans**: 2/2 plans executed
+
+Plans:
+**Wave 1**
+
+- [x] 14-01-PLAN.md — Play package-id CI gate: `scripts/check-play-link.mjs` + `validate:play-links` chain slot + red-gate proof 6 cycles both directions (LKIT-03)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [x] 14-02-PLAN.md — 14-RUNBOOK.md (pinned flip order + 8-surface inventory + GA4 note + JSON-LD refresh-check + do-not-do guard) + 10-RUNBOOK supersession ×5 + 14-UAT/14-RECORDS scaffolds (LKIT-01, LKIT-02, LKIT-04)
 
 ### Phase 15: App Check Evidence Helper
 
@@ -146,8 +155,8 @@ Plans:
 | 10. Gated Social Proof | v2.0 | 2/2 | Complete | 2026-09-10 |
 | 11. Close v2.0 Audit Debt | v2.0 | 3/3 | Complete | 2026-09-11 |
 | 12. Cleanup Batch | v2.1 | 2/2 | Complete    | 2026-09-13 |
-| 13. Home Migration | v2.1 | 2/2 | In Progress|  |
-| 14. Launch Kit | v2.1 | 0/? | Not started | - |
+| 13. Home Migration | v2.1 | 2/2 | Complete    | 2026-09-14 |
+| 14. Launch Kit | v2.1 | 2/2 | Complete    | 2026-09-15 |
 | 15. App Check Evidence Helper | v2.1 | 0/? | Not started | - |
 
 ---
