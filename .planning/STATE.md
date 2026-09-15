@@ -38,6 +38,8 @@ Plan: Not started
 Status: Phase 14 shipped — PR #8
 Last activity: 2026-09-15
 
+**Work branch (owner decision 2026-09-15):** all phase work + PRs happen on the single persistent branch `latest` → PRs target `main`; no per-phase branches (all `gsd/phase-*` and `phase-*` branches deleted local+remote). PR #8 (Phase 14) merged before the switch; `latest` = main tip 1c7e87d. Future sessions: work on `latest`, PR latest → main.
+
 Progress: [███░░░░░░░] 75% (3/4 phases complete)
 
 ## Performance Metrics
