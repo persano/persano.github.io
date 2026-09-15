@@ -3,17 +3,17 @@ gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Play Launch + Home Migration
 current_phase: 14
-status: executing
-stopped_at: Completed 14-01-PLAN.md
-last_updated: "2026-09-15T03:58:18.355Z"
+status: verifying
+stopped_at: Completed 14-02-PLAN.md (Phase 14 ready for verification)
+last_updated: "2026-09-15T04:13:07.173Z"
 last_activity: 2026-09-15
 last_activity_desc: Phase 14 plan 01 complete (LKIT-03 gate + red-gate proof + summary)
-state_head: 98022462c538ba5870beb9f9d9727a05d1ae9f3a
+state_head: d75544b325be2f254abc58a1ab3fd23299003fea
 progress:
   total_phases: 4
   completed_phases: 1
   total_plans: 6
-  completed_plans: 5
+  completed_plans: 6
   percent: 25
 ---
 
@@ -35,7 +35,7 @@ Goal: site swap-ready for Play launch day; GeoHist landing serves as site home w
 
 Phase: 14-launch-kit — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-09-15 — Phase 14 plan 01 complete (LKIT-03 gate + red-gate proof + summary)
 
 Progress: [███░░░░░░░] 25% (1/4 phases complete)
@@ -65,6 +65,7 @@ Progress: [███░░░░░░░] 25% (1/4 phases complete)
 | Phase 13 P01 | 45min | 3 tasks | 16 files |
 | Phase 13 P02 | 9min | 2 tasks | 2 files |
 | Phase 14 P01 | 17min | 2 tasks | 3 files |
+| Phase 14 P02 | 38min | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -87,6 +88,9 @@ Recent decisions affecting current work:
 - [Phase 13]: 13-ship: owner-approved ship-gate reframe — 9 post-deploy UAT rows moved verbatim to 13-RECORDS.md (phase-12 precedent), UAT holds locally-runnable PRE battery 6/6, verification flipped passed on owner consent (2026-09-14); broken-windows ledger closed at ship preflight (12 fixed / 5 waived)
 - [Phase 14]: v2.1/14-01: LKIT-03 gate scope = tracked-text walk, ALLOW {'.planning','README.md','.git','node_modules'} — .planning/ verbatim-immutable, exclusion documented do-not-fix in the script header
 - [Phase 14]: v2.1/14-01: http:// scheme Play URLs FAIL the gate (EA-05); scheme verdict reads the line prefix before the needle match
+- [Phase 14]: 14-02: pinned launch order — privacy-URL field first (compliance), Play-link 200 verify, website field, gated Tier-1 flip last (may be a later day, evidence-gated never calendar-gated)
+- [Phase 14]: 14-02: launch day = ZERO code change (all 8 surfaces swap-ready); GA4 note-only (no custom dimensions); JSON-LD refresh-check is verification-only (offers already price 0 + USD)
+- [Phase 14]: 14-02: 10-RUNBOOK supersession via 5 dated bracketed appends, originals verbatim, content-anchored raw I/O splices (line-84 one-liner byte-untouched)
 
 ### Pending Todos
 
@@ -108,6 +112,6 @@ See `.planning/todos/pending/` — none yet.
 
 ## Session Continuity
 
-Last session: 2026-09-15T03:56:57.180Z
-Stopped at: Completed 14-01-PLAN.md
+Last session: 2026-09-15T04:13:06.921Z
+Stopped at: Completed 14-02-PLAN.md (Phase 14 ready for verification)
 Resume file: None

@@ -22,10 +22,10 @@ Requirements for this milestone. Each maps to roadmap phases (see Traceability).
 
 ### Launch Kit (LKIT)
 
-- [ ] **LKIT-01**: Owner launch runbook with pinned flip order — privacy-URL field → Play-link 200 verify → website field → Tier-1 rating flip (console-UI only)
-- [ ] **LKIT-02**: Swap-ready inventory table: every Play-launch surface with file:line + exact flip action
+- [x] **LKIT-01**: Owner launch runbook with pinned flip order — privacy-URL field → Play-link 200 verify → website field → Tier-1 rating flip (console-UI only)
+- [x] **LKIT-02**: Swap-ready inventory table: every Play-launch surface with file:line + exact flip action
 - [x] **LKIT-03**: CI gate — every `play.google.com` URL in tracked files carries `details?id=com.persano.geohisttrivia` (red-gate proven both directions)
-- [ ] **LKIT-04**: Runbook addenda — GA4 page-dimension note, 10-RUNBOOK supersession note (paths now root), JSON-LD offers refresh-check step
+- [x] **LKIT-04**: Runbook addenda — GA4 page-dimension note, 10-RUNBOOK supersession note (paths now root), JSON-LD offers refresh-check step
 
 ### App Check Evidence (EVID)
 
@@ -81,10 +81,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MIG-07 | Phase 13 | Complete |
 | MIG-08 | Phase 13 | Complete |
 | MIG-09 | Phase 13 | Complete |
-| LKIT-01 | Phase 14 | Pending |
-| LKIT-02 | Phase 14 | Pending |
+| LKIT-01 | Phase 14 | Complete |
+| LKIT-02 | Phase 14 | Complete |
 | LKIT-03 | Phase 14 | Complete |
-| LKIT-04 | Phase 14 | Pending |
+| LKIT-04 | Phase 14 | Complete |
 | EVID-01 | Phase 15 | Pending |
 | EVID-02 | Phase 15 | Pending |
 

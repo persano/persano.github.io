@@ -107,7 +107,7 @@ Plans:
   3. CI gate green: every `play.google.com` URL in tracked files carries `details?id=com.persano.geohisttrivia` — red-gate proven both directions
   4. Runbook addenda present: GA4 page-dimension note, 10-RUNBOOK supersession note (paths now root), JSON-LD offers refresh-check step
 
-**Plans**: 1/2 plans executed
+**Plans**: 2/2 plans executed
 
 Plans:
 **Wave 1**
@@ -116,7 +116,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 14-02-PLAN.md — 14-RUNBOOK.md (pinned flip order + 8-surface inventory + GA4 note + JSON-LD refresh-check + do-not-do guard) + 10-RUNBOOK supersession ×5 + 14-UAT/14-RECORDS scaffolds (LKIT-01, LKIT-02, LKIT-04)
+- [x] 14-02-PLAN.md — 14-RUNBOOK.md (pinned flip order + 8-surface inventory + GA4 note + JSON-LD refresh-check + do-not-do guard) + 10-RUNBOOK supersession ×5 + 14-UAT/14-RECORDS scaffolds (LKIT-01, LKIT-02, LKIT-04)
 
 ### Phase 15: App Check Evidence Helper
 
@@ -156,7 +156,7 @@ Plans:
 | 11. Close v2.0 Audit Debt | v2.0 | 3/3 | Complete | 2026-09-11 |
 | 12. Cleanup Batch | v2.1 | 2/2 | Complete    | 2026-09-13 |
 | 13. Home Migration | v2.1 | 2/2 | Complete    | 2026-09-14 |
-| 14. Launch Kit | v2.1 | 1/2 | In Progress|  |
+| 14. Launch Kit | v2.1 | 2/2 | In Progress|  |
 | 15. App Check Evidence Helper | v2.1 | 0/? | Not started | - |
 
 ---
