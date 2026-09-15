@@ -12,20 +12,20 @@ last_activity_desc: Phase 14 complete, transitioned to Phase 15
 state_head: 228f9d5b6b430d4892731bd46b2f56f2b554c0d3
 progress:
   total_phases: 4
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 6
   completed_plans: 6
-  percent: 50
+  percent: 75
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-09-14)
+See: .planning/PROJECT.md (updated 2026-09-15)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel.
-**Current focus:** Phase 14 — Launch Kit
+**Current focus:** Phase 15 — App Check Evidence Helper
 
 ## Current Milestone
 
@@ -39,7 +39,7 @@ Plan: Not started
 Status: Ready to plan
 Last activity: 2026-09-15 — Phase 14 complete, transitioned to Phase 15
 
-Progress: [███░░░░░░░] 25% (1/4 phases complete)
+Progress: [███░░░░░░░] 75% (3/4 phases complete)
 
 ## Performance Metrics
 
@@ -101,7 +101,7 @@ See `.planning/todos/pending/` — none yet.
 ### Blockers/Concerns
 
 - Phase 12 planning must re-verify lockfile consistency (`git ls-files package-lock.json` + consistency check) — researchers disagreed; CLEAN-04 resolves it [superseded 2026-09-13, Phase 12: lockfile tracked since f0f56ca, npm ci --dry-run exit 0 — see 12-RECORDS.md §1]
-- Play Console privacy-URL field flow was bot-blocked during research — verify in console when writing Phase 14 runbook
+- Play Console privacy-URL field flow was bot-blocked during research — verify in console when writing Phase 14 runbook [superseded 2026-09-15, Phase 14: runbook authored with owner-verify caveat (EA-06) + rejection-rollback framing — 14-RUNBOOK §3 step 1; live console verification records via 14-RECORDS.md R-01 at owner launch time]
 - Urdu Nastaliq real-device rendering unverified — CLEAN-03 owner device check closes it [superseded 2026-09-13, Phase 12: owner device check pass — see 12-UAT.md]
 - CLEAN-01 post-ship CI watch: 12-RECORDS.md §2 verdict rows pending until /gsd-ship pushes (run #1 MISS-with-save, run #2 HIT) [superseded 2026-09-14, Phase 13: PR #7 merge ran run 34898054029 green — validate 24s with npm ci + cache HIT, deploy 13s; verdict rows now recordable post-ship]
 
@@ -114,6 +114,6 @@ See `.planning/todos/pending/` — none yet.
 
 ## Session Continuity
 
-Last session: 2026-09-15T04:13:06.921Z
-Stopped at: Phase 14 complete, ready to plan Phase 15
+Last session: 2026-09-15T17:45:00.000Z
+Stopped at: Phase 14 complete (verified passed), ready to plan Phase 15
 Resume file: None
