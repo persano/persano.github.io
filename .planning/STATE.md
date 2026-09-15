@@ -4,12 +4,11 @@ milestone: v2.1
 milestone_name: Play Launch + Home Migration
 current_phase: 15
 current_phase_name: App Check Evidence Helper
-status: planning
+status: "Phase 14 shipped — PR #8"
 stopped_at: Phase 14 complete, ready to plan Phase 15
-last_updated: "2026-09-15T17:28:14.612Z"
+last_updated: "2026-09-15T17:41:26.857Z"
 last_activity: 2026-09-15
-last_activity_desc: Phase 14 complete, transitioned to Phase 15
-state_head: 228f9d5b6b430d4892731bd46b2f56f2b554c0d3
+state_head: 777e74889a9ab7c85302c1ca0ec3a621f12f926d
 progress:
   total_phases: 4
   completed_phases: 3
@@ -36,8 +35,8 @@ Goal: site swap-ready for Play launch day; GeoHist landing serves as site home w
 
 Phase: 15 — App Check Evidence Helper
 Plan: Not started
-Status: Ready to plan
-Last activity: 2026-09-15 — Phase 14 complete, transitioned to Phase 15
+Status: Phase 14 shipped — PR #8
+Last activity: 2026-09-15
 
 Progress: [███░░░░░░░] 75% (3/4 phases complete)
 
