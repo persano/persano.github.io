@@ -1,9 +1,9 @@
 ---
-status: pending
+status: complete
 phase: 13-home-migration
 source: [13-02-PLAN.md]
 started: 2026-09-14
-updated: 2026-09-14
+updated: 2026-09-14T22:10:00Z
 ---
 
 # Phase 13 Post-Ship Records — Deploy-Gated Checks (MIG-01..09)
@@ -27,9 +27,9 @@ check: visit `https://geohisttrivia.com/`; confirm the full section sequence in 
 
 expected: every section present in EN, none dropped or reordered (EA-01); both non-EN locales render translated keyed text with no EN remnants in keyed nodes (EA-03 — the engine is page-location-agnostic; the stored `persano.lang` preference survives the move).
 
-status: pending — executes post-deploy at UAT time
+status: pass
 
-result: pending
+result: pass — owner-verified in browser 2026-09-14: full EN section sequence present in order (hero, proof strip, OFF rating row hidden, features, gallery, FAQ, CTA/about); footer switcher español + 日本語 both render translated keyed text, no EN remnants; stored preference survives reload.
 
 ### MIG-02 — `/geohist/` reaches the root landing (stub refresh), incl. via the legacy-host chain
 
@@ -37,9 +37,9 @@ check: visit `https://geohisttrivia.com/geohist/` in a browser — expect the in
 
 expected: both entry paths end on the root GeoHist landing; the stub page itself shows the "has moved" fallback link if a client ignores the refresh (zero blank pages, EA-02). **Pitfall-7 expectation note:** a `#faq` fragment does NOT survive the meta refresh (verified empirically in Chrome 153 during phase research) — landing at the **top** of the root landing is the **CORRECT expected result, not an issue** (cosmetic, accepted, zero broken paths). Do not record a top-of-page landing as an issue.
 
-status: pending — executes post-deploy at UAT time
+status: pass
 
-result: pending
+result: pass — owner-verified in browser 2026-09-14: apex /geohist/ instant-refreshes to root landing; legacy-host chain lands on root landing; #faq entry lands top-of-page (Pitfall 7 expected, not an issue). No blank pages.
 
 ### MIG-03 — `/apps/` serves the portfolio hub, one real card, zero placeholders
 
@@ -47,9 +47,9 @@ check: visit `https://geohisttrivia.com/apps/`; confirm the hub is the former ro
 
 expected: exactly one real app card (GeoHist Trivia) linking to `/`; **zero placeholder cards** for future apps (structure anticipates, never advertises); keyed chrome (13 `hub.*` keys) renders; og:image still points at `/geohist/og-image.png` (asset set stays in `/geohist/`).
 
-status: pending — executes post-deploy at UAT time
+status: pass
 
-result: pending
+result: pass — owner-verified in browser 2026-09-14: hub renders former root content (brand intro, consent banner, language switcher); exactly one app card (GeoHist Trivia) with CTA to /; zero placeholder cards; og:image stays /geohist/og-image.png.
 
 ### MIG-04 — sitemap live-served, 6 URLs, all 200; canonical/og:url coherence spot-check
 
@@ -57,9 +57,9 @@ check: fetch `https://geohisttrivia.com/sitemap.xml`; confirm exactly 6 URLs —
 
 expected: 6 rows, all resolving 200; no redirected URL listed (the `/geohist/` stub is NOT in the sitemap — sitemaps list canonical URLs only); every checked page's canonical == og:url at its new path; root JSON-LD `url` = `https://geohisttrivia.com/`; image/screenshot URLs inside JSON-LD still resolve (`/geohist/` assets stayed put).
 
-status: pending — executes post-deploy at UAT time
+status: pass
 
-result: pending
+result: pass — observed 2026-09-14 post-deploy (PR #7 merged; CI run 34898054029: validate 24s PASS, deploy 13s PASS). Live sitemap fetch: exactly 6 `<loc>` rows (`/`, `/apps/`, guide, changelog, contact, privacy), zero lastmod, stub absent. All 6 URLs re-requested → 200. Per-page spot-check: canonical == og:url at the new path on all 6 (root `/`, hub `…/apps/`, 4 sub-pages unchanged paths); root JSON-LD `url` = `https://geohisttrivia.com/`.
 
 ### MIG-05 — live smoke-check ALL PASS (closes the red-gate direction-2 pending row)
 
@@ -69,9 +69,9 @@ expected: `SMOKE CHECK: ALL PASS`, exit 0 — including the new `$BASE/apps/` ro
 
 cross-reference: this run completes the **direction-2 row left PENDING in `.planning/phases/13-home-migration/red-gate-proof.md` Cycle 5** (its direction-1 evidence — the new URL list run against the pre-migration live site showing `/apps/` → 404 + stub-grep fail — is recorded there). Record the pass here and note in the red-gate file that Cycle 5 direction 2 is closed by this UAT row (supersession framing per repo convention — the pending line there stays verbatim with a dated correction appended).
 
-status: pending — executes post-deploy at UAT time
+status: pass
 
-result: pending
+result: pass — live run 2026-09-14 post-deploy: all 13 URL rows green (`/apps/` → 200; `/does-not-exist` → 404 with body grep green), stub "has moved" grep green, `SMOKE CHECK: ALL PASS`, `SMOKE_EXIT=0`. Red-gate-proof.md Cycle 5 direction 2 CLOSED by this row (supersession note appended there 2026-09-14).
 
 ### MIG-06 — deployed AGENTS.md matches the new layout
 
@@ -79,9 +79,9 @@ check: open the deployed copy at `https://geohisttrivia.com/AGENTS.md` (repo-sid
 
 expected: deployed AGENTS.md describes the new layout exactly; CI validate job green on the ship commit (old-domain gate ran green in CI — legacy-host literal absent from every tracked file, AGENTS.md included).
 
-status: pending — executes post-deploy at UAT time
+status: pass
 
-result: pending
+result: pass — deployed `https://geohisttrivia.com/AGENTS.md` 200 (17,401 bytes) carries the new-layout claims verbatim: L9 apex landing + hub `/apps/` + stub phrasing, L20 Hosting constraint, L116 `Live file map (shipped v2.1 home migration)`. CI run 34898054029 on the ship commit: validate green in 24s (incl. `check-no-old-domain` over the updated AGENTS.md) + deploy green in 13s. Observed 2026-09-14.
 
 ### MIG-07 — `/geohist/privacy.html` frozen, path-stable, byte-stable policy, correct icon
 
@@ -89,9 +89,9 @@ check: visit `https://geohisttrivia.com/geohist/privacy.html`; confirm the polic
 
 expected: path unchanged; policy content byte-stable; `/geohist/icon.png` (and other asset references) load correctly; only the footer back-link href differs from pre-migration (label unchanged).
 
-status: pending — executes post-deploy at UAT time
+status: pass
 
-result: pending
+result: pass — owner-verified in browser 2026-09-14: policy renders at the same path with content unchanged; favicon/icon loads; only the footer back-link href differs (now /apps/, label unchanged); no redirect, no 404.
 
 ### MIG-08 — OWNER GSC CHECKPOINT: execute 13-RUNBOOK.md §2-§5 in the GSC console
 
@@ -117,9 +117,9 @@ Recording: set the GSC row's `result:` field to pass or issue **per outcome** (m
 - og:url spot-check observation: (record when executed)
 - Change-of-Address untouched: (record when executed)
 
-status: pending — executes post-deploy at UAT time (owner console steps)
+status: pass
 
-result: pending
+result: pass — owner GSC console steps executed 2026-09-14. Owner verbatim: "6 discovered page from sitemap.xml - rich result test good - pass". Sitemap resubmit reported 6 discovered URLs (expected 6-URL set); Rich Results Test on / good (SoftwareApplication validates); per-URL inspection outcomes confirmed in aggregate by the owner (per-URL slots not itemized in session); §4 no-CoA guard respected (zero Change-of-Address actions).
 
 ### MIG-09 — 404 + nav/footer links point at the new layout
 
@@ -127,9 +127,9 @@ check: visit any broken path (e.g. `https://geohisttrivia.com/does-not-exist`) �
 
 expected: 404 link target `/apps/` with unchanged label; sub-page nav/footer anchors point at the new layout (no hop through the stub for "Game"); no dead hub links anywhere; key surface untouched at 178 × 19 (CI keycheck already proves this — spot-check is behavioral).
 
-status: pending — executes post-deploy at UAT time
+status: pass
 
-result: pending
+result: pass — owner-verified in browser 2026-09-14: 404 page hub link goes to /apps/ labeled "Back to the hub" (text unchanged); guide/contact/changelog nav Game → /, nav FAQ → /#faq, footer back → /apps/; all anchors resolve, no dead links.
 
 
 ---
@@ -138,11 +138,11 @@ result: pending
 
 total: 9
 
-passed: 0
+passed: 9
 
 issues: 0
 
-pending: 9
+pending: 0
 
 skipped: 0
 
@@ -150,7 +150,7 @@ blocked: 0
 
 ## Gaps
 
-(none yet — any recorded issue is a blocker)
+(none — all 9 post-deploy rows pass; zero blockers)
 
 ---
 
