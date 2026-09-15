@@ -107,7 +107,16 @@ Plans:
   3. CI gate green: every `play.google.com` URL in tracked files carries `details?id=com.persano.geohisttrivia` — red-gate proven both directions
   4. Runbook addenda present: GA4 page-dimension note, 10-RUNBOOK supersession note (paths now root), JSON-LD offers refresh-check step
 
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+**Wave 1**
+
+- [ ] 14-01-PLAN.md — Play package-id CI gate: `scripts/check-play-link.mjs` + `validate:play-links` chain slot + red-gate proof 6 cycles both directions (LKIT-03)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 14-02-PLAN.md — 14-RUNBOOK.md (pinned flip order + 8-surface inventory + GA4 note + JSON-LD refresh-check + do-not-do guard) + 10-RUNBOOK supersession ×5 + 14-UAT/14-RECORDS scaffolds (LKIT-01, LKIT-02, LKIT-04)
 
 ### Phase 15: App Check Evidence Helper
 
