@@ -3,18 +3,17 @@ gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Play Launch + Home Migration
 current_phase: 14
-current_phase_name: Launch Kit
 status: executing
-stopped_at: Phase 13 complete, ready to plan Phase 14
-last_updated: "2026-09-15T03:30:08.055Z"
-last_activity: 2026-09-14
-last_activity_desc: Phase 13 complete, transitioned to Phase 14
-state_head: c9365c6ca3645029640bf3aa5dca945724912fbd
+stopped_at: Completed 14-01-PLAN.md
+last_updated: "2026-09-15T03:58:18.355Z"
+last_activity: 2026-09-15
+last_activity_desc: Phase 14 plan 01 complete (LKIT-03 gate + red-gate proof + summary)
+state_head: 98022462c538ba5870beb9f9d9727a05d1ae9f3a
 progress:
   total_phases: 4
   completed_phases: 1
   total_plans: 6
-  completed_plans: 4
+  completed_plans: 5
   percent: 25
 ---
 
@@ -34,12 +33,12 @@ Goal: site swap-ready for Play launch day; GeoHist landing serves as site home w
 
 ## Current Position
 
-Phase: 14 (Launch Kit) — READY TO EXECUTE
-Plan: Not started
+Phase: 14-launch-kit — EXECUTING
+Plan: 2 of 2
 Status: Ready to execute
-Last activity: 2026-09-14 — Phase 13 complete, transitioned to Phase 14
+Last activity: 2026-09-15 — Phase 14 plan 01 complete (LKIT-03 gate + red-gate proof + summary)
 
-Progress: [██░░░░░░░░] 25% (1/4 phases complete)
+Progress: [███░░░░░░░] 25% (1/4 phases complete)
 
 ## Performance Metrics
 
@@ -65,6 +64,7 @@ Progress: [██░░░░░░░░] 25% (1/4 phases complete)
 | Phase 12 P02 | 88min (incl. owner wait) | 3 tasks | 5 files |
 | Phase 13 P01 | 45min | 3 tasks | 16 files |
 | Phase 13 P02 | 9min | 2 tasks | 2 files |
+| Phase 14 P01 | 17min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -85,6 +85,8 @@ Recent decisions affecting current work:
 - [Phase 13]: 13-02: runbook URL-inspection table adds grouped 5th row (unchanged sub-pages) to satisfy the 5-URL acceptance criterion truthfully
 - [Phase 13]: 13-02: docs avoid the wildcard legacy-host phrasing — plan verify greps bare github.io, stricter than the repo gate needle
 - [Phase 13]: 13-ship: owner-approved ship-gate reframe — 9 post-deploy UAT rows moved verbatim to 13-RECORDS.md (phase-12 precedent), UAT holds locally-runnable PRE battery 6/6, verification flipped passed on owner consent (2026-09-14); broken-windows ledger closed at ship preflight (12 fixed / 5 waived)
+- [Phase 14]: v2.1/14-01: LKIT-03 gate scope = tracked-text walk, ALLOW {'.planning','README.md','.git','node_modules'} — .planning/ verbatim-immutable, exclusion documented do-not-fix in the script header
+- [Phase 14]: v2.1/14-01: http:// scheme Play URLs FAIL the gate (EA-05); scheme verdict reads the line prefix before the needle match
 
 ### Pending Todos
 
@@ -106,6 +108,6 @@ See `.planning/todos/pending/` — none yet.
 
 ## Session Continuity
 
-Last session: 2026-09-15T02:35:00Z
-Stopped at: Phase 13 complete, ready to plan Phase 14
+Last session: 2026-09-15T03:56:57.180Z
+Stopped at: Completed 14-01-PLAN.md
 Resume file: None
