@@ -43,7 +43,7 @@ Full details: [.planning/milestones/v2.0-ROADMAP.md](milestones/v2.0-ROADMAP.md)
 
 - [x] **Phase 12: Cleanup Batch** - CI hygiene (`npm ci` + `cache: npm` restore) + zh variant confirmation + Urdu Nastaliq device check (completed 2026-09-13)
 - [x] **Phase 13: Home Migration** - Root = GeoHist landing, hub → `/apps/`, `/geohist/` meta-refresh stub, all 5 gate page-lists repointed — ONE atomic commit + post-deploy GSC resubmit (completed 2026-09-14)
-- [ ] **Phase 14: Launch Kit** - Owner launch runbook (pinned flip order) + swap-ready inventory + package-id CI gate
+- [x] **Phase 14: Launch Kit** - Owner launch runbook (pinned flip order) + swap-ready inventory + package-id CI gate (completed 2026-09-15)
 - [ ] **Phase 15: App Check Evidence Helper** - Console-UI-only doc: 30-floor submission counting + weekly ritual
 
 ## Phase Details
@@ -156,7 +156,7 @@ Plans:
 | 11. Close v2.0 Audit Debt | v2.0 | 3/3 | Complete | 2026-09-11 |
 | 12. Cleanup Batch | v2.1 | 2/2 | Complete    | 2026-09-13 |
 | 13. Home Migration | v2.1 | 2/2 | Complete    | 2026-09-14 |
-| 14. Launch Kit | v2.1 | 2/2 | In Progress|  |
+| 14. Launch Kit | v2.1 | 2/2 | Complete    | 2026-09-15 |
 | 15. App Check Evidence Helper | v2.1 | 0/? | Not started | - |
 
 ---
