@@ -4,49 +4,49 @@ milestone: v2.1
 milestone_name: Play Launch + Home Migration
 current_phase: 15
 current_phase_name: App Check Evidence Helper
-status: "Phase 14 shipped — PR #8"
-stopped_at: Phase 14 complete, ready to plan Phase 15
-last_updated: "2026-09-15T17:41:26.857Z"
-last_activity: 2026-09-15
-state_head: 777e74889a9ab7c85302c1ca0ec3a621f12f926d
+status: "Milestone v2.1 complete — archived and ready for next milestone"
+stopped_at: "Milestone v2.1 complete, ready for next milestone (/gsd-new-milestone)"
+last_updated: "2026-10-09T17:10:00.000Z"
+last_activity: 2026-10-09
+state_head: a912019
 progress:
   total_phases: 4
-  completed_phases: 3
-  total_plans: 6
-  completed_plans: 6
-  percent: 75
+  completed_phases: 4
+  total_plans: 7
+  completed_plans: 7
+  percent: 100
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-09-15)
+See: .planning/PROJECT.md (updated 2026-10-09)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel.
-**Current focus:** Phase 15 — App Check Evidence Helper
+**Current focus:** Milestone v2.1 complete
 
 ## Current Milestone
 
-**v2.1 Play Launch + Home Migration** — Phases 12-15.
+**v2.1 Play Launch + Home Migration** — Phases 12-15 (shipped 2026-10-09).
 Goal: site swap-ready for Play launch day; GeoHist landing serves as site home with `/apps/` hub; small debts closed.
 
 ## Current Position
 
 Phase: 15 — App Check Evidence Helper
-Plan: Not started
-Status: Phase 14 shipped — PR #8
-Last activity: 2026-09-15
+Plan: 15-01 complete (verified passed)
+Status: Milestone v2.1 complete — all 4 phases shipped, archived to milestones/
+Last activity: 2026-10-09
 
 **Work branch (owner decision 2026-09-15):** all phase work + PRs happen on the single persistent branch `latest` → PRs target `main`; no per-phase branches (all `gsd/phase-*` and `phase-*` branches deleted local+remote). PR #8 (Phase 14) merged before the switch; `latest` = main tip 1c7e87d. Future sessions: work on `latest`, PR latest → main.
 
-Progress: [███░░░░░░░] 75% (3/4 phases complete)
+Progress: [██████████] 100% (4/4 phases complete)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 6 (this milestone)
+- Total plans completed: 7 (this milestone)
 - Average duration: —
 - Total execution time: —
 
@@ -57,6 +57,7 @@ Progress: [███░░░░░░░] 75% (3/4 phases complete)
 | 12 | 2 | - | - |
 | 13 | 2 | - | - |
 | 14 | 2 | - | - |
+| 15 | 1 | - | - |
 
 *Updated after each plan completion*
 **Per-Plan Metrics:**
@@ -69,6 +70,7 @@ Progress: [███░░░░░░░] 75% (3/4 phases complete)
 | Phase 13 P02 | 9min | 2 tasks | 2 files |
 | Phase 14 P01 | 17min | 2 tasks | 3 files |
 | Phase 14 P02 | 38min | 3 tasks | 4 files |
+| Phase 15 P01 | 15min | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -94,6 +96,7 @@ Recent decisions affecting current work:
 - [Phase 14]: 14-02: pinned launch order — privacy-URL field first (compliance), Play-link 200 verify, website field, gated Tier-1 flip last (may be a later day, evidence-gated never calendar-gated)
 - [Phase 14]: 14-02: launch day = ZERO code change (all 8 surfaces swap-ready); GA4 note-only (no custom dimensions); JSON-LD refresh-check is verification-only (offers already price 0 + USD)
 - [Phase 14]: 14-02: 10-RUNBOOK supersession via 5 dated bracketed appends, originals verbatim, content-anchored raw I/O splices (line-84 one-liner byte-untouched)
+- [Phase 15]: Floor unit pinned to Firestore messages documents; baseline date 2026-09-08; 5-15% un-attested traffic from adblockers/Pi-hole accompanied by appCheck/probe-failed is legitimate, not abuse; 24h lag documented; 09-RUNBOOK cross-referenced with dated supersession notes
 
 ### Pending Todos
 
@@ -115,6 +118,6 @@ See `.planning/todos/pending/` — none yet.
 
 ## Session Continuity
 
-Last session: 2026-09-15T17:45:00.000Z
-Stopped at: Phase 14 complete (verified passed), ready to plan Phase 15
+Last session: 2026-10-09T16:45:00.000Z
+Stopped at: Phase 15 complete (verified passed); all 4/4 phases in milestone v2.1 complete
 Resume file: None

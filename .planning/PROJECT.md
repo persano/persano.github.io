@@ -8,11 +8,25 @@ A static GitHub Pages website at https://geohisttrivia.com serving as Santiago D
 
 GeoHist Trivia players and Google Play reviewers can reach an authoritative, accessible web page for the app — featuring it, explaining it, hosting its privacy policy, and offering a working contact channel — before the app goes live.
 
-## Current State (v2.0 shipped 2026-09-11)
+## Current State (v2.1 shipped 2026-10-09)
+
+**Shipped:** v2.1 "Play Launch + Home Migration" — Phases 12-15, 7 plans, all 19 v2.1 requirements validated.
+
+- Site root `/` serves full GeoHist landing; minimal portfolio hub lives at `/apps/`; `/geohist/` serves meta-refresh-0 stub to `/`; `/geohist/privacy.html` frozen for Play review compliance.
+- 5 gate page-lists (i18n-keycheck, i18n-surface, a11y-audit, smoke-check, validate:html) repointed and green; 178-key × 19 JSON dictionary parity maintained.
+- Play package-id CI gate (`scripts/check-play-link.mjs` / `validate:play-links`) enforcing `details?id=com.persano.geohisttrivia` on tracked Play URLs.
+- Launch runbook `14-RUNBOOK.md` with pinned flip order (privacy URL first, Play link 200 verify, website field, gated Tier-1 rating flip last), 8-surface swap inventory, and zero launch-day code edits.
+- App Check evidence helper `15-EVIDENCE-HELPER.md` console-UI operational guide for 30-submission floor counting in Firestore `messages`, triage guide for un-attested traffic (adblocker/Pi-hole caveats, 24h lag), and weekly ledger template.
+- CI hygiene restored (`npm ci` + `cache: npm` in GitHub Actions; lockfile frozen); zh Simplified-only confirmed; Urdu Nastaliq device check recorded.
+
+**Deferred by design (owner console, not code debt):** FIRE-10 App Check enforcement flip (evidence-gated per 09-RUNBOOK.md §5-§6 / 15-EVIDENCE-HELPER.md); Tier-1 rating row flip (Play listing live); GSC 180-day CoA window monitoring until ~2027-03.
+
+<details>
+<summary>v2.0 Full Deferred Scope (shipped 2026-09-11)</summary>
 
 **Shipped:** v2.0 "Full Deferred Scope" — Phases 6-11, 22 plans, all 17 v2 requirements validated.
 
-- Site canonical at https://geohisttrivia.com (HTTPS enforced, `protected_domain_state: verified`); legacy `persano.github.io` host 301s path-preserved
+- Site canonical at https://geohisttrivia.com (HTTPS enforced, `protected_domain_state: verified`); legacy `*.github.io` Pages host 301s path-preserved
 - 20-locale single-URL keyed i18n (EN markup baseline + 19 JSON dictionaries, 178-key exact surface, CI-gated incl. CJK punctuation + star-uniqueness fail-closed gates); RTL ar/ur mirrored
 - `/geohist/changelog.html` live (KaC format, 6 curated git-mined entries, keyed chrome, EN-entries exception documented)
 - App Check via reCAPTCHA Enterprise, monitoring mode live: dormant-by-default gate, ~3s reachability probe + bounded ~10s token race, deliver-anyway, consent-gated failure event
@@ -20,19 +34,28 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 - GSC: sitemap Success on new Domain property, Change of Address filed (180-day window active), old property retained for index-decay monitoring
 - AGENTS.md describes shipped reality; old-domain CI gate enforces it; owner UAT records complete (HV-06, HV-09a, HV-09b)
 
-**Deferred by design (owner console, not code debt):** FIRE-10 App Check enforcement flip (evidence-gated per 09-RUNBOOK.md §5-§6); Tier-1 rating row flip (Play listing live); GSC 180-day CoA window monitoring.
+</details>
 
-## Current Milestone: v2.1 Play Launch + Home Migration
+<details>
+<summary>v1 MVP (shipped 2026-09-05)</summary>
 
-**Goal:** Site swap-ready for Play launch day; GeoHist landing serves as site home with `/apps/` hub; small debts closed.
+**Shipped:** v1 MVP — Phases 1-5, 12 plans, all 27 v1 requirements validated.
 
-**Target features:**
-- Home migration — root = GeoHist landing, portfolio hub → `/apps/` (future-app subdirs ready), redirects + sitemap/canonical/GSC updates, i18n key moves atomic, old-domain gate intact
-- Launch kit — owner launch runbook (flip order: privacy-URL field → Play link swap → rating row) + swap-ready site (JSON-LD offers refresh check, placeholder link inventory)
-- App Check evidence helper — console-UI-only doc: counting submissions toward 30-floor + weekly ritual
-- Cleanup phase — `npm ci` restore, zh variant check, Urdu Nastaliq device check, future-apps structure check
+- Minimal Persano hub + self-contained 404 + Play-critical English privacy policy at `/geohist/privacy.html`
+- Two-job gated CI pipeline (html-validate + linkinator → official Pages chain) deployed live
+- Dark antique re-theme + keyed English `/geohist/` landing page
+- Dependency-free classic-script i18n engine (`/js/i18n.js`) with ES + pt-BR
+- GDPR consent banner gating Firebase Analytics (dynamic import gate)
+- Firebase contact form (`/geohist/contact.html`) with anonymous auth + Firestore
+- Real screenshot gallery (4 WebPs)
+- Full SEO metadata, sitemap, robots.txt, SoftwareApplication JSON-LD, WCAG 2.1 AA audit passed
 
-**Key context:** all flips stay owner-gated; GSC 180-day window untouched; zero-build + 19-dictionary atomic key moves enforced by CI.
+</details>
+
+## Next Milestone Goals (v3+)
+
+- **APP2-01**: Next app gets a `/`-adjacent subdir + `/apps/` hub card (trigger: next app actually ships)
+- **GATED events**: Owner launch flips upon Google Play listing approval and rating visibility
 
 ## Business Context
 
@@ -72,16 +95,17 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 - ✓ App Check via reCAPTCHA Enterprise, monitoring mode live on prod — dormant-by-default gate, bounded ~10s token-failure race with deliver-anyway, ~3s probe-gated init (blocked-reCAPTCHA submits deliver un-attested in seconds), consent-gated appcheck_token_failure event, favicon site-wide — Phase 9 (FIRE-07, FIRE-08; UAT 9/9 final state, gaps G-09-2/4/5/6/7 all resolved)
 - ✓ Facts-only social proof: 4-pill keyed strip (aria-labeled, no visible h2, zero links) between hero and features + Tier-1 "Rated X.X" row shipped OFF (hidden, 0.0 self-flagging span, two-edit owner flip per 10-RUNBOOK.md gated on real Play data, no minimum floor) + Tier-2 aggregateRating permanently OFF via inert policy-citing comment; served JSON-LD byte-identical — Phase 10 (SEO-05, SEO-06, SEO-07; UAT 3/3)
 
+- ✓ Cleanup batch shipped: validate job = `npm ci` + setup-node `cache: npm` (lockfile committed since Phase 5; stale NOTE removed under recorded CLEAN-04 verdict), zh Simplified-only documented with DETECT_TABLE fold consequence, Urdu Nastaliq device check 5/5 pass recorded (12-UAT.md) — Phase 12 (CLEAN-01..04)
+- ✓ Home migration shipped: root `/` = GeoHist landing (verbatim move, canonical/og:url/JSON-LD url → `/`, all 20 locales resolve via page-agnostic engine), portfolio hub at `/apps/` (13 `hub.*` keys, one real card, zero placeholders), `/geohist/` = meta-refresh-0 stub (noindex,follow + canonical + `<a>` fallback), all 5 gate page-lists + star path repointed with red-gate proofs both directions, sitemap 6 apex rows, privacy policy path+content frozen, post-deploy battery 9/9 pass incl. live smoke ALL PASS + GSC resubmit — Phase 13 (MIG-01..09)
+- ✓ Launch kit authored: owner runbook `14-RUNBOOK.md` with pinned 4-step flip order (privacy-URL field → Play-link 200 verify → website field → gated Tier-1 rating flip) + 8-surface swap-ready inventory + GA4 note-only + JSON-LD offers refresh-check + do-NOT-do guard — Phase 14 (LKIT-01, LKIT-02, LKIT-04)
+- ✓ Play package-id CI gate live: every URL-shaped `play.google.com` URL in tracked text files carries `details?id=com.persano.geohisttrivia` — `scripts/check-play-link.mjs` wired into validate chain, red-gate proven both directions — Phase 14 (LKIT-03)
+- ✓ App Check evidence helper authored: `15-EVIDENCE-HELPER.md` console-UI operational guide for counting 30-submission floor in Firestore messages, un-attested traffic triage (24h lag, adblockers/Pi-hole caveats), weekly ledger template — Phase 15 (EVID-01, EVID-02)
+
 ### Active
 
-- [ ] App Check evidence helper doc (console-UI only): counting successful submissions toward 30-floor + weekly ritual
-- [ ] Cleanup batch: restore `npm ci` + `cache: npm` in validate job, zh variant confirmation, Urdu Nastaliq real-device check [superseded 2026-09-13, Phase 12: shipped — see ✓ line below; stale Active row removed 2026-09-14]
-- ✓ Cleanup batch shipped: validate job = `npm ci` + setup-node `cache: npm` (lockfile committed since Phase 5; stale NOTE removed under recorded CLEAN-04 verdict), zh Simplified-only documented with DETECT_TABLE fold consequence, Urdu Nastaliq device check 5/5 pass recorded (12-UAT.md); post-ship CI watch rides /gsd-ship per 12-RECORDS.md §2 — Phase 12 (CLEAN-01..04)
-- ✓ Home migration shipped: root `/` = GeoHist landing (verbatim move, canonical/og:url/JSON-LD url → `/`, all 20 locales resolve via page-agnostic engine), portfolio hub at `/apps/` (13 `hub.*` keys, one real card, zero placeholders), `/geohist/` = meta-refresh-0 stub (noindex,follow + canonical + `<a>` fallback), all 5 gate page-lists + star path repointed with red-gate proofs both directions, sitemap 6 apex rows, privacy policy path+content frozen (one href-only footer edit), post-deploy battery 9/9 pass incl. live smoke ALL PASS + GSC resubmit (6 discovered URLs, Rich Results good) — Phase 13 (MIG-01..09; 13-UAT PRE 6/6 + 13-RECORDS MIG 9/9)
-- ✓ Launch kit authored: owner runbook `14-RUNBOOK.md` with pinned 4-step flip order (privacy-URL field → Play-link 200 verify → website field → gated Tier-1 rating flip, step 4 may be a later day) + 8-surface swap-ready inventory (every row file:line-cited, explicit action or explicit Zero-action marker) + GA4 note-only + JSON-LD offers refresh-check (verification-not-edit) + do-NOT-do guard; console-UI only, zero secrets — Phase 14 (LKIT-01, LKIT-02, LKIT-04)
-- ✓ Play package-id CI gate live: every URL-shaped `play.google.com` URL in tracked text files carries `details?id=com.persano.geohisttrivia` — `scripts/check-play-link.mjs` wired as 3rd of 6 validate stages, red-gate proven both directions (6 cycles + http-scheme EA-05 addendum); outcomes recorded via `14-RECORDS.md` R-01..R-06 at owner launch time — Phase 14 (LKIT-03, LKIT-04b)
-- [ ] (owner console) FIRE-10 App Check enforcement flip — evidence-gated per 09-RUNBOOK.md §5-§6
+- [ ] (owner console) FIRE-10 App Check enforcement flip — evidence-gated per 09-RUNBOOK.md §5-§6 / 15-EVIDENCE-HELPER.md
 - [ ] (owner console) Play Console privacy-URL field → `/geohist/privacy.html`
+- [ ] (owner console) Play Store link swap + Tier-1 rating flip upon approval (14-RUNBOOK.md)
 - [ ] GSC Change-of-Address 180-day window monitoring until ~2027-03 — watch only, old property retained
 
 
@@ -99,6 +123,7 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 
 ## Context
 
+- **v2.1 shipped (2026-10-09)**: Play launch swap-ready + home migration live (root = GeoHist landing, hub = /apps/, stub /geohist/); 19/19 requirements validated; 4 phases / 7 plans (2026-09-11 → 2026-10-09); see `.planning/MILESTONES.md` and `.planning/milestones/v2.1-ROADMAP.md`
 - **v2.0 shipped (2026-09-11)**: all v2-deferred items live — 20-locale site, custom domain, changelog, App Check monitoring, gated social proof; 17/17 v2 requirements validated; 6 phases / 22 plans (2026-09-05 → 2026-09-11); see `.planning/MILESTONES.md` and `.planning/milestones/v2.0-ROADMAP.md`
 - **Shipped v1 (2026-09-05)**: site fully live — 5 phases, 12 plans, 27/27 v1 requirements validated; see `.planning/milestones/v1-ROADMAP.md`
 - Current stack reality: plain HTML/CSS/vanilla JS, zero-build; one JS surface set (i18n.js, consent.js, contact.js via Firebase 12.18.0 gstatic ESM CDN dynamic imports — contact.js carries probe-gated App Check Enterprise + bounded token race); 19 JSON dictionaries at 178-key exact surface; 4 real WebP screenshots; OG image composite; favicon.ico; sitemap + robots + SoftwareApplication JSON-LD
@@ -153,6 +178,7 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 | LKIT-03 gate scope = tracked-text walk with ALLOW `{'.planning','README.md','.git','node_modules'}`; `.planning/` verbatim-immutable, exclusion documented do-not-fix in the script header | Historical planning records legitimately carry id-less Play URLs; the gate enforces only live surfaces; `http://` scheme Play URLs also FAIL (scheme verdict reads the line prefix before the match) | ✓ Phase 14 — red-gate 6 cycles + EA-05 addendum, both directions |
 | Launch-day ZERO code change: all 8 Play-launch surfaces pre-staged swap-ready; pinned order privacy-URL field (compliance first) → Play-link 200 verify → website field → gated Tier-1 flip last (evidence-gated, never calendar-gated); GA4 note-only; JSON-LD refresh-check is verification-not-edit (offers already price 0 + USD) | Nothing improvised on launch day — every surface carries an explicit action or an explicit Zero-action marker; step 4 may be a later day | ✓ Phase 14 — 14-RUNBOOK.md §2 inventory + §3 pinned sequence |
 | 10-RUNBOOK supersession via 5 dated bracketed appends, originals verbatim, content-anchored raw-I/O splices | Past records stay byte-verbatim; the §3 one-liner is copied at flip time so it stays byte-untouched (correction inserts after the fence) | ✓ Phase 14 — corrections 5 / originals 4, diff bounded to declared hunks |
+| Floor unit pinned to Firestore messages documents; baseline date 2026-09-08; 5-15% un-attested traffic from adblockers/Pi-hole accompanied by appCheck/probe-failed is legitimate, not abuse; 24h lag documented; 09-RUNBOOK cross-referenced with dated supersession notes | Operationalizing App Check enforcement prevents premature console lockdown; doc-only guide with zero secrets | ✓ Phase 15 — 15-EVIDENCE-HELPER.md |
 
 ## Evolution
 
@@ -172,4 +198,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-15 after Phase 14 (launch kit) transition*
+*Last updated: 2026-10-09 after v2.1 milestone completion*
