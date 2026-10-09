@@ -1,5 +1,21 @@
 # Milestones
 
+## v2.1 Play Launch + Home Migration (Shipped: 2026-10-09)
+
+**Phases completed:** 4 phases, 7 plans, 18 tasks
+
+**Key accomplishments:**
+
+- Restored CI reproducibility (`npm ci` + setup-node `cache: npm` in deploy.yml; lockfile frozen); confirmed zh Simplified-only against app strings; verified Urdu Nastaliq RTL + line-height on real device (Phase 12).
+- Atomic Home Migration shipped in one commit: GeoHist landing to root `/`, portfolio hub to `/apps/`, and `/geohist/` meta-refresh-0 stub. All 5 CI gate page-lists repointed and red-gate proven both directions, sitemap + 404 + AGENTS.md aligned, 178-key i18n parity preserved, and post-deploy GSC runbook staged (Phase 13).
+- Shipped Play package-id CI gate `scripts/check-play-link.mjs` (`validate:play-links`) enforcing `details?id=com.persano.geohisttrivia` on tracked Play URLs, red-gate proven 6 cycles (Phase 14).
+- Authored launch runbook `14-RUNBOOK.md` with pinned flip order (privacy URL first, Play link 200 verify, website field, gated Tier-1 rating flip last), 8-surface swap inventory, and 10-RUNBOOK supersessions — zero launch-day code edits (Phase 14).
+- Authored App Check evidence helper `15-EVIDENCE-HELPER.md` console-UI operational guide for counting the 30-submission floor in Firestore `messages`, triage guide for un-attested traffic (24h lag, ad-blockers/Pi-hole caveats), weekly ledger template, and `09-RUNBOOK.md` cross-references (Phase 15).
+
+**Stats:** 2026-09-11 → 2026-10-09 (28 days) · 19/19 v2.1 requirements validated · milestone audit passed (0 gaps, 0 blockers)
+
+---
+
 ## v2.0 Full Deferred Scope (Shipped: 2026-09-11)
 
 **Phases completed:** 6 phases, 22 plans, 39 tasks
@@ -13,7 +29,7 @@
 - One-pass apex migration authored and locally proven: 44 refs rewritten across 14 files (39 functional + 5 prose, path-preserved 1:1), permanent zero-dep CI gate proven RED→GREEN in both directions, validate chain green end-to-end — commit, push, CI watch, and live smoke deferred to orchestrator Task 3.
 - Sitemap resubmitted + Change of Address filed old→new in the new GSC Domain property after a 12-row probe battery went green — live form test at geohisttrivia.com closes HOST-03.
 - Firebase App Check wired as the 4th lazy submit-time CDN module in contact.js (monitoring mode, dormant pre-activation) with the getToken failure seam, contact.status.appcheck email-fallback status (i18n key #171 across 19 dictionaries, atomic), and the consent-gated appcheck_token_failure Analytics event.
-- Owner App Check runbook (register → activate → weekly ritual → evidence-gated per-product flip with rollback, zero secrets) plus the privacy-policy reCAPTCHA/App Check disclosure with its consent-interplay sentence — zero code changes.
+- Owner App Check runbook (register → activate → weekly ritual → evidence-gated per-product flip with rollback, zero secrets) plus the privacy-policy reCAPTCHA/App Check disclosure with its consent-interplay nuance — zero code changes.
 - Firebase deprecated the classic reCAPTCHA provider, so the shipped App Check code was swapped to ReCaptchaEnterpriseProvider, the site key was activated, docs were revised to Enterprise reality (D-01 revised 2026-09-08), and the phase-9 tree went live on prod with smoke green.
 - Contact-form token failures are now bounded (~10s) and deliver-anyway — the message lands un-attested while the keyed appcheck status and consent-gated event fire — and the site ships a favicon.ico with icon links on all 7 pages, deployed green with prod smoke passing.
 - A bounded ~3s reCAPTCHA reachability probe now skips App Check entirely when reCAPTCHA is unreachable — blocked-reCAPTCHA (ad-blocker) submits deliver un-attested in ~10s with the keyed appcheck status and the consent-gated event, instead of the ~60s auth-family generic error with no delivery — deployed green with prod smoke passing.

@@ -81,6 +81,8 @@ Once a week, one glance — after activation:
 3. **Skim the `appcheck_token_failure` trend** (§8) — the complementary client-side failure signal.
 4. Record the reading wherever you keep notes (a one-row "week of X: Verified Y%, submissions Z" log is enough).
 
+> [added 2026-10-09, Phase 15: Detailed counting steps, category-split triage, 24h lag/ad-blocker caveats, and fillable weekly ritual ledger authored in `.planning/phases/15-app-check-evidence-helper/15-EVIDENCE-HELPER.md` (EVID-01, EVID-02).]
+
 ### Category semantics (what each console category means here)
 
 | Category | Meaning | Expected on this form |
@@ -108,6 +110,8 @@ The enforcement flip is considered **ONLY when BOTH hold**, read in the §4 ritu
 **Unit, pinned:** the floor counts **successful form submissions** (messages visible in Firestore) — **not** console request rows. One submission = 2+ requests (anonymous auth + Firestore write), so request counts overshoot the real-user count by design.
 
 **Never calendar:** there is no date or elapsed-time trigger in this gate. It is evidence-only — both signals, or no flip.
+
+> [added 2026-10-09, Phase 15: Re-verified floor counting against Firestore messages collection; see `.planning/phases/15-app-check-evidence-helper/15-EVIDENCE-HELPER.md` §1 for exact console walkthrough and operational boundaries.]
 
 ---
 

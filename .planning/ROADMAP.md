@@ -4,7 +4,7 @@
 
 - ✅ **v1 MVP** — Phases 1-5 (shipped 2026-09-05)
 - ✅ **v2.0 Full Deferred Scope** — Phases 6-11 (shipped 2026-09-11)
-- 🚧 **v2.1 Play Launch + Home Migration** — Phases 12-15 (in progress)
+- ✅ **v2.1 Play Launch + Home Migration** — Phases 12-15 (shipped 2026-10-09)
 
 ## Phases
 
@@ -37,98 +37,23 @@ Full details: [.planning/milestones/v2.0-ROADMAP.md](milestones/v2.0-ROADMAP.md)
 
 </details>
 
-### 🚧 v2.1 Play Launch + Home Migration (In Progress)
+<details>
+<summary>✅ v2.1 Play Launch + Home Migration (Phases 12-15) — SHIPPED 2026-10-09</summary>
+
+- [x] Phase 12: Cleanup Batch (2/2 plans) — completed 2026-09-13
+- [x] Phase 13: Home Migration (2/2 plans) — completed 2026-09-14
+- [x] Phase 14: Launch Kit (2/2 plans) — completed 2026-09-15
+- [x] Phase 15: App Check Evidence Helper (1/1 plans) — completed 2026-10-09
 
 **Milestone Goal:** Site swap-ready for Play launch day; GeoHist landing serves as site home with `/apps/` hub; small debts closed. All flips stay owner-gated; GSC 180-day window untouched; zero-build + 19-dictionary atomic key moves enforced by CI.
 
-- [x] **Phase 12: Cleanup Batch** - CI hygiene (`npm ci` + `cache: npm` restore) + zh variant confirmation + Urdu Nastaliq device check (completed 2026-09-13)
-- [x] **Phase 13: Home Migration** - Root = GeoHist landing, hub → `/apps/`, `/geohist/` meta-refresh stub, all 5 gate page-lists repointed — ONE atomic commit + post-deploy GSC resubmit (completed 2026-09-14)
-- [x] **Phase 14: Launch Kit** - Owner launch runbook (pinned flip order) + swap-ready inventory + package-id CI gate (completed 2026-09-15)
-- [ ] **Phase 15: App Check Evidence Helper** - Console-UI-only doc: 30-floor submission counting + weekly ritual
+Full details: [.planning/milestones/v2.1-ROADMAP.md](milestones/v2.1-ROADMAP.md)
 
-## Phase Details
+</details>
 
-### Phase 12: Cleanup Batch
+## Next Milestone
 
-**Goal**: CI runs reproducibly and fast (`npm ci` + cached deps restored), and both locale edge-cases (zh variant, Urdu rendering) are verified against the real app/dictionary state
-**Depends on**: Nothing (first v2.1 phase; runs before the gate-heavy migration so every later validate cycle benefits)
-**Requirements**: CLEAN-01, CLEAN-02, CLEAN-03, CLEAN-04
-**Success Criteria** (what must be TRUE):
-
-  1. `deploy.yml` validate job runs `npm ci` + `cache: npm` and the full CI pipeline completes green
-  2. Lockfile consistency re-verified at plan time with the result recorded — research discrepancy closed (stale "no lockfile" NOTE comment in `deploy.yml` removed if confirmed stale)
-  3. zh variant (Simplified-only) confirmed against the app's `strings.xml` and documented — a visitor selecting zh gets Simplified Chinese; no zh-TW dictionary added unprompted
-  4. Urdu Nastaliq check recorded from the owner's real device: `ur` page renders RTL (`dir="rtl"`) with its line-height override and readable text
-
-**Plans**: 2/2 plans executed
-
-Plans:
-**Wave 1**
-
-- [x] 12-01-PLAN.md — CI reproducibility tracer: lockfile re-verification record + `npm ci`/`cache: npm` in deploy.yml + stale-comment removal (CLEAN-01, CLEAN-04)
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 12-02-PLAN.md — zh Simplified-only confirmation record + Urdu Nastaliq owner device check (12-UAT.md, blocking owner checkpoint) (CLEAN-02, CLEAN-03)
-
-### Phase 13: Home Migration
-
-**Goal**: Site root serves the GeoHist landing; the portfolio hub lives at `/apps/` — visitors, Play reviewers, and Google all see the new layout with zero broken paths and zero dictionary drift
-**Depends on**: Phase 12
-**Requirements**: MIG-01, MIG-02, MIG-03, MIG-04, MIG-05, MIG-06, MIG-07, MIG-08, MIG-09
-**Success Criteria** (what must be TRUE):
-
-  1. Visitor hitting `/` sees the full GeoHist landing (hero, proof strip, features, gallery, FAQ, CTA) with all 20 locales working; visitor browsing `/apps/` sees the portfolio hub (former root content, keyed chrome) with zero future-app placeholders
-  2. Visitor hitting `/geohist/` (incl. via the legacy-host path-preserved chain) reaches the root landing via the meta-refresh-0 stub, while `/geohist/privacy.html` stays path-stable (Play Console compliance surface frozen)
-  3. All sitemap URLs resolve on apex with coherent canonical + og:url + JSON-LD `url` per page; 404 page and all nav/footer links point at the new layout; i18n key surface stays exactly 178 × 19
-  4. All five hardcoded gate page-lists (i18n-keycheck, i18n-surface, a11y-audit, smoke-check, validate:html glob) cover the new layout — red-gate proven both directions — and AGENTS.md reflects the new layout in the same commit (old-domain gate enforces it)
-  5. Post-deploy: GSC sitemap resubmit + URL inspection done (owner console step, runbook section); no Change-of-Address refile (180-day window untouched)
-
-**Plans**: 2/2 plans executed
-
-Plans:
-**Wave 1**
-
-- [x] 13-01-PLAN.md — runway clear (Phase 12 deferred commits + origin/main reconcile) + THE atomic migration edit set (landing→root, hub→/apps/, stub, all 5 gate lists + star path, sitemap, 404, AGENTS.md same-commit) + red-gate proofs both directions (MIG-01..07, MIG-09)
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 13-02-PLAN.md — 13-RUNBOOK.md (GSC sitemap resubmit + URL inspection + explicit no-CoA) + 13-UAT.md scaffold (MIG-08; live owner steps post-deploy)
-
-### Phase 14: Launch Kit
-
-**Goal**: Owner can execute Play launch day from one runbook — every Play-launch surface verified, every flip done in pinned order, nothing improvised on launch day
-**Depends on**: Phase 13 (file paths land in root `index.html` after migration)
-**Requirements**: LKIT-01, LKIT-02, LKIT-03, LKIT-04
-**Success Criteria** (what must be TRUE):
-
-  1. Owner launch runbook with pinned flip order — privacy-URL field → Play-link 200 verify → website field → Tier-1 rating flip — console-UI only, zero secrets
-  2. Swap-ready inventory table: every Play-launch surface with file:line + exact flip action
-  3. CI gate green: every `play.google.com` URL in tracked files carries `details?id=com.persano.geohisttrivia` — red-gate proven both directions
-  4. Runbook addenda present: GA4 page-dimension note, 10-RUNBOOK supersession note (paths now root), JSON-LD offers refresh-check step
-
-**Plans**: 2/2 plans executed
-
-Plans:
-**Wave 1**
-
-- [x] 14-01-PLAN.md — Play package-id CI gate: `scripts/check-play-link.mjs` + `validate:play-links` chain slot + red-gate proof 6 cycles both directions (LKIT-03)
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 14-02-PLAN.md — 14-RUNBOOK.md (pinned flip order + 8-surface inventory + GA4 note + JSON-LD refresh-check + do-not-do guard) + 10-RUNBOOK supersession ×5 + 14-UAT/14-RECORDS scaffolds (LKIT-01, LKIT-02, LKIT-04)
-
-### Phase 15: App Check Evidence Helper
-
-**Goal**: Owner can track App Check evidence toward the 30-submission floor from the Firebase console UI alone — doc-only, zero code changes, zero secrets
-**Depends on**: Nothing (independent doc work; sequenced last by numbering only)
-**Requirements**: EVID-01, EVID-02
-**Success Criteria** (what must be TRUE):
-
-  1. Owner can count successful submissions toward the 30-floor following the doc — unit = successful submissions, never console request rows
-  2. Weekly ritual template + category-split reading guide usable from the console UI alone (24h lag, pihole caveat, token-failure trend reading)
-
-**Plans**: TBD
+Run `/gsd-new-milestone` to define the next milestone.
 
 ## Watch Items (gated events — NOT phases)
 
@@ -138,8 +63,6 @@ Plans:
 - **GSC Change-of-Address 180-day window** — monitoring until ~2027-03; old property retained; watch only
 
 ## Progress
-
-**Execution Order:** Phase 12 → 13 → 14 → 15
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -154,10 +77,10 @@ Plans:
 | 9. App Check Monitor-First | v2.0 | 5/5 | Complete | 2026-09-09 |
 | 10. Gated Social Proof | v2.0 | 2/2 | Complete | 2026-09-10 |
 | 11. Close v2.0 Audit Debt | v2.0 | 3/3 | Complete | 2026-09-11 |
-| 12. Cleanup Batch | v2.1 | 2/2 | Complete    | 2026-09-13 |
-| 13. Home Migration | v2.1 | 2/2 | Complete    | 2026-09-14 |
-| 14. Launch Kit | v2.1 | 2/2 | Complete    | 2026-09-15 |
-| 15. App Check Evidence Helper | v2.1 | 0/? | Not started | - |
+| 12. Cleanup Batch | v2.1 | 2/2 | Complete | 2026-09-13 |
+| 13. Home Migration | v2.1 | 2/2 | Complete | 2026-09-14 |
+| 14. Launch Kit | v2.1 | 2/2 | Complete | 2026-09-15 |
+| 15. App Check Evidence Helper | v2.1 | 1/1 | Complete | 2026-10-09 |
 
 ---
-*Roadmap updated: 2026-09-13 (v2.1 milestone defined: Phases 12-15, 19/19 requirements mapped)*
+*Roadmap updated: 2026-10-09 (v2.1 complete)*
