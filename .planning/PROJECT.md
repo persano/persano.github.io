@@ -8,6 +8,16 @@ A static GitHub Pages website at https://geohisttrivia.com serving as Santiago D
 
 GeoHist Trivia players and Google Play reviewers can reach an authoritative, accessible web page for the app — featuring it, explaining it, hosting its privacy policy, and offering a working contact channel — before the app goes live.
 
+## Current Milestone: v2.2 UI & Motion Rework
+
+**Goal:** Rework all site pages with modern UI craftsmanship and fluid animations while strictly preserving zero-build vanilla CSS/JS architecture and 20-locale CI gates.
+
+**Target features:**
+- Motion & Design Token System (multi-layer elevation, spring easings, mobile-native defaults)
+- Interactive Micro-Interactions & Accordions (active press physics, card hover elevation, animated FAQ)
+- Screenshot Showcase & Lightbox (mobile scroll-snap carousel + accessible modal lightbox)
+- Polish, Stress-Test & CI Verification (20-locale layout resilience audit, 60fps compositor check)
+
 ## Current State (v2.1 shipped 2026-10-09)
 
 **Shipped:** v2.1 "Play Launch + Home Migration" — Phases 12-15, 7 plans, all 19 v2.1 requirements validated.
@@ -198,4 +208,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-10-09 after v2.1 milestone completion*
+*Last updated: 2026-10-09 (v2.2 milestone started)*

@@ -1,20 +1,18 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.1
-milestone_name: Play Launch + Home Migration
-current_phase: 15
-current_phase_name: App Check Evidence Helper
-status: "Milestone v2.1 complete — archived and ready for next milestone"
-stopped_at: "Milestone v2.1 complete, ready for next milestone (/gsd-new-milestone)"
-last_updated: "2026-10-09T17:10:00.000Z"
+milestone: v2.2
+milestone_name: UI & Motion Rework
+current_phase: 16
+current_phase_name: Motion & Design Token System
+status: "Phase 16 ready to plan"
+last_updated: "2026-10-09T20:55:00.000Z"
 last_activity: 2026-10-09
-state_head: a912019
 progress:
   total_phases: 4
-  completed_phases: 4
-  total_plans: 7
-  completed_plans: 7
-  percent: 100
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -24,23 +22,19 @@ progress:
 See: .planning/PROJECT.md (updated 2026-10-09)
 
 **Core value:** GeoHist Trivia players and Play reviewers reach an authoritative, accessible page — featuring the app, hosting its privacy policy, and offering a working contact channel.
-**Current focus:** Milestone v2.1 complete
+**Current focus:** Phase 16 — Motion & Design Token System
 
 ## Current Milestone
 
-**v2.1 Play Launch + Home Migration** — Phases 12-15 (shipped 2026-10-09).
-Goal: site swap-ready for Play launch day; GeoHist landing serves as site home with `/apps/` hub; small debts closed.
+**v2.2 UI & Motion Rework** — Phases 16-19.
+Goal: Rework all site pages with modern UI craftsmanship and fluid animations while strictly preserving zero-build vanilla CSS/JS architecture and 20-locale CI gates.
 
 ## Current Position
 
-Phase: 15 — App Check Evidence Helper
-Plan: 15-01 complete (verified passed)
-Status: Milestone v2.1 complete — all 4 phases shipped, archived to milestones/
-Last activity: 2026-10-09
-
-**Work branch (owner decision 2026-09-15):** all phase work + PRs happen on the single persistent branch `latest` → PRs target `main`; no per-phase branches (all `gsd/phase-*` and `phase-*` branches deleted local+remote). PR #8 (Phase 14) merged before the switch; `latest` = main tip 1c7e87d. Future sessions: work on `latest`, PR latest → main.
-
-Progress: [██████████] 100% (4/4 phases complete)
+Phase: 16 — Motion & Design Token System
+Plan: —
+Status: Ready to plan (/gsd-plan-phase 16 or /gsd-ui-phase 16)
+Last activity: 2026-10-09 — Milestone v2.2 initialized, roadmap & requirements created
 
 ## Performance Metrics
 
