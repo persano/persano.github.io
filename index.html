@@ -62,16 +62,28 @@
   <script defer src="/js/firebase-config.js"></script>
   <script defer src="/js/consent.js"></script>
   <script defer src="/js/gallery.js"></script>
+  <script defer src="/js/nav.js"></script>
 </head>
 <body>
   <header class="site-header">
-    <nav class="site-nav" aria-label="GeoHist site navigation" data-i18n-attr="aria-label:geohist.nav.aria" data-i18n-attr-only>
-      <a href="/" data-i18n="geohist.nav.game">Game</a>
-      <a href="/geohist/guide.html" data-i18n="geohist.nav.guide">Guide</a>
-      <a href="/#faq" data-i18n="geohist.nav.faq">FAQ</a>
-      <a href="/geohist/changelog.html" data-i18n="geohist.nav.changelog">Changelog</a>
-      <a href="/geohist/privacy.html" data-i18n="geohist.nav.privacy">Privacy</a>
-    </nav>
+    <div class="header-inner">
+      <a href="/" class="header-brand">
+        <img class="brand-icon" src="/geohist/icon.png" alt="" width="28" height="28">
+        <span class="brand-name">GeoHist Trivia</span>
+      </a>
+      <button type="button" class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="site-nav">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="GeoHist site navigation" data-i18n-attr="aria-label:geohist.nav.aria" data-i18n-attr-only>
+        <a href="/" data-i18n="geohist.nav.game" aria-current="page">Game</a>
+        <a href="/geohist/guide.html" data-i18n="geohist.nav.guide">Guide</a>
+        <a href="/#faq" data-i18n="geohist.nav.faq">FAQ</a>
+        <a href="/geohist/changelog.html" data-i18n="geohist.nav.changelog">Changelog</a>
+        <a href="/geohist/privacy.html" data-i18n="geohist.nav.privacy">Privacy</a>
+      </nav>
+    </div>
   </header>
   <main>
     <section class="hero" aria-labelledby="hero-title">
@@ -156,7 +168,7 @@
       </div>
     </section>
 
-    <section class="gallery" aria-labelledby="gallery-title">
+    <section id="gallery" class="gallery" aria-labelledby="gallery-title">
       <h2 id="gallery-title" data-i18n="geohist.gallery.title">See the world, answer the past</h2>
       <ul class="gallery-grid">
         <li class="gallery-tile">
