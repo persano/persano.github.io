@@ -8,7 +8,29 @@ A static GitHub Pages website at https://geohisttrivia.com serving as Santiago D
 
 GeoHist Trivia players and Google Play reviewers can reach an authoritative, accessible web page for the app — featuring it, explaining it, hosting its privacy policy, and offering a working contact channel — before the app goes live.
 
-## Current State (v2.1 shipped 2026-10-09)
+## Current Milestone: v2.2 UI & Motion Rework
+
+**Goal:** Rework all site pages with modern UI craftsmanship and fluid animations while strictly preserving zero-build vanilla CSS/JS architecture and 20-locale CI gates.
+
+**Target features:**
+- Motion & Design Token System (multi-layer elevation, spring easings, mobile-native defaults)
+- Interactive Micro-Interactions & Accordions (active press physics, card hover elevation, animated FAQ)
+- Screenshot Showcase & Lightbox (mobile scroll-snap carousel + accessible modal lightbox)
+- Polish, Stress-Test & CI Verification (20-locale layout resilience audit, 60fps compositor check)
+
+## Current State (v2.2 shipped 2026-10-10)
+
+**Shipped:** v2.2 "UI & Motion Rework" — Phases 16-19, 4 plans, all 14 v2.2 requirements validated.
+
+- Motion & Design Token System: multi-tier elevation tokens with ambient dark-antique shadows and 1px inset card highlights, spring motion tokens (`--ease-spring-snappy`, `--ease-spring-gentle`), optical letter-spacing on headings, translucent borders, safe-area insets (`env(safe-area-inset-*)`), and global `prefers-reduced-motion` kill-switch (Phase 16).
+- Interactive Micro-Interactions & Accordions: physical press damping (`scale(0.97)`) on buttons and badges, hover card lift scoped strictly to fine pointer devices (`@media (hover: hover) and (pointer: fine)`), and animated FAQ accordion expansion with rotating spring indicator (Phase 17).
+- Screenshot Showcase & Lightbox: mobile horizontal scroll-snap reel with peek margins, interactive pagination dots tracked via RAF, accessible `<dialog>` full-screen modal lightbox with ESC trap and background dismissal, and complete zero-JS progressive enhancement (Phase 18).
+- Layout resilience & CI verification: `overflow-wrap: break-word` safeguards against long compound words in German/Russian, smooth 60fps compositor transitions, and 100% green pass on full `npm run validate` test chain (Phase 19).
+
+**Deferred by design (owner console, not code debt):** FIRE-10 App Check enforcement flip (evidence-gated per 09-RUNBOOK.md §5-§6 / 15-EVIDENCE-HELPER.md); Tier-1 rating row flip (Play listing live); GSC 180-day CoA window monitoring until ~2027-03.
+
+<details>
+<summary>v2.1 Play Launch + Home Migration (shipped 2026-10-09)</summary>
 
 **Shipped:** v2.1 "Play Launch + Home Migration" — Phases 12-15, 7 plans, all 19 v2.1 requirements validated.
 
@@ -19,7 +41,7 @@ GeoHist Trivia players and Google Play reviewers can reach an authoritative, acc
 - App Check evidence helper `15-EVIDENCE-HELPER.md` console-UI operational guide for 30-submission floor counting in Firestore `messages`, triage guide for un-attested traffic (adblocker/Pi-hole caveats, 24h lag), and weekly ledger template.
 - CI hygiene restored (`npm ci` + `cache: npm` in GitHub Actions; lockfile frozen); zh Simplified-only confirmed; Urdu Nastaliq device check recorded.
 
-**Deferred by design (owner console, not code debt):** FIRE-10 App Check enforcement flip (evidence-gated per 09-RUNBOOK.md §5-§6 / 15-EVIDENCE-HELPER.md); Tier-1 rating row flip (Play listing live); GSC 180-day CoA window monitoring until ~2027-03.
+</details>
 
 <details>
 <summary>v2.0 Full Deferred Scope (shipped 2026-09-11)</summary>
@@ -198,4 +220,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-10-09 after v2.1 milestone completion*
+*Last updated: 2026-10-09 (v2.2 milestone started)*

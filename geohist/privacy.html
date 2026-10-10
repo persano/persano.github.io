@@ -21,16 +21,28 @@
   <link rel="apple-touch-icon" href="/geohist/icon.png">
   <link rel="icon" href="/favicon.ico" sizes="192x192">
   <link rel="stylesheet" href="/css/base.css">
+  <script defer src="/js/nav.js"></script>
 </head>
 <body>
   <header class="site-header">
-    <nav class="site-nav" aria-label="GeoHist site navigation">
-      <a href="/geohist/">Game</a>
-      <a href="/geohist/guide.html">Guide</a>
-      <a href="/geohist/index.html#faq">FAQ</a>
-      <a href="/geohist/changelog.html">Changelog</a>
-      <a href="/geohist/privacy.html">Privacy</a>
-    </nav>
+    <div class="header-inner">
+      <a href="/" class="header-brand">
+        <img class="brand-icon" src="/geohist/icon.png" alt="" width="28" height="28">
+        <span class="brand-name">GeoHist Trivia</span>
+      </a>
+      <button type="button" class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="site-nav">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="GeoHist site navigation">
+        <a href="/">Game</a>
+        <a href="/geohist/guide.html">Guide</a>
+        <a href="/#faq">FAQ</a>
+        <a href="/geohist/changelog.html">Changelog</a>
+        <a href="/geohist/privacy.html" aria-current="page">Privacy</a>
+      </nav>
+    </div>
   </header>
   <main>
     <h1>Privacy Policy — GeoHist Trivia</h1>

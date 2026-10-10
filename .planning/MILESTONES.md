@@ -1,5 +1,20 @@
 # Milestones
 
+## v2.2 UI & Motion Rework (Shipped: 2026-10-10)
+
+**Phases completed:** 4 phases, 4 plans, 10 tasks
+
+**Key accomplishments:**
+
+- Established core motion & design token foundation across `css/base.css`: multi-tier elevation tokens with ambient dark-antique shadows and 1px inset card highlights, spring motion tokens (`--ease-spring-snappy`, `--ease-spring-gentle`), optical letter-spacing on headings, translucent borders, safe-area insets (`env(safe-area-inset-*)`), and global `prefers-reduced-motion` kill-switch (Phase 16).
+- Tactile micro-interactions: physical press damping (`scale(0.97)`) on buttons and badges, hover card lift scoped strictly to fine pointer devices (`@media (hover: hover) and (pointer: fine)`), and animated FAQ accordion expansion with rotating spring indicator (Phase 17).
+- Screenshot showcase & lightbox: mobile horizontal scroll-snap reel with peek margins, interactive pagination dots tracked via RAF, accessible `<dialog>` full-screen modal lightbox with ESC trap and background dismissal, and complete zero-JS progressive enhancement (Phase 18).
+- Layout resilience & CI verification: `overflow-wrap: break-word` safeguards against long compound words in German/Russian, smooth 60fps compositor transitions, and 100% green pass on full `npm run validate` test chain (Phase 19).
+
+**Stats:** 2026-10-09 → 2026-10-10 (1 day) · 14/14 v2.2 requirements validated · milestone audit passed (0 gaps, 0 blockers)
+
+---
+
 ## v2.1 Play Launch + Home Migration (Shipped: 2026-10-09)
 
 **Phases completed:** 4 phases, 7 plans, 18 tasks

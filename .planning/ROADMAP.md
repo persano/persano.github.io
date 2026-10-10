@@ -5,6 +5,7 @@
 - ✅ **v1 MVP** — Phases 1-5 (shipped 2026-09-05)
 - ✅ **v2.0 Full Deferred Scope** — Phases 6-11 (shipped 2026-09-11)
 - ✅ **v2.1 Play Launch + Home Migration** — Phases 12-15 (shipped 2026-10-09)
+- ✅ **v2.2 UI & Motion Rework** — Phases 16-19 (shipped 2026-10-10)
 
 ## Phases
 
@@ -31,8 +32,6 @@ Full details: [.planning/milestones/v1-ROADMAP.md](milestones/v1-ROADMAP.md)
 - [x] Phase 10: Gated Social Proof (2/2 plans) — completed 2026-09-10
 - [x] Phase 11: Close v2.0 audit debt — AGENTS.md rewrite + doc hygiene + UAT records + star gate (3/3 plans) — completed 2026-09-11
 
-**Milestone Goal:** Ship every v2-deferred item — 17 new localizations (incl. RTL), gated social proof, App Check, changelog page, custom domain — plus closure of the v2.0 milestone-audit debt (F-1 AGENTS.md rewrite, doc hygiene, owner UAT records, star-uniqueness gate).
-
 Full details: [.planning/milestones/v2.0-ROADMAP.md](milestones/v2.0-ROADMAP.md)
 
 </details>
@@ -45,20 +44,26 @@ Full details: [.planning/milestones/v2.0-ROADMAP.md](milestones/v2.0-ROADMAP.md)
 - [x] Phase 14: Launch Kit (2/2 plans) — completed 2026-09-15
 - [x] Phase 15: App Check Evidence Helper (1/1 plans) — completed 2026-10-09
 
-**Milestone Goal:** Site swap-ready for Play launch day; GeoHist landing serves as site home with `/apps/` hub; small debts closed. All flips stay owner-gated; GSC 180-day window untouched; zero-build + 19-dictionary atomic key moves enforced by CI.
-
 Full details: [.planning/milestones/v2.1-ROADMAP.md](milestones/v2.1-ROADMAP.md)
 
 </details>
 
-## Next Milestone
+<details>
+<summary>✅ v2.2 UI & Motion Rework (Phases 16-19) — SHIPPED 2026-10-10</summary>
 
-Run `/gsd-new-milestone` to define the next milestone.
+- [x] Phase 16: Motion & Design Token System (1/1 plans) — completed 2026-10-10
+- [x] Phase 17: Interactive Micro-Interactions & Accordions (1/1 plans) — completed 2026-10-10
+- [x] Phase 18: Screenshot Showcase & Lightbox (1/1 plans) — completed 2026-10-10
+- [x] Phase 19: Polish, Stress-Test & CI Verification (1/1 plans) — completed 2026-10-10
+
+Full details: [.planning/milestones/v2.2-ROADMAP.md](milestones/v2.2-ROADMAP.md)
+
+</details>
 
 ## Watch Items (gated events — NOT phases)
 
 - **Tier-1 rating row flip** — owner event per 10-RUNBOOK §1 (trigger: real visible Play rating; no minimum floor)
-- **FIRE-10 App Check enforcement flip** — owner event per 09-RUNBOOK §5-§6 (trigger: ≥30 successful submissions + console ready-to-enforce; post-v2.1 acceptable)
+- **FIRE-10 App Check enforcement flip** — owner event per 09-RUNBOOK §5-§6 / 15-EVIDENCE-HELPER §4 (trigger: ≥30 successful submissions + console ready-to-enforce)
 - **App #2 subdir + `/apps/` hub card** — v3+ (APP2-01; trigger: next app actually ships)
 - **GSC Change-of-Address 180-day window** — monitoring until ~2027-03; old property retained; watch only
 
@@ -81,6 +86,10 @@ Run `/gsd-new-milestone` to define the next milestone.
 | 13. Home Migration | v2.1 | 2/2 | Complete | 2026-09-14 |
 | 14. Launch Kit | v2.1 | 2/2 | Complete | 2026-09-15 |
 | 15. App Check Evidence Helper | v2.1 | 1/1 | Complete | 2026-10-09 |
+| 16. Motion & Design Token System | v2.2 | 1/1 | Complete | 2026-10-10 |
+| 17. Interactive Micro-Interactions | v2.2 | 1/1 | Complete | 2026-10-10 |
+| 18. Screenshot Showcase & Lightbox | v2.2 | 1/1 | Complete | 2026-10-10 |
+| 19. Polish, Stress-Test & CI | v2.2 | 1/1 | Complete | 2026-10-10 |
 
 ---
-*Roadmap updated: 2026-10-09 (v2.1 complete)*
+*Roadmap updated: 2026-10-09 (v2.2 started)*
