@@ -54,72 +54,141 @@
       <p class="lang-notice" data-i18n="changelog.entries.notice">Entries below are shown in English.</p>
 
       <article class="changelog-entry">
-        <h2>0.88 — <time datetime="2026-09-04">2026-09-04</time></h2>
+        <h2>0.99998 — <time datetime="2026-10-27">2026-10-27</time></h2>
+        <h3>Fixed</h3>
+        <ul>
+          <li>The crashes reported from the previous build are fixed.</li>
+          <li>Purchase and billing state now behaves correctly, including offline retries.</li>
+        </ul>
+        <h3>Changed</h3>
+        <ul>
+          <li>Every language tile in the picker shares the same height, including Urdu.</li>
+          <li>A deep reliability pass: voice narration, offline play, multiplayer with a second device and the rest of the phone checklist are tested and verified.</li>
+          <li>Leaner release builds after repo cleanup.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry">
+        <h2>0.98 — <time datetime="2026-10-10">2026-10-10</time></h2>
+        <h3>Fixed</h3>
+        <ul>
+          <li>Map clues and the Encyclopedia show real rendered maps again, never a blank placeholder.</li>
+          <li>Live duels are more reliable — matches hold together and results land where they should.</li>
+        </ul>
         <h3>Added</h3>
         <ul>
-          <li>New Conquest campaign — explore historical eras, claim territories, and grow your empire on an illustrated world map.</li>
-          <li>A full historical atlas: each era comes with its own border map to discover.</li>
-          <li>The whole Conquest journey is translated in every language the game supports.</li>
+          <li>A full desktop version — Windows, macOS and Linux get all 21 screens, sounds, artwork and every language.</li>
+        </ul>
+        <h3>Changed</h3>
+        <ul>
+          <li>Weekly leagues play out more realistically.</li>
+          <li>The iOS build was audited end to end and repaired where the audit found damage.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry">
+        <h2>0.92 — <time datetime="2026-10-05">2026-10-05</time></h2>
+        <h3>Added</h3>
+        <ul>
+          <li>Live duels — challenge other players in real time.</li>
+          <li>A gold economy: earn gold and spend it on what you want.</li>
+        </ul>
+        <h3>Changed</h3>
+        <ul>
+          <li>A new navigation bar with icons and labels, so every screen is one tap away.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry">
+        <h2>0.91 — <time datetime="2026-09-23">2026-09-23</time></h2>
+        <h3>Added</h3>
+        <ul>
+          <li>Four historical scholar companions who guide you through the game.</li>
+          <li>A new procedural soundtrack and sound effects.</li>
+        </ul>
+        <h3>Changed</h3>
+        <ul>
+          <li>Difficulty now flows with your performance instead of jumping between fixed levels.</li>
+          <li>The whole interface was rebuilt on one consistent design system — unified spacing, buttons and cards.</li>
+          <li>Every screen now holds up on small phones and in all 20 languages.</li>
+          <li>Automated screenshot tests guard the interface so nothing drifts.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry">
+        <h2>0.88 — <time datetime="2026-09-06">2026-09-06</time></h2>
+        <h3>Added</h3>
+        <ul>
+          <li>The Question Factory — write your own trivia questions and put them in front of other players.</li>
+          <li>Five historical Conquest eras to play through, each with its own map and borders.</li>
+          <li>A Proficiency Radar showing where you're strong and where to study next.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry">
+        <h2>0.86 — <time datetime="2026-09-02">2026-09-02</time></h2>
+        <h3>Added</h3>
+        <ul>
+          <li>The Conquest campaign in chronological order — play history from ancient times onward.</li>
+          <li>Weekly bot leagues to climb when no one else is online.</li>
+          <li>Habit reminders: optional push alarms that keep your streak alive.</li>
+          <li>Optional in-app purchases.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry">
+        <h2>0.84 — <time datetime="2026-09-01">2026-09-01</time></h2>
+        <h3>Added</h3>
+        <ul>
+          <li>Pin-Drop mode — answer by dropping a pin straight on the map.</li>
+          <li>The Study Hub: a Leitner-box reviewer that brings facts back right before you'd forget them.</li>
+          <li>Custom decks — build your own question sets and play them.</li>
+          <li>1080×1080 share cards for posting your results.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry">
+        <h2>0.7 — <time datetime="2026-08-27">2026-08-27</time></h2>
+        <h3>Added</h3>
+        <ul>
+          <li>HD flag graphics across the game.</li>
+          <li>Daily quests — a fresh challenge waiting every day.</li>
+          <li>Achievement badges for milestones big and small.</li>
+          <li>Progress analytics graphs so you can see how you're improving.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry">
+        <h2>0.5 — <time datetime="2026-08-25">2026-08-25</time></h2>
+        <h3>Added</h3>
+        <ul>
+          <li>Landmark and Battle question categories.</li>
+          <li>A 7-day streak calendar to track your run.</li>
+          <li>Google Play Games cloud save — your progress syncs across devices.</li>
+          <li>Pass &amp; Play — two players share one device and take turns.</li>
+        </ul>
+        <h3>Changed</h3>
+        <ul>
+          <li>Clearer map polygon styling for map-based clues.</li>
+          <li>Core performance and stability polish across the game.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry">
+        <h2>0.1 — <time datetime="2026-08-21">2026-08-21</time></h2>
+        <h3>Added</h3>
+        <ul>
+          <li>Offline basemaps — map questions work without a connection.</li>
         </ul>
         <h3>Fixed</h3>
         <ul>
-          <li>Fixed a crash that could catch some players on the campaign map.</li>
-        </ul>
-      </article>
-
-      <article class="changelog-entry">
-        <h2>0.87 — <time datetime="2026-09-02">2026-09-02</time></h2>
-        <h3>Added</h3>
-        <ul>
-          <li>The Question Workshop — write your own trivia questions and share them with other players.</li>
-          <li>A community review step, so shared questions get checked before they appear in anyone's game.</li>
-          <li>The interactive tutorial now covers all three game modes.</li>
-        </ul>
-      </article>
-
-      <article class="changelog-entry">
-        <h2>0.84 — <time datetime="2026-08-31">2026-08-31</time></h2>
-        <h3>Added</h3>
-        <ul>
-          <li>Shareable result cards — turn any finished match into a picture you can save and send to friends.</li>
-          <li>Achievement certificates for your unlocked badges, ready to share.</li>
-          <li>Seasonal events with themed weekly tournaments.</li>
-        </ul>
-      </article>
-
-      <article class="changelog-entry">
-        <h2>0.8 — <time datetime="2026-08-26">2026-08-26</time></h2>
-        <h3>Added</h3>
-        <ul>
-          <li>The Study Hub — review what you've learned with smart repetition that brings back facts right before you'd forget them.</li>
-          <li>A personal player journal that follows your exploration.</li>
+          <li>A round of crash and stability fixes from the first playable build.</li>
         </ul>
         <h3>Changed</h3>
         <ul>
-          <li>Pin-drop mode got a visual polish pass.</li>
-        </ul>
-      </article>
-
-      <article class="changelog-entry">
-        <h2>0.7 — <time datetime="2026-08-26">2026-08-26</time></h2>
-        <h3>Added</h3>
-        <ul>
-          <li>Daily quests — a fresh challenge waiting for you every day.</li>
-          <li>Achievement badges to earn for milestones big and small.</li>
-          <li>Google Play Games connection: your scores and badges now sync and climb the leaderboards.</li>
-        </ul>
-      </article>
-
-      <article class="changelog-entry">
-        <h2>0.2 — <time datetime="2026-08-24">2026-08-24</time></h2>
-        <h3>Added</h3>
-        <ul>
-          <li>A Feedback &amp; Support card in Settings — three easy ways to reach the developer.</li>
-          <li>Smarter voice narration: play and stop controls, and reading that pauses properly when you leave a screen.</li>
-        </ul>
-        <h3>Changed</h3>
-        <ul>
-          <li>Hard mode now draws from a bigger, smarter pool of questions.</li>
+          <li>Questions moved into a local database — faster, more reliable rounds.</li>
+          <li>Interface integrity fixes across the main screens.</li>
+          <li>Accents and diacritics normalized across questions, so names read correctly in every language.</li>
         </ul>
       </article>
 
