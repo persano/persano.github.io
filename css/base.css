@@ -1445,6 +1445,7 @@ footer > p {
   .footer-links {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    align-items: stretch;
     gap: 0.6rem;
     max-width: 24rem;
     margin: 0 auto 1.75rem;
